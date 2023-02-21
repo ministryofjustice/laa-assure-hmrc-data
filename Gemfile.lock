@@ -143,6 +143,8 @@ GEM
     nio4r (2.5.8)
     nokogiri (1.14.2-x86_64-darwin)
       racc (~> 1.4)
+    nokogiri (1.14.2-x86_64-linux)
+      racc (~> 1.4)
     pagy (5.10.1)
       activesupport
     parallel (1.22.1)
@@ -156,7 +158,7 @@ GEM
       rack
       railties (>= 7.0.0)
     public_suffix (5.0.1)
-    puma (5.6.5)
+    puma (6.1.0)
       nio4r (~> 2.0)
     racc (1.6.2)
     rack (2.2.6.2)
@@ -291,6 +293,7 @@ GEM
 
 PLATFORMS
   x86_64-darwin-21
+  x86_64-linux
 
 DEPENDENCIES
   bootsnap
@@ -303,7 +306,7 @@ DEPENDENCIES
   pg (~> 1.1)
   prettier_print
   propshaft
-  puma (~> 5.0)
+  puma (~> 6.1)
   rails (~> 7.0.4, >= 7.0.4.2)
   rspec
   rspec-rails
