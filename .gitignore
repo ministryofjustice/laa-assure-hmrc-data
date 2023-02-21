@@ -1,12 +1,19 @@
+# Ignore master key for decrypting credentials and more.
+config/master.key
+
 *.log
 .DS_Store
 .bundle
+
+env/
+.env.*
 .env
-.env.local
+!.env.sample
+
 .envrc
 .idea
 .vscode
-config/master.key
+
 db/*.sqlite3
 node_modules
 public/assets
@@ -23,3 +30,14 @@ tmp/*
 tmp/pids/*
 !tmp/pids/
 !tmp/pids/.keep
+
+# Ignore simplecov coverage stats
+coverage/
+
+# Ignore uploaded files in development
+/storage/*
+
+.byebug_history
+
+*.code-workspace
+*.sha256
