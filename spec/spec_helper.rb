@@ -13,6 +13,21 @@
 # it.
 #
 # See https://rubydoc.info/gems/rspec-core/RSpec/Core/Configuration
+require "simplecov"
+require "highline/import"
+
+SimpleCov.minimum_coverage 100
+unless ENV["NOCOVERAGE"]
+  SimpleCov.start "rails" do
+    add_filter "spec/"
+  end
+
+  SimpleCov.at_exit do
+    say("<%= color('Code coverage below 100%', RED) %>") if SimpleCov.result.coverage_statistics[:line].percent < 100
+    SimpleCov.result.format!
+  end
+end
+
 RSpec.configure do |config|
   # rspec-expectations config goes here. You can use an alternate
   # assertion/expectation library such as wrong or the stdlib/minitest

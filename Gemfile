@@ -62,12 +62,14 @@ group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
   gem "selenium-webdriver"
+  gem "simplecov", require: false
   gem "webdrivers"
 end
 gem "govuk-components"
 gem "govuk_design_system_formbuilder"
 
 group :test, :development do
+  gem "highline"
   gem "rspec"
   gem "rspec-rails"
 end
