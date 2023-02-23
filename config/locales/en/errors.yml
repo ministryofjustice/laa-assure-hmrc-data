@@ -1,0 +1,20 @@
+---
+en:
+  errors:
+    internal_server_error:
+      page_title: Sorry, there’s a problem with the service
+      internal_server_error: Sorry, there’s a problem with the service
+      try_again_later: Try again later.
+      not_saved: If you reached this page after submitting information then it has not been saved. You’ll need to enter it again when the service is available.
+      questions_html: 'If you have any questions, please email us at <a class="govuk-link" href="mailto:%{email}">%{email}</a>.' 
+    not_found:
+      page_title: Page not found
+      page_not_found: Page not found
+      web_address_incorrect: If you entered a web address, check it is correct.
+      web_address_copied: If you pasted the web address, check you copied the entire address.
+      web_address_correct_html: 'If the web address is correct or you selected a link or button and you need to speak to someone about this problem, contact the %{service} team: <a class="govuk-link" href="mailto:%{email}">%{email}</a>'
+    unprocessable_entity:
+      page_title: Sorry, there’s a problem with the service
+      unprocessable_entity: Sorry, there’s a problem with the service
+      try_again_later: Try again later.
+      error_continues_html: 'If you continue to see this error contact the %{service} team: <a class="govuk-link" href="mailto:%{email}">%{email}</a>.'
