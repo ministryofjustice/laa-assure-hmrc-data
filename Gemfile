@@ -69,7 +69,6 @@ gem "govuk-components"
 gem "govuk_design_system_formbuilder"
 
 group :test, :development do
-  gem "highline"
   gem "rspec"
   gem "rspec-rails"
 end
