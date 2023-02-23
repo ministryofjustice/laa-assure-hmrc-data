@@ -1,15 +1,11 @@
-<%= content_for :page_title, 'Sorry, there’s a problem with the service' %>
+<%= content_for :page_title, t('.page_title') %>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-l">Sorry, there’s a problem with the service</h1>
+    <h1 class="govuk-heading-l"><%= t('.unprocessable_entity') %></h1>
 
-    <p class="govuk-body">Try again later.</p>
+    <p class="govuk-body"><%= t('.try_again_later') %></p>
 
-    <p class="govuk-body">
-      If you continue to see this error contact the <%= t('service.name')
-      %> team: <a class="govuk-link" href="mailto:<%= t('service.email') %>"><%=
-      t('service.email') %></a>.
-    </p>
+    <p class="govuk-body"><%= t('.error_continues_html', service: t('service.name'), email: t('service.email')) %></p>
   </div>
 </div>
