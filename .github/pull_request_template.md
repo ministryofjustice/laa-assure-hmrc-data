@@ -9,10 +9,9 @@ Describe what you did and why.
 
 Before you ask people to review this PR:
 
-- Tests and rubocop should be passing: `bundle exec rake`
+- Tests and linters should be passing: `bundle exec rake`
 - Github should not be reporting conflicts; you should have recently run `git rebase main`.
 - There should be no unnecessary whitespace changes. These make diffs harder to read and conflicts more likely.
 - The PR description should say what you changed and why, with a link to the JIRA story.
 - You should have looked at the diff against main and ensured that nothing unexpected is included in your changes.
 - You should have checked that the commit messages say why the change was made.
-- You should have run `NOCOVERAGE=true rake rswag` to ensure the swagger docs are up-to-date
