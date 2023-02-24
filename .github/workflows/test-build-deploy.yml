@@ -90,3 +90,13 @@ jobs:
             --build-arg APP_BUILD_TAG=${{ github.ref }} \
             --build-arg APP_GIT_COMMIT=${{ github.sha }} \
             -t app .
+
+      - name: Push to ECR
+        id: ecr
+        uses: jwalton/gh-ecr-push@v1
+        with:
+          access-key-id: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+          secret-access-key: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+          region: eu-west-2
+          local-image: app
+          image: ${{ secrets.ECR_TEAM_REPO_NAME }}:${{ github.sha }}, ${{ secrets.ECR_TEAM_REPO_NAME }}:latest
