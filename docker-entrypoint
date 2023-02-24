@@ -1,0 +1,7 @@
+#!/bin/sh
+
+# Remove irb prompts from rails console
+echo 'IRB.conf[:USE_AUTOCOMPLETE] = false' >> ~/.irbrc
+
+bundle exec bin/rails db:prepare db:seed
+bundle exec pumactl -F config/puma.rb start

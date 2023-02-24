@@ -1,0 +1,52 @@
+# Simplify running the application inside a container locally.
+# WARNING: do not use docker-compose in production environments.
+#
+# Usage:
+#
+# ```shell
+# docker compose build
+# docker compose up
+# open http://0.0.0.0:3000/
+# ```
+#
+version: '3.4'
+
+services:
+  database:
+    container_name: laa-assure-hmrc-data-database
+    image: postgres:14.5
+    environment:
+      POSTGRES_HOST_AUTH_METHOD: trust
+    volumes:
+      - laa-assure-hmrc-data-db:/var/lib/postgresql/data
+
+  web:
+    container_name: laa-assure-hmrc-data-app
+    build:
+      context: .
+      dockerfile: Dockerfile
+    environment:
+      RAILS_ENV: production
+      SECRET_KEY_BASE: just-for-local-docker-compose
+      DATABASE_URL: postgresql://postgres@database/laa-assure-hmrc-data
+    depends_on:
+      - database
+    command: ./run
+    ports:
+      - "3000:3000"
+    volumes:
+      - .:/laa-assure-hmrc-data
+      - laa-assure-hmrc-data-gem_cache:/usr/local/bundle/gems
+      - laa-assure-hmrc-data-node_modules:/app/node_modules
+    depends_on:
+      - database
+    stdin_open: true
+    tty: true
+
+volumes:
+  laa-assure-hmrc-data-db:
+    name: laa-assure-hmrc-data-db
+  laa-assure-hmrc-data-gem_cache:
+    name: laa-assure-hmrc-data-gem_cache
+  laa-assure-hmrc-data-node_modules:
+    name: laa-assure-hmrc-data-node_modules
