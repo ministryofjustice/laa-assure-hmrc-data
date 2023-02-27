@@ -1,6 +1,6 @@
 # This template builds three images, to optimise caching:
 # base: runtime and build-time dependencies
-# builder: builds runtime dependencies (gems and js packages)
+# dependencies: builds runtime dependencies (gems and js packages)
 # production: final build and run of the app
 #
 
@@ -23,11 +23,9 @@ RUN apk add --update --no-cache tzdata && \
     echo "Europe/London" > /etc/timezone
 
 #################################################################
-# builder - build dependencies using build-time os dependencies #
+# dependencies - build dependencies using build-time os dependencies #
 #################################################################
-FROM base as builder
-
-WORKDIR /app
+FROM base as dependencies
 
 # system dependencies required to build some gems
 # build-base: dependencies for bundle
@@ -51,16 +49,8 @@ RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") && \
 COPY package.json yarn.lock ./
 RUN yarn install --frozen-lockfile --check-files --ignore-scripts
 
-# copy remaining files to /app (except what is defined in .dockerignore)
-COPY . .
-
-# precompile assets
-RUN RAILS_ENV=production \
-    SECRET_KEY_BASE=required-to-run-but-not-used \
-    bundle exec rails assets:precompile
-
-# cleanup to save space in the production image
-RUN rm -rf node_modules log/* tmp/* /tmp && \
+# cleanup to save space in the image
+RUN rm -rf log/* tmp/* /tmp && \
     rm -rf /usr/local/bundle/cache && \
     rm -rf .env && \
     find /usr/local/bundle/gems -name "*.c" -delete && \
@@ -90,9 +80,17 @@ WORKDIR /usr/src/app
 # libpq: required to run postgres
 RUN apk add --no-cache libpq
 
-# copy over files generated in the builder image
-COPY --from=builder /app /usr/src/app
-COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+# copy over files generated in the dependencies image
+COPY --from=dependencies /usr/local/bundle/ /usr/local/bundle/
+COPY --from=dependencies /node_modules/ node_modules/
+
+# copy remaining files (except what is defined in .dockerignore)
+COPY . .
+
+# precompile assets
+RUN RAILS_ENV=production \
+    SECRET_KEY_BASE=required-to-run-but-not-used \
+    bundle exec rails assets:precompile
 
 # non-root user should own these directories
 # log: for log file writing
