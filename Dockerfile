@@ -1,50 +1,56 @@
-# This template builds two images, to optimise caching:
-# builder: builds gems and node modules
-# production: runs the actual app
+# This template builds three images, to optimise caching:
+# base: runtime and build-time dependencies
+# dependencies: builds runtime dependencies (gems and js packages)
+# production: final build and run of the app
+#
 
-# Build builder image
-FROM ruby:3.1.2-alpine as builder
+###############################################################
+# base - dependencies required both at runtime and build time #
+###############################################################
+FROM ruby:3.2.1-alpine3.17 as base
+MAINTAINER LAA Apply for civil legal aid team
 
-# RUN apk -U upgrade && \
-#     apk add --update --no-cache gcc git libc6-compat libc-dev make nodejs \
-#     postgresql13-dev yarn
+# postgresql-dev: postgres driver and libraries
+# yarn: node package manager
+RUN apk add --update --no-cache \
+  postgresql-dev \
+  yarn
 
-WORKDIR /app
-
-# Add the timezone (builder image) as it's not configured by default in Alpine
+# tzdata: timezone builder
+# as it's not configured by default in Alpine
 RUN apk add --update --no-cache tzdata && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone
 
+#################################################################
+# dependencies - build dependencies using build-time os dependencies #
+#################################################################
+FROM base as dependencies
+
+# system dependencies required to build some gems
 # build-base: dependencies for bundle
-# yarn: node package manager
-# postgresql-dev: postgres driver and libraries
-RUN apk add --no-cache build-base yarn postgresql13-dev
+# git: for bundler
+RUN apk add --update \
+  build-base \
+  git
 
-# Install gems defined in Gemfile
-COPY .ruby-version Gemfile Gemfile.lock ./
-
-# Install gems and remove gem cache
-RUN bundler -v && \
+# install gems and remove gem cache
+COPY Gemfile* .ruby-version ./
+RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") && \
+    bundler -v && \
+    bundle config set frozen 'true' && \
     bundle config set no-cache 'true' && \
     bundle config set no-binstubs 'true' && \
-    bundle config set without 'development test' && \
-    bundle install --retry=5 --jobs=4 && \
+    bundle config set without test:development && \
+    bundle install --jobs 5 --retry 5 && \
     rm -rf /usr/local/bundle/cache
 
-# Install node packages defined in package.json
+# install npm packages
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --check-files
+RUN yarn install --frozen-lockfile --check-files --ignore-scripts
 
-# Copy all files to /app (except what is defined in .dockerignore)
-COPY . .
-
-# Precompile assets
-RUN RAILS_ENV=production SECRET_KEY_BASE=required-to-run-but-not-used \
-    bundle exec rails assets:precompile
-
-# Cleanup to save space in the production image
-RUN rm -rf node_modules log/* tmp/* /tmp && \
+# cleanup to save space in the image
+RUN rm -rf log/* tmp/* /tmp && \
     rm -rf /usr/local/bundle/cache && \
     rm -rf .env && \
     find /usr/local/bundle/gems -name "*.c" -delete && \
@@ -52,23 +58,59 @@ RUN rm -rf node_modules log/* tmp/* /tmp && \
     find /usr/local/bundle/gems -name "*.o" -delete && \
     find /usr/local/bundle/gems -name "*.html" -delete
 
-# Build runtime image
-FROM ruby:3.1.2-alpine as production
+############################################
+# production - build and use runtime image #
+############################################
+FROM base as production
 
-# The application runs from /app
-WORKDIR /app
+# add non-root user and group with alpine first available uid, 1000
+ENV APPUID 1000
+RUN addgroup -g $APPUID -S appgroup && \
+    adduser -u $APPUID -S appuser -G appgroup
 
-# Add the timezone (prod image) as it's not configured by default in Alpine
-RUN apk add --update --no-cache tzdata && \
-    cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
-    echo "Europe/London" > /etc/timezone
+# create some required directories in conventional alpine location
+RUN mkdir -p /usr/src/app && \
+    mkdir -p /usr/src/app/log && \
+    mkdir -p /usr/src/app/tmp && \
+    mkdir -p /usr/src/app/tmp/pids
+
+# work in conventional alpine directory
+WORKDIR /usr/src/app
 
 # libpq: required to run postgres
 RUN apk add --no-cache libpq
 
-# Copy files generated in the builder image
-COPY --from=builder /app /app
-COPY --from=builder /usr/local/bundle/ /usr/local/bundle/
+# copy over files generated in the dependencies image
+COPY --from=dependencies /usr/local/bundle/ /usr/local/bundle/
+COPY --from=dependencies /node_modules/ node_modules/
 
-CMD bundle exec rails db:migrate && \
-    bundle exec rails server -b 0.0.0.0
+# copy remaining files (except what is defined in .dockerignore)
+COPY . .
+
+# precompile assets
+RUN RAILS_ENV=production \
+    SECRET_KEY_BASE=required-to-run-but-not-used \
+    bundle exec rails assets:precompile
+
+# non-root user should own these directories
+# log: for log file writing
+# tmp: for pids and other things
+# db: for schema migration being run on entry, at least
+RUN chown -R appuser:appgroup log tmp db
+
+# add env vars for use by ping endpoints in app
+ARG APP_BUILD_DATE
+ENV APP_BUILD_DATE ${APP_BUILD_DATE}
+ARG APP_BUILD_TAG
+ENV APP_BUILD_TAG ${APP_BUILD_TAG}
+ARG APP_GIT_COMMIT
+ENV APP_GIT_COMMIT ${APP_GIT_COMMIT}
+
+# switch to non-root user
+USER $APPUID
+
+# set port env var used by puma
+ENV PORT 3000
+EXPOSE $PORT
+
+ENTRYPOINT ["./docker-entrypoint"]
