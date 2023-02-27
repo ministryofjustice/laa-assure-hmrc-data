@@ -38,7 +38,8 @@ RUN apk add --update \
 
 # install gems and remove gem cache
 COPY Gemfile* .ruby-version ./
-RUN bundler -v && \
+RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") && \
+    bundler -v && \
     bundle config set frozen 'true' && \
     bundle config set no-cache 'true' && \
     bundle config set no-binstubs 'true' && \
