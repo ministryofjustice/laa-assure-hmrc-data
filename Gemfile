@@ -68,7 +68,7 @@ gem "govuk-components"
 gem "govuk_design_system_formbuilder"
 
 group :test, :development do
+  gem 'i18n-tasks'
   gem "rspec"
   gem "rspec-rails"
-  gem 'i18n-tasks'
 end
