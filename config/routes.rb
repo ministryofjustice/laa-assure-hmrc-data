@@ -4,6 +4,9 @@ Rails.application.routes.draw do
 
   # Defines the root path route ("/")
   # root "articles#index"
+  get "ping", to: "status#ping", format: :json
+  get "healthcheck", to: "status#status", format: :json
+  get "status", to: "status#ping", format: :json
 
   scope via: :all do
     get "/404", to: "errors#not_found"
