@@ -70,6 +70,7 @@ gem "govuk_design_system_formbuilder"
 group :test, :development do
   gem "erb_lint", require: false
   gem 'i18n-tasks'
+  gem "overcommit"
   gem "rspec"
   gem "rspec-rails"
 end

@@ -89,6 +89,7 @@ GEM
       rack-test (>= 0.6.3)
       regexp_parser (>= 1.5, < 3.0)
       xpath (~> 3.2)
+    childprocess (4.1.0)
     concurrent-ruby (1.2.2)
     crass (1.0.6)
     cssbundling-rails (1.1.2)
@@ -138,6 +139,7 @@ GEM
       rails-i18n
       rainbow (>= 2.2.2, < 4.0)
       terminal-table (>= 1.5.1)
+    iniparse (1.5.0)
     io-console (0.6.0)
     irb (1.6.2)
       reline (>= 0.3.0)
@@ -172,6 +174,10 @@ GEM
       racc (~> 1.4)
     nokogiri (1.14.2-x86_64-linux)
       racc (~> 1.4)
+    overcommit (0.60.0)
+      childprocess (>= 0.6.3, < 5)
+      iniparse (~> 1.4)
+      rexml (~> 3.2)
     pagy (5.10.1)
       activesupport
     parallel (1.22.1)
@@ -344,6 +350,7 @@ DEPENDENCIES
   govuk_design_system_formbuilder
   i18n-tasks
   jsbundling-rails
+  overcommit
   pg (~> 1.4)
   prettier_print
   propshaft
