@@ -62,7 +62,9 @@ jobs:
         run: bin/rails db:prepare
 
       - name: Run linters
-        run: bundle exec rubocop
+        run: |
+          bundle exec rubocop
+          bundle exec rake erblint
 
       - name: Run tests
         run: bundle exec rspec
