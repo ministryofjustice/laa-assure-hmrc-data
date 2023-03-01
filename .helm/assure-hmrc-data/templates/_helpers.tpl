@@ -48,4 +48,6 @@ Selector labels
 {{- define "assure-hmrc-data.selectorLabels" -}}
 app.kubernetes.io/name: {{ include "assure-hmrc-data.name" . }}
 app.kubernetes.io/instance: {{ .Release.Name }}
+app: {{ template "assure-hmrc-data.name" . }}
+release: {{ .Release.Name }}
 {{- end }}

@@ -26,8 +26,12 @@ helm create assure-hmrc-data
 
 ### amend files
  - amend the ingress.yaml
- - amend the deployment.yaml
+ - amend the deployment.yaml and rename to deployment-web.yaml
  - remove serviceaccount.yaml and all references to it
+ - remove test director
+ - remove various unused config in values and template files
+ - add `_envs.tpl` with secret references
+
 
 ## Helm chart development cheat sheet
 
@@ -37,7 +41,7 @@ To identify linting errors you can run:
 
 ```sh
 # for staging
-helm lint .helm/assure-hmrc-data --values .helm/assure-hmrc-data/values-staging.yaml
+helm lint .helm/assure-hmrc-data --values .helm/assure-hmrc-data/values/staging.yaml
 ```
 
 ### Dry run to check rendered yaml

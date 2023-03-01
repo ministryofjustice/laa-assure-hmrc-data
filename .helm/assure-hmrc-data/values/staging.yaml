@@ -2,17 +2,16 @@
 # This is a YAML-formatted file.
 # Declare variables to be passed into your templates.
 
+#
+# DO NOT STORE SECRETS IN HERE!
+#
+
 replicaCount: 2
 
+# image keys that need values provided by `helm install/upgrade...`
 image:
-  repository: nginx
-  pullPolicy: IfNotPresent
-  # Overrides the image tag whose default is the chart appVersion.
-  tag: ""
-
-imagePullSecrets: []
-nameOverride: ""
-fullnameOverride: ""
+  repository: null
+  tag: null
 
 service:
   type: ClusterIP
@@ -21,7 +20,7 @@ service:
 ingress:
   className: default
   annotations:
-    external-dns.alpha.kubernetes.io/set-identifier: "laa-assure-hmrc-data-laa-assure-hmrc-data-staging-green"
+    external-dns.alpha.kubernetes.io/set-identifier: "assure-hmrc-data-laa-assure-hmrc-data-staging-green"
     external-dns.alpha.kubernetes.io/aws-weight: "100"
   hosts:
     - laa-assure-hmrc-data-staging.cloud-platform.service.justice.gov.uk
@@ -37,8 +36,5 @@ resources:
     cpu: 10m
     memory: 125Mi
 
-nodeSelector: {}
-
-tolerations: []
-
-affinity: {}
+postgresql:
+  enabled: false
