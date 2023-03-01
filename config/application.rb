@@ -36,5 +36,8 @@ module LaaAssureHmrcData
     )
 
     config.exceptions_app = routes
+    config.x.status.build_date = ENV.fetch("APP_BUILD_DATE", "Not Available")
+    config.x.status.build_tag = ENV.fetch("APP_BUILD_TAG", "Not Available")
+    config.x.status.git_commit = ENV.fetch("APP_GIT_COMMIT", "Not Available")
   end
 end
