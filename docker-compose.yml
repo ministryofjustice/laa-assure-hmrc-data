@@ -28,6 +28,7 @@ services:
     environment:
       RAILS_ENV: production
       SECRET_KEY_BASE: just-for-local-docker-compose
+      RAILS_SERVE_STATIC_FILES: only-presence-required
       DATABASE_URL: postgresql://postgres@database/laa-assure-hmrc-data
     depends_on:
       - database
