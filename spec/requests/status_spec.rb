@@ -55,16 +55,16 @@ RSpec.describe StatusController do
     context "when environment variables set" do
       let(:expected_json) do
         {
-          "build_date" => "20150721",
+          "build_date" => "20220301",
           "build_tag" => "test",
           "git_commit" => "ab12345",
         }
       end
 
       before do
-        allow(Rails.configuration.x.status).to receive(:build_date).and_return("20150721")
-        allow(Rails.configuration.x.status).to receive(:build_tag).and_return("test")
-        allow(Rails.configuration.x.status).to receive(:git_commit).and_return("ab12345")
+        allow(Rails.configuration.x.status).to receive_messages(build_date: "20220301",
+                                                                build_tag: "test",
+                                                                git_commit: "ab12345")
         get("/ping")
       end
 
@@ -75,10 +75,9 @@ RSpec.describe StatusController do
 
     context "when environment variables not set" do
       before do
-        allow(Rails.configuration.x.status).to receive(:build_date).and_return("Not Available")
-        allow(Rails.configuration.x.status).to receive(:build_tag).and_return("Not Available")
-        allow(Rails.configuration.x.status).to receive(:git_commit).and_return("Not Available")
-
+        allow(Rails.configuration.x.status).to receive_messages(build_date: "Not Available",
+                                                                build_tag: "Not Available",
+                                                                git_commit: "Not Available")
         get "/ping"
       end
 
