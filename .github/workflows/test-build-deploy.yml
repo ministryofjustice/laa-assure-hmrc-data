@@ -109,10 +109,6 @@ jobs:
           docker tag app "${ECR_URL}:${GIT_SHA}"
           docker push "${ECR_URL}:${GIT_SHA}"
 
-          # temporary testing
-          docker tag app "${ECR_URL}:joels-latest"
-          docker push "${ECR_URL}:joels-latest"
-
           if [ ${{ github.ref }} == 'refs/heads/main' ]; then
             docker tag app "${ECR_URL}:latest"
             docker push "${ECR_URL}:latest"
