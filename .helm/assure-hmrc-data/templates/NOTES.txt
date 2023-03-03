@@ -1,0 +1,6 @@
+Application hosts
+
+URL(s):
+{{- range .Values.ingress.hosts }}
+  https://{{ . }}
+{{- end }}

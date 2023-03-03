@@ -79,8 +79,20 @@ test:
 # Read https://guides.rubyonrails.org/configuring.html#configuring-a-database
 # for a full overview on how database connection configuration can be specified.
 #
+
+# NOTE: original config
+# This worked with docker compose for local prod-like setup
+# but need to replace now.
+#
+# production:
+#   <<: *default
+#   database: laa_assure_hmrc_data_production
+#   username: laa_assure_hmrc_data
+#   password: <%= ENV["LAA_ASSURE_HMRC_DATA_DATABASE_PASSWORD"] %>
+
 production:
   <<: *default
-  database: laa_assure_hmrc_data_production
-  username: laa_assure_hmrc_data
-  password: <%= ENV["LAA_ASSURE_HMRC_DATA_DATABASE_PASSWORD"] %>
+  host: <%= ENV['POSTGRES_HOST'] %>
+  username: <%= ENV['POSTGRES_USER'] %>
+  password: <%= ENV['POSTGRES_PASSWORD'] %>
+  database: <%= ENV['POSTGRES_DATABASE'] %>
