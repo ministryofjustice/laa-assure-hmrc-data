@@ -22,9 +22,9 @@ RUN apk add --update --no-cache tzdata && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone
 
-#################################################################
+######################################################################
 # dependencies - build dependencies using build-time os dependencies #
-#################################################################
+######################################################################
 FROM base as dependencies
 
 # system dependencies required to build some gems
