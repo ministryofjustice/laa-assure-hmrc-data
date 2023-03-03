@@ -42,5 +42,8 @@ env:
   - name: RAILS_LOG_TO_STDOUT
     value: 'true'
   - name: SECRET_KEY_BASE
-    value: change-to-k8s-application-secret-key-ref
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: secret_key_base
 {{- end }}
