@@ -18,6 +18,8 @@ spec:
     metadata:
       labels:
         {{- include "assure-hmrc-data.selectorLabels" . | nindent 8 }}
+      annotations:
+        releaseTime: {{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC"| quote }}
     spec:
       containers:
         - name: web
