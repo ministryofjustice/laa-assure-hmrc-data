@@ -51,9 +51,4 @@ env:
       secretKeyRef:
         name: assure-hmrc-data-sentry-output
         key: sentry_dsn
-  - name: TEST_KEY
-    valueFrom:
-      secretKeyRef:
-        name: assure-hmrc-data-application-output
-        key: my_key
 {{- end }}
