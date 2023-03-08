@@ -1,0 +1,59 @@
+name: "Build and push"
+description: 'builds docker image and pushes it to the specified ECR'
+inputs:
+  ecr-region:
+    description: "ECR region"
+    required: true
+  ecr-url:
+    description: "ECR endpoint url"
+    required: true
+  ecr-access-key-id:
+    description: "AWS access key id for ECR"
+    required: true
+  ecr-secret-access-key:
+    description: "AWS secret access key for ECR"
+    required: true
+
+runs:
+  using: "composite"
+  steps:
+    - name: Store current date
+      shell: bash
+      run: echo "BUILD_DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
+
+    - name: Docker login to ECR
+      shell: bash
+      env:
+        ECR_REGION: ${{ inputs.ecr-region }}
+        ECR_URL: ${{ inputs.ecr-url }}
+        AWS_ACCESS_KEY_ID: ${{ inputs.ecr-access-key-id }}
+        AWS_SECRET_ACCESS_KEY: ${{ inputs.ecr-secret-access-key }}
+      run: |
+        aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${ECR_URL}
+
+    - name: Build
+      shell: bash
+      run: |
+        docker build \
+          --label build.git.sha=${{ github.sha }} \
+          --label build.git.branch=${{ github.ref }} \
+          --label build.date=${{ env.BUILD_DATE }} \
+          --build-arg APP_BUILD_DATE=${{ env.BUILD_DATE }} \
+          --build-arg APP_BUILD_TAG=${{ github.ref }} \
+          --build-arg APP_GIT_COMMIT=${{ github.sha }} \
+          --pull \
+          --tag app .
+
+    - name: Push to ECR
+      shell: bash
+      env:
+        ECR_URL: ${{ inputs.ecr-url }}
+        GIT_SHA: ${{ github.sha }}
+      run: |
+        docker tag app "${ECR_URL}:${GIT_SHA}"
+        docker push "${ECR_URL}:${GIT_SHA}"
+
+        if [ ${{ github.ref }} == 'refs/heads/main' ]; then
+          docker tag app "${ECR_URL}:latest"
+          docker push "${ECR_URL}:latest"
+        fi
