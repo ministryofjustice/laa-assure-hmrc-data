@@ -78,42 +78,14 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Store current date
-        run: echo "BUILD_DATE=$(date +%Y%m%d%H%M)" >> $GITHUB_ENV
-
-      - name: Docker login to ECR
-        env:
-          ECR_REGION: ${{ secrets.ECR_AWS_DEFAULT_REGION }}
-          ECR_URL: ${{ secrets.ECR_TEAM_REPO_URL }}
-          AWS_ACCESS_KEY_ID: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-          AWS_SECRET_ACCESS_KEY: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
-        run: |
-          aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${ECR_URL}
-
-      - name: Build
-        run: |
-          docker build \
-            --label build.git.sha=${{ github.sha }} \
-            --label build.git.branch=${{ github.ref }} \
-            --label build.date=${{ env.BUILD_DATE }} \
-            --build-arg APP_BUILD_DATE=${{ env.BUILD_DATE }} \
-            --build-arg APP_BUILD_TAG=${{ github.ref }} \
-            --build-arg APP_GIT_COMMIT=${{ github.sha }} \
-            --pull \
-            --tag app .
-
-      - name: Push to ECR
-        env:
-          ECR_URL: ${{ secrets.ECR_TEAM_REPO_URL }}
-          GIT_SHA: ${{ github.sha }}
-        run: |
-          docker tag app "${ECR_URL}:${GIT_SHA}"
-          docker push "${ECR_URL}:${GIT_SHA}"
-
-          if [ ${{ github.ref }} == 'refs/heads/main' ]; then
-            docker tag app "${ECR_URL}:latest"
-            docker push "${ECR_URL}:latest"
-          fi
+      - name: Build and push
+        id: build_and_push
+        uses: ./.github/actions/build_and_push
+        with:
+          ecr-region: ${{ secrets.ECR_AWS_DEFAULT_REGION }}
+          ecr-url: ${{ secrets.ECR_TEAM_REPO_URL }}
+          ecr-access-key-id: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
+          ecr-secret-access-key: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
 
   deploy-staging:
     if: github.ref == 'refs/heads/main'
@@ -125,30 +97,13 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v3
 
-      - name: Authenticate to the cluster
-        env:
-          KUBE_CERT: ${{ secrets.KUBE_STAGING_CERT }}
-          KUBE_TOKEN: ${{ secrets.KUBE_STAGING_TOKEN }}
-          KUBE_CLUSTER: ${{ secrets.KUBE_STAGING_CLUSTER }}
-          KUBE_NAMESPACE: ${{ secrets.KUBE_STAGING_NAMESPACE }}
-        run: |
-          echo "${KUBE_CERT}" > ca.crt
-          kubectl config set-cluster ${KUBE_CLUSTER} --certificate-authority=./ca.crt --server=https://${KUBE_CLUSTER}
-          kubectl config set-credentials deploy-user --token=${KUBE_TOKEN}
-          kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${KUBE_NAMESPACE}
-          kubectl config use-context ${KUBE_CLUSTER}
-
-      - name: Helm deployment to staging
-        env:
-          ECR_URL: ${{ secrets.ECR_TEAM_REPO_URL }}
-          GIT_SHA: ${{ github.sha }}
-          KUBE_NAMESPACE: ${{ secrets.KUBE_STAGING_NAMESPACE }}
-          VALUES_FILE: .helm/assure-hmrc-data/values/staging.yaml
-        run: |
-          helm upgrade assure-hmrc-data .helm/assure-hmrc-data \
-            --namespace ${KUBE_NAMESPACE} \
-            --set image.repository="${ECR_URL}" \
-            --set image.tag="${GIT_SHA}" \
-            --values ${VALUES_FILE} \
-            --install \
-            --wait
+      - name: Deploy
+        id: deploy
+        uses: ./.github/actions/deploy
+        with:
+          ecr-url: ${{ secrets.ECR_TEAM_REPO_URL }}
+          kube-cert: ${{ secrets.KUBE_STAGING_CERT }}
+          kube-token: ${{ secrets.KUBE_STAGING_TOKEN }}
+          kube-cluster: ${{ secrets.KUBE_STAGING_CLUSTER }}
+          kube-namespace: ${{ secrets.KUBE_STAGING_NAMESPACE }}
+          app-environment: staging
