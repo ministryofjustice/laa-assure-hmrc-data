@@ -4,16 +4,6 @@ Environment variables for web and worker containers
 */}}
 {{- define "assure-hmrc-data.envs" }}
 env:
-  {{ if .Values.postgresql.enabled }}
-  - name: POSTGRES_USER
-    value: {{ .Values.postgresql.postgresqlUsername }}
-  - name: POSTGRES_PASSWORD
-    value: {{ .Values.postgresql.postgresqlPassword }}
-  - name: POSTGRES_HOST
-    value: {{ printf "%s-%s" .Release.Name "postgresql" | trunc 63 | trimSuffix "-" }}
-  - name: POSTGRES_DATABASE
-    value: {{ .Values.postgresql.postgresqlDatabase }}
-  {{ else }}
   - name: POSTGRES_USER
     valueFrom:
       secretKeyRef:
@@ -29,6 +19,13 @@ env:
       secretKeyRef:
         name: rds-postgresql-instance-output
         key: rds_instance_address
+  {{ if .Values.branch_builder_database.enabled }}
+  - name: POSTGRES_DATABASE
+    valueFrom:
+      secretKeyRef:
+        name: rds-postgresql-instance-output
+        key: database_name
+  {{ else }}
   - name: POSTGRES_DATABASE
     valueFrom:
       secretKeyRef:

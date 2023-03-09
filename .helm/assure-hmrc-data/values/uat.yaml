@@ -6,7 +6,7 @@
 # DO NOT STORE SECRETS IN HERE!
 #
 
-replicaCount: 2
+replicaCount: 1
 
 # image keys that need values provided by `helm install/upgrade...`
 image:
@@ -17,19 +17,13 @@ service:
   type: ClusterIP
   port: 80
 
+# defaults overridden by branch builder
 ingress:
   className: default
   annotations:
-    external-dns.alpha.kubernetes.io/set-identifier: "assure-hmrc-data-laa-assure-hmrc-data-staging-green"
+    external-dns.alpha.kubernetes.io/set-identifier: "assure-hmrc-data-laa-assure-hmrc-data-uat-green"
     external-dns.alpha.kubernetes.io/aws-weight: "100"
-  hosts:
-    - laa-assure-hmrc-data-staging.cloud-platform.service.justice.gov.uk
-    - laa-assure-hmrc-data-staging.apps.live.cloud-platform.service.justice.gov.uk
-    - staging.assure-hmrc-data.service.justice.gov.uk
-  tls:
-    - hosts:
-      - staging.assure-hmrc-data.service.justice.gov.uk
-      secretName: assure-hmrc-data-tls-certificate
+  hosts: []
 
 resources:
   limits:
