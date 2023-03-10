@@ -21,10 +21,7 @@ env:
         key: rds_instance_address
   {{ if .Values.branch_builder_database.enabled }}
   - name: POSTGRES_DATABASE
-    valueFrom:
-      secretKeyRef:
-        name: rds-postgresql-instance-output
-        key: database_name
+    value: {{ .Values.branch_builder_database.name | quote }}
   {{ else }}
   - name: POSTGRES_DATABASE
     valueFrom:

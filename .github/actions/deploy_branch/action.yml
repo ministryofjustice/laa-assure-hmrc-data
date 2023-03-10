@@ -89,10 +89,7 @@ runs:
           --set image.tag="${GIT_SHA}" \
           --set ingress.annotations."external-dns\.alpha\.kubernetes\.io/set-identifier"="$identifier" \
           --set ingress.hosts="{$release_host}" \
+          --set branch_builder_database.name=$RELEASE_NAME \
           --values ${VALUES_FILE} \
           --install \
           --wait
-
-          # TODO:
-          # --set database.name="$RELEASE_NAME" \
-          # --set sidekiq.queue_name="$RELEASE_NAME-"

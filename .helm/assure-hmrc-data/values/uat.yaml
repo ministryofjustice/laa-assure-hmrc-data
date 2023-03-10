@@ -8,7 +8,7 @@
 
 replicaCount: 1
 
-# image keys that need values provided by `helm install/upgrade...`
+# image key values must be set by `helm --set` command
 image:
   repository: null
   tag: null
@@ -33,5 +33,7 @@ resources:
     cpu: 10m
     memory: 125Mi
 
+# database name value must be set by `helm --set` command
 branch_builder_database:
-  enabled: false
+  enabled: true
+  name: null
