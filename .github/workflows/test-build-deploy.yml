@@ -69,6 +69,13 @@ jobs:
       - name: Run tests
         run: bundle exec rspec
 
+      - name: Archive code coverage results
+        uses: actions/upload-artifact@v3
+        with:
+          name: coverage-report
+          path: coverage
+          retention-days: 7
+
   build:
     if: github.actor != 'dependabot[bot]'
     needs: test
