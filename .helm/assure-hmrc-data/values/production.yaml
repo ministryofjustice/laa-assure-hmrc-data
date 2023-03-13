@@ -1,0 +1,33 @@
+# Default values for assure-hmrc-data.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#
+# DO NOT STORE SECRETS IN HERE!
+#
+
+replicaCount: 2
+
+# image keys that need values provided by `helm install/upgrade...`
+image:
+  repository: null
+  tag: null
+
+service:
+  type: ClusterIP
+  port: 80
+
+ingress:
+  className: default
+  annotations:
+    external-dns.alpha.kubernetes.io/set-identifier: "assure-hmrc-data-laa-assure-hmrc-data-production-green"
+    external-dns.alpha.kubernetes.io/aws-weight: "100"
+  hosts:
+    - assure-hmrc-data.service.justice.gov.uk
+  tls:
+    - hosts:
+      - assure-hmrc-data.service.justice.gov.uk
+      secretName: assure-hmrc-data-tls-certificate
+
+branch_builder_database:
+  enabled: false
