@@ -1,0 +1,32 @@
+name: Delete UAT release
+
+on:
+  pull_request:
+    types:
+      - closed
+
+jobs:
+  delete_uat_job:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - name: Delete UAT release
+        id: delete_uat
+        uses: ministryofjustice/laa-civil-apply-delete-uat-release@v1.0.2
+        with:
+          k8s_cluster: ${{ secrets.KUBE_UAT_CLUSTER }}
+          k8s_cluster_cert: ${{ secrets.KUBE_UAT_CERT }}
+          k8s_namespace: ${{ secrets.KUBE_UAT_NAMESPACE }}
+          k8s_token: ${{ secrets.KUBE_UAT_TOKEN }}
+
+      - name: Delete UAT RDS database
+        shell: bash
+        id: delete_uat_db
+        run: |
+          bin/uat_drop_db ${{ steps.delete_uat.outputs.release-name }}
+
+      - name: Result
+        shell: bash
+        run: |
+          echo ${{ steps.delete_uat.outputs.delete-message }}
+          echo ${{ steps.delete_uat_db.outputs.drop-commmand-result }}
