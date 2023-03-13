@@ -39,5 +39,5 @@ resources:
     cpu: 10m
     memory: 125Mi
 
-postgresql:
+branch_builder_database:
   enabled: false

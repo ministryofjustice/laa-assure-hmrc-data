@@ -1,0 +1,39 @@
+# Default values for assure-hmrc-data.
+# This is a YAML-formatted file.
+# Declare variables to be passed into your templates.
+
+#
+# DO NOT STORE SECRETS IN HERE!
+#
+
+replicaCount: 1
+
+# image key values must be set by `helm --set` command
+image:
+  repository: null
+  tag: null
+
+service:
+  type: ClusterIP
+  port: 80
+
+# defaults overridden by branch builder
+ingress:
+  className: default
+  annotations:
+    external-dns.alpha.kubernetes.io/set-identifier: "assure-hmrc-data-laa-assure-hmrc-data-uat-green"
+    external-dns.alpha.kubernetes.io/aws-weight: "100"
+  hosts: []
+
+resources:
+  limits:
+    cpu: 500m
+    memory: 1G
+  requests:
+    cpu: 10m
+    memory: 125Mi
+
+# database name value must be set by `helm --set` command
+branch_builder_database:
+  enabled: true
+  name: null
