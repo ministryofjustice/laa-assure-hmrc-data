@@ -23,21 +23,11 @@ ingress:
     external-dns.alpha.kubernetes.io/set-identifier: "assure-hmrc-data-laa-assure-hmrc-data-production-green"
     external-dns.alpha.kubernetes.io/aws-weight: "100"
   hosts:
-    - laa-assure-hmrc-data-production.cloud-platform.service.justice.gov.uk
-    - laa-assure-hmrc-data-production.apps.live.cloud-platform.service.justice.gov.uk
     - assure-hmrc-data.service.justice.gov.uk
   tls:
     - hosts:
       - assure-hmrc-data.service.justice.gov.uk
       secretName: assure-hmrc-data-tls-certificate
-
-resources:
-  limits:
-    cpu: 500m
-    memory: 1G
-  requests:
-    cpu: 10m
-    memory: 125Mi
 
 branch_builder_database:
   enabled: false
