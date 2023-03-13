@@ -47,6 +47,7 @@ end
 group :development do
   gem "prettier_print", require: false
   gem "rubocop-govuk", require: false
+  gem "rubocop-performance", require: false
   gem "syntax_tree", require: false
   gem "syntax_tree-haml", require: false
   gem "syntax_tree-rbs", require: false
