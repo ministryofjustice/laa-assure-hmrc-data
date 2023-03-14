@@ -1,0 +1,12 @@
+name: Scan docker image
+on:
+  schedule:
+    - cron: '0 6 * * *'
+
+jobs:
+  scan-docker-image:
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/snyk.yml@main
+    with:
+      tag: "laa-assure-hmrc-data"
+    secrets:
+      snyk_token: ${{ secrets.SNYK_TOKEN }}
