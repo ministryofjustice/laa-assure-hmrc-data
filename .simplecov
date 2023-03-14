@@ -7,6 +7,8 @@ unless ENV["NOCOVERAGE"]
     enable_coverage :branch
     refuse_coverage_drop :line, :branch
 
+    add_filter "app/jobs/application_job.rb"
+    add_filter "app/models/application_record.rb"
     add_filter "config/"
     add_filter "spec/"
 
