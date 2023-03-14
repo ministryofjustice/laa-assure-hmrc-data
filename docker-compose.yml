@@ -25,6 +25,7 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
+    command: ./docker-entrypoint
     environment:
       RAILS_ENV: production
       SECRET_KEY_BASE: just-for-local-docker-compose
@@ -32,7 +33,6 @@ services:
       DATABASE_URL: postgresql://postgres@database/laa-assure-hmrc-data
     depends_on:
       - database
-    command: ./run
     ports:
       - "3000:3000"
     depends_on:
