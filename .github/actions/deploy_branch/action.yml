@@ -55,18 +55,12 @@ runs:
         echo "release_name=${truncated_branch}" >> $GITHUB_OUTPUT
 
     - name: Authenticate to the cluster
-      shell: bash
-      env:
-        KUBE_CERT: ${{ inputs.kube-cert }}
-        KUBE_TOKEN: ${{ inputs.kube-token }}
-        KUBE_CLUSTER: ${{ inputs.kube-cluster }}
-        KUBE_NAMESPACE: ${{ inputs.kube-namespace }}
-      run: |
-        echo "${KUBE_CERT}" > ca.crt
-        kubectl config set-cluster ${KUBE_CLUSTER} --certificate-authority=./ca.crt --server=https://${KUBE_CLUSTER}
-        kubectl config set-credentials deploy-user --token=${KUBE_TOKEN}
-        kubectl config set-context ${KUBE_CLUSTER} --cluster=${KUBE_CLUSTER} --user=deploy-user --namespace=${KUBE_NAMESPACE}
-        kubectl config use-context ${KUBE_CLUSTER}
+      uses: ministryofjustice/laa-reusable-github-actions/.github/actions/authenticate_to_cluster@2aa2676c3cd9876ec7037ee8b3d729d0306cb7c6
+      with:
+        kube-cert: ${{ inputs.kube-cert }}
+        kube-token: ${{ inputs.kube-token }}
+        kube-cluster: ${{ inputs.kube-cluster }}
+        kube-namespace: ${{ inputs.kube-namespace }}
 
     - name: Helm deployment of branch
       shell: bash
