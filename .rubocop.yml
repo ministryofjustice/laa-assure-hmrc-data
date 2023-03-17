@@ -15,6 +15,11 @@ inherit_mode:
   merge:
     - Exclude
 
+Layout/LineLength:
+  Enabled: true
+  Exclude:
+    - config/initializers/devise.rb
+
 Style/NumericLiterals:
   Exclude:
     - db/schema.rb
