@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_03_17_123223) do
+ActiveRecord::Schema[7.0].define(version: 2023_03_17_143105) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pgcrypto"
@@ -22,6 +22,10 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_123223) do
     t.string "last_name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
+    t.string "provider", null: false
+    t.string "auth_subject_id"
+    t.datetime "auth_last_sign_in_at", precision: nil
+    t.index ["auth_subject_id", "provider"], name: "index_users_on_auth_subject_id_and_provider", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

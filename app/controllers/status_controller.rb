@@ -1,4 +1,6 @@
 class StatusController < ApplicationController
+  skip_before_action :verify_authenticity_token
+
   def status
     checks = {
       database: database_alive?

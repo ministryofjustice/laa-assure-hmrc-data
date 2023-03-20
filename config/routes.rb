@@ -1,11 +1,23 @@
 Rails.application.routes.draw do
-  devise_for :users
+  devise_for :users,
+    controllers: {
+      omniauth_callbacks: 'users/omniauth_callbacks'
+    }
 
-  root to: "pages#home"
-  # Define your application routes per the DSL in https://guides.rubyonrails.org/routing.html
+  devise_scope :user do
+    unauthenticated :user do
+      root 'pages#landing', as: :unauthenticated_root
+    end
 
-  # Defines the root path route ("/")
-  # root "articles#index"
+    authenticated :user do
+      root to: 'pages#home', as: :authenticated_root
+    end
+
+    get 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
+  end
+
+  resources :users, only: :show
+
   get "ping", to: "status#ping", format: :json
   get "healthcheck", to: "status#status", format: :json
   get "status", to: "status#ping", format: :json
