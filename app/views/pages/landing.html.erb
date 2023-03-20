@@ -1,0 +1,11 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= t("service.name") %></h1>
+
+    <p class="govuk-body">
+      Blurb about purpose of app...
+    </p>
+
+    <%= govuk_start_button(text: "Start now", href: user_azure_ad_omniauth_authorize_path, as_button: true) %>
+  </div>
+</div>

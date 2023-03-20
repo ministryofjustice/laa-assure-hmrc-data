@@ -1,0 +1,13 @@
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <h1 class="govuk-heading-xl"><%= current_user.full_name %></h1>
+
+    <%= govuk_summary_list(
+      rows: [
+        { key: { text: "First name" }, value: { text: current_user.first_name } },
+        { key: { text: "Last name" }, value: { text: current_user.last_name } },
+        { key: { text: "Email" }, value: { text: current_user.email } },
+      ]
+    ) %>
+  </div>
+</div>

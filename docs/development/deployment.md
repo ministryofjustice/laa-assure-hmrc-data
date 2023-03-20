@@ -59,7 +59,6 @@ helm upgrade my-dry-run-version .helm/assure-hmrc-data \
   --set image.repository="<ECR_TEAM_REPO_URL>" \
   --set image.tag="<ECR_TEAM_REPO_NAME:latest>" \
   --values .helm/assure-hmrc-data/values/staging.yaml
-
 ```
 
 ### Upgrade (or install) of chart (in cluster)
