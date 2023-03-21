@@ -8,10 +8,21 @@ class User < ApplicationRecord
   devise :omniauthable , omniauth_providers: [:azure_ad]
 
   def self.from_omniauth(auth)
-    user = find_by(auth_subject_id: auth.uid) || find_by(email: auth.info.email, provider: auth.provider)
+    user = find_by(auth_subject_id: auth.uid)
 
     if user
-      user.update!(auth_subject_id: auth.uid, auth_last_sign_in_at: Time.current)
+      user.update!(auth_last_sign_in_at: Time.current)
+    else
+      user = find_by(email: auth.info.email, provider: auth.provider, auth_subject_id: nil)
+
+      if user
+        user.update!(
+          first_name: auth.info.first_name,
+          last_name: auth.info.last_name,
+          auth_subject_id: auth.uid,
+          auth_last_sign_in_at: Time.current
+        )
+      end
     end
 
     user
