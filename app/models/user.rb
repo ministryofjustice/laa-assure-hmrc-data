@@ -29,6 +29,6 @@ class User < ApplicationRecord
   end
 
   def full_name
-    "#{first_name} #{last_name}".strip.titleize
+    "#{first_name} #{last_name}".strip
   end
 end

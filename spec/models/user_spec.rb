@@ -26,4 +26,12 @@ RSpec.describe User, type: :model do
       )
     end
   end
+
+  describe "#full_name" do
+    subject { instance.full_name }
+
+    let(:instance) { described_class.new(first_name: "Jim", last_name: "BOB  ") }
+
+    it { is_expected.to eql("Jim BOB") }
+  end
 end
