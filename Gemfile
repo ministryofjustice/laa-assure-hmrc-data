@@ -10,7 +10,7 @@ gem 'dotenv-rails'
 gem "govuk-components"
 gem "govuk_design_system_formbuilder"
 gem "jsbundling-rails"
-gem 'omniauth-azure-activedirectory-v2'
+gem 'omniauth_openid_connect'
 gem "omniauth-rails_csrf_protection"
 gem "pg", "~> 1.4"
 gem "propshaft"

@@ -273,12 +273,18 @@ Devise.setup do |config|
   # up on your models and hooks.
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
-  config.omniauth :azure_ad,
-                  client_id: ENV["OMNIAUTH_AZURE_CLIENT_ID"],
-                  client_secret: ENV["OMNIAUTH_AZURE_CLIENT_SECRET"],
-                  tenant_id: ENV["OMNIAUTH_AZURE_TENANT_ID"],
-                  name: 'azure_ad',
-                  strategy_class: OmniAuth::Strategies::AzureActivedirectoryV2
+  config.omniauth :openid_connect,
+                  scope: [:openid, :email, :profile],
+                  response_type: :code,
+                  client_options: {
+                    identifier: ENV["OMNIAUTH_AZURE_CLIENT_ID"],
+                    secret: ENV["OMNIAUTH_AZURE_CLIENT_SECRET"],
+                  },
+                  discovery: true,
+                  issuer: "https://login.microsoftonline.com/#{ENV["OMNIAUTH_AZURE_TENANT_ID"]}/v2.0",
+                  pkce: true,
+                  extra_authorise_params: { tenant: ENV["OMNIAUTH_AZURE_TENANT_ID"] },
+                  name: 'azure_ad'
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or
