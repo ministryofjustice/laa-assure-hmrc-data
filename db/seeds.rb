@@ -2,10 +2,12 @@
 # The data can then be loaded with the bin/rails db:seed command (or created alongside the database with db:setup).
 #
 
-attribute_sets = [
-  { email: 'joel.sugarman@justice.gov.uk', first_name: 'Joel', last_name: 'Sugarman', provider: 'azure_ad' },
+# DO NOT SEED OUR ACTUAL USERS THIS WAY
+# as they are not public domain
+test_users = [
+  { email: 'joel.sugarman@justice.gov.uk', provider: 'azure_ad' },
 ]
 
-attribute_sets.each do |attributes|
+test_users.each do |attributes|
   User.create_or_find_by!(attributes)
 end
