@@ -45,4 +45,19 @@ env:
       secretKeyRef:
         name: assure-hmrc-data-application-output
         key: sentry_dsn
+  - name: AR_ENCRYPTION_PRIMARY_KEY
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: ar_encryption_primary_key
+  - name: AR_ENCRYPTION_DETERMINISTIC_KEY
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: ar_encryption_deterministic_key
+  - name: AR_ENCRYPTION_KEY_DERIVATION_SALT
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: ar_encryption_key_derivation_salt
 {{- end }}

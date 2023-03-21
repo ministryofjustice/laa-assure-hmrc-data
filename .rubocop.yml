@@ -15,6 +15,10 @@ inherit_mode:
   merge:
     - Exclude
 
+Layout/LineLength:
+  Exclude:
+    - config/*.rb
+
 Style/NumericLiterals:
   Exclude:
     - db/schema.rb
