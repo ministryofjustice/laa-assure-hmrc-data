@@ -40,6 +40,21 @@ env:
       secretKeyRef:
         name: assure-hmrc-data-application-output
         key: secret_key_base
+  - name: OMNIAUTH_AZURE_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: omniauth_azure_client_id
+  - name: OMNIAUTH_AZURE_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: omniauth_azure_client_secret
+  - name: OMNIAUTH_AZURE_TENANT_ID
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: omniauth_azure_tenant_id
   - name: SENTRY_DSN
     valueFrom:
       secretKeyRef:
