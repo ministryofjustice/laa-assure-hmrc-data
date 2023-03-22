@@ -284,6 +284,7 @@ Devise.setup do |config|
                   client_options: {
                     identifier: ENV["OMNIAUTH_AZURE_CLIENT_ID"],
                     secret: ENV["OMNIAUTH_AZURE_CLIENT_SECRET"],
+                    redirect_uri: ENV["OMNIAUTH_AZURE_REDIRECT_URI"],
                   },
                   discovery: true,
                   issuer: "https://login.microsoftonline.com/#{ENV["OMNIAUTH_AZURE_TENANT_ID"]}/v2.0",

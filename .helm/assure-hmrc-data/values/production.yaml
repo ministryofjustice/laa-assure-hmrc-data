@@ -34,5 +34,7 @@ ingress:
       - assure-hmrc-data.service.justice.gov.uk
       secretName: assure-hmrc-data-tls-certificate
 
-branch_builder_database:
+branch_builder:
   enabled: false
+  database_name: null
+  omniauth_azure_redirect_uri: null
