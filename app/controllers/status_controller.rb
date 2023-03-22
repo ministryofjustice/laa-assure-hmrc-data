@@ -1,5 +1,5 @@
 class StatusController < ApplicationController
-  skip_before_action :verify_authenticity_token
+  skip_before_action :authenticate_user!, :verify_authenticity_token
 
   def status
     checks = {
