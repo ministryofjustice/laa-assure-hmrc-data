@@ -5,8 +5,8 @@ RSpec.describe User, type: :model do
 
   describe "#email" do
     let(:email) { "Jo.Example@example.com" }
-    let(:provider) { "azure_ad" }
-    let(:user) { described_class.create!(email:, provider: "azure_ad") }
+    let(:auth_provider) { "azure_ad" }
+    let(:user) { described_class.create!(email:, auth_provider:) }
 
     before { user }
 
@@ -20,7 +20,7 @@ RSpec.describe User, type: :model do
     end
 
     it "has case insensitive uniqueness enforced by the db" do
-      expect { described_class.create!(email: email.downcase, provider: "azure_ad") }.to(
+      expect { described_class.create!(email: email.downcase, auth_provider:) }.to(
         raise_error(ActiveRecord::RecordNotUnique,
                     /Key \(email\)=\(jo.example@example.com\) already exists/)
       )
@@ -30,7 +30,7 @@ RSpec.describe User, type: :model do
   describe "#full_name" do
     subject { instance.full_name }
 
-    let(:instance) { described_class.new(first_name: "Jim", last_name: "BOB  ") }
+    let(:instance) { described_class.new(first_name: " Jim", last_name: "BOB  ") }
 
     it { is_expected.to eql("Jim BOB") }
   end

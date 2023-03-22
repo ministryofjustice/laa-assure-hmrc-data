@@ -22,10 +22,14 @@ ActiveRecord::Schema[7.0].define(version: 2023_03_17_143105) do
     t.string "last_name", default: "", null: false
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.string "provider", null: false
-    t.string "auth_subject_id"
-    t.datetime "auth_last_sign_in_at", precision: nil
-    t.index ["auth_subject_id", "provider"], name: "index_users_on_auth_subject_id_and_provider", unique: true
+    t.string "auth_provider", default: "", null: false
+    t.string "auth_subject_uid"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "current_sign_in_at", precision: nil
+    t.datetime "last_sign_in_at", precision: nil
+    t.string "current_sign_in_ip"
+    t.string "last_sign_in_ip"
+    t.index ["auth_subject_uid", "auth_provider"], name: "index_users_on_auth_subject_uid_and_auth_provider", unique: true
     t.index ["email"], name: "index_users_on_email", unique: true
   end
 

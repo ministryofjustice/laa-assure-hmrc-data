@@ -5,7 +5,7 @@
 # DO NOT SEED OUR ACTUAL USERS THIS WAY
 # as they are not public domain
 test_users = [
-  { email: 'joel.sugarman@justice.gov.uk', provider: 'azure_ad' },
+  { email: 'joel.sugarman@justice.gov.uk', auth_provider: 'azure_ad' },
 ]
 
 test_users.each do |attributes|
