@@ -39,5 +39,10 @@ module LaaAssureHmrcData
     config.x.status.build_date = ENV.fetch("APP_BUILD_DATE", "Not Available")
     config.x.status.build_tag = ENV.fetch("APP_BUILD_TAG", "Not Available")
     config.x.status.git_commit = ENV.fetch("APP_GIT_COMMIT", "Not Available")
+
+    # ActiveRecord::Encryption keys generated with `bin/rails db:encryption:init`
+    config.active_record.encryption.primary_key = ENV.fetch("AR_ENCRYPTION_PRIMARY_KEY", "fake-primary-key")
+    config.active_record.encryption.deterministic_key = ENV.fetch("AR_ENCRYPTION_DETERMINISTIC_KEY", "fake-deterministic-key")
+    config.active_record.encryption.key_derivation_salt = ENV.fetch("AR_ENCRYPTION_KEY_DERIVATION_SALT", "fake-key-derivation-salt")
   end
 end
