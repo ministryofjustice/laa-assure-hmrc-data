@@ -82,4 +82,19 @@ env:
       secretKeyRef:
         name: assure-hmrc-data-application-output
         key: ar_encryption_key_derivation_salt
+  - name: HMRC_INTERFACE_HOST
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: hmrc_interface_host
+  - name: HMRC_INTERFACE_UID
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: hmrc_interface_uid
+  - name: HMRC_INTERFACE_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: hmrc_interface_secret
 {{- end }}

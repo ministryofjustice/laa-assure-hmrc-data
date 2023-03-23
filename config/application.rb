@@ -46,8 +46,8 @@ module LaaAssureHmrcData
     config.active_record.encryption.key_derivation_salt = ENV.fetch("AR_ENCRYPTION_KEY_DERIVATION_SALT", "fake-key-derivation-salt")
 
     # HMRC interface api connection details
-    config.x.hmrc_interface.host = ENV.fetch("HMRC_API_HOST", nil)
-    config.x.hmrc_interface.client_id = ENV.fetch("HMRC_API_UID", nil)
-    config.x.hmrc_interface.client_secret = ENV.fetch("HMRC_API_SECRET", nil)
+    config.x.hmrc_interface.host = ENV.fetch("HMRC_INTERFACE_HOST", nil)
+    config.x.hmrc_interface.client_id = ENV.fetch("HMRC_INTERFACE_UID", nil)
+    config.x.hmrc_interface.client_secret = ENV.fetch("HMRC_INTERFACE_SECRET", nil)
   end
 end
