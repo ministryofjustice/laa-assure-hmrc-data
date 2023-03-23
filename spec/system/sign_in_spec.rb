@@ -1,11 +1,6 @@
 require "system_helper"
 
 RSpec.describe "sign in", type: :system do
-  it "has a Start now button" do
-    visit "/"
-    expect(page).to have_button("Start now")
-  end
-
   context "with unauthorised user" do
     it "redirects user back to landing page" do
       visit "/"
@@ -23,6 +18,8 @@ RSpec.describe "sign in", type: :system do
       visit "/"
       click_button "Start now"
       expect(page).to have_content("Submissions")
+      expect(page).to have_link("Jim Bob")
+      expect(page).to have_link("Sign out")
     end
   end
 

@@ -13,6 +13,8 @@
 # $ BROWSER=true rspec spec/system
 #
 RSpec.configure do |config|
+  config.include Devise::Test::IntegrationHelpers, type: :system
+
   config.before(:each, type: :system) do
     if ENV["BROWSER"].present?
       driven_by :chrome
