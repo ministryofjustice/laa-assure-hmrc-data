@@ -1,11 +1,11 @@
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
-    <h1 class="govuk-heading-xl">Submissions</h1>
+    <h1 class="govuk-heading-xl"><%= t(".page_heading") %></h1>
 
     <p class="govuk-body">
-      This page should show a list of existing submissions...
+      <%= t(".blurb") %>
     </p>
 
-    <%= govuk_link_to "New submission", '#' %>
+    <%= govuk_button_link_to(t(".new_submission"), '#') %>
   </div>
 </div>

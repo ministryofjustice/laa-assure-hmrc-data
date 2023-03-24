@@ -4,9 +4,9 @@
 
     <%= govuk_summary_list(
       rows: [
-        { key: { text: "First name" }, value: { text: current_user.first_name } },
-        { key: { text: "Last name" }, value: { text: current_user.last_name } },
-        { key: { text: "Email" }, value: { text: current_user.email } },
+        { key: { text: t(".first_name") }, value: { text: current_user.first_name } },
+        { key: { text: t(".last_name") }, value: { text: current_user.last_name } },
+        { key: { text: t(".email") }, value: { text: current_user.email } },
       ]
     ) %>
   </div>
