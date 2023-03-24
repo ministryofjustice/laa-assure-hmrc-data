@@ -12,6 +12,8 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
   end
 
   def failure
+    flash[:alert] = "There has been a problem authenticating you!"
+    Rails.logger.error "omniauth error authenticating a user!"
     redirect_to unauthenticated_root_path
   end
 end
