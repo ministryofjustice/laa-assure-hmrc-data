@@ -25,13 +25,15 @@ RSpec.describe "sign in", type: :system do
 
   context "with an authorised user on subsequent logins" do
     before do
-      User.create!(auth_subject_uid: "fake-uid")
+      User.create!(auth_subject_uid: "jim-bob-fake-uid")
     end
 
     it "takes user to home page" do
       visit "/"
       click_button "Start now"
+
       expect(page).to have_content("Submissions")
+      expect(page).to have_link("Sign out")
     end
   end
 end

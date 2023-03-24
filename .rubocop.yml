@@ -22,3 +22,6 @@ Layout/LineLength:
 Style/NumericLiterals:
   Exclude:
     - db/schema.rb
+
+Lint/AmbiguousBlockAssociation:
+  AllowedMethods: [change]
