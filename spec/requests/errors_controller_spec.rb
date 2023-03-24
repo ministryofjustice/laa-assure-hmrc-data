@@ -3,7 +3,6 @@
 require "rails_helper"
 
 RSpec.describe ErrorsController do
-
   describe "#not_found" do
     before { get "/404" }
 

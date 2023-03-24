@@ -13,7 +13,7 @@
 # $ BROWSER=true rspec spec/system
 #
 RSpec.configure do |config|
-  config.include Devise::Test::IntegrationHelpers, type: :system
+  config.include Devise::Test::IntegrationHelpers
 
   config.before(:each, type: :system) do
     if ENV["BROWSER"].present?
