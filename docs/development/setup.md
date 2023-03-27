@@ -65,6 +65,7 @@ openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout ~/.ssl/local
 # run rails server using the self-signed certificate
 rails s -b "ssl://localhost:3000?key=$HOME/.ssl/localhost.key&cert=$HOME/.ssl/localhost.crt"
 ```
+note: running `bin/setup` will give you the option to generate this certificate via its script.
 
 You can now open `https://localhost:3000` and login. If you recieve an unauthorised error this will be because you have not seeded your self in your local database.
 
