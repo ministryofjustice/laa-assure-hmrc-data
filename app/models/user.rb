@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  encrypts :auth_subject_uid, deterministic: true
+
   devise :timeoutable,
          :trackable,
          :omniauthable, omniauth_providers: [:azure_ad]
