@@ -6,7 +6,7 @@ RSpec.describe BulkSubmission, type: :model do
   describe "#user" do
     subject { instance.user }
 
-    let(:user) { User.create!(email: "test.user@example.com") }
+    let(:user) { create(:user) }
 
     it { is_expected.to eql user }
 
