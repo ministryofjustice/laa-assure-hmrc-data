@@ -1,5 +1,6 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require "spec_helper"
+require_relative "support/factory_bot"
 require_relative "mock_azure_ad_auth_hash"
 
 ENV["RAILS_ENV"] ||= "test"
