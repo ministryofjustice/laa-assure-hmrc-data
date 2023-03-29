@@ -5,6 +5,8 @@ class User < ApplicationRecord
          :trackable,
          :omniauthable, omniauth_providers: [:azure_ad]
 
+  has_many :bulk_submissions, dependent: :nullify
+
   def self.from_omniauth(auth)
     user = find_by(auth_subject_uid: auth.uid)
 
