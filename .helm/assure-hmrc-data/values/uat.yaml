@@ -38,7 +38,8 @@ resources:
     cpu: 10m
     memory: 125Mi
 
-# database name value must be set by `helm --set` command
-branch_builder_database:
+# database_name and redirect_uri value must be set by `helm --set` command when enabled
+branch_builder:
   enabled: true
-  name: null
+  database_name: null
+  omniauth_azure_redirect_uri: null

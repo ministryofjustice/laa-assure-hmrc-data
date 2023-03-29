@@ -1,0 +1,10 @@
+---
+en:
+  pages:
+    home:
+      blurb: This page should show a list of existing submissions...
+      new_submission: Make a submission
+      page_heading: Submissions
+    landing:
+      blurb: Blurb about purpose of app...
+      start_button: Start now

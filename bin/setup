@@ -22,6 +22,19 @@ FileUtils.chdir APP_ROOT do
   #   FileUtils.cp "config/database.yml.sample", "config/database.yml"
   # end
 
+  puts "\nDo you want to create self-signed TLS certificate?"
+  self_signed = gets.chomp
+
+  if %w[yes y].include?(self_signed)
+    puts "\n== Installing self signed certificate =="
+    system! "mkdir -p ~/.ssl/"
+    system! <<~CMDLINE
+              openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 \
+              -subj "/C=UK/ST=Victoria/L=London/O=MoJ/CN=www.example.com" \
+              -keyout ~/.ssl/localhost.key -out ~/.ssl/localhost.crt
+            CMDLINE
+  end
+
   puts "\n== Preparing database =="
   system! "bin/rails db:prepare"
 

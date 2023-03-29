@@ -19,9 +19,9 @@ env:
       secretKeyRef:
         name: rds-postgresql-instance-output
         key: rds_instance_address
-  {{ if .Values.branch_builder_database.enabled }}
+  {{ if .Values.branch_builder.enabled }}
   - name: POSTGRES_DATABASE
-    value: {{ .Values.branch_builder_database.name | quote }}
+    value: {{ .Values.branch_builder.database_name | quote }}
   {{ else }}
   - name: POSTGRES_DATABASE
     valueFrom:
@@ -45,6 +45,28 @@ env:
       secretKeyRef:
         name: assure-hmrc-data-application-output
         key: sentry_dsn
+  - name: OMNIAUTH_AZURE_CLIENT_ID
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: omniauth_azure_client_id
+  - name: OMNIAUTH_AZURE_CLIENT_SECRET
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: omniauth_azure_client_secret
+  - name: OMNIAUTH_AZURE_TENANT_ID
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: omniauth_azure_tenant_id
+  {{ if .Values.branch_builder.enabled }}
+  - name: OMNIAUTH_AZURE_REDIRECT_URI
+    value: {{ .Values.branch_builder.omniauth_azure_redirect_uri }}
+  {{ else }}
+  - name: OMNIAUTH_AZURE_REDIRECT_URI
+    value:
+  {{ end }}
   - name: AR_ENCRYPTION_PRIMARY_KEY
     valueFrom:
       secretKeyRef:

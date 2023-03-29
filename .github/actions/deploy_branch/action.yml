@@ -89,7 +89,8 @@ runs:
           --set image.tag="${GIT_SHA}" \
           --set ingress.annotations."external-dns\.alpha\.kubernetes\.io/set-identifier"="$identifier" \
           --set ingress.hosts="{$release_host}" \
-          --set branch_builder_database.name=$RELEASE_NAME \
+          --set branch_builder.database_name=$RELEASE_NAME \
+          --set branch_builder.omniauth_azure_redirect_uri="https://${release_host}/users/auth/azure_ad/callback" \
           --values ${VALUES_FILE} \
           --install \
           --wait

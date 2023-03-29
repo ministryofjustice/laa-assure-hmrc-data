@@ -44,5 +44,7 @@ resources:
     cpu: 10m
     memory: 125Mi
 
-branch_builder_database:
+branch_builder:
   enabled: false
+  database_name: null
+  omniauth_azure_redirect_uri: null

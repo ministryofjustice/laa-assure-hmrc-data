@@ -17,8 +17,11 @@ inherit_mode:
 
 Layout/LineLength:
   Exclude:
-    - config/*.rb
+    - config/**/*.rb
 
 Style/NumericLiterals:
   Exclude:
     - db/schema.rb
+
+Lint/AmbiguousBlockAssociation:
+  AllowedMethods: [change]
