@@ -1,0 +1,36 @@
+<%= govuk_back_link(href: "/") %>
+
+<div id="files-errors-container" role="alert" tabindex="-1"></div>
+
+<!-- Upload button form -->
+<%= form_with(
+      model: @form,
+      url: bulk_submission_form_path(@form.bulk_submission),
+      method: :patch,
+      local: true,
+    ) do |form| %>
+
+  <%= render partial: "form_fields", locals: { form: } %>
+<% end %>
+
+<!-- Uploaded file list -->
+<h2 class="govuk-heading-m"><%= t(".uploaded_files_heading") %></h2>
+<div id="uploaded-files-table-container">
+  <%= render partial: "uploaded_files", locals: { attachment: @form.bulk_submission.original_file } %>
+</div>
+
+<!-- Continue button form -->
+<%= form_with(
+    model: @form,
+    url: bulk_submission_form_path(@form.bulk_submission),
+    method: :patch,
+    local: true,
+  ) do |form| %>
+
+<%= form.govuk_submit(
+      t("generic.save_and_continue"),
+      id: "continue",
+      name: "commit",
+      value: "continue",
+    ) %>
+<% end %>

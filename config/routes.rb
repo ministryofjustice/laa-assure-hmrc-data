@@ -10,13 +10,15 @@ Rails.application.routes.draw do
     end
 
     authenticated :user do
-      root to: 'pages#home', as: :authenticated_root
+      root to: 'bulk_submissions#index', as: :authenticated_root
     end
 
     get 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
   end
 
   resources :users, only: :show
+  resources :bulk_submissions, only: [:index, :new, :create, :edit, :update, :destroy]
+  resources :bulk_submission_forms, only: [:new, :create, :edit, :update, :destroy]
 
   get "ping", to: "status#ping", format: :json
   get "healthcheck", to: "status#status", format: :json
