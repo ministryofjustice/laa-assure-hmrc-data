@@ -2,3 +2,7 @@
 en:
   generic:
     important: Important
+    attach_file: Attach a file
+    upload: Upload
+    save_and_continue: Save and continue
+    delete_file: Delete

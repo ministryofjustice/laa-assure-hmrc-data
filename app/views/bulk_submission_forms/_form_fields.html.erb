@@ -1,0 +1,26 @@
+<%= form.govuk_error_summary %>
+
+<%= form.govuk_fieldset legend: { text: t(".page_title"), tag: "h1", size: "xl" } do %>
+  <div class="govuk-body govuk-!-padding-top-4"></div>
+
+  <!-- Non-JS fallback upload form -->
+  <div class="fallback no-script">
+    <%= form.govuk_file_field(
+          :uploaded_file,
+          name: :uploaded_file,
+          label: { text: t("generic.attach_file"), size: "m" },
+          hint: { text: t(".size_hint") },
+          classes: ["govuk-file-upload"]
+        ) %>
+
+    <%= form.govuk_submit(
+          t("generic.upload"),
+          id: "upload",
+          name: "commit",
+          value: "upload",
+          secondary: true,
+        ) %>
+  </div>
+
+  <div aria-live="assertive" class="govuk-visually-hidden" id="file-upload-status-message"></div>
+<% end %>
