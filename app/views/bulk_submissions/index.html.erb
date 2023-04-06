@@ -5,8 +5,6 @@
     <%= govuk_button_link_to(t(".new_submission"), new_bulk_submission_form_path) %>
 
     <%= govuk_table do |table|
-      # table.with_caption(size: 'm', text: t(".caption"))
-
       table.with_head do |head|
         head.with_row do |row|
           row.with_cell(text: "Filename", header: true) if Rails.env.development?
