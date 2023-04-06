@@ -1,0 +1,15 @@
+---
+en:
+  bulk_submission_forms:
+    edit:
+      uploaded_files_heading: Uploaded files
+    form_fields:
+      page_title: Upload a file
+      size_hint: The maximum file size is 7MB. Files must be a CSV.
+    new:
+      uploaded_files_heading: Uploaded files
+    uploaded_files:
+      filename: Filename
+      no_files: Files uploaded will appear here
+      status: Status
+      uploaded: Uploaded

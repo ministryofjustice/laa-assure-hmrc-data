@@ -50,14 +50,14 @@ private
     return unless uploaded_file
     return if file_size(uploaded_file) > 1
 
-    errors.add(:uploaded_file, :file_empty, file_name: uploaded_file.original_filename)
+    errors.add(:uploaded_file, :file_empty, filename: uploaded_file.original_filename)
   end
 
   def file_too_big
     return unless uploaded_file
     return if file_size(uploaded_file) <= self.class.max_file_size
 
-    error_options = { size: self.class.max_file_size / 1.megabyte, file_name: uploaded_file.original_filename }
+    error_options = { size: self.class.max_file_size / 1.megabyte, filename: uploaded_file.original_filename }
     errors.add(:uploaded_file, :file_too_big, **error_options)
   end
 
@@ -66,7 +66,7 @@ private
     return if checked_content_type(uploaded_file).in?(ALLOWED_CONTENT_TYPES)
     return if uploaded_file.content_type.in?(ALLOWED_CONTENT_TYPES)
 
-    errors.add(:uploaded_file, :content_type_invalid, file_name: uploaded_file.original_filename)
+    errors.add(:uploaded_file, :content_type_invalid, filename: uploaded_file.original_filename)
   end
 
   def checked_content_type(file)
