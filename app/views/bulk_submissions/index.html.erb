@@ -12,8 +12,8 @@
           row.with_cell(text: t(".expires_at"), header: true)
           row.with_cell(text: t(".status"), header: true)
           row.with_cell(text: t(".action"), header: true)
-        end;
-      end;
+        end
+      end
 
       table.with_body do |body|
         @bulk_submissions.each do |bulk_submission|
@@ -22,12 +22,12 @@
             row.with_cell(text: bulk_submission.created_at&.to_s(:date_only))
             row.with_cell(text: bulk_submission.expires_at&.to_s(:default))
             row.with_cell(text: govuk_tag(text: bulk_submission.status || 'unavailable'))
-            row.with_cell do |cell|
+            row.with_cell do
               button_to('Remove', bulk_submission_path(bulk_submission.id), method: :delete)
-            end;
-          end;
-        end;
-      end;
+            end
+          end
+        end
+      end
     end %>
   </div>
 </div>

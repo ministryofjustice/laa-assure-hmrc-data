@@ -11,7 +11,7 @@ class BulkSubmissionFormsController < ApplicationController
       if upload_button_pressed?
         redirect_to edit_bulk_submission_form_path(@form.bulk_submission.id)
       else
-        redirect_to authenticated_root_path
+        redirect_to bulk_submissions_path
       end
     else
       render :new
@@ -20,7 +20,7 @@ class BulkSubmissionFormsController < ApplicationController
 
   def edit
     bulk_submission = BulkSubmission.find(params[:id])
-    @form = BulkSubmissionForm.new(bulk_submission: bulk_submission)
+    @form = BulkSubmissionForm.new(bulk_submission:)
   end
 
   def update
@@ -28,7 +28,7 @@ class BulkSubmissionFormsController < ApplicationController
 
     if params[:uploaded_file].nil? && continue_button_pressed?
       if @form.valid?
-        redirect_to authenticated_root_path
+        redirect_to bulk_submissions_path
       else
         render :edit, id: params[:id]
       end
@@ -41,7 +41,7 @@ class BulkSubmissionFormsController < ApplicationController
       if upload_button_pressed?
         redirect_to edit_bulk_submission_form_path(@form.bulk_submission.id)
       else
-        redirect_to authenticated_root_path
+        redirect_to bulk_submissions_path
       end
     else
       render :edit

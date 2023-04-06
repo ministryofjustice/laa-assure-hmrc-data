@@ -17,7 +17,7 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: :show
-  resources :bulk_submissions, only: [:index, :new, :create, :edit, :update, :destroy]
+  resources :bulk_submissions, only: [:index, :destroy]
   resources :bulk_submission_forms, only: [:new, :create, :edit, :update, :destroy]
 
   get "ping", to: "status#ping", format: :json

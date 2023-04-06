@@ -3,11 +3,10 @@ require "system_helper"
 RSpec.describe "sign in", type: :system do
   context "with unauthorised user" do
     it "redirects user back to landing page" do
-      visit "/bulk_submissions/new"
+      visit "/bulk_submission_forms/new"
       expect(page).to have_content("Start now")
     end
   end
-
 
   context "with an authorised user" do
     before { sign_in user }
@@ -15,7 +14,7 @@ RSpec.describe "sign in", type: :system do
     let(:user) { create(:user, :with_matching_stubbed_oauth_details) }
 
     it "user can upload and delete a CSV" do
-      visit "/bulk_submissions/new"
+      visit "/bulk_submission_forms/new"
 
       expect(page).to have_link("Jim Bob")
       expect(page).to have_link("Sign out")
@@ -35,7 +34,7 @@ RSpec.describe "sign in", type: :system do
 
       within("#uploaded-files-table-container") do
         expect(page).to have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
-        expect(page).to have_selector(".govuk-table__cell .govuk-tag", text: "UPLOADED")
+        expect(page).to have_selector(".govuk-table__cell .govuk-tag", text: "Uploaded")
         expect(page).to have_button("Delete")
 
         click_button "Delete"
