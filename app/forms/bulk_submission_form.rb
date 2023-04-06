@@ -35,7 +35,7 @@ class BulkSubmissionForm
     validate
     return false unless valid?
 
-    self.bulk_submission.original_file.attach(uploaded_file)
+    bulk_submission.original_file.attach(uploaded_file)
   end
 
 private
@@ -63,8 +63,9 @@ private
 
   def file_content_type
     return unless uploaded_file
-    return if checked_content_type(uploaded_file).in?(ALLOWED_CONTENT_TYPES)
-    return if uploaded_file.content_type.in?(ALLOWED_CONTENT_TYPES)
+    return if [checked_content_type(uploaded_file), uploaded_file.content_type].compact_blank.all? do |mime_type|
+      mime_type.in?(ALLOWED_CONTENT_TYPES)
+    end
 
     errors.add(:uploaded_file, :content_type_invalid, filename: uploaded_file.original_filename)
   end

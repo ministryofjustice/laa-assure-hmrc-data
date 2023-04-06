@@ -6,8 +6,8 @@
         row.with_cell(text: t(".status"), header: true)
         row.with_cell(header: true)
         row.with_cell(header: true)
-      end;
-    end;
+      end
+    end
 
     table.with_body do |body|
       body.with_row do |row|
@@ -17,7 +17,7 @@
           row.with_cell(text: attachment.original_filename)
         end
         row.with_cell(text: govuk_tag(text: t(".uploaded")))
-        row.with_cell do |cell|
+        row.with_cell do
           button_to(
             t("generic.delete_file"),
             bulk_submission_form_path(@form.bulk_submission&.id),
@@ -25,9 +25,9 @@
             value: 'delete-file',
             method: :delete
           )
-        end;
-      end;
-    end;
+        end
+      end
+    end
   end %>
 <% else %>
   <p class="govuk-body govuk-!-padding-bottom-4">

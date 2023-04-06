@@ -17,7 +17,7 @@ RSpec.describe "sign in", type: :system do
     it "takes user to home page" do
       visit "/"
       click_button "Start now"
-      expect(page).to have_content("Submissions")
+      expect(page).to have_content("Information requests")
       expect(page).to have_link("Jim Bob")
       expect(page).to have_link("Sign out")
     end
@@ -32,7 +32,7 @@ RSpec.describe "sign in", type: :system do
       visit "/"
       click_button "Start now"
 
-      expect(page).to have_content("Submissions")
+      expect(page).to have_content("Information requests")
       expect(page).to have_link("Sign out")
     end
   end
