@@ -19,8 +19,8 @@
         @bulk_submissions.each do |bulk_submission|
           body.with_row do |row|
             row.with_cell(text: bulk_submission&.original_file&.filename) if Rails.env.development?
-            row.with_cell(text: bulk_submission.created_at&.to_s(:date_only))
-            row.with_cell(text: bulk_submission.expires_at&.to_s(:default))
+            row.with_cell(text: bulk_submission.created_at&.to_fs(:date_only))
+            row.with_cell(text: bulk_submission.expires_at&.to_fs(:default))
             row.with_cell(text: govuk_tag(text: bulk_submission.status || 'unavailable'))
             row.with_cell do
               button_to('Remove', bulk_submission_path(bulk_submission.id), method: :delete)
