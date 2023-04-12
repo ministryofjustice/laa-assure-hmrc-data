@@ -1,12 +1,11 @@
 name: Clean up ECR
 on:
-  pull_request:
-    branches: [main]
+  schedule:
+    - cron: '0 2 * * *'
 
 jobs:
   delete_ecr_images_job:
     runs-on: ubuntu-latest
-    container: ministryofjustice/cloud-platform-tools:2.3.0
     steps:
       - name: Checkout
         uses: actions/checkout@v3
