@@ -8,7 +8,11 @@ aws_access_key_id =  ENV["AWS_ACCESS_KEY_ID"]
 puts "id length #{aws_access_key_id.length}"
 aws_secret_access_key =  ENV["AWS_SECRET_ACCESS_KEY"]
 puts "key length #{aws_secret_access_key.length}"
-json_output = `AWS_ACCESS_KEY_ID=#{aws_access_key_id} AWS_SECRET_ACCESS_KEY=#{aws_secret_access_key} aws ecr describe-images --repository-name #{repo} --output json`
+
+ecr_region = ENV["ECR_REGION"]
+puts "ecr region #{ecr_region}"
+
+json_output = `AWS_ACCESS_KEY_ID=#{aws_access_key_id} AWS_SECRET_ACCESS_KEY=#{aws_secret_access_key} aws ecr describe-images --repository-name --region #{ecr_region} #{repo} --output json`
 puts "output length #{json_output.length}"
 puts "output value #{json_output[0,3]}"
 images = JSON.parse(json_output)['imageDetails']
