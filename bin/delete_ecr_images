@@ -1,0 +1,34 @@
+#!/usr/bin/env ruby
+require 'json'
+require 'date'
+
+repo = 'laa-apply-for-legal-aid/laa-assure-hmrc-data-uat-ecr'
+delete_if_older_than = 10 # days
+
+aws_access_key_id =  ENV["AWS_ACCESS_KEY_ID"]
+aws_secret_access_key =  ENV["AWS_SECRET_ACCESS_KEY"]
+ecr_region = ENV["ECR_REGION"]
+
+json_output = `AWS_ACCESS_KEY_ID=#{aws_access_key_id} AWS_SECRET_ACCESS_KEY=#{aws_secret_access_key} aws ecr describe-images --repository-name --region #{ecr_region} #{repo} --output json`
+images = JSON.parse(json_output)['imageDetails']
+puts "ECR has #{images.count} images"
+
+images_to_delete = []
+images.each do |i|
+  date_pushed = DateTime.strptime(i['imagePushedAt'], '%Y-%m-%dT%H:%M:%S%z')
+  age_in_days = (DateTime.now - date_pushed).to_i
+  images_to_delete << i if age_in_days > delete_if_older_than
+end
+
+if images_to_delete.empty?
+  puts 'Nothing to delete'
+else
+  puts "Deleting #{images_to_delete.count} images"
+
+  images_to_delete.each_slice(100) do |batch|
+    image_ids = batch.map { |i| "imageDigest=#{i['imageDigest']}" }.join(' ')
+    puts `AWS_ACCESS_KEY_ID=#{aws_access_key_id} AWS_SECRET_ACCESS_KEY=#{aws_secret_access_key} aws ecr batch-delete-image --region #{ecr_region} --repository-name #{repo} --image-ids #{image_ids}`
+  end
+
+  puts 'Done!'
+end
