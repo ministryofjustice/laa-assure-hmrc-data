@@ -72,5 +72,5 @@ You can now open `https://localhost:3000` and login. If you recieve an unauthori
 ```
 $ rails console
 
-> User.create!(email: '<your justice email address>', 'azure_ad')
+> User.create!(email: '<your justice email address>', auth_provider: 'azure_ad')
 ```
