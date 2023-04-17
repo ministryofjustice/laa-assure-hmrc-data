@@ -3,6 +3,7 @@
   "private": "true",
   "dependencies": {
     "esbuild": "^0.17.18",
+    "dropzone": "^6.0.0-beta.2",
     "govuk-frontend": "4.5.0",
     "sass": "^1.62.0"
   },

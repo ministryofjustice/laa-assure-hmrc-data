@@ -3,24 +3,60 @@
 <%= form.govuk_fieldset legend: { text: t(".page_title"), tag: "h1", size: "xl" } do %>
   <div class="govuk-body govuk-!-padding-top-4"></div>
 
-  <!-- Non-JS fallback upload form -->
-  <div class="fallback no-script">
-    <%= form.govuk_file_field(
-          :uploaded_file,
-          name: :uploaded_file,
-          label: { text: t("generic.attach_file"), size: "m" },
-          hint: { text: t(".size_hint") },
-          classes: ["govuk-file-upload"]
-        ) %>
 
-    <%= form.govuk_submit(
-          t("generic.upload"),
-          id: "upload",
-          name: "commit",
-          value: "upload",
-          secondary: true,
-        ) %>
+  <% form_error_class = form.object.errors.any? ? "govuk-form-group--error" : "" %>
+
+  <!-- Dropzone upload form -->
+  <div class="dropzone__upload">
+    <div class="govuk-form-group script hidden <%= form_error_class %>" id="dropzone-form-group" aria-labelledby="dropzone-label">
+      <label class="govuk-label govuk-label--m" id="dropzone-label">
+          <%= t("generic.attach_file") %>
+      </label>
+
+      <div class="govuk-hint"><%= t(".size_hint") %></div>
+
+      <% if form.object.errors %>
+        <p id="dropzone-mandatory-error" class='govuk-error-message dropzone-error govuk-!-margin-bottom-1'>
+          <% form.object.errors.each do |error| %>
+            <span class="govuk-visually-hidden">Error:</span>
+            <%= error.message %>
+          <% end %>
+        </p>
+      <% end %>
+
+        <span class="hidden" aria-hidden="true" id="dropzone-url" data-url="/bulk_submission_forms"></span>
+
+        <p id="dropzone-file-error" class="govuk-error-message dropzone-error hidden">
+          <span class="govuk-visually-hidden">Error:</span>
+        </p>
+
+        <div class="dropzone" id="dropzone-form">
+          <div class="dz-message" data-dz-message>
+            <p class="govuk-body govuk-!-padding-top-2 script"><%= t(".dropzone_message") %></p>
+            <button id="dz-upload-button" class="govuk-button govuk-button--secondary script" tabindex="0"><%= t(".choose_files_btn") %></button>
+          </div>
+        </div>
+    </div>
+
+    <!-- Non-JS fallback upload form -->
+    <div class="fallback no-script">
+      <%= form.govuk_file_field(
+            :uploaded_file,
+            name: :uploaded_file,
+            label: { text: t("generic.attach_file"), size: "m" },
+            hint: { text: t(".size_hint") },
+            classes: ["govuk-file-upload"]
+          ) %>
+
+      <%= form.govuk_submit(
+            t("generic.upload"),
+            id: "upload",
+            name: "commit",
+            value: "upload",
+            secondary: true,
+          ) %>
+    </div>
   </div>
 
-  <div aria-live="assertive" class="govuk-visually-hidden" id="file-upload-status-message"></div>
+  <div aria-live="assertive" class="govuk-visually-hidden" id="dropzone-upload-status-message"></div>
 <% end %>
