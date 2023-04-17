@@ -55,5 +55,7 @@ module LaaAssureHmrcData
     config.x.hmrc_interface.host = ENV.fetch("HMRC_INTERFACE_HOST", nil)
     config.x.hmrc_interface.client_id = ENV.fetch("HMRC_INTERFACE_UID", nil)
     config.x.hmrc_interface.client_secret = ENV.fetch("HMRC_INTERFACE_SECRET", nil)
+
+    config.x.mock_azure = ENV.fetch("MOCK_AZURE", nil)
   end
 end

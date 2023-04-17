@@ -112,4 +112,6 @@ env:
       secretKeyRef:
         name: s3-bucket-output
         key: bucket_name
+  - name: MOCK_AZURE
+    value: {{ .Values.mock_azure.enabled | quote }}
 {{- end }}
