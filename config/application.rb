@@ -35,6 +35,12 @@ module LaaAssureHmrcData
       "node_modules/govuk-frontend/govuk/assets"
     )
 
+    # Disable active_storage routes as
+    #  1. not using and not intending to
+    #  2. they are publicly accessible by default
+    # https://edgeguides.rubyonrails.org/active_storage_overview.html#authenticated-controllers
+    config.active_storage.draw_routes = false
+
     config.exceptions_app = routes
     config.x.status.build_date = ENV.fetch("APP_BUILD_DATE", "Not Available")
     config.x.status.build_tag = ENV.fetch("APP_BUILD_TAG", "Not Available")
