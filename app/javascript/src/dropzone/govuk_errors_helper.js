@@ -1,8 +1,6 @@
 export function addErrorMessage (msg) {
   // this adds an error message to the gov uk error summary and shows the errors
   const errorSummary = document.querySelector('.govuk-error-summary')
-
-  if (errorSummary)
   const ul = errorSummary.querySelector('ul')
   const li = document.createElement('li')
   const a = document.createElement('a')
