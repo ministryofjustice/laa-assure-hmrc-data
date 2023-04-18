@@ -3,6 +3,8 @@ en:
   generic:
     attach_file: Attach a file
     delete_file: Delete
+    errors:
+      problem_text: There is a problem
     important: Important
     save_and_continue: Save and continue
     upload: Upload

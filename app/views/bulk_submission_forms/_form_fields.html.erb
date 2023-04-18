@@ -1,10 +1,11 @@
 <%= form.govuk_error_summary %>
 
+<%= render partial: "error_summary_hidden" %>
+
 <%= form.govuk_fieldset legend: { text: t(".page_title"), tag: "h1", size: "xl" } do %>
   <div class="govuk-body govuk-!-padding-top-4"></div>
 
-
-  <% form_error_class = form.object.errors.any? ? "govuk-form-group--error" : "" %>
+  <% form_error_class = form.object.errors.any? ? "govuk-form-group--error" : "" %> <%# erblint:disable Rubocop %>
 
   <!-- Dropzone upload form -->
   <div class="dropzone__upload">
@@ -24,18 +25,20 @@
         </p>
       <% end %>
 
-        <span class="hidden" aria-hidden="true" id="dropzone-url" data-url="/bulk_submission_forms"></span>
+      <p id="dropzone-file-error" class="govuk-error-message dropzone-error hidden">
+        <span class="govuk-visually-hidden">Error:</span>
+      </p>
 
-        <p id="dropzone-file-error" class="govuk-error-message dropzone-error hidden">
-          <span class="govuk-visually-hidden">Error:</span>
-        </p>
-
-        <div class="dropzone" id="dropzone-form">
-          <div class="dz-message" data-dz-message>
-            <p class="govuk-body govuk-!-padding-top-2 script"><%= t(".dropzone_message") %></p>
-            <button id="dz-upload-button" class="govuk-button govuk-button--secondary script" tabindex="0"><%= t(".choose_files_btn") %></button>
-          </div>
+      <div class="dropzone" id="dropzone-form">
+        <div class="dz-message" data-dz-message>
+          <p class="govuk-body govuk-!-padding-top-2 script"><%= t(".dropzone_message") %></p>
+          <button id="dz-upload-button"
+                  class="govuk-button govuk-button--secondary script"
+                  tabindex="0">
+            <%= t(".choose_files_btn") %>
+          </button>
         </div>
+      </div>
     </div>
 
     <!-- Non-JS fallback upload form -->
