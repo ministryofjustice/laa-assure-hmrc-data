@@ -57,5 +57,6 @@ module LaaAssureHmrcData
     config.x.hmrc_interface.client_secret = ENV.fetch("HMRC_INTERFACE_SECRET", nil)
 
     config.x.mock_azure = ENV.fetch("MOCK_AZURE", nil)
+    config.x.mock_azure_password = ENV.fetch("MOCK_AZURE_PASSWORD", nil)
   end
 end
