@@ -6,11 +6,7 @@ Rails.application.routes.draw do
 
   devise_scope :user do
     unauthenticated :user do
-      if Rails.configuration.x.mock_azure == "true"
-        root to: 'users/mock_azure#new', as: :unauthenticated_root
-      else
-        root 'pages#landing', as: :unauthenticated_root
-      end
+      root 'pages#landing', as: :unauthenticated_root
     end
 
     authenticated :user do
@@ -18,7 +14,7 @@ Rails.application.routes.draw do
     end
 
     if Rails.configuration.x.mock_azure == "true"
-      get 'sign_in', to: 'users/mock_azures#new', as: :new_user_session
+      get 'sign_in', to: 'users/mock_azure#new', as: :new_user_session
       post 'sign_in', to: 'users/mock_azure#create', as: :user_session
     end
     get 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
