@@ -65,6 +65,7 @@ jobs:
         run: |
           bundle exec rubocop
           bundle exec rake erblint
+          yarn run standardjs
 
       - name: Run tests
         run: bundle exec rspec
