@@ -9,10 +9,12 @@
   },
   "scripts": {
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps",
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets"
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "standardjs": "standard"
   },
   "devDependencies": {
     "@prettier/plugin-ruby": "^3.2.2",
-    "prettier": "^2.8.8"
+    "prettier": "^2.8.8",
+    "standard": "^17.0.0"
   }
 }

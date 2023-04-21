@@ -24,3 +24,8 @@ PreCommit:
     enabled: true
     command: ['erblint']
     requires_files: true
+  StandardJS:
+    enabled: true
+    command: ['yarn', 'run', 'standard']
+    requires_files: true
+    include: 'app/javascript/**/*.js'
