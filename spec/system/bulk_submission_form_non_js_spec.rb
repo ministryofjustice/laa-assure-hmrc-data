@@ -13,6 +13,17 @@ RSpec.describe "sign in", type: :system do
 
     let(:user) { create(:user, :with_matching_stubbed_oauth_details) }
 
+    it "user sees upload fields, not dropzone fields" do
+      visit "/bulk_submission_forms/new"
+
+      expect(page).to have_field("uploaded_file")
+      expect(page).to have_button("Upload")
+
+      expect(page).to have_selector("#dropzone-form-group.hidden")
+      expect(page).not_to have_selector(".dz-clickable", visible: :all)
+      expect(page).not_to have_selector(".dz-hidden-input", visible: :all)
+    end
+
     it "user can upload and delete a CSV from a bulk submission" do
       visit "/bulk_submission_forms/new"
       expect(page).to have_content("Upload a file")
