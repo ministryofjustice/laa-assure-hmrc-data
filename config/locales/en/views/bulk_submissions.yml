@@ -1,0 +1,10 @@
+---
+en:
+  bulk_submissions:
+    index:
+      action: Action
+      created_at: Date requested
+      expires_at: Expiry date
+      new_submission: Make a new request
+      page_heading: Information requests
+      status: Status

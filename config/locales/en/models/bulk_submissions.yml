@@ -1,0 +1,12 @@
+---
+en:
+  activemodel:
+    errors:
+      models:
+        bulk_submission_form:
+          attributes:
+            uploaded_file:
+              blank: You must select a file to upload
+              content_type_invalid: "%{filename} must be a CSV"
+              file_empty: "%{filename} is empty"
+              file_too_big: "%{filename} is more than %{size}MB"
