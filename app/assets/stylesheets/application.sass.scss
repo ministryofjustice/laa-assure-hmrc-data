@@ -2,9 +2,7 @@ $govuk-global-styles: true;
 $govuk-new-link-styles: true;
 $govuk-assets-path: "/";
 
-
 @import "govuk-frontend/govuk/all";
 @import "dropzone";
 @import "helpers";
 @import "no-script";
-

@@ -10,11 +10,15 @@
   "scripts": {
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps",
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
-    "standardjs": "standard"
+    "standardjs": "standard",
+    "stylelint": "stylelint app/assets/stylesheets"
   },
   "devDependencies": {
     "@prettier/plugin-ruby": "^3.2.2",
     "prettier": "^2.8.8",
-    "standard": "^17.0.0"
+    "standard": "^17.0.0",
+    "stylelint": "^14.16.1",
+    "stylelint-config-gds": "^0.2.0",
+    "stylelint-order": "^6.0.3"
   }
 }
