@@ -20,10 +20,7 @@ RSpec.describe "sign in", type: :system do
       click_link "Make a new request"
       expect(page).to have_content("Upload a file")
 
-      attach_file(file_fixture("basic_bulk_submission.csv")) do
-        page.find("#bulk-submission-form-uploaded-file-field").click
-      end
-
+      attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))
       click_button "Upload"
       click_button "Save and continue"
       expect(page).to have_content("Information requests")
