@@ -8,3 +8,5 @@ linters:
     rubocop_config:
       inherit_from:
         - .rubocop.yml
+  NoUnusedDisable:
+    enabled: true

@@ -7,8 +7,8 @@ Webdrivers::Chromedriver.update
 # Selenium logging
 # https://www.selenium.dev/documentation/webdriver/troubleshooting/logging/#ruby
 # other args in order of decreasing verbosity\
-# :debug, :info, :warn, :error, :fatal
-Selenium::WebDriver.logger.level = :warn # default
+# :debug, :info, :warn (default), :error, :fatal
+Selenium::WebDriver.logger.level = :warn
 
 # We use a Capybara default value here explicitly.
 Capybara.default_max_wait_time = 5

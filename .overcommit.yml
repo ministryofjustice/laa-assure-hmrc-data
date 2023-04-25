@@ -24,3 +24,13 @@ PreCommit:
     enabled: true
     command: ['erblint']
     requires_files: true
+  StandardJS:
+    enabled: true
+    command: ['yarn', 'run', 'standard']
+    requires_files: true
+    include: 'app/javascript/**/*.js'
+  StyleLint:
+    enabled: true
+    command: ['yarn', 'run', 'stylelint']
+    requires_files: true
+    include: 'app/assets/stylesheets/**/*.scss'

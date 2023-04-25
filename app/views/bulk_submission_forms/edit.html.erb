@@ -8,6 +8,7 @@
       url: bulk_submission_form_path(@form.bulk_submission),
       method: :patch,
       local: true,
+      html: { class: "upload-file-form" },
     ) do |form| %>
 
   <%= render partial: "form_fields", locals: { form: } %>
@@ -25,6 +26,7 @@
     url: bulk_submission_form_path(@form.bulk_submission),
     method: :patch,
     local: true,
+    html: { class: "save-and-continue-form" },
   ) do |form| %>
 
 <%= form.govuk_submit(

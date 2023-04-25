@@ -1,0 +1,77 @@
+// stylelint-disable declaration-no-important, selector-max-id
+
+.dropzone {
+  display: flex;
+  margin-top: 1em;
+  padding: govuk-spacing(9) govuk-spacing(3);
+  transition: outline-offset .1s ease-in-out, background-color .1s linear;
+  border: none !important;
+  border-radius: 0 !important;
+  outline: 3px dashed govuk-colour("black");
+  text-align: center;
+}
+
+.dropzone label {
+  display: inline-block;
+  width: auto;
+  margin-bottom: 0;
+}
+
+.dropzone p {
+  margin-right: 10px;
+  margin-bottom: 0;
+  padding-top: 7px;
+}
+
+.dropzone [type="file"] {
+  position: absolute;
+  left: -9999em;
+}
+
+.dz-message {
+  display: flex;
+}
+
+.dz-drag-hover {
+  outline-color: #6f777b;
+  background: #b1b4b6;
+}
+
+.dz--focused {
+  outline: none;
+  color: $govuk-focus-text-colour;
+  background-color: $govuk-focus-colour;
+  box-shadow: 0 -2px $govuk-focus-colour, 0 4px $govuk-focus-text-colour;
+}
+
+.dz__error {
+  color: govuk-colour("red");
+  font-weight: bold;
+}
+
+.dz__success {
+  color: govuk-colour("green");
+  font-weight: bold;
+}
+
+.dz__error svg {
+  margin-right: govuk-spacing(2);
+  float: left;
+  fill: currentcolor;
+}
+
+.dz__success svg {
+  margin-right: govuk-spacing(2);
+  float: left;
+  fill: currentcolor;
+}
+
+#uploaded-files-table-container {
+  word-wrap: break-word;
+}
+
+.govuk-notification-banner {
+  word-wrap: break-word;
+}
+
+// stylelint-enable declaration-no-important, selector-max-id
