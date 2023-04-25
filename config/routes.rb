@@ -13,7 +13,7 @@ Rails.application.routes.draw do
       root to: 'bulk_submissions#index', as: :authenticated_root
     end
 
-    if Rails.configuration.x.mock_azure == "true"
+    if Rails.configuration.x.mock_azure
       get 'sign_in', to: 'users/mock_azure#new', as: :new_user_session
       post 'sign_in', to: 'users/mock_azure#create', as: :user_session
     end

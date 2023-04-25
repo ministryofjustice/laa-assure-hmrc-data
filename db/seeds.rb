@@ -14,4 +14,4 @@ end
 
 User.create_or_find_by!(email: 'mock.azure@justice.gov.uk',
                         first_name: 'mock',
-                        last_name: 'azure') if Rails.configuration.x.mock_azure == "true"
+                        last_name: 'azure') if Rails.configuration.x.mock_azure

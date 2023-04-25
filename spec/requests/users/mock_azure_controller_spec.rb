@@ -2,13 +2,13 @@ require "system_helper"
 
 RSpec.describe Users::MockAzureController, type: :request do
   after do
-    allow(Rails.configuration.x).to receive(:mock_azure).and_return("false")
+    allow(Rails.configuration.x).to receive(:mock_azure).and_return(false)
     Rails.application.reload_routes!
   end
 
   describe "GET users/mock_azure" do
     before do
-      allow(Rails.configuration.x).to receive(:mock_azure).and_return("true")
+      allow(Rails.configuration.x).to receive(:mock_azure).and_return(true)
       allow(Rails.configuration.x).to receive(:mock_azure_password).and_return("mockazurepassword")
       Rails.application.reload_routes!
       get user_session_path
@@ -25,7 +25,7 @@ RSpec.describe Users::MockAzureController, type: :request do
   describe "POST users/mock_azure#create" do
     before do
       user
-      allow(Rails.configuration.x).to receive(:mock_azure).and_return("true")
+      allow(Rails.configuration.x).to receive(:mock_azure).and_return(true)
       allow(Rails.configuration.x).to receive(:mock_azure_password).and_return("mockazurepassword")
       Rails.application.reload_routes!
       post user_session_path, params:
