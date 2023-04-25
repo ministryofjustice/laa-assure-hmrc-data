@@ -1,19 +1,13 @@
-<h2 class="govuk-heading-m"><%= t('.page_heading') %></h1>
+<h2 class="govuk-heading-m"><%= t('.page_heading') %></h2>
 
 <div class="govuk-grid-row">
   <div class="govuk-grid-column-two-thirds">
     <%= form_with(model: resource, scope: resource_name, url: user_session_path(resource_name)) do |f| %>
-      <div>
-        <%= f.govuk_email_field :email, label: { text: t('.email') }, autofocus: true, autocomplete: 'email' %>
-      </div>
+      <%= f.govuk_email_field :email, label: { text: t('.email') }, autofocus: true, autocomplete: 'email' %>
 
-      <div>
-        <%= f.govuk_password_field :password, label: { text: t('.password')}, autocomplete: 'current-password' %>
-      </div>
+      <%= f.govuk_password_field :password, label: { text: t('.password')}, autocomplete: 'current-password' %>
 
-      <div>
-        <%= f.govuk_submit t('.login') %>
-      </div>
+      <%= f.govuk_submit t('.login') %>
     <% end %>
   </div>
 </div>
