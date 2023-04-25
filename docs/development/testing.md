@@ -47,3 +47,7 @@ end
 ```
 
 see `spec/system/support/omniauth_helper.rb` for more details
+
+# UAT
+
+In UAT we do not make calls to azure to authenticate users. Instead we allow users to authenticate with a username (email) and password. The password can be obtained from the mock_azure_password secret.
