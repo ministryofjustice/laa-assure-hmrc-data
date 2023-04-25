@@ -114,9 +114,11 @@ env:
         key: bucket_name
   - name: MOCK_AZURE
     value: {{ .Values.mock_azure.enabled | quote }}
+  {{ if .Values.mock_azure.enabled }}
   - name: MOCK_AZURE_PASSWORD
     valueFrom:
       secretKeyRef:
         name: assure-hmrc-data-application-output
         key: mock_azure_password
+  {{ end }}
 {{- end }}
