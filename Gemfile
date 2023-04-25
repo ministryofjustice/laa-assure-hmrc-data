@@ -13,7 +13,7 @@ gem "govuk_design_system_formbuilder"
 gem "jsbundling-rails"
 gem 'omniauth_openid_connect'
 gem "omniauth-rails_csrf_protection"
-gem "pg", "~> 1.4"
+gem "pg", "~> 1.5"
 gem "propshaft"
 gem "puma", "~> 6.2"
 gem "rails", "~> 7.0.4"
