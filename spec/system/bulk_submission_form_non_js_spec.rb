@@ -32,10 +32,7 @@ RSpec.describe "sign in", type: :system do
         expect(page).to have_selector(".govuk-body", text: "Files uploaded will appear here")
       end
 
-      attach_file(file_fixture("basic_bulk_submission.csv")) do
-        page.find("#bulk-submission-form-uploaded-file-field").click
-      end
-
+      attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))
       click_button "Upload"
 
       within("#uploaded-files-table-container") do
@@ -58,20 +55,14 @@ RSpec.describe "sign in", type: :system do
         expect(page).to have_selector(".govuk-body", text: "Files uploaded will appear here")
       end
 
-      attach_file(file_fixture("basic_bulk_submission.csv")) do
-        page.find("#bulk-submission-form-uploaded-file-field").click
-      end
-
+      attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))
       click_button "Upload"
 
       within("#uploaded-files-table-container") do
         expect(page).to have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
       end
 
-      attach_file(file_fixture("basic_bulk_submission_copy.csv")) do
-        page.find("#bulk-submission-form-uploaded-file-field").click
-      end
-
+      attach_file('uploaded_file', file_fixture("basic_bulk_submission_copy.csv"))
       click_button "Upload"
 
       within("#uploaded-files-table-container") do
