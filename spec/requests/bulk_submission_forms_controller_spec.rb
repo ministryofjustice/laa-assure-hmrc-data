@@ -263,13 +263,31 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
     end
 
     context "without file added and continue pressed" do
-      let(:commit) { "continue" }
-
-      let(:bulk_submission_form_params) { { commit: } }
+      let(:bulk_submission_form_params) { { commit: "continue" } }
 
       it "redirects to index" do
         patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
         expect(response).to redirect_to(bulk_submissions_path)
+      end
+    end
+
+    # NOTE: this scenario cannot occur in the app but is used for coverage
+    # In reality it should never be possible to have a bulk submission
+    # with no original_file which is on the edit page.
+    context "with invalid form and continue pressed" do
+      let(:bulk_submission_form_params) { { commit: "continue" } }
+
+      let(:bulk_submission) do
+        BulkSubmission.create!(
+          user_id: user.id,
+          original_file: nil
+        )
+      end
+
+      it "renders edit" do
+        patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        expect(response).to render_template(:edit)
+        expect(response.body).to include("You must select a file to upload")
       end
     end
   end
