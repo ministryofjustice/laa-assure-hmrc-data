@@ -74,3 +74,8 @@ $ rails console
 
 > User.create!(email: '<your justice email address>', auth_provider: 'azure_ad')
 ```
+
+### Mock azure login
+
+If the MOCK_AZURE env var is set to "true" it will be possible to bypass azure authentication and login
+as any user that exists in the database, using user's email and password as the value contained in the MOCK_AZURE_PASSWORD env var.

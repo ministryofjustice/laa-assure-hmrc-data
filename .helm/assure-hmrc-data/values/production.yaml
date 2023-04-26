@@ -38,3 +38,6 @@ branch_builder:
   enabled: false
   database_name: null
   omniauth_azure_redirect_uri: null
+
+mock_azure:
+  enabled: false
