@@ -23,11 +23,11 @@ spec:
   {{- if .Values.ingress.tls }}
   tls:
     {{- range .Values.ingress.tls }}
+    {{- range .hosts }}
     - hosts:
-        {{- range .hosts }}
-        - {{ . | quote }}
-        {{- end }}
+      - {{ .domain | quote }}
       secretName: {{ .secretName }}
+    {{- end }}
     {{- end }}
   {{- end }}
   rules:
