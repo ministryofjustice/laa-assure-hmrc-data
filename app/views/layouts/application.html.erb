@@ -38,11 +38,11 @@
 
     <%= govuk_header(service_name: t("service.name")) do |header| %>
       <% if current_user %>
-        <%= header.navigation_item(text: current_user.full_name,
+        <%= header.with_navigation_item(text: current_user.full_name,
                                    href: user_path(current_user.id),
                                    active: current_page?(user_path(current_user&.id))) %>
 
-        <%= header.navigation_item(text: "Sign out",
+        <%= header.with_navigation_item(text: "Sign out",
                                    href: destroy_user_session_path,
                                    active: false) %>
       <% end %>
