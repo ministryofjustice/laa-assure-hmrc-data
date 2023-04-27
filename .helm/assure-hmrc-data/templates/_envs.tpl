@@ -121,4 +121,9 @@ env:
         name: assure-hmrc-data-application-output
         key: mock_azure_password
   {{ end }}
+  - name: REDIS_URL
+    valueFrom:
+      secretKeyRef:
+        name: elasticache
+        key: redis_url
 {{- end }}
