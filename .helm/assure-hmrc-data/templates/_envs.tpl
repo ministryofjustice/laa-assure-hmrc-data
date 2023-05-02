@@ -126,4 +126,14 @@ env:
       secretKeyRef:
         name: elasticache
         key: redis_url
+  - name: SIDEKIQ_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: sidekiq_username
+  - name: SIDEKIQ_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: sidekiq_password
 {{- end }}
