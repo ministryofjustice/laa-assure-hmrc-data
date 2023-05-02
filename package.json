@@ -2,8 +2,8 @@
   "name": "app",
   "private": "true",
   "dependencies": {
-    "esbuild": "^0.17.18",
     "dropzone": "^6.0.0-beta.2",
+    "esbuild": "^0.17.18",
     "govuk-frontend": "4.6.0",
     "sass": "^1.62.1"
   },
@@ -16,6 +16,7 @@
   "devDependencies": {
     "@prettier/plugin-ruby": "^3.2.2",
     "prettier": "^2.8.8",
+    "postcss": "^8.4.19",
     "standard": "^17.0.0",
     "stylelint": "^14.16.1",
     "stylelint-config-gds": "^0.3.0",
