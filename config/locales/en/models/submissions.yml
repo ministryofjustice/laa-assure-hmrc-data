@@ -1,0 +1,23 @@
+---
+en:
+  activerecord:
+    errors:
+      models:
+        submission:
+          attributes:
+            first_name:
+              blank: Provide a first name
+            last_name:
+              blank: Provide a last name
+            nino:
+              blank: Provide a nino (national insurance number)
+              invalid_format: '"%{value}" is not a valid national insurance number'
+            period_end_at:
+              in_future: End date cannot be in the future
+              invalid_period: End date cannot be before Start date
+            period_start_at:
+              in_future: Start date cannot be in the future
+              invalid_period: Start date cannot be after end date
+            use_case:
+              blank: Provide a use case
+              inclusion: '"%{value}" is not a valid use case'
