@@ -51,11 +51,6 @@ module LaaAssureHmrcData
     config.active_record.encryption.deterministic_key = ENV.fetch("AR_ENCRYPTION_DETERMINISTIC_KEY", "fake-deterministic-key")
     config.active_record.encryption.key_derivation_salt = ENV.fetch("AR_ENCRYPTION_KEY_DERIVATION_SALT", "fake-key-derivation-salt")
 
-    # HMRC interface api connection details
-    config.x.hmrc_interface.host = ENV.fetch("HMRC_INTERFACE_HOST", nil)
-    config.x.hmrc_interface.client_id = ENV.fetch("HMRC_INTERFACE_UID", nil)
-    config.x.hmrc_interface.client_secret = ENV.fetch("HMRC_INTERFACE_SECRET", nil)
-
     config.x.mock_azure = ENV.fetch("MOCK_AZURE", "false")=="true"
     config.x.mock_azure_password = ENV.fetch("MOCK_AZURE_PASSWORD", nil)
   end
