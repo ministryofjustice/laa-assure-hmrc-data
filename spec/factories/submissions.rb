@@ -28,5 +28,16 @@ FactoryBot.define do
     trait :failed do
       status { :failed }
     end
+
+    trait :for_sandbox_applicant do
+      period_start_at { "2020-10-01".to_date }
+      period_end_at { "2020-12-31".to_date }
+      use_case { :one }
+      first_name { "Langley" }
+      last_name { "Yorke"}
+      dob { "1992-07-22".to_date }
+      nino { "MN212451D" }
+      status { :processing }
+    end
   end
 end

@@ -11,6 +11,7 @@ gem 'dotenv-rails'
 gem "govuk-components"
 gem "govuk_design_system_formbuilder"
 gem "jsbundling-rails"
+gem "nesty"
 gem "oauth2"
 gem 'omniauth_openid_connect'
 gem "omniauth-rails_csrf_protection"

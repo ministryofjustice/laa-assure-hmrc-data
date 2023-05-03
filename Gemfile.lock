@@ -220,6 +220,7 @@ GEM
     minitest (5.18.0)
     msgpack (1.7.0)
     multi_xml (0.6.0)
+    nesty (1.0.2)
     net-imap (0.3.4)
       date
       net-protocol
@@ -511,6 +512,7 @@ DEPENDENCIES
   govuk_design_system_formbuilder
   i18n-tasks
   jsbundling-rails
+  nesty
   oauth2
   omniauth-rails_csrf_protection
   omniauth_openid_connect

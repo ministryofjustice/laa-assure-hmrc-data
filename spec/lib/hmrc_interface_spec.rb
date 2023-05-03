@@ -6,6 +6,8 @@ RSpec.describe HmrcInterface do
   describe ".client" do
     subject(:client) { described_class.client }
 
+    include_context "with stubbed host and bearer token"
+
     it { is_expected.to be_instance_of(described_class::Client) }
   end
 

@@ -1,7 +1,5 @@
 # This file is copied to spec/ when you run 'rails generate rspec:install'
 require "spec_helper"
-require_relative "support/factory_bot"
-require_relative "mock_azure_ad_auth_hash"
 
 ENV["RAILS_ENV"] ||= "test"
 require_relative "../config/environment"
@@ -11,6 +9,9 @@ if Rails.env.production?
 end
 require "rspec/rails"
 # Add additional requires below this line. Rails is not loaded until this point!
+
+Dir[Rails.root.join('spec/support/**/*.rb')].each { |file| require file }
+
 
 # Requires supporting ruby files with custom matchers and macros, etc, in
 # spec/support/ and its subdirectories. Files matching `spec/**/*_spec.rb` are
