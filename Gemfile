@@ -11,6 +11,7 @@ gem 'dotenv-rails'
 gem "govuk-components"
 gem "govuk_design_system_formbuilder"
 gem "jsbundling-rails"
+gem "oauth2"
 gem 'omniauth_openid_connect'
 gem "omniauth-rails_csrf_protection"
 gem "pg", "~> 1.5"
@@ -54,4 +55,5 @@ group :test, :development do
   gem "overcommit"
   gem "rspec"
   gem "rspec-rails"
+  gem "webmock"
 end
