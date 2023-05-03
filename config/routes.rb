@@ -13,7 +13,7 @@ Rails.application.routes.draw do
     # - See https://thisdata.com/blog/timing-attacks-against-string-comparison/
     # - Use & (do not use &&) so that it doesn't short circuit.
     # - Use digests to stop length information leaking
-    secure_compare(username, ENV['SIDEKIQ_USERNAME']) & secure_compare(password, ENV['SIDEKIQ_PASSWORD'])
+    secure_compare(username, ENV['SIDEKIQ_WEB_UI_USERNAME']) & secure_compare(password, ENV['SIDEKIQ_WEB_UI_PASSWORD'])
   end
 
   devise_for :users,
