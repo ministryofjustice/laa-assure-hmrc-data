@@ -121,4 +121,19 @@ env:
         name: assure-hmrc-data-application-output
         key: mock_azure_password
   {{ end }}
+  - name: REDIS_URL
+    valueFrom:
+      secretKeyRef:
+        name: elasticache
+        key: redis_url
+  - name: SIDEKIQ_WEB_UI_USERNAME
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: sidekiq_web_ui_username
+  - name: SIDEKIQ_WEB_UI_PASSWORD
+    valueFrom:
+      secretKeyRef:
+        name: assure-hmrc-data-application-output
+        key: sidekiq_web_ui_password
 {{- end }}

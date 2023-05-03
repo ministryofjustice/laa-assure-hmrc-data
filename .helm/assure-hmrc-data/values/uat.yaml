@@ -46,3 +46,6 @@ branch_builder:
 
 mock_azure:
   enabled: true
+
+worker:
+  replicaCount: 1

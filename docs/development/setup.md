@@ -9,6 +9,8 @@ This project depends on:
 - [NodeJS](https://nodejs.org/)
 - [Yarn](https://yarnpkg.com/)
 - [Postgres](https://www.postgresql.org/)
+- [Sidekiq](https://github.com/sidekiq/sidekiq)
+- [Redis](https://redis.io)
 
 ### Inital setup
 
@@ -29,6 +31,8 @@ bin/dev
 # OR
 yarn build && yarn build:css # first time or when asset changes applied
 bin/rails server
+bundle exec sidekiq
+redis-server
 ```
 
 ### Authentication with Azure AD

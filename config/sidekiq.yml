@@ -1,0 +1,9 @@
+---
+:queues:
+  - default
+
+scheduler:
+  :schedule:
+    base_worker:
+      cron: '0 21 * * *'
+      class: BaseWorker

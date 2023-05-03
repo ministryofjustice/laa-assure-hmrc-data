@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: {{ template "assure-hmrc-data.fullname" . }}-worker
+  labels:
+    {{- include "assure-hmrc-data.labels" . | nindent 4 }}
+spec:
+  replicas: {{ .Values.worker.replicaCount }}
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 100%
+  selector:
+    matchLabels:
+      app: {{ template "assure-hmrc-data.name" . }}
+      release: {{ .Release.Name }}
+  template:
+    metadata:
+      labels:
+        {{- include "assure-hmrc-data.selectorLabels" . | nindent 8 }}
+    spec:
+      containers:
+        - name: worker
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+          imagePullPolicy: IfNotPresent
+          command: ['bundle', 'exec', 'sidekiq']
+{{ include "assure-hmrc-data.envs" . | nindent 10 }}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 10m
+              memory: 512Mi
+          ports:
+            - containerPort: 7433
+          livenessProbe:
+            exec:
+              command: ['bin/sidekiq_health_check']
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          readinessProbe:
+            exec:
+              command: ['bin/sidekiq_health_check']
+            initialDelaySeconds: 60
+            timeoutSeconds: 5
+          lifecycle:
+            preStop:
+              exec:
+                command: ['bundle', 'exec', 'sidekiqctl', 'quiet']
+      terminationGracePeriodSeconds: 60

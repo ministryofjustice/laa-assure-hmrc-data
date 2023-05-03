@@ -1,4 +1,21 @@
+require "sidekiq/web"
+
+# Configure Sidekiq-specific session middleware
+Sidekiq::Web.use ActionDispatch::Cookies
+Sidekiq::Web.use Rails.application.config.session_store, Rails.application.config.session_options
+
 Rails.application.routes.draw do
+  mount Sidekiq::Web => "/sidekiq"
+
+  Sidekiq::Web.use Rack::Auth::Basic do |username, password|
+    # Protect against timing attacks:
+    # - See https://codahale.com/a-lesson-in-timing-attacks/
+    # - See https://thisdata.com/blog/timing-attacks-against-string-comparison/
+    # - Use & (do not use &&) so that it doesn't short circuit.
+    # - Use digests to stop length information leaking
+    secure_compare(username, ENV['SIDEKIQ_WEB_UI_USERNAME']) & secure_compare(password, ENV['SIDEKIQ_WEB_UI_PASSWORD'])
+  end
+
   devise_for :users,
     controllers: {
       omniauth_callbacks: 'users/omniauth_callbacks'
@@ -34,4 +51,8 @@ Rails.application.routes.draw do
     get "/429", to: "errors#too_many_requests"
     get "/500", to: "errors#internal_server_error"
   end
+end
+
+def secure_compare(passed, stored)
+  Rack::Utils.secure_compare(::Digest::SHA256.hexdigest(passed), ::Digest::SHA256.hexdigest(stored))
 end

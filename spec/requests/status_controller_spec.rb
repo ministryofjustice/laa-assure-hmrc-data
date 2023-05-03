@@ -2,6 +2,15 @@ require "rails_helper"
 
 RSpec.describe StatusController do
   describe "#healthcheck" do
+    before do
+      allow(ActiveRecord::Base.connection).to receive(:active?).and_return(true)
+      allow(Sidekiq::ProcessSet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 1))
+      allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 0))
+      allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 0))
+      connection = instance_double("connection", info: {})
+      allow(Sidekiq).to receive(:redis).and_yield(connection)
+    end
+
     context "when there is a problem with the database" do
       before do
         allow(ActiveRecord::Base.connection).to receive(:active?).and_raise(PG::ConnectionBad, "error")
@@ -12,6 +21,9 @@ RSpec.describe StatusController do
         {
           checks: {
             database: false,
+            redis: true,
+            sidekiq: true,
+            sidekiq_queue: true,
           }
         }.to_json
       end
@@ -25,9 +37,51 @@ RSpec.describe StatusController do
       end
     end
 
+    context "when failed Sidekiq jobs exist" do
+      before do
+        allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 1))
+        get "/healthcheck"
+      end
+
+      let(:failed_job_healthcheck) do
+        {
+          checks: {
+            database: true,
+            redis: true,
+            sidekiq: true,
+            sidekiq_queue: false,
+          },
+        }.to_json
+      end
+
+      context "when dead set exists" do
+        before do
+          allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 1))
+          get "/healthcheck"
+        end
+
+        it "returns ok http status" do
+          expect(response).to have_http_status :ok
+        end
+
+        it "returns the expected response report" do
+          expect(response.body).to eq(failed_job_healthcheck)
+        end
+      end
+
+      context "when retry set exists" do
+        it "returns ok http status" do
+          expect(response).to have_http_status :ok
+        end
+
+        it "returns the expected response report" do
+          expect(response.body).to eq(failed_job_healthcheck)
+        end
+      end
+    end
+
     context "when everything is ok" do
       before do
-        allow(ActiveRecord::Base.connection).to receive(:active?).and_return(true)
         get "/healthcheck"
       end
 
@@ -35,6 +89,9 @@ RSpec.describe StatusController do
         {
           checks: {
             database: true,
+            redis: true,
+            sidekiq: true,
+            sidekiq_queue: true,
           },
         }.to_json
       end
