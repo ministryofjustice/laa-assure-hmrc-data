@@ -15,7 +15,7 @@ RSpec.describe "sign in", type: :system do
 
     it "user can view index/list of bulk submissions and delete them" do
       visit "/bulk_submissions"
-      expect(page).to have_content("Information requests")
+      expect(page).to have_content("Checked details")
 
       click_link "Make a new request"
       expect(page).to have_content("Upload a file")
@@ -23,7 +23,7 @@ RSpec.describe "sign in", type: :system do
       attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))
       click_button "Upload"
       click_button "Save and continue"
-      expect(page).to have_content("Information requests")
+      expect(page).to have_content("Checked details")
 
       within(".govuk-table") do
         expect(page)

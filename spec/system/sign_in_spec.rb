@@ -18,7 +18,7 @@ RSpec.describe "sign in", type: :system do
       visit "/"
       click_button "Start now"
       expect(page)
-        .to have_content("Information requests")
+        .to have_content("Checked details")
         .and have_link("Jim Bob")
         .and have_link("Sign out")
     end
@@ -34,7 +34,7 @@ RSpec.describe "sign in", type: :system do
       click_button "Start now"
 
       expect(page)
-        .to have_content("Information requests")
+        .to have_content("Checked details")
         .and have_link("Sign out")
     end
   end
