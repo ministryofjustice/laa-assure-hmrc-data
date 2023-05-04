@@ -45,6 +45,7 @@ module LaaAssureHmrcData
     config.x.status.build_date = ENV.fetch("APP_BUILD_DATE", "Not Available")
     config.x.status.build_tag = ENV.fetch("APP_BUILD_TAG", "Not Available")
     config.x.status.git_commit = ENV.fetch("APP_GIT_COMMIT", "Not Available")
+    config.x.status.branch_name = ENV.fetch("APP_BRANCH", "Not Available")
 
     # ActiveRecord::Encryption keys generated with `bin/rails db:encryption:init`
     config.active_record.encryption.primary_key = ENV.fetch("AR_ENCRYPTION_PRIMARY_KEY", "fake-primary-key")
