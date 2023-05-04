@@ -17,7 +17,7 @@ RSpec.describe "sign in", type: :system do
       visit "/bulk_submissions"
       expect(page).to have_content("Checked details")
 
-      click_link "Make a new request"
+      click_link "Check new details"
       expect(page).to have_content("Upload a file")
 
       attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))

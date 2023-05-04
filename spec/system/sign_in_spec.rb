@@ -17,8 +17,11 @@ RSpec.describe "sign in", type: :system do
     it "takes user to home page" do
       visit "/"
       click_button "Start now"
+      expect(page).to have_selector(".govuk-header__navigation-item--active")
+      
       expect(page)
         .to have_content("Checked details")
+        .and have_css(".govuk-header__navigation-item--active", text: "Checked details")
         .and have_link("Jim Bob")
         .and have_link("Sign out")
     end
