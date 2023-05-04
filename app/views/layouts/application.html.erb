@@ -38,17 +38,20 @@
 
     <%= govuk_header(service_name: t("service.name")) do |header| %>
       <% if current_user %>
-        <%= header.with_navigation_item(text: t("layouts.checked_details"),
-                                        href: bulk_submissions_path,
-                                        active: current_page?(bulk_submissions_path) || current_page?(authenticated_root_path)) %>
+        <%= header.with_navigation_item(
+          text: t("layouts.checked_details"),
+          href: bulk_submissions_path,
+          active: current_page?(bulk_submissions_path) || current_page?(authenticated_root_path)) %>
 
-        <%= header.with_navigation_item(text: current_user.full_name,
-                                        href: user_path(current_user.id),
-                                        active: current_page?(user_path(current_user&.id))) %>
+        <%= header.with_navigation_item(
+          text: current_user.full_name,
+          href: user_path(current_user.id),
+          active: current_page?(user_path(current_user&.id))) %>
 
-        <%= header.with_navigation_item(text: t("layouts.sign_out"),
-                                        href: destroy_user_session_path,
-                                        active: false) %>
+        <%= header.with_navigation_item(
+          text: t("layouts.sign_out"),
+          href: destroy_user_session_path,
+          active: false) %>
       <% end %>
     <% end %>
 
