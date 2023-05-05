@@ -2,5 +2,7 @@
 en:
   pages:
     landing:
-      blurb: Blurb about purpose of app...
+      blurb1: Use this service to check if information in civil and criminal legal aid applications is the same as data provided by HMRC.
+      blurb2: Only members of the Core Assurance and Risk Management (CARM) team who have been authorised can use this service.
+      service_user: Who can use this service
       start_button: Start now

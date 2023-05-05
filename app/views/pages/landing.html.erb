@@ -3,7 +3,13 @@
     <h1 class="govuk-heading-xl"><%= t("service.name") %></h1>
 
     <p class="govuk-body">
-      <%= t(".blurb") %>
+      <%= t(".blurb1") %>
+    </p>
+    <p class="govuk-heading-m">
+      <%= t(".service_user") %>
+    </p>
+    <p class="govuk-body">
+      <%= t(".blurb2") %>
     </p>
     <% if Rails.configuration.x.mock_azure %>
       <%= govuk_start_button(text: t(".start_button"),

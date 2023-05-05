@@ -10,8 +10,8 @@ RSpec.describe BulkSubmissionsController, type: :request do
       get bulk_submissions_path
       expect(response).to have_http_status(:success)
       expect(response).to render_template(:index)
-      expect(response.body).to include("Information requests")
-      expect(response.body).to include("Make a new request")
+      expect(response.body).to include("Checked details")
+      expect(response.body).to include("Check new details")
     end
   end
 
