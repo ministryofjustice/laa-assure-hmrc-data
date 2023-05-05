@@ -3,7 +3,7 @@
 #
 unless ENV["NOCOVERAGE"]
   SimpleCov.start "rails" do
-    minimum_coverage 95
+    minimum_coverage 100
     enable_coverage :branch
     refuse_coverage_drop :line, :branch
 
