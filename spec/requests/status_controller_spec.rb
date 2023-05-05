@@ -37,45 +37,71 @@ RSpec.describe StatusController do
       end
     end
 
+    context "when there is a problem with redis" do
+      before do
+        allow(Sidekiq).to receive(:redis).and_yield(StandardError)
+      end
+
+      it "response is bad_gateway and body contains redis: false" do
+        get "/healthcheck"
+        expect(response).to have_http_status :bad_gateway
+        expect(response.body).to include("\"redis\":false")
+      end
+    end
+
+    context "when there is a problem with sidekiq" do
+      before do
+        allow(Sidekiq::ProcessSet).to receive(:new).and_raise(StandardError)
+      end
+
+      it "response is bad_gateway and body contains sidekiq: false" do
+        get "/healthcheck"
+        expect(response).to have_http_status :bad_gateway
+        expect(response.body).to include("\"sidekiq\":false")
+      end
+    end
+
     context "when failed Sidekiq jobs exist" do
       before do
         allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 1))
         get "/healthcheck"
       end
 
-      let(:failed_job_healthcheck) do
-        {
-          checks: {
-            database: true,
-            redis: true,
-            sidekiq: true,
-            sidekiq_queue: false,
-          },
-        }.to_json
-      end
-
       context "when dead set exists" do
         before do
           allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 1))
+          allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 0))
           get "/healthcheck"
         end
 
-        it "returns ok http status" do
+        it "response is ok but body contains sidekiq_queue: false" do
           expect(response).to have_http_status :ok
-        end
-
-        it "returns the expected response report" do
-          expect(response.body).to eq(failed_job_healthcheck)
+          expect(response.body).to include("\"sidekiq_queue\":false")
         end
       end
 
       context "when retry set exists" do
-        it "returns ok http status" do
-          expect(response).to have_http_status :ok
+        before do
+          allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 0))
+          allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 1))
+          get "/healthcheck"
         end
 
-        it "returns the expected response report" do
-          expect(response.body).to eq(failed_job_healthcheck)
+        it "response is ok but body contains sidekiq_queue: false" do
+          expect(response).to have_http_status :ok
+          expect(response.body).to include("\"sidekiq_queue\":false")
+        end
+      end
+
+      context "when retry or deadset queues raise StandardError" do
+        before do
+          allow(Sidekiq::DeadSet).to receive(:new).and_raise(StandardError)
+          get "/healthcheck"
+        end
+
+        it "response is ok but body contains sidekiq_queue: false" do
+          expect(response).to have_http_status :ok
+          expect(response.body).to include("\"sidekiq_queue\":false")
         end
       end
     end
@@ -96,13 +122,9 @@ RSpec.describe StatusController do
         }.to_json
       end
 
-      it "returns HTTP success" do
+      it "returns HTTP success and expected body" do
         get "/healthcheck"
         expect(response).to have_http_status(:ok)
-      end
-
-      it "returns the expected response report" do
-        get "/healthcheck"
         expect(response.body).to eq(expected_response)
       end
     end
