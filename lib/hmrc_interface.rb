@@ -2,6 +2,7 @@ require 'hmrc_interface/configuration'
 require 'hmrc_interface/connection'
 require 'hmrc_interface/client'
 require 'hmrc_interface/error'
+require 'hmrc_interface/request/submission'
 
 module HmrcInterface
   class << self

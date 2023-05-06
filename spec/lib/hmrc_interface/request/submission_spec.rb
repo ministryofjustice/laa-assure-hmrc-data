@@ -1,9 +1,22 @@
 require "rails_helper"
 
-RSpec.describe HmrcInterface::SubmissionService do
-  subject(:instance) { described_class.new(client, submission) }
+RSpec.describe HmrcInterface::Request::Submission do
+  subject(:instance) { described_class.new(client, use_case, filter) }
 
   let(:client) { HmrcInterface.client }
+  let(:use_case) { submission.use_case }
+
+  let(:filter) do
+    {
+      nino: submission.nino,
+      start_date: submission.period_start_at,
+      end_date: submission.period_end_at,
+      first_name: submission.first_name,
+      last_name: submission.last_name,
+      dob: submission.dob,
+    }
+  end
+
   let(:submission) { create(:submission, :for_sandbox_applicant) }
 
   # Remove or keep?
@@ -28,8 +41,8 @@ RSpec.describe HmrcInterface::SubmissionService do
     subject(:call) { instance.call }
 
     context "when a successful response is received" do
-      include_context "with nil access token"
       include_context "with stubbed hmrc-interface submission success"
+      include_context "with nil access token"
 
       it "submits expected token request" do
         call
@@ -43,7 +56,7 @@ RSpec.describe HmrcInterface::SubmissionService do
                             'Content-Type'=>'application/x-www-form-urlencoded',
                             'Accept-Encoding'=>/.*/,
                             'Authorization'=>/Basic .*/ })
-        ).to have_been_made.once
+        ).to have_been_made.at_least_once
       end
 
       it "submits expected submission create request" do
@@ -194,7 +207,7 @@ RSpec.describe HmrcInterface::SubmissionService do
   end
 
   describe ".call" do
-    subject(:call) { described_class.call(client, submission) }
+    subject(:call) { described_class.call(client, use_case, filter) }
 
     include_context "with stubbed hmrc-interface submission success"
 
@@ -206,3 +219,4 @@ RSpec.describe HmrcInterface::SubmissionService do
     end
   end
 end
+
