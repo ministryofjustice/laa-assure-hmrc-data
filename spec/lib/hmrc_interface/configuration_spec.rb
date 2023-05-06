@@ -54,6 +54,103 @@ RSpec.describe HmrcInterface::Configuration do
     end
   end
 
+  describe "#logger" do
+    subject(:logger) { config.logger }
+
+    let(:config) { described_class.new }
+
+    context "with custom logger configured" do
+      before { config.logger = custom_logger }
+
+      let(:custom_logger) { logger_klass.new }
+
+      let(:logger_klass) do
+        Class.new do
+          def info
+          end
+          def warn
+          end
+          def error
+          end
+          def fatal
+          end
+          def debug
+          end
+        end
+      end
+
+      it "sets logger without errors" do
+        expect(config.logger).to be custom_logger
+      end
+    end
+
+    context "with no logger configured and using rails" do
+      before do
+        stub_const("Rails", rails)
+        allow(rails).to receive(:logger).and_return(rails_logger)
+      end
+
+      let(:rails) { class_double("Rails") }
+      let(:rails_logger) { Class.new }
+
+      it "defaults to using Rails.logger" do
+        expect(logger).to be rails_logger
+      end
+    end
+
+    context "with no logger configured and not using rails" do
+      before do
+        allow(Logger).to receive(:new).with($stdout).and_return(ruby_logger)
+      end
+
+      let(:ruby_logger) { instance_double(Logger)}
+
+      # rubocop:disable RSpec/LeakyConstantDeclaration
+      around do |example|
+        TempRails = Object.send(:remove_const, :Rails)
+        example.run
+      ensure
+        Rails = TempRails
+        Object.send(:remove_const, :TempRails)
+      end
+      # rubocop:enable RSpec/LeakyConstantDeclaration
+
+      it "defaults to using ruby standard library Logger" do
+        expect(logger).to be ruby_logger
+      end
+    end
+  end
+
+  describe "#logger=" do
+    let(:config) { described_class.new }
+
+    context "with logger that responds to expected methods" do
+      let(:logger) { Logger.new($stdout) }
+
+      it "sets logger without errors" do
+        expect { config.logger = logger }.not_to raise_error
+        expect(config.logger).to be logger
+      end
+    end
+
+    context "with logger that does not respond to all expected methods" do
+      let(:logger) { logger_klass.new }
+
+      let(:logger_klass) do
+        Class.new do
+          def info
+          end
+        end
+      end
+
+      it "raises HmrcInterface::ConfigurationError with expected message" do
+        expect { config.logger = logger }
+          .to raise_error HmrcInterface::ConfigurationError,
+                            "configured logger must respond to info, warn, error, fatal, debug"
+      end
+    end
+  end
+
   describe "#test_mode?" do
     subject(:call) { config.test_mode? }
 

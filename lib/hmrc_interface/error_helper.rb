@@ -1,7 +1,9 @@
 module HmrcInterface
   module ErrorHelper
+    delegate :config, to: HmrcInterface
+
     def handle_request_error(error, http_method = "POST")
-      log_and_raise_error(
+      log_and_raise_request_error(
         message: formatted_error_message(error),
         backtrace: error.backtrace&.join("\n"),
         http_method:,
@@ -9,9 +11,8 @@ module HmrcInterface
       )
     end
 
-    # TDOD: inject logger from config
-    def log_and_raise_error(message:, backtrace: nil, http_method: "POST", http_status: nil)
-      Rails.logger.info { { message:, backtrace:, method: http_method, http_status: } }
+    def log_and_raise_request_error(message:, backtrace: nil, http_method: "POST", http_status: nil)
+      config.logger.info { { message:, backtrace:, method: http_method, http_status: } }
       raise HmrcInterface::RequestError.new(message, http_status)
     end
 

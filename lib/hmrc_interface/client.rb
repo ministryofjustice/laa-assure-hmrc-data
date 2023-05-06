@@ -2,7 +2,7 @@ require 'forwardable'
 
 module HmrcInterface
   class Client
-    delegate :configuration, to: HmrcInterface
+    delegate :configuration, :config, to: HmrcInterface
     delegate :host, to: :configuration
 
     attr_reader :connection
