@@ -12,7 +12,7 @@ module HmrcInterface
     # TDOD: inject logger from config
     def log_and_raise_error(message:, backtrace: nil, http_method: "POST", http_status: nil)
       Rails.logger.info { { message:, backtrace:, method: http_method, http_status: } }
-      raise HmrcInterface::Error.new(message, http_status)
+      raise HmrcInterface::RequestError.new(message, http_status)
     end
 
     def formatted_error_message(err)

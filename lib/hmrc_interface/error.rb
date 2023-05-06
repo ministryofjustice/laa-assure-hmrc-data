@@ -1,5 +1,5 @@
 module HmrcInterface
-  class Error < StandardError
+  class RequestError < StandardError
     include Nesty::NestedError
 
     attr_reader :http_status
@@ -10,6 +10,9 @@ module HmrcInterface
     end
   end
 
-  class Unacceptable < StandardError
+  class RequestUnacceptable < StandardError
+  end
+
+  class ConfigurationError < StandardError
   end
 end

@@ -10,11 +10,11 @@ module HmrcInterface
       attr_reader :client, :use_case, :filter
       delegate :host, :connection, :headers, to: :client
 
-      def self.call(client, use_case, filter)
+      def self.call(client, use_case, filter = {})
         new(client, use_case, filter).call
       end
 
-      def initialize(client, use_case, filter)
+      def initialize(client, use_case, filter = {})
         @client = client
         @use_case = use_case
         @filter = Filter.new(**filter)
