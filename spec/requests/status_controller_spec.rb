@@ -137,13 +137,15 @@ RSpec.describe StatusController do
           "build_date" => "20220301",
           "build_tag" => "test",
           "git_commit" => "ab12345",
+          "app_branch" => "test_branch",
         }
       end
 
       before do
         allow(Rails.configuration.x.status).to receive_messages(build_date: "20220301",
                                                                 build_tag: "test",
-                                                                git_commit: "ab12345")
+                                                                git_commit: "ab12345",
+                                                                app_branch: "test_branch")
         get("/ping")
       end
 
@@ -156,7 +158,8 @@ RSpec.describe StatusController do
       before do
         allow(Rails.configuration.x.status).to receive_messages(build_date: "Not Available",
                                                                 build_tag: "Not Available",
-                                                                git_commit: "Not Available")
+                                                                git_commit: "Not Available",
+                                                                app_branch: "Not Available")
         get "/ping"
       end
 
