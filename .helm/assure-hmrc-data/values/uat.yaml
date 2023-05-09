@@ -49,3 +49,5 @@ mock_azure:
 
 worker:
   replicaCount: 1
+
+environment: uat
