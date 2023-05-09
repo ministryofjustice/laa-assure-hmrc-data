@@ -48,5 +48,5 @@ spec:
           lifecycle:
             preStop:
               exec:
-                command: ['bundle', 'exec', 'sidekiqctl', 'quiet']
+                command: ['bundle', 'exec', 'sidekiq', '-q', '{{ .Values.sidekiq.queue_name }}submissions', '-c', '1'] # queue_name is set in bin/uat_deploy
       terminationGracePeriodSeconds: 60

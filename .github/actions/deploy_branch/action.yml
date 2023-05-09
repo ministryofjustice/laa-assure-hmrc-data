@@ -69,6 +69,7 @@ runs:
           --set ingress.hosts="{$release_host}" \
           --set branch_builder.database_name=$RELEASE_NAME \
           --set branch_builder.omniauth_azure_redirect_uri="https://${release_host}/users/auth/azure_ad/callback" \
+          --set sidekiq.queue_name="$RELEASE_NAME-" \
           --values ${VALUES_FILE} \
           --install \
           --wait
