@@ -54,5 +54,7 @@ module LaaAssureHmrcData
 
     config.x.mock_azure = ENV.fetch("MOCK_AZURE", "false")=="true"
     config.x.mock_azure_password = ENV.fetch("MOCK_AZURE_PASSWORD", nil)
+
+    config.x.environment = ENV.fetch("ENVIRONMENT", nil)
   end
 end
