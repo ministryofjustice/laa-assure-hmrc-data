@@ -40,11 +40,46 @@ RSpec.shared_context "with stubbed hmrc-interface submission success" do
   end
 end
 
+RSpec.shared_context "with stubbed hmrc-interface result completed" do
+  include_context "with stubbed host and bearer token"
+
+  before do
+    stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
+      .to_return(
+        status: 200,
+        body: file_fixture("hmrc_interface_successful_result_response_body.json").read,
+        headers: { "Content-Type" => "application/json; charset=utf-8" },
+      )
+  end
+end
+
+RSpec.shared_context "with stubbed hmrc-interface result in_progress" do
+  include_context "with stubbed host and bearer token"
+
+  before do
+    stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
+      .to_return(
+        status: 200,
+        body: file_fixture("hmrc_interface_successful_result_response_body.json").read,
+        headers: { "Content-Type" => "application/json; charset=utf-8" },
+      )
+  end
+end
+
 RSpec.shared_context "with stubbed hmrc-interface submission StandardError" do
   include_context "with stubbed host and bearer token"
 
   before do
     stub_request(:post, %r{#{fake_host}/api/v1/submission/create/.*})
+      .to_raise(StandardError)
+  end
+end
+
+RSpec.shared_context "with stubbed hmrc-interface submission result StandardError" do
+  include_context "with stubbed host and bearer token"
+
+  before do
+    stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
       .to_raise(StandardError)
   end
 end

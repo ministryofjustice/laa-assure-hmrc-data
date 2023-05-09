@@ -57,7 +57,7 @@ module HmrcInterface
           request.body = request_body
         end
       rescue StandardError => e
-        handle_request_error(e)
+        handle_request_error(e, "POST")
       end
 
       def url_path

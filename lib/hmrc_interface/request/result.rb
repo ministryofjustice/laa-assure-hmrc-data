@@ -21,6 +21,10 @@ module HmrcInterface
         case response.status
         when 200, 202
           parsed_response
+        when 500
+          raise IncompleteSubmission, detailed_error(response.env.url,
+                                                     response.status,
+                                                     parsed_response)
         else
           raise RequestUnacceptable, detailed_error(response.env.url,
                                                     response.status,
@@ -31,9 +35,12 @@ module HmrcInterface
     private
 
       def request
-        conn.get(url_path)
+        connection.get do |request|
+          request.url url_path
+          request.headers = headers
+        end
       rescue StandardError => e
-        handle_request_error(e)
+        handle_request_error(e, "GET")
       end
 
       def url_path

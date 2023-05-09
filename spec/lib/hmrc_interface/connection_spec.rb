@@ -45,4 +45,12 @@ RSpec.describe HmrcInterface::Connection do
       expect(instance.connection).to have_received(:post)
      end
   end
+
+  describe "#get" do
+    it "is delegated to connection instance" do
+      allow(instance.connection).to receive(:get)
+      instance.get
+      expect(instance.connection).to have_received(:get)
+     end
+  end
 end

@@ -6,7 +6,7 @@ We use rspec for unit and system testing.
 rspec -fd
 ```
 
-# System testing
+## System testing
 
 System tests are configured to run using `:rack_test` driver by default. For javascript dependant system tests you can use `js: true` metadata to switch to a custom registered `:headless_chrome` driver.
 
@@ -33,7 +33,7 @@ BROWSER=true bundle exec rspec
 
 see `spec/system/support/*_helper.rb` for more details
 
-# Omniauth stubbing
+## Omniauth stubbing
 
 System tests use Omniauth config to stub a single user auth hash. As long as tests create a user that matches the `auth_subject_id` or `email` address and `auth_provider` for that user then you can sign in.
 
@@ -48,6 +48,6 @@ end
 
 see `spec/system/support/omniauth_helper.rb` for more details
 
-# UAT
+## UAT
 
 In UAT we do not make calls to azure to authenticate users. Instead we allow users to authenticate with a username (email) and password. The password can be obtained from the mock_azure_password secret.
