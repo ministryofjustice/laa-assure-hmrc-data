@@ -57,7 +57,12 @@ RSpec.configure do |config|
   #   # is tagged with `:focus`, all examples get run. RSpec also provides
   #   # aliases for `it`, `describe`, and `context` that include `:focus`
   #   # metadata: `fit`, `fdescribe` and `fcontext`, respectively.
-  #   config.filter_run_when_matching :focus
+  #
+  # NOTE: ENV['CI'] is a variable that is populated on github actions (and circleci),
+  # at least, which thereby prevents focused running in the CI pipeline.
+  #
+  config.filter_run_when_matching :focus unless ENV["CI"]
+
   #
   #   # Allows RSpec to persist some state between runs in order to support
   #   # the `--only-failures` and `--next-failure` CLI options. We recommend

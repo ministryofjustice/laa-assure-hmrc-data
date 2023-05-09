@@ -16,9 +16,39 @@ RSpec.describe HmrcInterface::Client do
       )
   end
 
-  it { is_expected.to respond_to :access_token, :bearer_token }
+  describe "#configuration" do
+    subject(:configuration) { client.configuration }
 
-  describe "#access_token", :stub_oauth_token do
+    include_context "with stubbed host"
+
+    it "is delegated to memoized HmrcInterface.configuration" do
+      expect(configuration).to eql(HmrcInterface.configuration)
+    end
+  end
+
+  describe "#host" do
+    subject(:host) { client.host }
+
+    include_context "with stubbed host"
+
+    it "is delegated to configuration#host" do
+      expect(host).to eql("https://fake-laa-hmrc-interface.service.justice.gov.uk")
+    end
+  end
+
+  describe "#headers" do
+    subject(:headers) { client.headers }
+
+    it "includes expected headers" do
+      expect(headers)
+        .to include("Accept" => "application/json",)
+        .and include("Content-Type" => "application/json")
+        .and include("Authorization" => "Bearer test-bearer-token")
+        .and include("User-Agent" => /laa-hmrc-interface-client\/\d{1}\.\d{1}\.\d{1}$/)
+    end
+  end
+
+  describe "#access_token" do
     subject(:access_token) { client.access_token }
 
     it { is_expected.to be_an ::OAuth2::AccessToken }

@@ -2,11 +2,24 @@ require 'forwardable'
 
 module HmrcInterface
   class Client
-    extend Forwardable
-    def_delegator HmrcInterface, :configuration
+    delegate :configuration, :config, to: HmrcInterface
+    delegate :host, to: :configuration
+
+    attr_reader :connection
 
     def initialize
       oauth_client
+      @connection = Connection.new(self)
+    end
+
+     def headers
+      configuration.headers.merge(
+        {
+          "Content-Type" => "application/json",
+          "Accept" => "application/json",
+          "Authorization" => "Bearer #{bearer_token}",
+        }
+      )
     end
 
     def bearer_token

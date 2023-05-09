@@ -19,6 +19,8 @@ Layout/LineLength:
   Exclude:
     - config/**/*.rb
     - db/**/*.rb
+    - spec/lib/hmrc_interface/request/submission_spec.rb
+    - spec/support/shared_contexts/hmrc_interface_stubs.rb
 
 Style/NumericLiterals:
   Exclude:

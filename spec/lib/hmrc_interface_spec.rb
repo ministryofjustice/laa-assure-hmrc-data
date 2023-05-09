@@ -6,6 +6,8 @@ RSpec.describe HmrcInterface do
   describe ".client" do
     subject(:client) { described_class.client }
 
+    include_context "with stubbed host and bearer token"
+
     it { is_expected.to be_instance_of(described_class::Client) }
   end
 
@@ -71,11 +73,11 @@ RSpec.describe HmrcInterface do
       end
     end
 
-    it 'resets the configured options' do
+    it 'resets the configured options to defaults' do
       expect { reset }
         .to change { described_class.configuration.as_json.to_h }
-        .from(options)
-        .to(reset_options)
+        .from(hash_including(options))
+        .to(hash_including(reset_options))
     end
   end
 end
