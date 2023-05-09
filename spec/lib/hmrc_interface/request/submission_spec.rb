@@ -19,24 +19,6 @@ RSpec.describe HmrcInterface::Request::Submission do
 
   let(:submission) { create(:submission, :for_sandbox_applicant) }
 
-  # Remove or keep?
-  # context "when making unstubbed call to debug or record behaviour" do
-  #   around do |example|
-  #     WebMock.disable!
-  #     example.run
-  #     WebMock.enable!
-  #     WebMock.disable_net_connect!(allow_localhost: true)
-  #   end
-
-  #   it "generate real submission request and outout response" do
-  #     response = instance.call
-  #     puts "Retrieve id below and query result in swagger docs using results endpoint"
-  #     puts "==================================="
-  #     puts response
-  #     puts "==================================="
-  #   end
-  # end
-
   describe "#call" do
     subject(:call) { instance.call }
 
