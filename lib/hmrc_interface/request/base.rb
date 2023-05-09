@@ -5,19 +5,11 @@ module HmrcInterface
     class Base
       include HmrcInterface::ErrorHelper
 
-      Filter = Struct.new('Filter', :start_date, :end_date, :first_name, :last_name, :dob, :nino)
-
-      attr_reader :client, :use_case, :filter
+      attr_reader :client
       delegate :host, :connection, :headers, to: :client
 
-      def self.call(client, use_case, filter = {})
-        new(client, use_case, filter).call
-      end
-
-      def initialize(client, use_case, filter = {})
+      def initialize(client)
         @client = client
-        @use_case = use_case
-        @filter = Filter.new(**filter)
       end
 
     private
