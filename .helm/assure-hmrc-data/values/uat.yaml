@@ -51,3 +51,6 @@ worker:
   replicaCount: 1
 
 environment: uat
+
+sidekiq:
+  queue_name: null
