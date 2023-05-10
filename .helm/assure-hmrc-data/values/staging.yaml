@@ -58,4 +58,4 @@ worker:
 sidekiq:
   queue_name: null
 
-environment: staging
+host_env: staging

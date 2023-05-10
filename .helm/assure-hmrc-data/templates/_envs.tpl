@@ -137,5 +137,5 @@ env:
         name: assure-hmrc-data-application-output
         key: sidekiq_web_ui_password
   - name: ENVIRONMENT
-    value: {{ .Values.environment | quote }}
+    value: {{ .Values.host_env | quote }}
 {{- end }}

@@ -48,4 +48,4 @@ worker:
 sidekiq:
   queue_name: null
 
-environment: production
+host_env: production

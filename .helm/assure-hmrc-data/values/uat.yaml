@@ -50,7 +50,7 @@ mock_azure:
 worker:
   replicaCount: 1
 
-environment: uat
+host_env: uat
 
 sidekiq:
   queue_name: null
