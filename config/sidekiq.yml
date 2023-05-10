@@ -1,7 +1,6 @@
 ---
 :queues:
   - default
-  - submissions
 
 scheduler:
   :schedule:
