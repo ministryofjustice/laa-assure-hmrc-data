@@ -48,4 +48,7 @@ mock_azure:
 worker:
   replicaCount: 1
 
+sidekiq:
+  queue_name: null
+
 environment: production
