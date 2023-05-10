@@ -1,27 +1,31 @@
 require "rails_helper"
 
 RSpec.describe QueueNameService do
-  describe ".call" do
-    subject(:call) { described_class.call }
+  let(:use_case) { 'one' }
 
-    context "when the service is called in UAT" do
+  describe ".call" do
+    subject(:call) { described_class.call(use_case) }
+
+    context "when the service is called in UAT for use case one" do
       before do
-        Rails.configuration.x.environment = "uat"
-        Rails.configuration.x.status.app_branch = "this-is/a.test-branch"
+        allow(Rails.configuration.x).to receive(:host_env).and_return("uat")
+        allow(Rails.configuration.x.status).to receive(:app_branch).and_return("this-is/a.test-branch")
       end
 
       it "prefixes the submission queue name with the branch name" do
-        expect(call).to eq "this-is-a-test-branch-submissions"
+        expect(call).to eq "uc-one-this-is-a-test-branch-submissions"
       end
     end
 
-    context "when the service is called anywhere other than UAT" do
+    context "when the service is called anywhere other than UAT for use case two" do
+      let(:use_case) { 'two' }
+
       before do
-        Rails.configuration.x.environment = "test"
+        allow(Rails.configuration.x).to receive(:host_env).and_return("test")
       end
 
       it "sets the submission queue name to /submissions/" do
-        expect(call).to eq "submissions"
+        expect(call).to eq "uc-two-submissions"
       end
     end
   end

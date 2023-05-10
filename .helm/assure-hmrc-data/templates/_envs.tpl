@@ -136,6 +136,6 @@ env:
       secretKeyRef:
         name: assure-hmrc-data-application-output
         key: sidekiq_web_ui_password
-  - name: ENVIRONMENT
+  - name: HOST_ENV
     value: {{ .Values.host_env | quote }}
 {{- end }}
