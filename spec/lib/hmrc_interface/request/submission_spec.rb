@@ -85,7 +85,7 @@ RSpec.describe HmrcInterface::Request::Submission do
                   expect(block.call)
                     .to include(message:/#{described_class} received OAuth2::Error/)
                     .and include(backtrace: /.*/)
-                    .and include(method: "POST")
+                    .and include(http_method: "POST")
                     .and include(http_status: nil)
                 end
         end
@@ -106,7 +106,7 @@ RSpec.describe HmrcInterface::Request::Submission do
                   expect(block.call)
                     .to include(message:/#{described_class} received StandardError/)
                     .and include(backtrace: /.*/)
-                    .and include(method: "POST")
+                    .and include(http_method: "POST")
                     .and include(http_status: nil)
                 end
         end
@@ -135,7 +135,7 @@ RSpec.describe HmrcInterface::Request::Submission do
         it "raises HmrcInterface::RequestUnacceptable error with expected message" do
           expect { call }
             .to raise_error(HmrcInterface::RequestUnacceptable,
-                            "Unacceptable request: URL: #{fake_host}/api/v1/submission/create/one, status: 400, details: #{fake_error_body}")
+                            "Unacceptable request - URL: #{fake_host}/api/v1/submission/create/one, status: 400, details: #{fake_error_body}")
         end
       end
 
@@ -162,7 +162,7 @@ RSpec.describe HmrcInterface::Request::Submission do
         it "raises HmrcInterface::RequestUnacceptable error with expected message" do
           expect { call }
             .to raise_error(HmrcInterface::RequestUnacceptable,
-                            "Unacceptable request: URL: #{fake_host}/api/v1/submission/create/one, status: 503, details: #{fake_error_body}")
+                            "Unacceptable request - URL: #{fake_host}/api/v1/submission/create/one, status: 503, details: #{fake_error_body}")
         end
       end
 
@@ -182,7 +182,7 @@ RSpec.describe HmrcInterface::Request::Submission do
         it "raises HmrcInterface::RequestUnacceptable error with expected message" do
           expect { call }
             .to raise_error(HmrcInterface::RequestUnacceptable,
-                            "Unacceptable request: URL: #{fake_host}/api/v1/submission/create/one, status: 503, details: #{malformed_json_error_body}")
+                            "Unacceptable request - URL: #{fake_host}/api/v1/submission/create/one, status: 503, details: #{malformed_json_error_body}")
         end
       end
     end

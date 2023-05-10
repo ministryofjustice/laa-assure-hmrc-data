@@ -3,6 +3,20 @@ require 'hmrc_interface/request/base'
 module HmrcInterface
   module Request
     class Submission < Base
+      Filter = Struct.new('Filter', :start_date, :end_date, :first_name, :last_name, :dob, :nino)
+
+      attr_reader :use_case, :filter
+
+      def self.call(client, use_case, filter = {})
+        new(client, use_case, filter).call
+      end
+
+      def initialize(client, use_case, filter = {})
+        @use_case = use_case
+        @filter = Filter.new(**filter)
+        super(client)
+      end
+
       def call
         response = request
         parsed_response = parse_json_response(response.body)
@@ -11,8 +25,8 @@ module HmrcInterface
           parsed_response
         else
           raise RequestUnacceptable, detailed_error(response.env.url,
-                                                     response.status,
-                                                     parsed_response)
+                                                    response.status,
+                                                    parsed_response)
         end
       end
 
@@ -43,7 +57,7 @@ module HmrcInterface
           request.body = request_body
         end
       rescue StandardError => e
-        handle_request_error(e)
+        handle_request_error(e, "POST")
       end
 
       def url_path

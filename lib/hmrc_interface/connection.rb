@@ -8,7 +8,7 @@ module HmrcInterface
     def_delegator HmrcInterface, :configuration
 
     attr_reader :connection
-    def_delegators :connection, :post
+    def_delegators :connection, :post, :get
 
     def initialize(client)
       @connection = Faraday.new(url: configuration.host, headers: client.headers)
