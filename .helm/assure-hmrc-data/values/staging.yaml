@@ -30,12 +30,9 @@ ingress:
   hosts:
     - laa-assure-hmrc-data-staging.cloud-platform.service.justice.gov.uk
     - laa-assure-hmrc-data-staging.apps.live.cloud-platform.service.justice.gov.uk
-    - staging.assure-hmrc-data.service.justice.gov.uk
     - staging.check-clients-details-using-hmrc-data.service.justice.gov.uk
   tls:
     - hosts:
-      - domain: staging.assure-hmrc-data.service.justice.gov.uk
-        secretName: assure-hmrc-data-tls-certificate
       - domain: staging.check-clients-details-using-hmrc-data.service.justice.gov.uk
         secretName: check-clients-details-using-hmrc-data-tls-certificate
 
