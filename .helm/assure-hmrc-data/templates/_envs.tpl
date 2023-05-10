@@ -138,4 +138,6 @@ env:
         key: sidekiq_web_ui_password
   - name: ENVIRONMENT
     value: {{ .Values.environment | quote }}
+  - name: SIDEKIQ_QUEUE_NAME
+    value: {{ .Values.sidekiq.queue_name | quote }}
 {{- end }}
