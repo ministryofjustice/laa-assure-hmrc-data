@@ -1,9 +1,10 @@
 ---
+# note: queues added dynamically
 :queues:
   - default
 
-scheduler:
+:scheduler:
   :schedule:
-    base_worker:
-      cron: '0 21 * * *'
-      class: BaseWorker
+    # process_bulk_submissions_worker:
+    #   cron: '0 21 * * *'
+    #   class: ProcessBulkSubmissionWorker
