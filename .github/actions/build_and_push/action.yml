@@ -31,6 +31,10 @@ runs:
       run: |
         aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${ECR_URL}
 
+    - name: Extract release name
+      id: extract_release_name
+      uses: ./.github/actions/get_release_name
+
     - name: Build
       shell: bash
       run: |
@@ -41,6 +45,7 @@ runs:
           --build-arg APP_BUILD_DATE=${{ env.BUILD_DATE }} \
           --build-arg APP_BUILD_TAG=${{ github.ref }} \
           --build-arg APP_GIT_COMMIT=${{ github.sha }} \
+          --build-arg APP_BRANCH=${{ steps.extract_release_name.outputs.release-name }} \
           --pull \
           --tag app .
 

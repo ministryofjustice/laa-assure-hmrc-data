@@ -21,10 +21,10 @@ spec:
         {{- include "assure-hmrc-data.selectorLabels" . | nindent 8 }}
     spec:
       containers:
-        - name: worker
+        - name: sidekiq-uc1
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
           imagePullPolicy: IfNotPresent
-          command: ['bundle', 'exec', 'sidekiq']
+          command: ['bundle', 'exec', 'sidekiq', '-q', 'uc-one-{{ .Values.sidekiq.queue_name }}submissions', '-c', '1']
 {{ include "assure-hmrc-data.envs" . | nindent 10 }}
           resources:
             limits:
@@ -38,12 +38,71 @@ spec:
           livenessProbe:
             exec:
               command: ['bin/sidekiq_health_check']
-            initialDelaySeconds: 60
+            initialDelaySeconds: 35
             timeoutSeconds: 5
+            periodSeconds: 120
           readinessProbe:
             exec:
               command: ['bin/sidekiq_health_check']
-            initialDelaySeconds: 60
+            initialDelaySeconds: 35
+            timeoutSeconds: 5
+          lifecycle:
+            preStop:
+              exec:
+                command: ['bundle', 'exec', 'sidekiqctl', 'quiet']
+        - name: sidekiq-uc2
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+          imagePullPolicy: IfNotPresent
+          command: ['bundle', 'exec', 'sidekiq', '-q', 'uc-two-{{ .Values.sidekiq.queue_name }}submissions', '-c', '1']
+{{ include "assure-hmrc-data.envs" . | nindent 10 }}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 10m
+              memory: 512Mi
+          ports:
+            - containerPort: 7433
+          livenessProbe:
+            exec:
+              command: ['bin/sidekiq_health_check']
+            initialDelaySeconds: 35
+            timeoutSeconds: 5
+            periodSeconds: 120
+          readinessProbe:
+            exec:
+              command: ['bin/sidekiq_health_check']
+            initialDelaySeconds: 35
+            timeoutSeconds: 5
+          lifecycle:
+            preStop:
+              exec:
+                command: ['bundle', 'exec', 'sidekiqctl', 'quiet']
+        - name: sidekiq-default
+          image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
+          imagePullPolicy: IfNotPresent
+          command: ['bundle', 'exec', 'sidekiq', '-q', 'default']
+{{ include "assure-hmrc-data.envs" . | nindent 10 }}
+          resources:
+            limits:
+              cpu: 500m
+              memory: 1Gi
+            requests:
+              cpu: 10m
+              memory: 512Mi
+          ports:
+            - containerPort: 7433
+          livenessProbe:
+            exec:
+              command: ['bin/sidekiq_health_check']
+            initialDelaySeconds: 35
+            timeoutSeconds: 5
+            periodSeconds: 120
+          readinessProbe:
+            exec:
+              command: ['bin/sidekiq_health_check']
+            initialDelaySeconds: 35
             timeoutSeconds: 5
           lifecycle:
             preStop:
