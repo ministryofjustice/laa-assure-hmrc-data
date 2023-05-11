@@ -12,6 +12,6 @@ test_users.each do |attributes|
   User.create_or_find_by!(attributes)
 end
 
-User.create_or_find_by!(email: 'mock.azure@justice.gov.uk',
-                        first_name: 'mock',
-                        last_name: 'azure') if Rails.configuration.x.mock_azure
+User.create_or_find_by!(email: Rails.configuration.x.mock_azure_username,
+                        first_name: 'Mock',
+                        last_name: 'Azure') if Rails.configuration.x.mock_azure
