@@ -52,6 +52,7 @@ module LaaAssureHmrcData
     config.active_record.encryption.key_derivation_salt = ENV.fetch("AR_ENCRYPTION_KEY_DERIVATION_SALT", "fake-key-derivation-salt")
 
     config.x.mock_azure = ENV.fetch("MOCK_AZURE", "false")=="true"
+    config.x.mock_azure_username = ENV.fetch("MOCK_AZURE_USERNAME", nil)
     config.x.mock_azure_password = ENV.fetch("MOCK_AZURE_PASSWORD", nil)
   end
 end

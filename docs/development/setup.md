@@ -82,4 +82,6 @@ $ rails console
 ### Mock azure login
 
 If the MOCK_AZURE env var is set to "true" it will be possible to bypass azure authentication and login
-as any user that exists in the database, using user's email and password as the value contained in the MOCK_AZURE_PASSWORD env var.
+as the mock azure user that is seeded in the database. The mock user's login details are supplied via
+`MOCK_AZURE_USERNAME` and `MOCK_AZURE_PASSWORD` env var values included in the seeds (i.e. by `db:seed`)
+
