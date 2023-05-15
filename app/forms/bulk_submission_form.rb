@@ -1,8 +1,11 @@
+require "csv"
+
 class BulkSubmissionForm
   include ActiveModel::Model
   include ActiveModel::Validations::Callbacks
 
   MAX_FILE_SIZE = 7.megabytes
+  DATE_FORMAT = "%Y-%m-%d".freeze
 
   ALLOWED_CONTENT_TYPES = %w[
     text/csv
@@ -25,6 +28,7 @@ class BulkSubmissionForm
   def save
     validate
     return false unless valid?
+    return false unless file_contents_valid? # only attempt to validate the file contents if initial validations pass
 
     self.bulk_submission = BulkSubmission.new(user_id:, status:)
     bulk_submission.original_file.attach(uploaded_file)
@@ -34,6 +38,7 @@ class BulkSubmissionForm
   def update
     validate
     return false unless valid?
+    return false unless file_contents_valid? # only attempt to validate the file contents if initial validations pass
 
     bulk_submission.original_file.attach(uploaded_file)
   end
@@ -77,5 +82,91 @@ private
   def file_size(file)
     return 0 if file.nil?
     File.size(file&.tempfile)
+  end
+
+  def csv
+    @csv ||= CSV.read(uploaded_file, headers: true)
+  end
+
+  def file_contents_valid?
+    return false unless file_length
+
+    validate_first_names
+    validate_last_names
+    validate_ninos
+    validate_dobs
+    validate_period_start_dates
+    validate_period_end_dates
+
+    return false if errors.present?
+    true
+  end
+
+  def file_length
+    return true if csv.count < 36
+
+    errors.add(:uploaded_file, :file_too_long, filename: uploaded_file.original_filename)
+    false
+  end
+
+  def validate_first_names
+    csv.map { |column| column[0] }.each_with_index do |first_name, index|
+      errors.add(:uploaded_file, :missing_first_name, filename: uploaded_file.original_filename, 
+row_num: index+2) if first_name.blank?
+    end
+  end
+
+  def validate_last_names
+    csv.map { |column| column[1] }.each_with_index do |last_name, index|
+      errors.add(:uploaded_file, :missing_last_name, filename: uploaded_file.original_filename, 
+row_num: index+2) if last_name.blank?
+    end
+  end
+
+  def validate_ninos
+    csv.map { |column| column[2] }.each_with_index do |nino, index|
+      errors.add(:uploaded_file, :invalid_nino, filename: uploaded_file.original_filename, 
+row_num: index+2) unless Submission::NINO_REGEXP.match? nino
+    end
+  end
+
+  def validate_dobs
+    csv.map { |column| column[3] }.each_with_index do |dob, index|
+      errors.add(:uploaded_file, :invalid_dob, filename: uploaded_file.original_filename, 
+row_num: index+2) unless valid_date?(parse_date(dob))
+    end
+  end
+
+  def validate_period_start_dates
+    csv.map { |column| column[4] }.each_with_index do |start_date, index|
+      errors.add(:uploaded_file, :invalid_period_start_date, filename: uploaded_file.original_filename, 
+row_num: index+2) unless valid_date?(parse_date(start_date))
+    end
+  end
+
+  def validate_period_end_dates
+    csv.map { |column| column[5] }.each_with_index do |end_date, index|
+      parsed_end_date = parse_date(end_date)
+      parsed_start_date =  parse_date(csv[index][4])
+      if !valid_date?(parsed_end_date)
+        errors.add(:uploaded_file, :invalid_period_end_date, filename: uploaded_file.original_filename, 
+row_num: index+2)
+      elsif valid_date?(parsed_start_date)
+        errors.add(:uploaded_file, :period_end_date_before_start_date, filename: uploaded_file.original_filename, 
+row_num: index+2) if parsed_end_date < parsed_start_date
+      end
+    end
+  end
+
+  def parse_date(date_str)
+    Time.strptime(date_str, DATE_FORMAT)
+  rescue StandardError
+    nil
+  end
+
+  def valid_date?(value)
+    return false unless value.is_a?(Time) && value < Date.current
+
+    true
   end
 end
