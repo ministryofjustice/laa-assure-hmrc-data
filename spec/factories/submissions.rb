@@ -17,6 +17,30 @@ FactoryBot.define do
     hmrc_interface_id { nil }
     hmrc_interface_result { "{}" }
 
+    trait :pending do
+      status { :processing }
+    end
+
+    trait :preparing do
+      status { :processing }
+    end
+
+    trait :prepared do
+      status { :processing }
+    end
+
+    trait :submitting do
+      status { :processing }
+    end
+
+    trait :submitted do
+      status { :processing }
+    end
+
+    trait :completing do
+      status { :processing }
+    end
+
     trait :processing do
       status { :processing }
     end
@@ -37,7 +61,7 @@ FactoryBot.define do
       last_name { "Yorke"}
       dob { "1992-07-22".to_date }
       nino { "MN212451D" }
-      status { :processing }
+      status { :pending }
     end
   end
 end

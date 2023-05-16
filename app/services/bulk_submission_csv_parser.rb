@@ -18,6 +18,7 @@ class BulkSubmissionCsvParser
     end
   end
 
+  # TODO: fix "warning: redefining constant Struct::SubmissionRecord" - use dry-struct or a plain class
   SubmissionRecord = Struct.new('SubmissionRecord',
                                 :start_date,
                                 :end_date,

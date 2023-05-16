@@ -58,6 +58,7 @@ module LaaAssureHmrcData
 
     config.x.host_env = ENV.fetch("HOST_ENV", nil)
 
+    # TEMP: to allow debug in development and uat while building the request processing aspect of the app
     config.log_level = config.x.host_env == "uat" || Rails.env.development? ? :debug : :info
   end
 end

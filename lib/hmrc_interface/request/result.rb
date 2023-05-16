@@ -22,7 +22,7 @@ module HmrcInterface
         when 200, 202
           parsed_response
         when 500
-          raise IncompleteSubmission, detailed_error(response.env.url,
+          raise IncompleteResult, detailed_error(response.env.url,
                                                      response.status,
                                                      parsed_response)
         else

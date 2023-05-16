@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe QueueNameService do
+RSpec.describe SubmissionQueueNameService do
   let(:use_case) { 'one' }
 
   describe ".call" do

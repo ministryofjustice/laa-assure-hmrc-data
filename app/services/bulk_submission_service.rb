@@ -11,10 +11,16 @@ class BulkSubmissionService
   end
 
   def call
+    bulk_submission.update!(status: "preparing")
+
     file_records.each do |rec|
       create_submission!(use_case: :one, submission: rec)
       create_submission!(use_case: :two, submission: rec)
     end
+
+    bulk_submission.update!(status: "prepared")
+
+    HmrcInterfaceBulkSubmissionWorker.perform_async(bulk_submission.id)
   end
 
 private
@@ -29,7 +35,7 @@ private
         last_name: submission.last_name,
         dob: submission.dob,
         nino: submission.nino,
-        status: :processing,
+        status: :pending,
     )
   rescue Date::Error, ActiveRecord::RecordInvalid => e
     Rails.logger.error(e.message)

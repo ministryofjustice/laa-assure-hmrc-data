@@ -164,7 +164,7 @@ RSpec.describe BulkSubmissionService do
           CSV
         end
 
-        it "logs error, does not raise, does not create submision for use_case one and two" do
+        it "logs error, does not raise, does not create submission for use_case one and two" do
           expect { call }.not_to raise_error
           expect(Rails.logger)
             .to have_received(:error)

@@ -10,15 +10,21 @@ module HmrcInterface
     end
   end
 
-  class RequestUnacceptable < StandardError
-    def initialize(message)
-      super("Unacceptable request - #{message}")
+  class TryAgain < StandardError
+    def initialize(message = "still processing...")
+      super(message)
     end
   end
 
-  class IncompleteSubmission < StandardError
-    def initialize(message)
-      super("Incomplete submission process - #{message}")
+  class RequestUnacceptable < StandardError
+    def initialize(message = "unacceptable request")
+      super(message)
+    end
+  end
+
+  class IncompleteResult < StandardError
+    def initialize(message = "incomplete result")
+      super(message)
     end
   end
 

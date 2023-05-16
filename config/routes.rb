@@ -38,7 +38,11 @@ Rails.application.routes.draw do
   end
 
   resources :users, only: :show
-  resources :bulk_submissions, only: [:index, :destroy]
+  resources :bulk_submissions, only: [:index, :destroy] do
+    if Rails.env.development? || Rails.host.uat?
+      get :process_all, on: :collection
+    end
+  end
   resources :bulk_submission_forms, only: [:new, :create, :edit, :update, :destroy]
 
   get "ping", to: "status#ping", format: :json

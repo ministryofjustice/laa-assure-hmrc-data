@@ -1,10 +1,12 @@
 ---
-# note: queues added dynamically
+# TODO: add UAT branch queues dynamically (see https://github.com/deanpcmad/sidekiq-limit_fetch !??)
 :queues:
   - default
+  - uc-one-submissions
+  - uc-two-submissions
 
 :scheduler:
   :schedule:
     bulk_submissions_worker:
       cron: '0 21 * * *'
-      class: BulkSubmissionWorker
+      class: BulkSubmissionsWorker
