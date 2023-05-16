@@ -5,6 +5,6 @@
 
 :scheduler:
   :schedule:
-    # process_bulk_submissions_worker:
-    #   cron: '0 21 * * *'
-    #   class: ProcessBulkSubmissionWorker
+    bulk_submissions_worker:
+      cron: '0 21 * * *'
+      class: BulkSubmissionWorker
