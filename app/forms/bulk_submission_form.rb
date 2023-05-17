@@ -19,8 +19,9 @@ class BulkSubmissionForm
   validate :file_chosen,
            :file_empty,
            :file_too_big,
-           :file_content_type,
-           :file_content, if: proc {
+           :file_content_type
+
+  validate :file_content, if: proc {
  errors.empty? } # only attempt to validate the file contents if initial validations pass
 
   def self.max_file_size
@@ -86,10 +87,12 @@ private
 
   def csv
     @csv ||= CSV.parse(File.read(uploaded_file), headers: true)
+  rescue StandardError
+    nil
   end
 
   def file_content
-    return unless file_length
+    return unless csv && file_length
 
     validate_first_names
     validate_last_names
