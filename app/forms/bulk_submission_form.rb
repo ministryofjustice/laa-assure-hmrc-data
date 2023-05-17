@@ -18,7 +18,9 @@ class BulkSubmissionForm
   validate :file_chosen,
            :file_empty,
            :file_too_big,
-           :file_content_type
+           :file_content_type,
+           :file_content, if: proc {
+ errors.empty? } # only attempt to validate the file contents if initial validations pass
 
   def self.max_file_size
     MAX_FILE_SIZE
@@ -27,7 +29,6 @@ class BulkSubmissionForm
   def save
     validate
     return false unless valid?
-    return false unless file_contents_valid? # only attempt to validate the file contents if initial validations pass
 
     self.bulk_submission = BulkSubmission.new(user_id:, status:)
     bulk_submission.original_file.attach(uploaded_file)
@@ -37,7 +38,6 @@ class BulkSubmissionForm
   def update
     validate
     return false unless valid?
-    return false unless file_contents_valid? # only attempt to validate the file contents if initial validations pass
 
     bulk_submission.original_file.attach(uploaded_file)
   end
@@ -87,8 +87,8 @@ private
     @csv ||= CSV.parse(File.read(uploaded_file), headers: true)
   end
 
-  def file_contents_valid?
-    return false unless file_length
+  def file_content
+    return unless file_length
 
     validate_first_names
     validate_last_names
@@ -96,9 +96,6 @@ private
     validate_dobs
     validate_period_start_dates
     validate_period_end_dates
-
-    return false if errors.present?
-    true
   end
 
   def file_length
