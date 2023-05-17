@@ -12,6 +12,7 @@ en:
               file_too_big: "%{filename} is more than %{size}MB"
               file_too_long: "%{filename} has more than 35 records"
               invalid_dob: "%{filename} invalid date of birth at row %{row_num}"
+              invalid_headers: "%{filename} has invalid headers"
               invalid_nino: "%{filename} invalid national insurance number at row %{row_num}"
               invalid_period_end_date: "%{filename} invalid period end date at row %{row_num}"
               invalid_period_start_date: "%{filename} invalid period start date at row %{row_num}"

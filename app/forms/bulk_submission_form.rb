@@ -11,6 +11,15 @@ class BulkSubmissionForm
     text/csv
   ].freeze
 
+  EXPECTED_HEADERS = %w[
+    period_start_date
+    period_end_date
+    first_name
+    last_name
+    date_of_birth
+    nino
+].freeze
+
   attr_accessor :bulk_submission,
                 :uploaded_file,
                 :user_id,
@@ -94,6 +103,7 @@ private
   def file_content
     return unless csv && file_length
 
+    validate_headers
     validate_first_names
     validate_last_names
     validate_ninos
@@ -107,6 +117,11 @@ private
 
     errors.add(:uploaded_file, :file_too_long, filename: uploaded_file.original_filename)
     false
+  end
+
+  def validate_headers
+    errors.add(:uploaded_file, :invalid_headers, 
+filename: uploaded_file.original_filename) unless csv.headers == EXPECTED_HEADERS
   end
 
   def validate_first_names
