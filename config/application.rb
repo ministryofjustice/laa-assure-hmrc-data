@@ -57,5 +57,7 @@ module LaaAssureHmrcData
     config.x.mock_azure_password = ENV.fetch("MOCK_AZURE_PASSWORD", nil)
 
     config.x.host_env = ENV.fetch("HOST_ENV", nil)
+
+    config.log_level = config.x.host_env == "uat" || Rails.env.development? ? :debug : :info
   end
 end
