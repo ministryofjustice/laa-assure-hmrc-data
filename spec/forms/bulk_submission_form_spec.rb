@@ -28,12 +28,12 @@ RSpec.describe BulkSubmissionForm, type: :model do
     end
 
     context "with a file that is too big" do
-      let(:a_file) { fixture_file_upload('over_1mb.csv', 'text/csv') }
+      let(:a_file) { fixture_file_upload('one_byte_too_big.csv', 'text/csv') }
 
       it "does not create a bulk_submission and adds errors" do
         expect { save }.not_to change(BulkSubmission, :count)
         expect(instance.bulk_submission).to be_nil
-        expect(instance.errors[:uploaded_file]).to include("over_1mb.csv is more than 1MB")
+        expect(instance.errors[:uploaded_file]).to include("one_byte_too_big.csv is more than 1MB")
       end
     end
 
@@ -101,7 +101,7 @@ RSpec.describe BulkSubmissionForm, type: :model do
     end
 
     context "with a file that is too big" do
-      let(:a_file) { fixture_file_upload('over_1mb.csv', 'text/csv') }
+      let(:a_file) { fixture_file_upload('one_byte_too_big.csv', 'text/csv') }
 
       it "does not update the bulk_submission and adds errors" do
         expect {
@@ -110,7 +110,7 @@ RSpec.describe BulkSubmissionForm, type: :model do
           instance.bulk_submission.original_file.filename.to_s
         }
 
-        expect(instance.errors[:uploaded_file]).to include("over_1mb.csv is more than 1MB")
+        expect(instance.errors[:uploaded_file]).to include("one_byte_too_big.csv is more than 1MB")
       end
     end
 

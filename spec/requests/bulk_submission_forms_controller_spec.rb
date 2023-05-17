@@ -148,14 +148,14 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
 
     context "with file that is too big and upload button pressed" do
       let(:bulk_submission_form_params) do
-       { commit: "upload", uploaded_file: fixture_file_upload('over_1mb.csv')}
+       { commit: "upload", uploaded_file: fixture_file_upload('one_byte_too_big.csv')}
       end
 
       it "renders new with error" do
         post bulk_submission_forms_path, params: bulk_submission_form_params
         expect(response).to have_http_status(:success)
         expect(response).to render_template(:new)
-        expect(response.body).to include("over_1mb.csv is more than 1MB")
+        expect(response.body).to include("one_byte_too_big.csv is more than 1MB")
       end
 
       it "does not create bulk_submission" do

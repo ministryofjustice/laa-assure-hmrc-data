@@ -114,10 +114,10 @@ RSpec.describe "sign in", type: :system, js: true do
           .to have_selector(".govuk-error-summary__body", text: "invalid_content_type_png_as_csv.csv must be a CSV")
           .and have_selector(".govuk-error-message", text: "invalid_content_type_png_as_csv.csv must be a CSV")
 
-        find(".dz-clickable").drop(file_fixture("over_1mb.csv"))
+        find(".dz-clickable").drop(file_fixture("one_byte_too_big.csv"))
         expect(page)
-          .to have_selector(".govuk-error-summary__body", text: "over_1mb.csv is more than 1MB")
-          .and have_selector(".govuk-error-message", text: "over_1mb.csv is more than 1MB")
+          .to have_selector(".govuk-error-summary__body", text: "one_byte_too_big.csv is more than 1MB")
+          .and have_selector(".govuk-error-message", text: "one_byte_too_big.csv is more than 1MB")
 
         find(".dz-clickable").drop(file_fixture("empty.png"))
         expect(page)
@@ -160,10 +160,10 @@ RSpec.describe "sign in", type: :system, js: true do
           .to have_selector(".govuk-error-summary__body", text: "invalid_content_type_png_as_csv.csv must be a CSV")
           .and have_selector(".govuk-error-message", text: "invalid_content_type_png_as_csv.csv must be a CSV")
 
-        find(".dz-clickable").drop(file_fixture("over_1mb.csv"))
+        find(".dz-clickable").drop(file_fixture("one_byte_too_big.csv"))
         expect(page)
-          .to have_selector(".govuk-error-summary__body", text: "over_1mb.csv is more than 1MB")
-          .and have_selector(".govuk-error-message", text: "over_1mb.csv is more than 1MB")
+          .to have_selector(".govuk-error-summary__body", text: "one_byte_too_big.csv is more than 1MB")
+          .and have_selector(".govuk-error-message", text: "one_byte_too_big.csv is more than 1MB")
 
         find(".dz-clickable").drop(file_fixture("empty.png"))
         expect(page)
