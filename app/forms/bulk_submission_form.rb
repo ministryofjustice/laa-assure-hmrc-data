@@ -166,9 +166,9 @@ row_num: index+2) unless valid_date?(parse_date(start_date))
       if !valid_date?(parsed_end_date)
         errors.add(:uploaded_file, :invalid_period_end_date, filename: uploaded_file.original_filename, 
 row_num: index+2)
-      elsif valid_date?(parsed_start_date)
+      elsif valid_date?(parsed_start_date) && (parsed_end_date < parsed_start_date)
         errors.add(:uploaded_file, :period_end_date_before_start_date, filename: uploaded_file.original_filename, 
-row_num: index+2) if parsed_end_date < parsed_start_date
+row_num: index+2)
       end
     end
   end
