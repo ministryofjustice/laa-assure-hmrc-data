@@ -7,7 +7,7 @@ en:
       choose_files_btn: Choose files
       dropzone_message: Drag and drop files here or
       page_title: Upload a file
-      size_hint: The maximum file size is 7MB. Files must be a CSV.
+      size_hint: The maximum file size is 1MB. Files must be a CSV.
     new:
       uploaded_files_heading: Uploaded files
     uploaded_files:
