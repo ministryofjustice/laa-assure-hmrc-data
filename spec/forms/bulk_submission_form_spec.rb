@@ -28,6 +28,10 @@ RSpec.describe BulkSubmissionForm, type: :model do
     end
 
     context "with a file that is exactly one mebibyte" do
+      before do
+        allow(instance).to receive(:file_content).and_return(true)
+      end
+
       let(:a_file) { fixture_file_upload('exactly_one_mebibyte.csv', 'text/csv') }
 
       it "creates a bulk submission and attaches a file to it" do
@@ -123,6 +127,16 @@ RSpec.describe BulkSubmissionForm, type: :model do
           .to include("unparseable_file.csv unable to read file")
       end
     end
+
+    context "with a file containing whitespace in headers" do
+      let(:a_file) { fixture_file_upload('whitespace.csv', 'text/csv') }
+
+      it "creates a bulk submission and attachs a file to it" do
+        expect { save }.to change(BulkSubmission, :count).by(1)
+        expect(instance.bulk_submission.original_file).to be_attached
+        expect(instance.errors).to be_empty
+      end
+    end
   end
 
   describe "#update" do
@@ -168,6 +182,10 @@ RSpec.describe BulkSubmissionForm, type: :model do
     end
 
     context "with a file that is exactly one mebibyte" do
+      before do
+        allow(instance).to receive(:file_content).and_return(true)
+      end
+
       let(:a_file) { fixture_file_upload('exactly_one_mebibyte.csv', 'text/csv') }
 
       it "replaces the original_file on the bulk submission" do

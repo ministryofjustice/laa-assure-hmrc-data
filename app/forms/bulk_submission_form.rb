@@ -95,7 +95,12 @@ private
   end
 
   def csv
-    @csv ||= CSV.parse(File.read(uploaded_file), headers: true)
+    @csv ||= CSV.parse(
+      File.read(uploaded_file),
+      headers: :first_row,
+      header_converters: lambda { |f| f.strip },
+      converters: lambda { |f| f ? f.strip : nil }
+    )
   rescue StandardError
     errors.add(:uploaded_file, :unparseable_file, filename: uploaded_file.original_filename)
     nil
