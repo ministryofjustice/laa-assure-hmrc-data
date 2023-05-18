@@ -19,3 +19,4 @@ en:
               missing_first_name: "%{filename} first name missing at row %{row_num}"
               missing_last_name: "%{filename} last name missing at row %{row_num}"
               period_end_date_before_start_date: "%{filename} period end date earlier than period start date at row %{row_num}"
+              unparseable_file: "%{filename} unable to read file"

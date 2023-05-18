@@ -112,6 +112,17 @@ RSpec.describe BulkSubmissionForm, type: :model do
           .to include("invalid_period.csv period end date earlier than period start date at row 2")
       end
     end
+
+    context "with an unparseable file with empty rows" do
+      let(:a_file) { fixture_file_upload('unparseable_file.csv', 'text/csv') }
+
+      it "does not create a bulk_submission and adds errors" do
+        expect { save }.not_to change(BulkSubmission, :count)
+        expect(instance.bulk_submission).to be_nil
+        expect(instance.errors[:uploaded_file])
+          .to include("unparseable_file.csv unable to read file")
+      end
+    end
   end
 
   describe "#update" do

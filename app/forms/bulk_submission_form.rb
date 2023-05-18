@@ -97,11 +97,12 @@ private
   def csv
     @csv ||= CSV.parse(File.read(uploaded_file), headers: true)
   rescue StandardError
+    errors.add(:uploaded_file, :unparseable_file, filename: uploaded_file.original_filename)
     nil
   end
 
   def file_content
-    return unless csv && file_length
+    return unless uploaded_file && csv && row_count
 
     validate_headers
     validate_first_names
@@ -112,7 +113,7 @@ private
     validate_period_end_dates
   end
 
-  def file_length
+  def row_count
     return true if csv.size < 36
 
     errors.add(:uploaded_file, :file_too_long, filename: uploaded_file.original_filename)
