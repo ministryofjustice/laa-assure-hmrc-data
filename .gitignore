@@ -41,3 +41,6 @@ coverage/
 
 *.code-workspace
 *.sha256
+
+# Ignore Redis binary dump (dump.rdb) files
+*.rdb
