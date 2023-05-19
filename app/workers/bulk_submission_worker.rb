@@ -5,10 +5,7 @@ class BulkSubmissionWorker < ApplicationWorker
     bulk_submission = BulkSubmission.find(bulk_submission_id)
     BulkSubmissionService.call(bulk_submission)
 
-    # TESTING only
-    # TODO: this is where we could check for bulk submission process completion and kick of
-    # file generation
-    # BulkSubmissionMonitoringWorker.perform_async(bulk_submission_id)
+    # TODO: this is where we could check for bulk submission process completion and kick of file generation
     super
   end
 end

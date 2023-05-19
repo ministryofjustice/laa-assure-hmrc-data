@@ -149,10 +149,13 @@ RSpec.describe BulkSubmissionService do
 
         it "logs but does not raise error" do
           expect { call }.not_to raise_error
+
           expect(Rails.logger)
             .to have_received(:error)
             .with("invalid date for period_start_at")
             .twice
+
+          expect(Submission.count).to be_zero
         end
       end
 
@@ -166,10 +169,13 @@ RSpec.describe BulkSubmissionService do
 
         it "logs error, does not raise, does not create submission for use_case one and two" do
           expect { call }.not_to raise_error
+
           expect(Rails.logger)
             .to have_received(:error)
             .with("invalid date for period_end_at")
             .twice
+
+          expect(Submission.count).to be_zero
         end
       end
 
@@ -183,10 +189,13 @@ RSpec.describe BulkSubmissionService do
 
         it "logs but does not raise error" do
           expect { call }.not_to raise_error
+
           expect(Rails.logger)
             .to have_received(:error)
             .with("invalid date for dob")
             .twice
+
+          expect(Submission.count).to be_zero
         end
       end
     end
@@ -211,10 +220,13 @@ RSpec.describe BulkSubmissionService do
 
       it "logs but does not raise error" do
         expect { call }.not_to raise_error
+
         expect(Rails.logger)
           .to have_received(:error)
           .with(/"JAX12345D" is not a valid national insurance number/)
           .twice
+
+        expect(Submission.count).to be_zero
       end
     end
   end
@@ -222,8 +234,17 @@ RSpec.describe BulkSubmissionService do
   describe ".call" do
     subject(:call) { described_class.call(bulk_submission) }
 
-    it "creates 2 new submission record for each record in the bulk_submission attached file" do
-      expect { call }.to change(Submission, :count).by(4)
+    let(:instance) { instance_double(described_class) }
+
+    before do
+      allow(described_class).to receive(:new).and_return(instance)
+      allow(instance).to receive(:call)
+    end
+
+    it "sends call method to instance" do
+      call
+      expect(described_class).to have_received(:new).with(bulk_submission)
+      expect(instance).to have_received(:call)
     end
   end
 end

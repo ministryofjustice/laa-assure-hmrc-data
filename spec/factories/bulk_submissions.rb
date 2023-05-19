@@ -9,7 +9,6 @@ FactoryBot.define do
       original_file_fixture_content_type { nil }
     end
 
-
     trait :with_original_file do
       after(:build) do |bulk_submission, evaluator|
         file =  if evaluator.original_file_fixture_name

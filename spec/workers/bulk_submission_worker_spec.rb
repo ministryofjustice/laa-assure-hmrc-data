@@ -29,6 +29,7 @@ RSpec.describe BulkSubmissionWorker, type: :worker do
 
     let(:bulk_submission) { create(:bulk_submission, :with_original_file) }
 
+    # TODO: move to shared example
     let(:log_regex) do
       %r{\[\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}.*\] running #{described_class} with args: \["#{bulk_submission.id}"\]}
     end
@@ -39,6 +40,7 @@ RSpec.describe BulkSubmissionWorker, type: :worker do
       expect(BulkSubmissionService).to have_received(:call).with(bulk_submission)
     end
 
+    # TODO: move to shared example
     it "logs timestamp, class and args of run" do
       allow(Rails.logger).to receive(:info)
       perform

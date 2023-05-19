@@ -1,7 +1,7 @@
 require "rails_helper"
 require 'sidekiq/testing' # Warning: Requiring sidekiq/testing will automatically call Sidekiq::Testing.fake!, see https://github.com/sidekiq/sidekiq/wiki/Testing
 
-RSpec.describe BulkSubmissionsWorker, type: :worker do
+RSpec.describe HmrcInterfaceBulkSubmissionWorker, type: :worker do
   describe ".perform_async" do
     subject(:perform_async) { described_class.perform_async }
 
@@ -15,7 +15,7 @@ RSpec.describe BulkSubmissionsWorker, type: :worker do
                   "retry" => true,
                   "queue" => "default",
                   "args" => [],
-                  "class" => "BulkSubmissionsWorker"
+                  "class" => "HmrcInterfaceBulkSubmissionWorker"
                 )
               ]
           )
@@ -38,7 +38,7 @@ RSpec.describe BulkSubmissionsWorker, type: :worker do
     #   # ensure we pick up the reloaded class. described_class cannot
     #   # be reset :(
     #   it "enqueues 1 job with expected options, including branch specific queue" do
-    #     expect { BulkSubmissionsWorker.perform_async }
+    #     expect { HmrcInterfaceBulkSubmissionWorker.perform_async }
     #       .to change(described_class, :jobs)
     #         .from([])
     #         .to(
@@ -47,7 +47,7 @@ RSpec.describe BulkSubmissionsWorker, type: :worker do
     #                 "retry" => true,
     #                 "queue" => "default-my-branch",
     #                 "args" => [],
-    #                 "class" => "BulkSubmissionsWorker"
+    #                 "class" => "HmrcInterfaceBulkSubmissionWorker"
     #               )
     #             ]
     #         )
@@ -56,21 +56,45 @@ RSpec.describe BulkSubmissionsWorker, type: :worker do
   end
 
   describe "#perform" do
-    subject(:perform) { described_class.new.perform }
+    subject(:perform) { described_class.new.perform(bulk_submission.id) }
 
-    let(:bulk_submission) { create(:bulk_submission, :with_original_file, status: 'pending') }
-
-      # TODO: move to shared example
-    let(:log_regex) do
-      %r{\[\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}.*\] running #{described_class} with args: \[\]}
+    let(:bulk_submission) do
+      create(:bulk_submission, status: 'pending') do |bs|
+        bs.submissions << create(:submission, status: :pending, use_case: :one)
+        bs.submissions << create(:submission, status: :pending, use_case: :two)
+      end
     end
 
-    before { bulk_submission }
+    # TODO: move to shared context or example
+    let(:log_regex) do
+      %r{\[\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}.*\] running #{described_class} with args: \[.*\]}
+    end
 
-    it "enqueues BulkSubmissionWorker with ids" do
-      allow(BulkSubmissionWorker).to receive(:perform_async)
+    # TODO: move to shared example
+    let(:worker) { class_double(HmrcInterfaceSubmissionWorker) }
+
+    before do
+      allow(HmrcInterfaceSubmissionWorker).to receive(:set).and_return(worker)
+      allow(worker).to receive(:perform_async)
+    end
+
+    it "updates status to :processing" do
+      expect { perform }
+        .to change { bulk_submission.reload.status }
+              .from("pending")
+              .to("processing")
+    end
+
+    it "enqueues HmrcInterfaceSubmissionWorker on uc-one-submissions queue passing submission's id" do
       perform
-      expect(BulkSubmissionWorker).to have_received(:perform_async).with(bulk_submission.id)
+      expect(HmrcInterfaceSubmissionWorker).to have_received(:set).with(queue: "uc-one-submissions").once
+      expect(worker).to have_received(:perform_async).with(bulk_submission.submissions.first.id)
+    end
+
+    it "enqueues HmrcInterfaceSubmissionWorker on uc-two-submissions queue passing submission's id" do
+      perform
+      expect(HmrcInterfaceSubmissionWorker).to have_received(:set).with(queue: "uc-two-submissions").once
+      expect(worker).to have_received(:perform_async).with(bulk_submission.submissions.second.id)
     end
 
     # TODO: move to shared example

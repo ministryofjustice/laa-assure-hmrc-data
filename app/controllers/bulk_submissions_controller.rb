@@ -10,7 +10,7 @@ class BulkSubmissionsController < ApplicationController
     redirect_back(fallback_location: authenticated_root_path)
   end
 
-  # route only available in development/uat, for testing
+  # NOTE: route only available in test/development or uat
   def process_all
     BulkSubmissionsWorker.perform_async
 

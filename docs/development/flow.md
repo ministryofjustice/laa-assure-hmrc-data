@@ -50,13 +50,13 @@
    - BulkSubmissionService
     - HmrcInterfaceBulkSubmissionWorker (singular)
       - HmrcInterfaceSubmissionWorker (on uc-one-submission queue)
-        - HmrcInterfaceSubmissionService (uses HmrcInterface::Request::Submission)
+        - HmrcInterfaceSubmissionService
          - HmrcInterfaceResultsWorker (retry upto x times)
-          - HmrcInterfaceResultService (HmrcInterface::Request::Result)
+          - HmrcInterfaceResultService
       - HmrcInterfaceSubmissionWorker (on uc-two-submission queue)
         - HmrcInterfaceSubmissionService
          - HmrcInterfaceResultsWorker (retry upto x times)
-          - HmrcInterfaceResultService (HmrcInterface::Request::Result)
+          - HmrcInterfaceResultService
 ```
 
 ## Processes, dynamic queue names and concurrency
@@ -72,9 +72,9 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   setting of queues for a uat environment's branch.
 
   This creates:
-  * container with processor for "default-<branch-name>" queue with concurrency of 5
-  * container with processor for for "uc-one-submissions-<branch-name>" queue with concurrency of 1
-  * container with processor for for "uc-two-submissions-<branch-name>" queue with concurrency of 1
+  * container with processor for "default-my-branch-name" queue with concurrency of 5
+  * container with processor for for "uc-one-submissions-my-branch-name" queue with concurrency of 1
+  * container with processor for for "uc-two-submissions-my-branch-name" queue with concurrency of 1
 
 - production (staging and production)
   creation of workers for specific queues with specific concurrency is handled
@@ -87,17 +87,35 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   * container with processor for "uc-two-submissions" queue with concurrency of 1
 
  - development with `bin/dev`
+
   `bin/dev` calls Procfile.dev which creates:
   * process (worker) for "default" queue with concurrency of 5
   * process (worker) for "uc-one-submissions" queue with concurrency of 1
   * process (worker) for "uc-two-submissions" queue with concurrency of 1
 
 - development with `rails server`
- won't work??
+  Uploading a bulk submission file and processing it via the app locally
+  will not work because there are no queues (and therefore no processes) specified in the `config/sidekiq.yml`. However the `BulkSubmissionsWorker`
+  job will be enqueued on the fallback `default` queue.
+
+  Running `bundle exec sidekiq [-q default]` in another terminal will, however, create a single process for the `default` queue, with X threads. This processor will then process the `BulkSubmissionsWorker` job and thereby create uc-one-submissions and uc-two-submissions queues and enqueue jobs on them, namely the `HmrcInterfaceSubmissionWorker` job. Because there are no processes for those queues they will not be processed. However, If you run `bin/dev` later then processes for those queues will be created and they will be processed using any configured HMRC Interface host.
+
+  Therefore you should
+  - take note of settings in `env.development` related to HMRC_INTERFACE...
+  - you should clear enqueued and scheduled jobs before running `bin/dev`
+
+  ```ruby
+  # delete all scheduled jobs
+  Sidekiq::ScheduledSet.new.map(&:delete)
+
+  # delete all jobs on named queue
+  Sidekiq::Queue.new("default").map(&:delete)
+  Sidekiq::Queue.new("uc-one-submissions").map(&:delete)
+  Sidekiq::Queue.new("uc-two-submissions").map(&:delete)
+  ```
 
 - test
- ??
-
+  Webmock disables all external requests so stubbing is needed. Warnings will be raised by tests that make actual requests. You can add `require sidekiq/testing` which defaults to enabling `Sidekiq::Testing.fake!`.
 
 ### Status change flow
 
@@ -110,8 +128,6 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
 
 - submissions
  - pending
- - preparing
- - prepared
  - submitting
  - submitted
  - completing
@@ -119,6 +135,11 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
  - completed || failed [finished status from API]
 
 ## Other options
-- add a processed_at timestamp to bulk_submissions
-- add a processed_at timestamp to submissions
-- mixin for status "machine" to include in BulkSubmission and Submission models?
+- add a processed_at timestamp to bulk_submissions and update when appropriate
+- add a processed_at timestamp to submissions and update when appropriate
+
+## Possible refactoring
+- [ ] dependency inversion (inject lib based hmrc interface request objects into submission and result services)
+- [ ] "status" machine mixin (pending!, pending? etc) for bulk submissions and subdmissions
+- [ ] extract SubmissionRecord struct to its own class and share with validator
+- [ ] extract HmrcInterfaceBaseWorker sidekiq options to mixin in lib hmrc interface and include in current subclasses of HmrcInterfaceBaseWorker, then delete HmrcInterfaceBaseWorker

@@ -1,4 +1,3 @@
----
 # WARNING: do not put typical sidekiq static queues configuration in here
 #
 # see docs/flow.md

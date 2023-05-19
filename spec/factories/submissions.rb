@@ -11,34 +11,34 @@ FactoryBot.define do
     last_name { "Bob"}
     dob { 21.years.ago }
     nino { "JA123456D" }
-    status { :processing }
+    status { :pending }
 
     # responses
     hmrc_interface_id { nil }
     hmrc_interface_result { "{}" }
 
     trait :pending do
-      status { :processing }
+      status { :pending }
     end
 
     trait :preparing do
-      status { :processing }
+      status { :preparing }
     end
 
     trait :prepared do
-      status { :processing }
+      status { :prepared }
     end
 
     trait :submitting do
-      status { :processing }
+      status { :submitting }
     end
 
     trait :submitted do
-      status { :processing }
+      status { :submitted }
     end
 
     trait :completing do
-      status { :processing }
+      status { :completing }
     end
 
     trait :processing do

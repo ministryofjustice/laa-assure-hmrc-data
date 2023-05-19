@@ -108,12 +108,13 @@ RSpec.describe BulkSubmissionCsvParser do
 
     let(:instance) { instance_double(described_class) }
 
-    it "sends :call message to instance" do
+    before do
       allow(described_class).to receive(:new).and_return(instance)
       allow(instance).to receive(:call)
+    end
 
-       described_class.call(content)
-
+    it "sends :call message to instance" do
+      call
       expect(described_class).to have_received(:new).with(content)
       expect(instance).to have_received(:call)
     end

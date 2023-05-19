@@ -3,10 +3,6 @@ class DefaultQueueNameService
     new.call
   end
 
-  def initialize
-  end
-
-  # creating a queue does not create the process set to process them
   def call
     if Rails.host.uat?
       "default-#{uat_queue_name}"

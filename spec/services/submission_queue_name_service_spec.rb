@@ -12,7 +12,7 @@ RSpec.describe SubmissionQueueNameService do
         allow(Rails.configuration.x.status).to receive(:app_branch).and_return("this-is/a.test-branch")
       end
 
-      it "prefixes the submission queue name with the branch name" do
+      it "suffixes the submission queue name with the branch name" do
         expect(call).to eq "uc-one-submissions-this-is-a-test-branch"
       end
     end
