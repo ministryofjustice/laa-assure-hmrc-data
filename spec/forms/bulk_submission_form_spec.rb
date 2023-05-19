@@ -10,7 +10,7 @@ RSpec.describe BulkSubmissionForm, type: :model do
     context "with a valid file" do
       let(:a_file) { fixture_file_upload('basic_bulk_submission.csv', 'text/csv') }
 
-      it "creates a bulk submission and attachs a file to it" do
+      it "creates a bulk submission and attaches a file to it" do
         expect { save }.to change(BulkSubmission, :count).by(1)
         expect(instance.bulk_submission.original_file).to be_attached
         expect(instance.errors).to be_empty
@@ -27,13 +27,23 @@ RSpec.describe BulkSubmissionForm, type: :model do
       end
     end
 
+    context "with a file that is exactly one mebibyte" do
+      let(:a_file) { fixture_file_upload('exactly_one_mebibyte.csv', 'text/csv') }
+
+      it "creates a bulk submission and attaches a file to it" do
+        expect { save }.to change(BulkSubmission, :count).by(1)
+        expect(instance.bulk_submission.original_file).to be_attached
+        expect(instance.errors).to be_empty
+      end
+    end
+
     context "with a file that is too big" do
       let(:a_file) { fixture_file_upload('one_byte_too_big.csv', 'text/csv') }
 
       it "does not create a bulk_submission and adds errors" do
         expect { save }.not_to change(BulkSubmission, :count)
         expect(instance.bulk_submission).to be_nil
-        expect(instance.errors[:uploaded_file]).to include("one_byte_too_big.csv is more than 7MB")
+        expect(instance.errors[:uploaded_file]).to include("one_byte_too_big.csv is more than 1MB")
       end
     end
 
@@ -100,6 +110,19 @@ RSpec.describe BulkSubmissionForm, type: :model do
       end
     end
 
+    context "with a file that is exactly one mebibyte" do
+      let(:a_file) { fixture_file_upload('exactly_one_mebibyte.csv', 'text/csv') }
+
+      it "replaces the original_file on the bulk submission" do
+        expect {
+          update
+        }.to change {
+          instance.bulk_submission.original_file.filename.to_s
+        }.from('basic_bulk_submission.csv')
+         .to('exactly_one_mebibyte.csv')
+      end
+    end
+
     context "with a file that is too big" do
       let(:a_file) { fixture_file_upload('one_byte_too_big.csv', 'text/csv') }
 
@@ -110,7 +133,7 @@ RSpec.describe BulkSubmissionForm, type: :model do
           instance.bulk_submission.original_file.filename.to_s
         }
 
-        expect(instance.errors[:uploaded_file]).to include("one_byte_too_big.csv is more than 7MB")
+        expect(instance.errors[:uploaded_file]).to include("one_byte_too_big.csv is more than 1MB")
       end
     end
 

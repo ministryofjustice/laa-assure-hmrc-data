@@ -29,7 +29,7 @@ RSpec.describe "sign in", type: :system, js: true do
       it "user can upload and delete a CSV from a bulk submission" do
         visit "/bulk_submission_forms/new"
         expect(page).to have_content("Upload a file")
-        expect(page).to have_selector(".govuk-hint", text: "The maximum file size is 7MB. Files must be a CSV.")
+        expect(page).to have_selector(".govuk-hint", text: "The maximum file size is 1MB. Files must be a CSV.")
 
         within(".dropzone") do
           expect(page).to have_selector(".govuk-body", text: "Drag and drop files here or")
@@ -58,7 +58,7 @@ RSpec.describe "sign in", type: :system, js: true do
       it "user can upload and update a CSV on a bulk submission" do
         visit "/bulk_submission_forms/new"
         expect(page).to have_content("Upload a file")
-        expect(page).to have_selector(".govuk-hint", text: "The maximum file size is 7MB. Files must be a CSV.")
+        expect(page).to have_selector(".govuk-hint", text: "The maximum file size is 1MB. Files must be a CSV.")
 
         within(".dropzone") do
           expect(page).to have_selector(".govuk-body", text: "Drag and drop files here or")
@@ -116,8 +116,8 @@ RSpec.describe "sign in", type: :system, js: true do
 
         find(".dz-clickable").drop(file_fixture("one_byte_too_big.csv"))
         expect(page)
-          .to have_selector(".govuk-error-summary__body", text: "one_byte_too_big.csv is more than 7MB")
-          .and have_selector(".govuk-error-message", text: "one_byte_too_big.csv is more than 7MB")
+          .to have_selector(".govuk-error-summary__body", text: "one_byte_too_big.csv is more than 1MB")
+          .and have_selector(".govuk-error-message", text: "one_byte_too_big.csv is more than 1MB")
 
         find(".dz-clickable").drop(file_fixture("empty.png"))
         expect(page)
@@ -162,8 +162,8 @@ RSpec.describe "sign in", type: :system, js: true do
 
         find(".dz-clickable").drop(file_fixture("one_byte_too_big.csv"))
         expect(page)
-          .to have_selector(".govuk-error-summary__body", text: "one_byte_too_big.csv is more than 7MB")
-          .and have_selector(".govuk-error-message", text: "one_byte_too_big.csv is more than 7MB")
+          .to have_selector(".govuk-error-summary__body", text: "one_byte_too_big.csv is more than 1MB")
+          .and have_selector(".govuk-error-message", text: "one_byte_too_big.csv is more than 1MB")
 
         find(".dz-clickable").drop(file_fixture("empty.png"))
         expect(page)

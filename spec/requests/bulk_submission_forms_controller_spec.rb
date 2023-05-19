@@ -155,7 +155,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
         post bulk_submission_forms_path, params: bulk_submission_form_params
         expect(response).to have_http_status(:success)
         expect(response).to render_template(:new)
-        expect(response.body).to include("one_byte_too_big.csv is more than 7MB")
+        expect(response.body).to include("one_byte_too_big.csv is more than 1MB")
       end
 
       it "does not create bulk_submission" do

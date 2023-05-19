@@ -2,7 +2,7 @@ class BulkSubmissionForm
   include ActiveModel::Model
   include ActiveModel::Validations::Callbacks
 
-  MAX_FILE_SIZE = 7.megabytes
+  MAX_FILE_SIZE = 1.megabyte
 
   ALLOWED_CONTENT_TYPES = %w[
     text/csv
