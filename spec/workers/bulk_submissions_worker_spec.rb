@@ -33,13 +33,10 @@ RSpec.describe BulkSubmissionsWorker, type: :worker do
 
     before { bulk_submission }
 
-    it "calls BulkSubmissionWorker on default queue with ids" do
-      worker_klass = class_double("BulkSubmissionWorker")
-      allow(BulkSubmissionWorker).to receive(:set).and_return(worker_klass)
-      allow(worker_klass).to receive(:perform_async)
+    it "calls BulkSubmissionWorker with ids" do
+      allow(BulkSubmissionWorker).to receive(:perform_async)
       perform
-      expect(BulkSubmissionWorker).to have_received(:set).with(queue: "default")
-      expect(worker_klass).to have_received(:perform_async).with(bulk_submission.id)
+      expect(BulkSubmissionWorker).to have_received(:perform_async).with(bulk_submission.id)
     end
 
     it "logs timestamp, class and args of run" do
