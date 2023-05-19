@@ -59,6 +59,46 @@
           - HmrcInterfaceResultService (HmrcInterface::Request::Result)
 ```
 
+## Processes, dynamic queue names and concurrency
+
+Processes, dynamic queue names and concurrency are handled through a combination
+of github deployment actions (helm) for hosted environments and creating processes
+that only process specific queues with a specific concurrency. Local development
+emulates this through use of `bin/dev` (which calls Procfile.dev).
+
+- production (uat)
+  creation of workers/processes for specific queues with specific concurrency is handled
+  via deployment-worker.yml the github deployment for uat action and codebase
+  setting of queues for a uat environment's branch.
+
+  This creates:
+  * container with processor for "default-<branch-name>" queue with concurrency of 5
+  * container with processor for for "uc-one-submissions-<branch-name>" queue with concurrency of 1
+  * container with processor for for "uc-two-submissions-<branch-name>" queue with concurrency of 1
+
+- production (staging and production)
+  creation of workers for specific queues with specific concurrency is handled
+  via deployment-worker.yml the github deployment action and codebase
+  setting of queues for any non-uat environment.
+
+  This creates:
+  * container with processor for "default" queue with concurrency of 5
+  * container with processor for "uc-one-submissions" queue with concurrency of 1
+  * container with processor for "uc-two-submissions" queue with concurrency of 1
+
+ - development with `bin/dev`
+  `bin/dev` calls Procfile.dev which creates:
+  * process (worker) for "default" queue with concurrency of 5
+  * process (worker) for "uc-one-submissions" queue with concurrency of 1
+  * process (worker) for "uc-two-submissions" queue with concurrency of 1
+
+- development with `rails server`
+ won't work??
+
+- test
+ ??
+
+
 ### Status change flow
 
 - bulk_submissions

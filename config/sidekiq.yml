@@ -1,9 +1,21 @@
 ---
-# TODO: add UAT branch queues dynamically (see https://github.com/deanpcmad/sidekiq-limit_fetch !??)
-:queues:
-  - default
-  - uc-one-submissions
-  - uc-two-submissions
+# WARNING: do not put typical sidekiq static queues configuration in here
+#
+# see docs/flow.md
+#
+
+# TODO: alternative to applying dynamic queue names and concurrency per queue??
+# see https://github.com/deanpcmad/sidekiq-limit_fetch !??
+#
+# TODO: alternative to applying dynamic queue names and concurrency per queue??
+# use sidekiq's erb engine here!?? You cannot use `Rails` module methods here
+# though as they are not loaded. :(
+# EXAMPLE:
+#
+# :concurrency: 1
+# :queues:
+#   - <%= 'uc-one-' + ENV.fetch('APP_BRANCH', 'development') + '-submissions' %>
+#   - <%= 'uc-two-' + ENV.fetch('APP_BRANCH', 'development') + '-submissions' %>
 
 :scheduler:
   :schedule:

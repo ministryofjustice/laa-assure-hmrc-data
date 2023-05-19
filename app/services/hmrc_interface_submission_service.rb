@@ -16,7 +16,7 @@ class HmrcInterfaceSubmissionService
 
     if response[:id].present?
       submission.update!(hmrc_interface_id: response[:id], status: "submitted")
-      HmrcInterfaceResultWorker.perform_in(10.seconds, submission.id)
+      HmrcInterfaceResultWorker.set(queue:).perform_in(10.seconds, submission.id)
     end
   end
 
@@ -39,5 +39,9 @@ class HmrcInterfaceSubmissionService
       last_name: submission.last_name,
       dob: submission.dob,
     }
+  end
+
+  def queue
+    @queue ||= SubmissionQueueNameService.call(submission.use_case)
   end
 end

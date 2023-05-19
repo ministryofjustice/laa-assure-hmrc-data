@@ -20,7 +20,7 @@ class BulkSubmissionService
 
     bulk_submission.update!(status: "prepared")
 
-    HmrcInterfaceBulkSubmissionWorker.perform_async(bulk_submission.id)
+    HmrcInterfaceBulkSubmissionWorker.set(queue:).perform_async(bulk_submission.id)
   end
 
 private
@@ -47,5 +47,9 @@ private
 
   def file_contents
     @file_contents ||= bulk_submission.original_file.download
+  end
+
+  def queue
+    @queue ||= DefaultQueueNameService.call
   end
 end

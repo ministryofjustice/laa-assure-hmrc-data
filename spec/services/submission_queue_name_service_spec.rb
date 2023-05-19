@@ -13,7 +13,7 @@ RSpec.describe SubmissionQueueNameService do
       end
 
       it "prefixes the submission queue name with the branch name" do
-        expect(call).to eq "uc-one-this-is-a-test-branch-submissions"
+        expect(call).to eq "uc-one-submissions-this-is-a-test-branch"
       end
     end
 
