@@ -18,33 +18,6 @@ class BulkSubmissionCsvParser
     end
   end
 
-  # TODO: fix "warning: redefining constant Struct::SubmissionRecord" - use dry-struct or a plain class
-  SubmissionRecord = Struct.new('SubmissionRecord',
-                                :period_start_date,
-                                :period_end_date,
-                                :first_name,
-                                :last_name,
-                                :date_of_birth,
-                                :nino) do
-    def period_start_at
-      @period_start_at ||= Date.parse(period_start_date)
-    rescue Date::Error => e
-      raise Date::Error, "#{e.message} for #{__method__}"
-    end
-
-    def period_end_at
-      @period_end_at ||= Date.parse(period_end_date)
-    rescue Date::Error => e
-      raise Date::Error, "#{e.message} for #{__method__}"
-    end
-
-    def dob
-      @dob ||= Date.parse(date_of_birth)
-    rescue Date::Error => e
-      raise Date::Error, "#{e.message} for #{__method__}"
-    end
-  end
-
   def self.call(*args)
     new(*args).call
   end
@@ -55,7 +28,7 @@ class BulkSubmissionCsvParser
 
   def call
     raise InvalidHeader unless headers_valid?
-    raise NoDataFound unless data_present?
+    raise NoDataFound unless data?
 
     submission_records
   end
@@ -72,7 +45,7 @@ private
     (SubmissionRecord.members & csv_table.headers.map(&:to_sym)) == SubmissionRecord.members
   end
 
-  def data_present?
+  def data?
     csv_table.size.positive?
   end
 
