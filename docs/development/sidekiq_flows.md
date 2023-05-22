@@ -1,50 +1,16 @@
-# Submission process notes
-
+# Sidekiq flows - submission process notes
 
 ## Processing of requests to HmrcInterface
 
-* BulkSubmissionsWorker (plural) called by scheduled job
-    This finds all pending bulk submissions and calls the BulkSubmissionWorker (singular) for each
+### Workers and services flow summary
 
-* BulkSubmissionsWorker (plural) calls BulkSubmissionWorker (singular) for all pending bulk submissions
+The following is a summary of the flow from workers to nested workers and services.
 
-* BulkSubmissionWorker (singular) calls BulkSubmissionService.call for each bulk_submission
-
-* BulkSubmissionService performs the following:
-  - updates bulk submission status as :preparing
-  - for each record in bulk submission's attached original_file
-    - create use case one submission record with client details, start and end date, status: pending
-    - create use case two submission record with client details, start and end date, status: pending
- - updates bulk submission status as :prepared
- - enqueues HmrcInterfaceBulkSubmissionWorker for the bulk_submission
-
-* HmrcInterfaceBulkSubmissionWorker job , is performed at 9pm, calling HmrcInterfaceBulkSubmissionWorker (note the singular) for each bulk submission in a pending state.
-
-* HmrcInterfaceBulkSubmissionWorker (singular) identifies pending submissions associated with that bulk submission and calls HmrcInterfaceSubmissionWorker for each submission
-
-* HmrcInterfaceSubmissionWorker
-
- - enqueues HmrcInterfaceSubmissionService on uc-one-submission
- - enqueues HmrcInterfaceSubmissionService on uc-two-submission
-
-* HmrcInterfaceSubmissionService
- - updates submission status to :processing
- - calls `HmrcInterface::Request::Submission` for that submission.
- - awaits the response and updates the submissions hmrc_interface_id with the response's id
- - enqueues/calls an HmrcInterfaceResultsWorker to be performed in 10 seconds, passing the submission record id (or hmrc_interface_id)
-
-* HmrcInterfaceResultWorker calls HmrcInterfaceResultsService
-
-* HmrcInterfaceResultsService performs the following:
-  - calls HmrcInterface::Request::Result
-  - updates submission.hmrc_interface_result with response
-  - updates submission.status to that of response ("completed", "created", "processing" or "failed")
-  - succeeds if response status is "failed" or "completed"
-  - retries if "processing" or "created" by rausing TryAgain error
-
+The isolation of separate workers is intended to make each step capable of handling errors and retries as required. The use of two queues, uc-one..and uc-two..., is to emulate what hmrc
+interface does itself, and ultimately reflects the throttling HMRC enforces on a per use
+case basis.
 
 ```text
-# workers and services summary
 - BulkSubmissionsWorker (plural)
   - BulkSubmissionWorker (singular)
    - BulkSubmissionService
@@ -120,26 +86,17 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
 ### Status change flow
 
 - bulk_submissions
- - pending
- - preparing
- - prepared
- - processing (completing instead?!)
- - completed
+  - pending
+  - preparing
+  - prepared
+  - processing (completing instead?!)
+  - completed (TODO: relates to AP-4053)
+  - ready (TODO: relates to AP-4053)
 
 - submissions
- - pending
- - submitting
- - submitted
- - completing
- - created || processing [temporary status from API]
- - completed || failed [finished status from API]
-
-## Other options
-- add a processed_at timestamp to bulk_submissions and update when appropriate
-- add a processed_at timestamp to submissions and update when appropriate
-
-## Possible refactoring
-- [ ] dependency inversion (inject lib based hmrc interface request objects into submission and result services)
-- [ ] "status" machine mixin (pending!, pending? etc) for bulk submissions and subdmissions
-- [ ] extract SubmissionRecord struct to its own class and share with validator
-- [ ] extract HmrcInterfaceBaseWorker sidekiq options to mixin in lib hmrc interface and include in current subclasses of HmrcInterfaceBaseWorker, then delete HmrcInterfaceBaseWorker
+  - pending
+  - submitting
+  - submitted
+  - completing
+  - created || processing [temporary status from API]
+  - completed || failed [finished status from API]
