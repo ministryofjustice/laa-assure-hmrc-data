@@ -9,6 +9,14 @@ RSpec.describe HmrcInterfaceSubmissionService do
    it { expect(instance.submission).to eql(submission) }
   end
 
+  describe "#requestor" do
+    subject(:requestor) { instance.requestor }
+
+    it "defaults to HmrcInterface::Request::Result" do
+      expect(requestor).to be HmrcInterface::Request::Submission
+    end
+  end
+
   describe "#call" do
     subject(:call) { instance.call }
 
@@ -16,7 +24,7 @@ RSpec.describe HmrcInterfaceSubmissionService do
 
     context "with a submission success" do
       before do
-        allow(HmrcInterface::Request::Submission)
+        allow(instance.requestor)
           .to receive(:call)
           .and_return(response_with_id)
       end
@@ -74,7 +82,7 @@ RSpec.describe HmrcInterfaceSubmissionService do
 
     context "when submission request returns erroroneous response" do
       before do
-        allow(HmrcInterface::Request::Submission)
+        allow(instance.requestor)
           .to receive(:call)
           .and_return(response_without_id)
       end
@@ -99,7 +107,7 @@ RSpec.describe HmrcInterfaceSubmissionService do
 
     context "when submission request raises error" do
       before do
-        allow(HmrcInterface::Request::Submission)
+        allow(instance.requestor)
           .to receive(:call)
           .and_raise StandardError, "oops, something went wrong"
       end

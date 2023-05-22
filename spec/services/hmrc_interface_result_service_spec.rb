@@ -14,6 +14,14 @@ RSpec.describe HmrcInterfaceResultService do
    it { expect(instance.submission).to eql(submission) }
   end
 
+  describe "#requestor" do
+    subject(:requestor) { instance.requestor }
+
+    it "defaults to HmrcInterface::Request::Result" do
+      expect(requestor).to be HmrcInterface::Request::Result
+    end
+  end
+
   describe "#call" do
     subject(:call) { instance.call }
 
@@ -21,7 +29,7 @@ RSpec.describe HmrcInterfaceResultService do
 
     context "when result has completed status" do
       before do
-        allow(HmrcInterface::Request::Result)
+        allow(instance.requestor)
           .to receive(:call)
           .and_return(parsed_response)
       end
@@ -49,7 +57,7 @@ RSpec.describe HmrcInterfaceResultService do
 
     context "when result has processing status" do
       before do
-        allow(HmrcInterface::Request::Result)
+        allow(instance.requestor)
           .to receive(:call)
           .and_return(parsed_processing_response)
       end
@@ -76,7 +84,7 @@ RSpec.describe HmrcInterfaceResultService do
 
     context "when result has created status" do
       before do
-        allow(HmrcInterface::Request::Result)
+        allow(instance.requestor)
           .to receive(:call)
           .and_return(parsed_processing_response)
       end
@@ -103,7 +111,7 @@ RSpec.describe HmrcInterfaceResultService do
 
     context "when result has unexpected status" do
       before do
-        allow(HmrcInterface::Request::Result)
+        allow(instance.requestor)
           .to receive(:call)
           .and_return(parsed_processing_response)
       end
@@ -130,7 +138,7 @@ RSpec.describe HmrcInterfaceResultService do
 
     context "when result request raises error" do
       before do
-        allow(HmrcInterface::Request::Result)
+        allow(instance.requestor)
           .to receive(:call)
           .and_raise StandardError, "oops, something went wrong"
       end

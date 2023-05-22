@@ -1,18 +1,19 @@
 class HmrcInterfaceResultService
-  attr_reader :submission
+  attr_reader :submission, :requestor
 
   def self.call(*args)
     new(*args).call
   end
 
-  def initialize(submission_id)
+  def initialize(submission_id, requestor = HmrcInterface::Request::Result)
     @submission = Submission.find(submission_id)
+    @requestor = requestor
   end
 
   def call
     submission.completing!
 
-    response = HmrcInterface::Request::Result.call(client, submission.hmrc_interface_id)
+    response = requestor.call(client, submission.hmrc_interface_id)
 
     submission.update!(hmrc_interface_result: response, status: response[:status])
 
