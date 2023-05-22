@@ -5,7 +5,7 @@ class HmrcInterfaceBulkSubmissionWorker < ApplicationWorker
     bulk_submission = BulkSubmission.find(bulk_submission_id)
     pending_submissions = bulk_submission.submissions.where(status: 'pending')
 
-    bulk_submission.update!(status: "processing")
+    bulk_submission.processing!
 
     pending_submissions.each do |submission|
       queue = SubmissionQueueNameService.call(submission.use_case)

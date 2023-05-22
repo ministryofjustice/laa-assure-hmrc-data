@@ -10,7 +10,7 @@ class HmrcInterfaceResultService
   end
 
   def call
-    submission.update!(status: "completing")
+    submission.completing!
 
     response = HmrcInterface::Request::Result.call(client, submission.hmrc_interface_id)
 

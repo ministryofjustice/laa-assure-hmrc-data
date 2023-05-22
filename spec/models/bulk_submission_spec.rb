@@ -51,4 +51,13 @@ RSpec.describe BulkSubmission, type: :model do
       expect { instance.destroy }.to change(Submission, :count).by(-1)
     end
   end
+
+  it "is status settable" do
+    expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
+      memo << ["pending#{c}", "preparing#{c}", "prepared#{c}",
+               "processing#{c}", "completed#{c}"]
+    end
+
+    expect(instance).to respond_to(*expected_status_methods.flatten)
+  end
 end

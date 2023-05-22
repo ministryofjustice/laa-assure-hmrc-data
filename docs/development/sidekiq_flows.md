@@ -100,3 +100,5 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   - completing
   - created || processing [temporary status from API]
   - completed || failed [finished status from API]
+  - exhausted
+

@@ -11,14 +11,14 @@ class BulkSubmissionService
   end
 
   def call
-    bulk_submission.update!(status: "preparing")
+    bulk_submission.preparing!
 
     file_records.each do |rec|
       create_submission!(use_case: :one, submission: rec)
       create_submission!(use_case: :two, submission: rec)
     end
 
-    bulk_submission.update!(status: "prepared")
+    bulk_submission.prepared!
 
     HmrcInterfaceBulkSubmissionWorker.perform_async(bulk_submission.id)
   end
