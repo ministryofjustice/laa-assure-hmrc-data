@@ -65,18 +65,14 @@ RSpec.describe HmrcInterfaceBulkSubmissionWorker, type: :worker do
       end
     end
 
-    # TODO: move to shared context or example
-    let(:log_regex) do
-      %r{\[\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}.*\] running #{described_class} with args: \[.*\]}
-    end
-
-    # TODO: move to shared example
     let(:worker) { class_double(HmrcInterfaceSubmissionWorker) }
 
     before do
       allow(HmrcInterfaceSubmissionWorker).to receive(:set).and_return(worker)
       allow(worker).to receive(:perform_async)
     end
+
+    it_behaves_like "applcation worker logger"
 
     it "updates status to :processing" do
       expect { perform }
@@ -85,23 +81,16 @@ RSpec.describe HmrcInterfaceBulkSubmissionWorker, type: :worker do
               .to("processing")
     end
 
-    it "enqueues HmrcInterfaceSubmissionWorker on uc-one-submissions queue passing submission's id" do
+    it "enqueues HmrcInterfaceSubmissionWorker on uc-one-submissions queue with submission's id" do
       perform
       expect(HmrcInterfaceSubmissionWorker).to have_received(:set).with(queue: "uc-one-submissions").once
       expect(worker).to have_received(:perform_async).with(bulk_submission.submissions.first.id)
     end
 
-    it "enqueues HmrcInterfaceSubmissionWorker on uc-two-submissions queue passing submission's id" do
+    it "enqueues HmrcInterfaceSubmissionWorker on uc-two-submissions queue with submission's id" do
       perform
       expect(HmrcInterfaceSubmissionWorker).to have_received(:set).with(queue: "uc-two-submissions").once
       expect(worker).to have_received(:perform_async).with(bulk_submission.submissions.second.id)
-    end
-
-    # TODO: move to shared example
-    it "logs timestamp, class and args of run" do
-      allow(Rails.logger).to receive(:info)
-      perform
-      expect(Rails.logger).to have_received(:info).with(log_regex)
     end
   end
 end

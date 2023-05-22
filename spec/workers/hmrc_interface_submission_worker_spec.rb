@@ -182,25 +182,15 @@ RSpec.describe HmrcInterfaceSubmissionWorker, type: :worker do
   describe "#perform" do
     subject(:perform) { described_class.new.perform(submission.id) }
 
-    # TODO: move to shared example
-    let(:log_regex) do
-      %r{\[\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}.*\] running #{described_class} with args: \[.*\]}
-    end
-
     before do
       allow(HmrcInterfaceSubmissionService).to receive(:call)
     end
 
+    it_behaves_like "applcation worker logger"
+
     it "calls HmrcInterfaceSubmissionService" do
       perform
       expect(HmrcInterfaceSubmissionService).to have_received(:call).with(submission.id).once
-    end
-
-    # TODO: move to shared example
-    it "logs timestamp, class and args of run" do
-      allow(Rails.logger).to receive(:info)
-      perform
-      expect(Rails.logger).to have_received(:info).with(log_regex)
     end
   end
 end

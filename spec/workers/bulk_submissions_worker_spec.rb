@@ -60,24 +60,14 @@ RSpec.describe BulkSubmissionsWorker, type: :worker do
 
     let(:bulk_submission) { create(:bulk_submission, :with_original_file, status: 'pending') }
 
-      # TODO: move to shared example
-    let(:log_regex) do
-      %r{\[\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}.*\] running #{described_class} with args: \[\]}
-    end
-
     before { bulk_submission }
+
+    it_behaves_like "applcation worker logger"
 
     it "enqueues BulkSubmissionWorker with ids" do
       allow(BulkSubmissionWorker).to receive(:perform_async)
       perform
       expect(BulkSubmissionWorker).to have_received(:perform_async).with(bulk_submission.id)
-    end
-
-    # TODO: move to shared example
-    it "logs timestamp, class and args of run" do
-      allow(Rails.logger).to receive(:info)
-      perform
-      expect(Rails.logger).to have_received(:info).with(log_regex)
     end
   end
 end
