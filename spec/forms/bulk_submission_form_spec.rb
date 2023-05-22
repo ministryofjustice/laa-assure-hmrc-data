@@ -28,6 +28,10 @@ RSpec.describe BulkSubmissionForm, type: :model do
     end
 
     context "with a file that is exactly one mebibyte" do
+      before do
+        allow(instance).to receive(:file_content).and_return(true)
+      end
+
       let(:a_file) { fixture_file_upload('exactly_one_mebibyte.csv', 'text/csv') }
 
       it "creates a bulk submission and attaches a file to it" do
@@ -64,6 +68,73 @@ RSpec.describe BulkSubmissionForm, type: :model do
         expect { save }.not_to change(BulkSubmission, :count)
         expect(instance.bulk_submission).to be_nil
         expect(instance.errors[:uploaded_file]).to include("basic_bulk_submission.csv must be a CSV")
+      end
+    end
+    
+    context "with a file that is too long" do
+      let(:a_file) { fixture_file_upload('too_many_rows.csv', 'text/csv') }
+
+      it "does not create a bulk_submission and adds errors" do
+        expect { save }.not_to change(BulkSubmission, :count)
+        expect(instance.bulk_submission).to be_nil
+        expect(instance.errors[:uploaded_file]).to include("too_many_rows.csv has more than 35 records")
+      end
+    end
+
+    context "with a file with invalid headers" do
+      let(:a_file) { fixture_file_upload('invalid_headers.csv', 'text/csv') }
+
+      it "does not create a bulk_submission and adds errors" do
+        expect { save }.not_to change(BulkSubmission, :count)
+        expect(instance.bulk_submission).to be_nil
+        expect(instance.errors[:uploaded_file]).to include("invalid_headers.csv has invalid headers")
+      end
+    end
+
+    context "with a file with invalid content" do
+      let(:a_file) { fixture_file_upload('invalid_content.csv', 'text/csv') }
+
+      it "does not create a bulk_submission and adds errors" do
+        expect { save }.not_to change(BulkSubmission, :count)
+        expect(instance.bulk_submission).to be_nil
+        expect(instance.errors[:uploaded_file]).to include("invalid_content.csv first name missing at row 2")
+        .and include("invalid_content.csv last name missing at row 2")
+        .and include("invalid_content.csv invalid date of birth at row 2")
+        .and include("invalid_content.csv invalid national insurance number at row 2")
+        .and include("invalid_content.csv invalid period start date at row 2")
+        .and include("invalid_content.csv invalid period end date at row 2")
+      end
+    end
+
+    context "with a file with an invalid period" do
+      let(:a_file) { fixture_file_upload('invalid_period.csv', 'text/csv') }
+
+      it "does not create a bulk_submission and adds errors" do
+        expect { save }.not_to change(BulkSubmission, :count)
+        expect(instance.bulk_submission).to be_nil
+        expect(instance.errors[:uploaded_file])
+          .to include("invalid_period.csv period end date earlier than period start date at row 2")
+      end
+    end
+
+    context "with an unparseable file with empty rows" do
+      let(:a_file) { fixture_file_upload('unparseable_file.csv', 'text/csv') }
+
+      it "does not create a bulk_submission and adds errors" do
+        expect { save }.not_to change(BulkSubmission, :count)
+        expect(instance.bulk_submission).to be_nil
+        expect(instance.errors[:uploaded_file])
+          .to include("unparseable_file.csv unable to read file")
+      end
+    end
+
+    context "with a file containing whitespace in headers" do
+      let(:a_file) { fixture_file_upload('whitespace.csv', 'text/csv') }
+
+      it "creates a bulk submission and attachs a file to it" do
+        expect { save }.to change(BulkSubmission, :count).by(1)
+        expect(instance.bulk_submission.original_file).to be_attached
+        expect(instance.errors).to be_empty
       end
     end
   end
@@ -111,6 +182,10 @@ RSpec.describe BulkSubmissionForm, type: :model do
     end
 
     context "with a file that is exactly one mebibyte" do
+      before do
+        allow(instance).to receive(:file_content).and_return(true)
+      end
+
       let(:a_file) { fixture_file_upload('exactly_one_mebibyte.csv', 'text/csv') }
 
       it "replaces the original_file on the bulk submission" do
