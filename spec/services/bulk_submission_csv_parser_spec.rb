@@ -15,34 +15,34 @@ RSpec.describe BulkSubmissionCsvParser do
     context "with \"typical\" csv content" do
       let(:content) do
         <<~CSV
-          start_date, end_date, first_name, last_name, date_of_birth, nino
-          01/01/2023, 01/03/2023, Jim, Bob, 01/01/2001, JA123456D
-          01/01/2022, 01/03/2022, John, Boy, 01/01/2002, JA654321D
+          period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
+          2023-01-01, 2023-03-31, Jim, Bob, 2001-01-01, JA123456D
+          2022-01-01, 2022-03-31, John, Boy, 2002-01-01, JA654321D
         CSV
       end
 
       it "returns array of objects with expected attributes values" do
         expect(call).to match_array([
           have_attributes(
-            start_date: "01/01/2023",
-            period_start_at: Date.parse("01/01/2023"),
-            end_date: "01/03/2023",
-            period_end_at: Date.parse("01/03/2023"),
+            period_start_date: "2023-01-01",
+            period_start_at: Date.parse("2023-01-01"),
+            period_end_date: "2023-03-31",
+            period_end_at: Date.parse("2023-03-31"),
             first_name: "Jim",
             last_name: "Bob",
-            date_of_birth: "01/01/2001",
-            dob: Date.parse("01/01/2001"),
+            date_of_birth: "2001-01-01",
+            dob: Date.parse("2001-01-01"),
             nino: "JA123456D"
           ),
           have_attributes(
-            start_date: "01/01/2022",
-            period_start_at: Date.parse("01/01/2022"),
-            end_date: "01/03/2022",
-            period_end_at: Date.parse("01/03/2022"),
+            period_start_date: "2022-01-01",
+            period_start_at: Date.parse("2022-01-01"),
+            period_end_date: "2022-03-31",
+            period_end_at: Date.parse("2022-03-31"),
             first_name: "John",
             last_name: "Boy",
-            date_of_birth: "01/01/2002",
-            dob: Date.parse("01/01/2002"),
+            date_of_birth: "2002-01-01",
+            dob: Date.parse("2002-01-01"),
             nino: "JA654321D"
           ),
         ])
@@ -52,9 +52,9 @@ RSpec.describe BulkSubmissionCsvParser do
     context "with csv header in different order" do
       let(:content) do
         <<~CSV
-          nino, start_date, end_date, first_name, last_name, date_of_birth
-          JA123456D, 01/01/2023, 01/03/2023, Jim, Bob, 01/01/2001
-          JA654321D, 01/01/2022, 01/03/2022, John, Boy, 01/01/2002
+          nino, period_start_date, period_end_date, first_name, last_name, date_of_birth
+          JA123456D, 2023-01-01, 2023-03-31, Jim, Bob, 2001-01-01
+          JA654321D, 2022-01-01, 2022-03-31, John, Boy, 2002-01-01
         CSV
       end
 
@@ -64,7 +64,7 @@ RSpec.describe BulkSubmissionCsvParser do
     context "with missing csv header and one row" do
       let(:content) do
         <<~CSV
-          01/01/2023, 01/03/2023, Jim, Bob, 01/01/2001, JA123456D
+          2023-01-01, 2023-03-01, Jim, Bob, 2001-01-01, JA123456D
         CSV
       end
 
@@ -74,8 +74,8 @@ RSpec.describe BulkSubmissionCsvParser do
     context "with mistaken csv header and multiple rows" do
       let(:content) do
         <<~CSV
-          01/01/2022, 01/03/2022, John, Boy, 01/01/2002, JA654321D
-          01/01/2023, 01/03/2023, Jim, Bob, 01/01/2001, JA123456D
+          2022-01-01, 2022-03-01, John, Boy, 2002-01-01, JA654321D
+          2023-01-01, 2023-03-01, Jim, Bob, 2001-01-01, JA123456D
         CSV
       end
 
@@ -95,7 +95,7 @@ RSpec.describe BulkSubmissionCsvParser do
     context "with no row data" do
       let(:content) do
         <<~CSV
-          start_date, end_date, first_name, last_name, date_of_birth, nino
+          period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
         CSV
       end
 

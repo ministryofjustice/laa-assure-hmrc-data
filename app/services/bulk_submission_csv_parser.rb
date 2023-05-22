@@ -20,20 +20,20 @@ class BulkSubmissionCsvParser
 
   # TODO: fix "warning: redefining constant Struct::SubmissionRecord" - use dry-struct or a plain class
   SubmissionRecord = Struct.new('SubmissionRecord',
-                                :start_date,
-                                :end_date,
+                                :period_start_date,
+                                :period_end_date,
                                 :first_name,
                                 :last_name,
                                 :date_of_birth,
                                 :nino) do
     def period_start_at
-      @period_start_at ||= Date.parse(start_date)
+      @period_start_at ||= Date.parse(period_start_date)
     rescue Date::Error => e
       raise Date::Error, "#{e.message} for #{__method__}"
     end
 
     def period_end_at
-      @period_end_at ||= Date.parse(end_date)
+      @period_end_at ||= Date.parse(period_end_date)
     rescue Date::Error => e
       raise Date::Error, "#{e.message} for #{__method__}"
     end

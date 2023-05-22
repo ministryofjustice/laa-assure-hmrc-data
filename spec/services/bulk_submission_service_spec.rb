@@ -42,8 +42,8 @@ RSpec.describe BulkSubmissionService do
         expect(submissions).to match_array([
           hash_including(
             use_case: "one",
-            period_start_at: Date.parse("01/01/2023"),
-            period_end_at: Date.parse("01/03/2023"),
+            period_start_at: Date.parse("2023-01-01"),
+            period_end_at: Date.parse("2023-03-31"),
             first_name: "Jim",
             last_name: "Bob",
             dob: Date.parse("01/01/2001"),
@@ -51,8 +51,8 @@ RSpec.describe BulkSubmissionService do
           ),
           hash_including(
             use_case: "two",
-            period_start_at: Date.parse("01/01/2023"),
-            period_end_at: Date.parse("01/03/2023"),
+            period_start_at: Date.parse("2023-01-01"),
+            period_end_at: Date.parse("2023-03-31"),
             first_name: "Jim",
             last_name: "Bob",
             dob: Date.parse("01/01/2001"),
@@ -60,8 +60,8 @@ RSpec.describe BulkSubmissionService do
           ),
           hash_including(
             use_case: "one",
-            period_start_at: Date.parse("01/01/2022"),
-            period_end_at: Date.parse("01/03/2022"),
+            period_start_at: Date.parse("2022-01-01"),
+            period_end_at: Date.parse("2022-03-31"),
             first_name: "John",
             last_name: "Boy",
             dob: Date.parse("01/01/2002"),
@@ -69,8 +69,8 @@ RSpec.describe BulkSubmissionService do
           ),
           hash_including(
             use_case: "two",
-            period_start_at: Date.parse("01/01/2022"),
-            period_end_at: Date.parse("01/03/2022"),
+            period_start_at: Date.parse("2022-01-01"),
+            period_end_at: Date.parse("2022-03-31"),
             first_name: "John",
             last_name: "Boy",
             dob: Date.parse("01/01/2002"),
@@ -89,7 +89,7 @@ RSpec.describe BulkSubmissionService do
 
       let(:content) do
         <<~CSV
-          start_date    , end_date,first_name \t, last_name  \t, \tdate_of_birth    , nino
+          period_start_date    , period_end_date,first_name \t, last_name  \t, \tdate_of_birth    , nino
           01/01/2023      , 01/03/2023,  Jim   ,  Bob ,   01/01/2001 ,  JA123456D
         CSV
       end
@@ -142,7 +142,7 @@ RSpec.describe BulkSubmissionService do
       context "with invalid start_date" do
         let(:content) do
           <<~CSV
-            start_date, end_date, first_name, last_name, date_of_birth, nino
+            period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
             AA, 01/03/2023, Jim, Bob, 01/01/2001, JA123456D
           CSV
         end
@@ -162,7 +162,7 @@ RSpec.describe BulkSubmissionService do
       context "with invalid end_date" do
         let(:content) do
           <<~CSV
-            start_date, end_date, first_name, last_name, date_of_birth, nino
+            period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
             01/01/2023, AA, Jim, Bob, 01/01/2001, JA123456D
           CSV
         end
@@ -182,7 +182,7 @@ RSpec.describe BulkSubmissionService do
       context "with invalid date_of_birth" do
         let(:content) do
           <<~CSV
-            start_date, end_date, first_name, last_name, date_of_birth, nino
+            period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
             01/01/2023, 01/03/2023, Jim, Bob, AA, JA123456D
           CSV
         end
@@ -209,7 +209,7 @@ RSpec.describe BulkSubmissionService do
 
       let(:content) do
         <<~CSV
-          start_date, end_date, first_name, last_name, date_of_birth, nino
+          period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
           01/01/2023, 01/03/2023, Jim, Bob, 01/01/2001, JAX12345D
         CSV
       end
