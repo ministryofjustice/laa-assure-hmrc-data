@@ -46,7 +46,7 @@ RSpec.describe BulkSubmissionService do
             period_end_at: Date.parse("2023-03-31"),
             first_name: "Jim",
             last_name: "Bob",
-            dob: Date.parse("01/01/2001"),
+            dob: Date.parse("2001-01-01"),
             nino: "JA123456D",
           ),
           hash_including(
@@ -55,7 +55,7 @@ RSpec.describe BulkSubmissionService do
             period_end_at: Date.parse("2023-03-31"),
             first_name: "Jim",
             last_name: "Bob",
-            dob: Date.parse("01/01/2001"),
+            dob: Date.parse("2001-01-01"),
             nino: "JA123456D",
           ),
           hash_including(
@@ -64,7 +64,7 @@ RSpec.describe BulkSubmissionService do
             period_end_at: Date.parse("2022-03-31"),
             first_name: "John",
             last_name: "Boy",
-            dob: Date.parse("01/01/2002"),
+            dob: Date.parse("2002-01-01"),
             nino: "JA654321D",
           ),
           hash_including(
@@ -73,7 +73,7 @@ RSpec.describe BulkSubmissionService do
             period_end_at: Date.parse("2022-03-31"),
             first_name: "John",
             last_name: "Boy",
-            dob: Date.parse("01/01/2002"),
+            dob: Date.parse("2002-01-01"),
             nino: "JA654321D",
           ),
         ])
@@ -90,7 +90,7 @@ RSpec.describe BulkSubmissionService do
       let(:content) do
         <<~CSV
           period_start_date    , period_end_date,first_name \t, last_name  \t, \tdate_of_birth    , nino
-          01/01/2023      , 01/03/2023,  Jim   ,  Bob ,   01/01/2001 ,  JA123456D
+          2023-01-01      , 2023-03-31,  Jim   ,  Bob ,   2001-01-01 ,  JA123456D
         CSV
       end
 
@@ -102,20 +102,20 @@ RSpec.describe BulkSubmissionService do
         expect(submissions).to match_array([
           hash_including(
             use_case: "one",
-            period_start_at: Date.parse("01/01/2023"),
-            period_end_at: Date.parse("01/03/2023"),
+            period_start_at: Date.parse("2023-01-01"),
+            period_end_at: Date.parse("2023-03-31"),
             first_name: "Jim",
             last_name: "Bob",
-            dob: Date.parse("01/01/2001"),
+            dob: Date.parse("2001-01-01"),
             nino: "JA123456D",
           ),
           hash_including(
             use_case: "two",
-            period_start_at: Date.parse("01/01/2023"),
-            period_end_at: Date.parse("01/03/2023"),
+            period_start_at: Date.parse("2023-01-01"),
+            period_end_at: Date.parse("2023-03-31"),
             first_name: "Jim",
             last_name: "Bob",
-            dob: Date.parse("01/01/2001"),
+            dob: Date.parse("2001-01-01"),
             nino: "JA123456D",
           ),
         ])
@@ -143,7 +143,7 @@ RSpec.describe BulkSubmissionService do
         let(:content) do
           <<~CSV
             period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
-            AA, 01/03/2023, Jim, Bob, 01/01/2001, JA123456D
+            AA, 2023-03-31, Jim, Bob, 2001-01-01, JA123456D
           CSV
         end
 
@@ -163,7 +163,7 @@ RSpec.describe BulkSubmissionService do
         let(:content) do
           <<~CSV
             period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
-            01/01/2023, AA, Jim, Bob, 01/01/2001, JA123456D
+            2023-01-01, AA, Jim, Bob, 2001-01-01, JA123456D
           CSV
         end
 
@@ -183,7 +183,7 @@ RSpec.describe BulkSubmissionService do
         let(:content) do
           <<~CSV
             period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
-            01/01/2023, 01/03/2023, Jim, Bob, AA, JA123456D
+            2023-01-01, 2023-03-01, Jim, Bob, AA, JA123456D
           CSV
         end
 
@@ -210,7 +210,7 @@ RSpec.describe BulkSubmissionService do
       let(:content) do
         <<~CSV
           period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
-          01/01/2023, 01/03/2023, Jim, Bob, 01/01/2001, JAX12345D
+          2023-01-01, 2023-03-01, Jim, Bob, 2001-01-01, JAX12345D
         CSV
       end
 

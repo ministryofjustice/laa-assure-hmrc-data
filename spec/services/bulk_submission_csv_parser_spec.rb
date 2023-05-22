@@ -4,8 +4,8 @@ RSpec.describe BulkSubmissionCsvParser do
   let(:content) do
     <<~CSV
       start_date, end_date, first_name, last_name, date_of_birth, nino
-      01/01/2023, 01/03/2023, Jim, Bob, 01/01/2001, JA123456D
-      01/01/2022, 01/03/2022, John, Boy, 01/01/2002, JA654321D
+      2023-01-01, 2023-03-01, Jim, Bob, 2001-01-01, JA123456D
+      2022-01-01, 2022-03-01, John, Boy, 2002-01-01, JA654321D
     CSV
   end
 

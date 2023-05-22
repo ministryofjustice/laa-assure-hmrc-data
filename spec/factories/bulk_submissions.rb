@@ -35,7 +35,7 @@ FactoryBot.define do
         content = evaluator.content_for_original_file ||
                     <<~CSV
                       nino, start_date, end_date, first_name, last_name, date_of_birth
-                      JA123456D, 01/01/2023, 01/03/2023, Jim, Bob, 01/01/2001
+                      JA123456D, 2023-01-01, 2023-03-01, Jim, Bob, 2001-01-01
                     CSV
 
         bulk_submission.original_file.attach(
