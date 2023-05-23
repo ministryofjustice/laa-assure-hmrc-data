@@ -51,13 +51,13 @@ RSpec.describe HmrcInterfaceBulkSubmissionWorker, type: :worker do
     it "enqueues HmrcInterfaceSubmissionWorker on uc-one-submissions queue with submission's id" do
       perform
       expect(HmrcInterfaceSubmissionWorker).to have_received(:set).with(queue: "uc-one-submissions").once
-      expect(worker).to have_received(:perform_async).with(bulk_submission.submissions.first.id)
+      expect(worker).to have_received(:perform_async).with(bulk_submission.submissions.first.id, instance_of(Integer))
     end
 
     it "enqueues HmrcInterfaceSubmissionWorker on uc-two-submissions queue with submission's id" do
       perform
       expect(HmrcInterfaceSubmissionWorker).to have_received(:set).with(queue: "uc-two-submissions").once
-      expect(worker).to have_received(:perform_async).with(bulk_submission.submissions.second.id)
+      expect(worker).to have_received(:perform_async).with(bulk_submission.submissions.second.id, instance_of(Integer))
     end
   end
 end

@@ -7,9 +7,9 @@ class HmrcInterfaceBulkSubmissionWorker < ApplicationWorker
 
     bulk_submission.processing!
 
-    pending_submissions.each do |submission|
+    pending_submissions.each_with_index do |submission, idx|
       queue = SubmissionQueueNameService.call(submission.use_case)
-      HmrcInterfaceSubmissionWorker.set(queue:).perform_async(submission.id)
+      HmrcInterfaceSubmissionWorker.set(queue:).perform_async(submission.id, idx)
     end
 
     super
