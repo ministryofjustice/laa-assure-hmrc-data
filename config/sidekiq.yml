@@ -1,9 +1,22 @@
----
-:queues:
-  - default
+# WARNING: do not put typical sidekiq static queues configuration in here
+#
+# see docs/development/sidekiq_flows.md
+#
 
-scheduler:
+# TODO: alternatives to applying dynamic queue names and concurrency
+#
+# 1. sidekiq-limit_fetch - see https://github.com/deanpcmad/sidekiq-limit_fetch
+# 2. sidekiq capsules - see https://github.com/sidekiq/sidekiq/wiki/Advanced-Options#capsules
+# 3. use sidekiq's erb engine here,
+# EXAMPLE:
+#
+# :concurrency: 1
+# :queues:
+#   - <%= 'uc-one-' + ENV.fetch('APP_BRANCH', 'development') + '-submissions' %>
+#   - <%= 'uc-two-' + ENV.fetch('APP_BRANCH', 'development') + '-submissions' %>
+
+:scheduler:
   :schedule:
-    base_worker:
+    bulk_submissions_worker:
       cron: '0 21 * * *'
-      class: BaseWorker
+      class: BulkSubmissionsWorker

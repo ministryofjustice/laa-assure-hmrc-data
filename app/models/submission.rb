@@ -1,5 +1,17 @@
 class Submission < ApplicationRecord
+  include StatusSettable
+
   belongs_to :bulk_submission
+
+  has_status :pending,
+             :submitting,
+             :submitted,
+             :completing,
+             :created,
+             :processing,
+             :completed,
+             :failed,
+             :exhausted
 
   USE_CASES = %w[one two].freeze
   NINO_REGEXP = /\A(?!BG)(?!GB)(?!NK)(?!KN)(?!TN)(?!NT)(?!ZZ)[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z][0-9]{6}([A-DFM])\Z/

@@ -25,5 +25,25 @@ FactoryBot.define do
         )
       end
     end
+
+    transient do
+      content_for_original_file { nil }
+    end
+
+    trait :with_content_for_original_file do
+      after(:build) do |bulk_submission, evaluator|
+        content = evaluator.content_for_original_file ||
+                    <<~CSV
+                      nino, start_date, end_date, first_name, last_name, date_of_birth
+                      JA123456D, 2023-01-01, 2023-03-01, Jim, Bob, 2001-01-01
+                    CSV
+
+        bulk_submission.original_file.attach(
+          io: StringIO.new(content),
+          filename: "content_supplied.csv",
+          content_type: "text/csv"
+        )
+      end
+    end
   end
 end

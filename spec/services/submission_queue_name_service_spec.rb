@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe QueueNameService do
+RSpec.describe SubmissionQueueNameService do
   let(:use_case) { 'one' }
 
   describe ".call" do
@@ -12,8 +12,8 @@ RSpec.describe QueueNameService do
         allow(Rails.configuration.x.status).to receive(:app_branch).and_return("this-is/a.test-branch")
       end
 
-      it "prefixes the submission queue name with the branch name" do
-        expect(call).to eq "uc-one-this-is-a-test-branch-submissions"
+      it "suffixes the submission queue name with the branch name" do
+        expect(call).to eq "uc-one-submissions-this-is-a-test-branch"
       end
     end
 

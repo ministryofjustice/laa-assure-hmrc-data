@@ -9,4 +9,12 @@ class BulkSubmissionsController < ApplicationController
     bulk_submission.destroy!
     redirect_back(fallback_location: authenticated_root_path)
   end
+
+  # NOTE: route only available in test/development or uat
+  def process_all
+    BulkSubmissionsWorker.perform_async
+
+    flash[:notice] = "processing all pending bulk submissions..."
+    redirect_back(fallback_location: authenticated_root_path)
+  end
 end

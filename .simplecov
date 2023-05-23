@@ -4,6 +4,10 @@
 unless ENV["NOCOVERAGE"]
   SimpleCov.start "rails" do
     add_filter 'lib/tasks'
+    add_group "Forms", "app/forms"
+    add_group "Services", "app/services"
+    add_group "Validators", "app/validators"
+    add_group "Workers", "app/workers"
 
     minimum_coverage 100
     enable_coverage :branch

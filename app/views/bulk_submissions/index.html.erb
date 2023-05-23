@@ -29,5 +29,9 @@
         end
       end
     end %>
+
+    <% if Rails.env.development? || Rails.host.uat? %>
+      <%= govuk_button_link_to(t(".process_all"), process_all_bulk_submissions_path, warning: true) %>
+    <% end %>
   </div>
 </div>

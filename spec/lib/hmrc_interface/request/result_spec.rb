@@ -129,8 +129,8 @@ RSpec.describe HmrcInterface::Request::Result do
 
       it "raises HmrcInterface::RequestUnacceptable error with expected message" do
           expect { call }
-            .to raise_error(HmrcInterface::IncompleteSubmission,
-                            "Incomplete submission process - URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 500, details: #{expected_body}")
+            .to raise_error(HmrcInterface::IncompleteResult,
+                            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 500, details: #{expected_body}")
         end
     end
 
@@ -204,7 +204,7 @@ RSpec.describe HmrcInterface::Request::Result do
         it "raises HmrcInterface::RequestUnacceptable error with expected message" do
           expect { call }
             .to raise_error(HmrcInterface::RequestUnacceptable,
-                            "Unacceptable request - URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 400, details: #{fake_error_body}")
+                            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 400, details: #{fake_error_body}")
         end
       end
 
@@ -231,7 +231,7 @@ RSpec.describe HmrcInterface::Request::Result do
         it "raises HmrcInterface::RequestUnacceptable error with expected message" do
           expect { call }
             .to raise_error(HmrcInterface::RequestUnacceptable,
-                            "Unacceptable request - URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{fake_error_body}")
+                            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{fake_error_body}")
         end
       end
 
@@ -251,7 +251,7 @@ RSpec.describe HmrcInterface::Request::Result do
         it "raises HmrcInterface::RequestUnacceptable error with expected message" do
           expect { call }
             .to raise_error(HmrcInterface::RequestUnacceptable,
-                            "Unacceptable request - URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{malformed_json_error_body}")
+                            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{malformed_json_error_body}")
         end
       end
     end

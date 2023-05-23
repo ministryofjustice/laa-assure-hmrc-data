@@ -24,7 +24,7 @@ spec:
         - name: sidekiq-uc1
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
           imagePullPolicy: IfNotPresent
-          command: ['bundle', 'exec', 'sidekiq', '-q', 'uc-one-{{ .Values.sidekiq.queue_name }}submissions', '-c', '1']
+          command: ['bundle', 'exec', 'sidekiq', '-q', 'uc-one-submissions{{ .Values.sidekiq.queue_name }}', '-c', '1']
 {{ include "assure-hmrc-data.envs" . | nindent 10 }}
           resources:
             limits:
@@ -53,7 +53,7 @@ spec:
         - name: sidekiq-uc2
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
           imagePullPolicy: IfNotPresent
-          command: ['bundle', 'exec', 'sidekiq', '-q', 'uc-two-{{ .Values.sidekiq.queue_name }}submissions', '-c', '1']
+          command: ['bundle', 'exec', 'sidekiq', '-q', 'uc-two-submissions{{ .Values.sidekiq.queue_name }}', '-c', '1']
 {{ include "assure-hmrc-data.envs" . | nindent 10 }}
           resources:
             limits:
@@ -82,7 +82,7 @@ spec:
         - name: sidekiq-default
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
           imagePullPolicy: IfNotPresent
-          command: ['bundle', 'exec', 'sidekiq', '-q', 'default']
+          command: ['bundle', 'exec', 'sidekiq', '-q', 'default{{ .Values.sidekiq.queue_name }}', '-c', '5']
 {{ include "assure-hmrc-data.envs" . | nindent 10 }}
           resources:
             limits:

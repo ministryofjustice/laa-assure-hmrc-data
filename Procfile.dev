@@ -1,5 +1,7 @@
 web: unset PORT && bin/rails server -b "ssl://localhost:3000?key=$HOME/.ssl/localhost.key&cert=$HOME/.ssl/localhost.crt"
 css: yarn build:css --watch
 js: yarn build --watch
-worker: bundle exec sidekiq
+sidekiq-default: bundle exec sidekiq -c 5 -q default
+sidekiq-uc1: bundle exec sidekiq -c 1 -q uc-one-submissions
+sidekiq-uc2: bundle exec sidekiq -c 1 -q uc-two-submissions
 redis: redis-server

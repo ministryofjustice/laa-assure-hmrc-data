@@ -7,4 +7,5 @@ en:
       expires_at: Expiry date
       new_submission: Check new details
       page_heading: Checked details
+      process_all: Process all pending
       status: Status

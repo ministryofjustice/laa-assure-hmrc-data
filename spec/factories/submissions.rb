@@ -11,11 +11,35 @@ FactoryBot.define do
     last_name { "Bob"}
     dob { 21.years.ago }
     nino { "JA123456D" }
-    status { :processing }
+    status { :pending }
 
     # responses
     hmrc_interface_id { nil }
     hmrc_interface_result { "{}" }
+
+    trait :pending do
+      status { :pending }
+    end
+
+    trait :preparing do
+      status { :preparing }
+    end
+
+    trait :prepared do
+      status { :prepared }
+    end
+
+    trait :submitting do
+      status { :submitting }
+    end
+
+    trait :submitted do
+      status { :submitted }
+    end
+
+    trait :completing do
+      status { :completing }
+    end
 
     trait :processing do
       status { :processing }
@@ -37,7 +61,7 @@ FactoryBot.define do
       last_name { "Yorke"}
       dob { "1992-07-22".to_date }
       nino { "MN212451D" }
-      status { :processing }
+      status { :pending }
     end
   end
 end

@@ -1,4 +1,4 @@
-class QueueNameService
+class SubmissionQueueNameService
   def self.call(use_case)
     new(use_case).call
   end
@@ -7,9 +7,10 @@ class QueueNameService
     @use_case = use_case
   end
 
+  # creating a queue does not create the process set to process them
   def call
-    if Rails.configuration.x.host_env == "uat"
-      "uc-#{@use_case}-#{uat_queue_name}-submissions"
+    if Rails.host.uat?
+      "uc-#{@use_case}-submissions-#{uat_queue_name}"
     else
       "uc-#{@use_case}-submissions"
     end
