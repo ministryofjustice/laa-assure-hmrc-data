@@ -125,6 +125,44 @@ RSpec.describe "sign in", type: :system, js: true do
           .and have_selector(".govuk-error-summary__body", text: "empty.png is empty")
           .and have_selector(".govuk-error-message", text: "empty.png must be a CSV")
           .and have_selector(".govuk-error-message", text: "empty.png is empty")
+
+        find(".dz-clickable").drop(file_fixture("too_many_rows.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", text: "too_many_rows.csv has more than 35 records")
+          .and have_selector(".govuk-error-message", text: "too_many_rows.csv has more than 35 records")
+
+        find(".dz-clickable").drop(file_fixture("unparseable_file.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", text: "unparseable_file.csv unable to read file")
+          .and have_selector(".govuk-error-message", text: "unparseable_file.csv unable to read file")
+
+        find(".dz-clickable").drop(file_fixture("invalid_headers.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", text: "invalid_headers.csv has invalid headers")
+          .and have_selector(".govuk-error-message", text: "invalid_headers.csv has invalid headers")
+
+        find(".dz-clickable").drop(file_fixture("invalid_content.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", text: "invalid_content.csv first name missing at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv last name missing at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid date of birth at row 2")
+          .and have_selector(".govuk-error-summary__body", 
+text: "invalid_content.csv invalid national insurance number at row 2")
+          .and have_selector(".govuk-error-summary__body", 
+text: "invalid_content.csv invalid period start date at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid period end date at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv first name missing at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv last name missing at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv invalid date of birth at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv invalid period start date at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv invalid period end date at row 2")
+
+        find(".dz-clickable").drop(file_fixture("invalid_period.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", 
+text: "invalid_period.csv period end date earlier than period start date at row 2")
+          .and have_selector(".govuk-error-message", 
+text: "invalid_period.csv period end date earlier than period start date at row 2")
       end
     end
 
@@ -171,6 +209,44 @@ RSpec.describe "sign in", type: :system, js: true do
           .and have_selector(".govuk-error-summary__body", text: "empty.png is empty")
           .and have_selector(".govuk-error-message", text: "empty.png must be a CSV")
           .and have_selector(".govuk-error-message", text: "empty.png is empty")
+
+        find(".dz-clickable").drop(file_fixture("too_many_rows.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", text: "too_many_rows.csv has more than 35 records")
+          .and have_selector(".govuk-error-message", text: "too_many_rows.csv has more than 35 records")
+
+        find(".dz-clickable").drop(file_fixture("unparseable_file.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", text: "unparseable_file.csv unable to read file")
+          .and have_selector(".govuk-error-message", text: "unparseable_file.csv unable to read file")
+
+        find(".dz-clickable").drop(file_fixture("invalid_headers.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", text: "invalid_headers.csv has invalid headers")
+          .and have_selector(".govuk-error-message", text: "invalid_headers.csv has invalid headers")
+
+        find(".dz-clickable").drop(file_fixture("invalid_content.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", text: "invalid_content.csv first name missing at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv last name missing at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid date of birth at row 2")
+          .and have_selector(".govuk-error-summary__body", 
+text: "invalid_content.csv invalid national insurance number at row 2")
+          .and have_selector(".govuk-error-summary__body", 
+text: "invalid_content.csv invalid period start date at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid period end date at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv first name missing at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv last name missing at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv invalid date of birth at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv invalid period start date at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_content.csv invalid period end date at row 2")
+
+        find(".dz-clickable").drop(file_fixture("invalid_period.csv"))
+        expect(page)
+          .to have_selector(".govuk-error-summary__body", 
+text: "invalid_period.csv period end date earlier than period start date at row 2")
+          .and have_selector(".govuk-error-message", 
+text: "invalid_period.csv period end date earlier than period start date at row 2")
       end
     end
   end
