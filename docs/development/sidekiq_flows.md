@@ -32,7 +32,7 @@ of github deployment actions (helm) for hosted environments and creating process
 that only process specific queues with a specific concurrency. Local development
 emulates this through use of `bin/dev` (which calls Procfile.dev).
 
-- production (uat)
+### production (uat)
   creation of workers/processes for specific queues with specific concurrency is handled
   via deployment-worker.yml the github deployment for uat action and codebase
   setting of queues for a uat environment's branch.
@@ -41,8 +41,7 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   * container with processor for "default-my-branch-name" queue with concurrency of 5
   * container with processor for for "uc-one-submissions-my-branch-name" queue with concurrency of 1
   * container with processor for for "uc-two-submissions-my-branch-name" queue with concurrency of 1
-
-- production (staging and production)
+### production (staging and production)
   creation of workers for specific queues with specific concurrency is handled
   via deployment-worker.yml the github deployment action and codebase
   setting of queues for any non-uat environment.
@@ -52,14 +51,15 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   * container with processor for "uc-one-submissions" queue with concurrency of 1
   * container with processor for "uc-two-submissions" queue with concurrency of 1
 
- - development with `bin/dev`
+### development with `bin/dev`
+  `bin/dev` executes `Procfile.dev`
 
-  `bin/dev` calls Procfile.dev which creates:
+  This creates
   * process (worker) for "default" queue with concurrency of 5
   * process (worker) for "uc-one-submissions" queue with concurrency of 1
   * process (worker) for "uc-two-submissions" queue with concurrency of 1
 
-- development with `rails server`
+### development with `rails server`
   Uploading a bulk submission file and processing it via the app locally
   will not work because there are no queues (and therefore no processes) specified in the `config/sidekiq.yml`. However the `BulkSubmissionsWorker`
   job will be enqueued on the fallback `default` queue.
@@ -80,8 +80,8 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   Sidekiq::Queue.new("uc-two-submissions").map(&:delete)
   ```
 
-- test
-  Webmock disables all external requests so stubbing is needed. Warnings will be raised by tests that make actual requests. You can add `require sidekiq/testing` which defaults to enabling `Sidekiq::Testing.fake!`.
+### test
+  Webmock disables all external requests so stubbing is needed. Warnings will be raised by tests that make actual requests. You can add `require sidekiq/testing` in any test that needs to excercise enqueuing of jobs/workers. This defaults to enabling `Sidekiq::Testing.fake!`. see [sidekiq testing](https://github.com/sidekiq/sidekiq/wiki/Testing)
 
 ### Status change flow
 
@@ -100,5 +100,5 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   - completing
   - created || processing [temporary status from API]
   - completed || failed [finished status from API]
-  - exhausted
+  - exhausted [fallback when retries exhausted]
 
