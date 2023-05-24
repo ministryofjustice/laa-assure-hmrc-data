@@ -13,7 +13,7 @@ RSpec.describe "sign in", type: :system do
 
     let(:user) { create(:user, :with_matching_stubbed_oauth_details) }
 
-    it "user can view index/list of bulk submissions and delete them" do
+    it "user can add a bulk_submission then view index/list of bulk submissions" do
       visit "/bulk_submissions"
       expect(page).to have_content("Checked details")
 
@@ -29,17 +29,104 @@ RSpec.describe "sign in", type: :system do
         expect(page)
           .to have_selector(".govuk-table__header", text: "Date requested")
           .and have_selector(".govuk-table__header", text: "Expiry date")
+          .and have_selector(".govuk-table__header", text: "File name")
           .and have_selector(".govuk-table__header", text: "Status")
           .and have_selector(".govuk-table__header", text: "Action")
 
         expect(page)
           .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+          .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
           .and have_selector(".govuk-table__cell", text: /Pending/i)
-          .and have_selector(".govuk-table__cell", text: "Remove")
+          .and have_selector(".govuk-table__cell", text: "Cancel")
+      end
+    end
 
-        expect(page).to have_selector(".govuk-table__body tr")
-        click_button("Remove", match: :one)
-        expect(page).not_to have_selector(".govuk-table__body tr")
+    context "with an existing pending bulk_submission" do
+      before do
+        create(:bulk_submission, :with_original_file, :pending)
+      end
+
+      it "user can cancel them" do
+        visit "/bulk_submissions"
+
+        within(".govuk-table") do
+          expect(page)
+            .to have_selector(".govuk-table__header", text: "Date requested")
+            .and have_selector(".govuk-table__header", text: "Expiry date")
+            .and have_selector(".govuk-table__header", text: "File name")
+            .and have_selector(".govuk-table__header", text: "Status")
+            .and have_selector(".govuk-table__header", text: "Action")
+
+          expect(page)
+            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_selector(".govuk-table__cell", text: /Pending/i)
+            .and have_selector(".govuk-table__cell", text: "Cancel")
+
+          expect(page).to have_selector(".govuk-table__body tr")
+          click_button("Cancel", match: :one)
+          expect(page).not_to have_selector(".govuk-table__body tr")
+        end
+      end
+    end
+
+    context "with an existing ready bulk_submission" do
+      before do
+        create(:bulk_submission, :with_original_file, :with_result_file, :ready)
+      end
+
+      it "user can remove them" do
+        visit "/bulk_submissions"
+
+        within(".govuk-table") do
+          expect(page)
+            .to have_selector(".govuk-table__header", text: "Date requested")
+            .and have_selector(".govuk-table__header", text: "Expiry date")
+            .and have_selector(".govuk-table__header", text: "File name")
+            .and have_selector(".govuk-table__header", text: "Status")
+            .and have_selector(".govuk-table__header", text: "Action")
+
+          expect(page)
+            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_selector(".govuk-table__cell", text: /Ready/i)
+            .and have_selector(".govuk-table__cell", text: "Download")
+            .and have_selector(".govuk-table__cell", text: "Remove")
+
+          expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
+
+          expect(page).to have_selector(".govuk-table__body tr")
+          click_button("Remove", match: :one)
+          expect(page).to have_no_selector(".govuk-table__body tr")
+        end
+      end
+    end
+
+    context "with an existing processing bulk_submission" do
+      before do
+        create(:bulk_submission, :with_original_file, :processing)
+      end
+
+      it "user can NOT remove them" do
+        visit "/bulk_submissions"
+
+        within(".govuk-table") do
+          expect(page)
+            .to have_selector(".govuk-table__header", text: "Date requested")
+            .and have_selector(".govuk-table__header", text: "Expiry date")
+            .and have_selector(".govuk-table__header", text: "File name")
+            .and have_selector(".govuk-table__header", text: "Status")
+            .and have_selector(".govuk-table__header", text: "Action")
+
+          expect(page)
+            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_selector(".govuk-table__cell", text: /Processing/i)
+
+          expect(page).not_to have_selector(".govuk-table__cell", text: "Download")
+          expect(page).not_to have_selector(".govuk-table__cell", text: "Remove")
+          expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
+        end
       end
     end
   end

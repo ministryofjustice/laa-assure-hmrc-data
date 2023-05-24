@@ -21,6 +21,7 @@ class BulkSubmissionService
     bulk_submission.prepared!
 
     HmrcInterfaceBulkSubmissionWorker.perform_async(bulk_submission.id)
+    BulkSubmissionStatusWorker.perform_in(delay.seconds, bulk_submission.id)
   end
 
 private
@@ -47,5 +48,10 @@ private
 
   def file_contents
     @file_contents ||= bulk_submission.original_file.download
+  end
+
+  # approx 7 seconds for HMRC interface to return a result for an existing person
+  def delay
+    bulk_submission.submissions.count * 7
   end
 end

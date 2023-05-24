@@ -5,6 +5,7 @@ en:
       action: Action
       created_at: Date requested
       expires_at: Expiry date
+      filename: File name
       new_submission: Check new details
       page_heading: Checked details
       process_all: Process all pending

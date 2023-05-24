@@ -27,7 +27,9 @@ RSpec.describe BulkSubmissionWorker, type: :worker do
   describe "#perform" do
     subject(:perform) { described_class.new.perform(bulk_submission.id) }
 
-    let(:bulk_submission) { create(:bulk_submission, :with_original_file) }
+    let(:bulk_submission) do
+      create(:bulk_submission, :with_original_file)
+    end
 
     it_behaves_like "applcation worker logger"
 
