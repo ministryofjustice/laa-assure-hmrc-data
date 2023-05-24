@@ -17,6 +17,22 @@ RSpec.describe HmrcInterfaceSubmissionService do
     end
   end
 
+  describe "#number_in_queue" do
+    subject(:number_in_queue) { instance.number_in_queue }
+
+    it "defaults to 0" do
+      expect(number_in_queue).to be_zero
+    end
+
+    context "when number_in_queue supplied" do
+      let(:instance) { described_class.new(submission.id, 35) }
+
+      it "returns the number_in_queue it was initialised with" do
+        expect(number_in_queue).to be 35
+      end
+    end
+  end
+
   describe "#call" do
     subject(:call) { instance.call }
 
@@ -59,7 +75,7 @@ RSpec.describe HmrcInterfaceSubmissionService do
         it "enqueues HmrcInterfaceResultWorker on uc-one-submissions queue to be performed in 10 seconds" do
           call
           expect(HmrcInterfaceResultWorker).to have_received(:set).with(queue: "uc-one-submissions").once
-          expect(worker).to have_received(:perform_in).with(10.seconds, submission.id).once
+          expect(worker).to have_received(:perform_in).with(7.seconds, submission.id).once
         end
       end
 
@@ -75,7 +91,7 @@ RSpec.describe HmrcInterfaceSubmissionService do
         it "enqueues HmrcInterfaceResultWorker on uc-two-submissions queue to be performed in 10 seconds" do
           call
           expect(HmrcInterfaceResultWorker).to have_received(:set).with(queue: "uc-two-submissions").once
-          expect(worker).to have_received(:perform_in).with(10.seconds, submission.id).once
+          expect(worker).to have_received(:perform_in).with(7.seconds, submission.id).once
         end
       end
     end

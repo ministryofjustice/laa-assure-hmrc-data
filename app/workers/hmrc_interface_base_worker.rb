@@ -1,19 +1,17 @@
-# see https://github.com/sidekiq/sidekiq/wiki/Error-Handling#configuration
+# see https://github.com/sidekiq/sidekiq/wiki/Error-Handling#automatic-job-retry
 #
 class HmrcInterfaceBaseWorker < ApplicationWorker
+  # 5 ~ 8m 24s total wait time
   sidekiq_options retry: 5
 
   # Override the default interval algorithm between retries
-  # to shorten it as it should not take more than 10 seconds once
-  # request submitted, but concurreny limits may slow it down
-  # somewhat.
-  #
-  # A nil return will use sidekiq default interval algorithm
+  # so we have control of it and can kill Fatal errors immediately.
+  # A nil return will use sidekiq default interval algorithm.
   #
   # rubocop:disable Style/CaseLikeIf
-  sidekiq_retry_in do |count, exception, _jobhash|
+  sidekiq_retry_in do |_count, exception, _jobhash|
     if exception.is_a?(HmrcInterface::TryAgain)
-      count * 5 # i.e. 5, 10, 15, 20, 25, ... seconds
+      nil
     elsif exception.is_a?(HmrcInterface::IncompleteResult)
       Rails.logger.error(exception.message)
       :kill

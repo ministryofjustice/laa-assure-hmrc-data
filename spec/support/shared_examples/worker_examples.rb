@@ -23,16 +23,9 @@ RSpec.shared_examples "hmrc interface worker" do
     context "when try again error raised" do
       let(:exc) { HmrcInterface::TryAgain.new('only me') }
 
-      it 'delays the first retry for 5 seconds' do
-        expect(config.sidekiq_retry_in_block.call(1, exc)).to eq 5
-      end
-
-      it 'delays the second retry for 10 seconds' do
-        expect(config.sidekiq_retry_in_block.call(2, exc)).to eq 10
-      end
-
-      it 'delays the tenth retry for 50 seconds' do
-        expect(config.sidekiq_retry_in_block.call(10, exc)).to eq 50
+      it 'uses the default retry fallback interval' do
+        expect(config.sidekiq_retry_in_block.call(1, exc)).to be_nil
+        expect(config.sidekiq_retry_in_block.call(5, exc)).to be_nil
       end
     end
 

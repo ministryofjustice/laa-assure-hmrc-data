@@ -1,12 +1,13 @@
 class HmrcInterfaceSubmissionService
-  attr_reader :submission, :requestor
+  attr_reader :submission, :number_in_queue, :requestor
 
   def self.call(*args)
     new(*args).call
   end
 
-  def initialize(submission_id, requestor = HmrcInterface::Request::Submission)
+  def initialize(submission_id, number_in_queue = 0, requestor = HmrcInterface::Request::Submission)
     @submission = Submission.find(submission_id)
+    @number_in_queue = number_in_queue
     @requestor = requestor
   end
 
@@ -17,7 +18,7 @@ class HmrcInterfaceSubmissionService
 
     if response[:id].present?
       submission.update!(hmrc_interface_id: response[:id], status: "submitted")
-      HmrcInterfaceResultWorker.set(queue:).perform_in(10.seconds, submission.id)
+      HmrcInterfaceResultWorker.set(queue:).perform_in(delay.seconds, submission.id)
     end
   end
 
@@ -44,5 +45,10 @@ class HmrcInterfaceSubmissionService
 
   def queue
     @queue ||= SubmissionQueueNameService.call(submission.use_case)
+  end
+
+  # potentially 7s for HMRC interface to retrieve a result, with upto 35 requests per bulk submission
+  def delay
+    (number_in_queue + 1) * 7
   end
 end

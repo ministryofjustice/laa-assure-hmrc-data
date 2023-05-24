@@ -78,7 +78,7 @@ RSpec.describe HmrcInterfaceSubmissionWorker, type: :worker do
   end
 
   describe "#perform" do
-    subject(:perform) { described_class.new.perform(submission.id) }
+    subject(:perform) { described_class.new.perform(submission.id, 0) }
 
     before do
       allow(HmrcInterfaceSubmissionService).to receive(:call)
@@ -88,7 +88,7 @@ RSpec.describe HmrcInterfaceSubmissionWorker, type: :worker do
 
     it "calls HmrcInterfaceSubmissionService" do
       perform
-      expect(HmrcInterfaceSubmissionService).to have_received(:call).with(submission.id).once
+      expect(HmrcInterfaceSubmissionService).to have_received(:call).with(submission.id, 0).once
     end
   end
 end
