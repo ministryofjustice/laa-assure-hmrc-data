@@ -82,6 +82,9 @@ jobs:
     if: github.actor != 'dependabot[bot]'
     needs: test
     runs-on: ubuntu-latest
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -91,15 +94,17 @@ jobs:
         id: build_and_push
         uses: ./.github/actions/build_and_push
         with:
-          ecr-region: ${{ secrets.ECR_AWS_DEFAULT_REGION }}
-          ecr-url: ${{ secrets.ECR_TEAM_REPO_URL }}
-          ecr-access-key-id: ${{ secrets.ECR_AWS_ACCESS_KEY_ID }}
-          ecr-secret-access-key: ${{ secrets.ECR_AWS_SECRET_ACCESS_KEY }}
+          ecr-region: ${{ vars.ECR_REGION }}
+          ecr-role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          ecr-repository: ${{ vars.ECR_REPOSITORY }}
 
   deploy-uat:
     runs-on: ubuntu-latest
     needs: build
     environment: uat
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -109,7 +114,9 @@ jobs:
         id: deploy_uat_branch
         uses: ./.github/actions/deploy_branch
         with:
-          ecr-url: ${{ secrets.ECR_TEAM_REPO_URL }}
+          ecr-region: ${{ vars.ECR_REGION }}
+          ecr-role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          ecr-repository: ${{ vars.ECR_REPOSITORY }}
           kube-cert: ${{ secrets.KUBE_UAT_CERT }}
           kube-token: ${{ secrets.KUBE_UAT_TOKEN }}
           kube-cluster: ${{ secrets.KUBE_UAT_CLUSTER }}
@@ -121,6 +128,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: build
     environment: staging
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -130,7 +140,9 @@ jobs:
         id: deploy_staging
         uses: ./.github/actions/deploy
         with:
-          ecr-url: ${{ secrets.ECR_TEAM_REPO_URL }}
+          ecr-region: ${{ vars.ECR_REGION }}
+          ecr-role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          ecr-repository: ${{ vars.ECR_REPOSITORY }}
           kube-cert: ${{ secrets.KUBE_STAGING_CERT }}
           kube-token: ${{ secrets.KUBE_STAGING_TOKEN }}
           kube-cluster: ${{ secrets.KUBE_STAGING_CLUSTER }}
@@ -142,6 +154,9 @@ jobs:
     runs-on: ubuntu-latest
     needs: deploy-staging
     environment: production
+    permissions:
+      id-token: write
+      contents: read
 
     steps:
       - name: Checkout
@@ -151,7 +166,9 @@ jobs:
         id: deploy_staging
         uses: ./.github/actions/deploy
         with:
-          ecr-url: ${{ secrets.ECR_TEAM_REPO_URL }}
+          ecr-region: ${{ vars.ECR_REGION }}
+          ecr-role-to-assume: ${{ secrets.ECR_ROLE_TO_ASSUME }}
+          ecr-repository: ${{ vars.ECR_REPOSITORY }}
           kube-cert: ${{ secrets.KUBE_PRODUCTION_CERT }}
           kube-token: ${{ secrets.KUBE_PRODUCTION_TOKEN }}
           kube-cluster: ${{ secrets.KUBE_PRODUCTION_CLUSTER }}
