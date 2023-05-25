@@ -1,7 +1,7 @@
 require 'csv'
 
 class BulkSubmissionCsvParser
-  attr_reader :content, :records
+  attr_reader :content, :record_struct
 
   class ParserError < StandardError
   end
@@ -22,8 +22,9 @@ class BulkSubmissionCsvParser
     new(*args).call
   end
 
-  def initialize(content)
+  def initialize(content, record_struct = SubmissionRecord)
     @content = content
+    @record_struct = record_struct
   end
 
   def call
@@ -37,12 +38,12 @@ private
 
   def submission_records
     csv_table.map do |row|
-      SubmissionRecord.new(**row)
+      record_struct.new(**row)
     end
   end
 
   def headers_valid?
-    (SubmissionRecord.members & csv_table.headers.map(&:to_sym)) == SubmissionRecord.members
+    (record_struct.members & csv_table.headers.map(&:to_sym)) == record_struct.members
   end
 
   def data?
