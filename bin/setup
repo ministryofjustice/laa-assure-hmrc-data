@@ -43,4 +43,8 @@ FileUtils.chdir APP_ROOT do
 
   puts "\n== Restarting application server =="
   system! "bin/rails restart"
+
+ # Need to add an if/then statement here. Check if installing on # a Mac. If so, then execute install_clamav_on_mac.  
+  puts "\n == Installing ClamAV =="
+  system! 'bin/install_clamav_on_mac' if Gem::Platform.local.os == 'darwin' # if on Mac
 end
