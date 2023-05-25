@@ -7,7 +7,7 @@ class BulkSubmissionResultWriterService
     new(*args).call
   end
 
-  def initialize(bulk_submission_id, original_headers = SubmissionRecord.members, result_parser = SubmissionResultCsv)
+  def initialize(bulk_submission_id, result_parser = SubmissionResultCsv)
     @bulk_submission = BulkSubmission.find(bulk_submission_id)
     @original_headers = original_headers
     @result_parser = result_parser
@@ -32,15 +32,11 @@ private
 
   def csv_string
     CSV.generate(headers: :first_row, force_quotes: true) do |csv|
-      csv << csv_headers
+      csv << result_parser.headers
 
       bulk_submission.submissions.where(use_case: :one).each do |submission|
         csv << result_parser.new(submission).row
       end
     end
-  end
-
-  def csv_headers
-    original_headers + [:status, :comment, :uc_one_data, :uc_two_data]
   end
 end

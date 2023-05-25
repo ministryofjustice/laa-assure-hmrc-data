@@ -1,6 +1,10 @@
 class SubmissionResultCsv
   attr_reader :submission
 
+  def self.headers(original_headers = SubmissionRecord.members)
+    original_headers + [:status, :comment, :uc_one_data, :uc_two_data]
+  end
+
   delegate :period_start_at,
            :period_end_at,
            :first_name,

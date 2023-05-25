@@ -5,6 +5,27 @@ RSpec.describe SubmissionResultCsv do
 
   let(:bulk_submission) { create(:bulk_submission) }
 
+  describe ".headers" do
+    subject(:headers) { described_class.headers }
+
+    let(:expected_headers) do
+      %i[period_start_date
+         period_end_date
+         first_name
+         last_name
+         date_of_birth
+         nino
+         status
+         comment
+         uc_one_data
+         uc_two_data]
+    end
+
+    it "defaults to expected headers" do
+      expect(headers).to match(expected_headers)
+    end
+  end
+
   describe "#row" do
     subject(:row) { instance.row }
 
