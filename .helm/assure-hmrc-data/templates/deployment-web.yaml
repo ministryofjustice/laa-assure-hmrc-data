@@ -22,6 +22,20 @@ spec:
         releaseTime: {{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC"| quote }}
     spec:
       containers:
+        - name: clamav
+          image: ghcr.io/ministryofjustice/hmpps-clamav:sha-0ae98e9
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: clamav
+              containerPort: 3310
+              protocol: TCP
+          resources:
+            limits:
+              cpu: 500m
+              memory: 3Gi
+            requests:
+              cpu: 10m
+              memory: 1Gi
         - name: web
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: IfNotPresent

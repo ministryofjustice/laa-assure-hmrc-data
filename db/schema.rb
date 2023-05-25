@@ -55,6 +55,18 @@ ActiveRecord::Schema[7.0].define(version: 2023_06_18_211622) do
     t.index ["user_id"], name: "index_bulk_submissions_on_user_id"
   end
 
+  create_table "malware_scan_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "uploader_type"
+    t.uuid "uploader_id"
+    t.boolean "virus_found", null: false
+    t.text "scan_result"
+    t.json "file_details"
+    t.boolean "scanner_working"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+    t.index ["uploader_type", "uploader_id"], name: "index_malware_scan_results_on_uploader"
+  end
+
   create_table "submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "bulk_submission_id"
     t.datetime "period_start_at"
