@@ -119,7 +119,7 @@ RSpec.describe BulkSubmissionService do
           .to(
             [
               hash_including(
-                "retry" => true,
+                "retry" => 6,
                 "queue" => "default",
                 "args" => [bulk_submission.id],
                 "class" => "BulkSubmissionStatusWorker"

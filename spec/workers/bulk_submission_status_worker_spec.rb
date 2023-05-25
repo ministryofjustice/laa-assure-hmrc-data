@@ -2,6 +2,43 @@ require "rails_helper"
 require 'sidekiq/testing' # Warning: Requiring sidekiq/testing will automatically call Sidekiq::Testing.fake!, see https://github.com/sidekiq/sidekiq/wiki/Testing
 
 RSpec.describe BulkSubmissionStatusWorker, type: :worker do
+
+  describe '.sidekiq_retries_exhausted' do
+    subject(:config) { described_class }
+
+    let(:bulk_submission) { create(:bulk_submission, :processing) }
+
+    let(:job) do
+      {
+        "class" => described_class,
+        "args" => [bulk_submission.id],
+        "error_message" => "oops, I did it again!"
+      }
+    end
+
+    let(:exc) { StandardError.new("doh!") }
+
+    before do
+      allow(Sentry).to receive(:capture_message)
+    end
+
+    it "updates status of bulk_submission to \"exhausted\"" do
+      expect { config.sidekiq_retries_exhausted_block.call(job, exc) }
+        .to change { bulk_submission.reload.status }
+        .from("processing")
+        .to("exhausted")
+    end
+
+    it 'send failure message to sentry' do
+      config.sidekiq_retries_exhausted_block.call(job, exc)
+      expect(Sentry)
+        .to have_received(:capture_message)
+        .with(
+          %r{Failed #{job['class']} for bulk_submission \["#{bulk_submission.id}"\]: oops, I did it again!.*}
+        )
+    end
+  end
+
   describe ".perform_async" do
     subject(:perform_async) { described_class.perform_async(bulk_submission.id) }
 
@@ -14,7 +51,7 @@ RSpec.describe BulkSubmissionStatusWorker, type: :worker do
           .to(
               [
                 hash_including(
-                  "retry" => true,
+                  "retry" => 6,
                   "queue" => "default",
                   "args" => [bulk_submission.id],
                   "class" => "BulkSubmissionStatusWorker"

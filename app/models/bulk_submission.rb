@@ -17,7 +17,9 @@ class BulkSubmission < ApplicationRecord
              :processing,
              :completed,
              :writing,
+             :exhausted,
              :ready
+
 
   # TODO: this should be doable in a single query
   def finished?

@@ -23,7 +23,7 @@ RSpec.describe HmrcInterfaceResultWorker, type: :worker do
       allow(Sentry).to receive(:capture_message)
     end
 
-    it "updates status of submission to \"exhuasted\"" do
+    it "updates status of submission to \"exhausted\"" do
       expect { config.sidekiq_retries_exhausted_block.call(job, exc) }
         .to change { submission.reload.status }
         .from("submitted")
@@ -35,7 +35,7 @@ RSpec.describe HmrcInterfaceResultWorker, type: :worker do
       expect(Sentry)
         .to have_received(:capture_message)
         .with(
-          %r{Failed #{job['class']} with \["#{submission.id}"\]: oops, I did it again!.*}
+          %r{Failed #{job['class']} for submission \["#{submission.id}"\]: oops, I did it again!.*}
         )
     end
   end
