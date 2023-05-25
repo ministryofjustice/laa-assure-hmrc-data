@@ -21,7 +21,7 @@ RSpec.shared_examples "hmrc interface worker" do
     subject(:config) { described_class }
 
     context "when try again error raised" do
-      let(:exc) { HmrcInterface::TryAgain.new('only me') }
+      let(:exc) { WorkerErrors::TryAgain.new('only me') }
 
       it 'uses the default retry fallback interval' do
         expect(config.sidekiq_retry_in_block.call(1, exc)).to be_nil

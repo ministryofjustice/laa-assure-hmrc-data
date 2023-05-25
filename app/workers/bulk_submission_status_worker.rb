@@ -8,7 +8,7 @@ class BulkSubmissionStatusWorker < ApplicationWorker
       bulk_submission.completed!
       BulkSubmissionResultWriterWorker.perform_async(bulk_submission.id)
     else
-      raise TryAgain, "waiting for bulk_submission with id #{bulk_submission.id} to complete..."
+      raise WorkerErrors::TryAgain, "waiting for bulk_submission with id #{bulk_submission.id} to complete..."
     end
 
     super

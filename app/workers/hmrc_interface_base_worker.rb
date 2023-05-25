@@ -10,7 +10,7 @@ class HmrcInterfaceBaseWorker < ApplicationWorker
   #
   # rubocop:disable Style/CaseLikeIf
   sidekiq_retry_in do |_count, exception, _jobhash|
-    if exception.is_a?(HmrcInterface::TryAgain)
+    if exception.is_a?(WorkerErrors::TryAgain)
       nil
     elsif exception.is_a?(HmrcInterface::IncompleteResult)
       Rails.logger.error(exception.message)

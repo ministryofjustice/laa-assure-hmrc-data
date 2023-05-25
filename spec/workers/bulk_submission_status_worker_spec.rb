@@ -57,7 +57,7 @@ RSpec.describe BulkSubmissionStatusWorker, type: :worker do
       end
 
       it "raise TryAgain error" do
-        expect { perform }.to raise_error(ApplicationWorker::TryAgain,
+        expect { perform }.to raise_error(WorkerErrors::TryAgain,
                                           "waiting for bulk_submission with id #{bulk_submission.id} to complete...")
       end
     end
@@ -70,7 +70,7 @@ RSpec.describe BulkSubmissionStatusWorker, type: :worker do
       end
 
       it "raise TryAgain error" do
-        expect { perform }.to raise_error(ApplicationWorker::TryAgain,
+        expect { perform }.to raise_error(WorkerErrors::TryAgain,
                                          "waiting for bulk_submission with id #{bulk_submission.id} to complete...")
       end
     end
