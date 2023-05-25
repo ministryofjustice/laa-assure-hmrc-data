@@ -1,4 +1,4 @@
-class CsvResultRow
+class SubmissionResultCsv
   attr_reader :submission
 
   delegate :period_start_at,

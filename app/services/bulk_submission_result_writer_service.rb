@@ -7,7 +7,7 @@ class BulkSubmissionResultWriterService
     new(*args).call
   end
 
-  def initialize(bulk_submission_id, original_headers = SubmissionRecord.members, result_parser = CsvResultRow)
+  def initialize(bulk_submission_id, original_headers = SubmissionRecord.members, result_parser = SubmissionResultCsv)
     @bulk_submission = BulkSubmission.find(bulk_submission_id)
     @original_headers = original_headers
     @result_parser = result_parser

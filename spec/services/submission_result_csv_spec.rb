@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe CsvResultRow do
+RSpec.describe SubmissionResultCsv do
   subject(:instance) { described_class.new(submission) }
 
   let(:bulk_submission) { create(:bulk_submission) }
