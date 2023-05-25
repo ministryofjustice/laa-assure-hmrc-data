@@ -1,5 +1,4 @@
 require "rails_helper"
-require 'sidekiq/testing' # Warning: Requiring sidekiq/testing will automatically call Sidekiq::Testing.fake!, see https://github.com/sidekiq/sidekiq/wiki/Testing
 
 RSpec.describe BulkSubmissionsWorker, type: :worker do
   describe ".perform_async" do

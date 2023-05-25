@@ -1,5 +1,4 @@
 require 'system_helper'
-require 'sidekiq/testing' # Warning: Requiring sidekiq/testing will automatically call Sidekiq::Testing.fake!, see https://github.com/sidekiq/sidekiq/wiki/Testing
 
 RSpec.describe BulkSubmissionsController, type: :request do
   before { sign_in user }
