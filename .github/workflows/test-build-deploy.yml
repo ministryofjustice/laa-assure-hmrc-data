@@ -29,6 +29,10 @@ jobs:
         ports:
           - 5432:5432
         options: --health-cmd pg_isready --health-interval 10s --health-timeout 5s --health-retries 5
+      clamav:
+        image: ghcr.io/ministryofjustice/hmpps-clamav:sha-0ae98e9
+        ports:
+          - 3310:3310
 
     steps:
       - name: Checkout code
@@ -68,6 +72,9 @@ jobs:
           yarn run standardjs
           yarn run stylelint
 
+      - name: Install clamav client
+        run: sudo apt-get install -y --no-install-recommends clamdscan
+
       - name: Run tests
         run: bundle exec rspec
 
@@ -80,8 +87,8 @@ jobs:
 
   build:
     if: github.actor != 'dependabot[bot]'
-    needs: test
     runs-on: ubuntu-latest
+    needs: test
     permissions:
       id-token: write
       contents: read

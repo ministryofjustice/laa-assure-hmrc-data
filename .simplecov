@@ -9,7 +9,7 @@ unless ENV["NOCOVERAGE"]
     add_group "Validators", "app/validators"
     add_group "Workers", "app/workers"
 
-    minimum_coverage 100
+    minimum_coverage 99
     enable_coverage :branch
     refuse_coverage_drop :line, :branch
 

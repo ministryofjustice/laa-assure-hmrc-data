@@ -19,6 +19,10 @@ services:
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
       - laa-assure-hmrc-data-db:/var/lib/postgresql/data
+  clamav:
+    image: ghcr.io/ministryofjustice/hmpps-clamav:sha-0ae98e9
+    ports:
+    - "3310:3310"
 
   web:
     container_name: laa-assure-hmrc-data-web
@@ -33,6 +37,7 @@ services:
       DATABASE_URL: postgresql://postgres@database/laa-assure-hmrc-data
     depends_on:
       - database
+      - clamav
     ports:
       - "3000:3000"
     depends_on:
