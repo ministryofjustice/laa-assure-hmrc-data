@@ -1,0 +1,38 @@
+PLAN:
+✅ Install ClamAV and run it within a Docker container
+When a bulk_submission file is uploaded, it should first be scanned by the virus scanner before being saved (as a new file called uploaded_file)
+If there is a virus in the file, it should be contained and/or destroyed. User should receive an error message saying there was a virus in the file. 
+If the scan shows no virus, it should be saved as planned.
+Write tests to check that this functions is working. 
+Add instructions to README setup doc (malware check of uploaded files)
+
+NOTES:
+Code to make it run the scan should be added to: laa-assure-hmrc-data/app/forms/bulk_submission_form.rb
+How do you activate clamav? Add it in docker-compose.yml ? 
+
+
+✅ Installed ClamAV
+✅ Pulled and ran the official ClamAV images from the Docker Hub registry
+How do I do this:"To scan the host files within Docker, they need to be mounted with a bind mount to be made accessible." See https://docs.clamav.net/manual/Installing/Docker.html
+
+Finish adding to bulk_submission_form.rb
+    Define upload: 
+        # Assuming bulk_submission is the original file that is uploaded.
+        # Once bulk_submission file is validated, save it as below in def save. 
+        # Can you call save within upload?
+    Define scanner_down (see app/forms/providers/bank_statement_form.rb in laa-apply)
+    Define malware_scan (see app/forms/providers/bank_statement_form.rb in laa-apply)
+In app/lib, create module MalwareScanning in a new file malware_scanning.rb (see app/lib/malware_scanning.rb in laa-apply)
+Add app/services/malware_scanner.rb as in laa-apply
+In bin/setup do I need to add an if/then statement for installing clamav on a mac?
+Do I need to add this to config/application.rb? config.x.local_clamav = ENV.fetch("LOCAL_CLAMAV", nil)
+Add clamav-daemon to Dockerfile? (see docker/apply_base.dockerfile in laa-apply repo)
+
+DATABASE: 
+Does a db table need to be created in db/schema.rb called "mallware_scan_results" as in the laa-apply repo?
+Does a file need to be created in db/migrate called numbers_create_malware_scan_results.db as in the laa-repo? 
+
+
+TESTING:
+See spec/services/malware_scanner_spec.rb in laa-apply for reference.
+Possibly add spec/containers info for clamav to helm/templates/deployment-web.yml (see laa-apply)
