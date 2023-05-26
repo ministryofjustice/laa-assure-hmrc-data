@@ -51,13 +51,6 @@ RSpec.describe "sign in", type: :system do
 
         within(".govuk-table") do
           expect(page)
-            .to have_selector(".govuk-table__header", text: "Date requested")
-            .and have_selector(".govuk-table__header", text: "Expiry date")
-            .and have_selector(".govuk-table__header", text: "File name")
-            .and have_selector(".govuk-table__header", text: "Status")
-            .and have_selector(".govuk-table__header", text: "Action")
-
-          expect(page)
             .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--yellow", text: /Pending/i)
@@ -80,13 +73,6 @@ RSpec.describe "sign in", type: :system do
 
         within(".govuk-table") do
           expect(page)
-            .to have_selector(".govuk-table__header", text: "Date requested")
-            .and have_selector(".govuk-table__header", text: "Expiry date")
-            .and have_selector(".govuk-table__header", text: "File name")
-            .and have_selector(".govuk-table__header", text: "Status")
-            .and have_selector(".govuk-table__header", text: "Action")
-
-          expect(page)
             .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
@@ -107,17 +93,10 @@ RSpec.describe "sign in", type: :system do
         create(:bulk_submission, :with_original_file, :processing)
       end
 
-      it "user can NOT remove them" do
+      it "user can NOT remove, cancel or download them" do
         visit "/bulk_submissions"
 
         within(".govuk-table") do
-          expect(page)
-            .to have_selector(".govuk-table__header", text: "Date requested")
-            .and have_selector(".govuk-table__header", text: "Expiry date")
-            .and have_selector(".govuk-table__header", text: "File name")
-            .and have_selector(".govuk-table__header", text: "Status")
-            .and have_selector(".govuk-table__header", text: "Action")
-
           expect(page)
             .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
