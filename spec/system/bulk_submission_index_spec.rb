@@ -86,6 +86,28 @@ RSpec.describe "sign in", type: :system do
           expect(page).to have_no_selector(".govuk-table__body tr")
         end
       end
+
+      it "user can download them", js: true do
+        visit "/bulk_submissions"
+
+        within(".govuk-table") do
+            expect(page)
+            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
+            .and have_selector(".govuk-table__cell", text: "Download")
+            .and have_selector(".govuk-table__cell", text: "Remove")
+
+          expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
+
+          expect(page).to have_selector(".govuk-table__body tr")
+          click_link("Download", match: :one)
+
+          wait_for_download
+          expect(downloads.length).to eq(1)
+          expect(download).to match(/basic_bulk_submission.csv-result.csv/)
+        end
+      end
     end
 
     context "with an existing processing bulk_submission" do

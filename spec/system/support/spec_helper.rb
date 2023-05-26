@@ -18,6 +18,7 @@
 #
 RSpec.configure do |config|
   config.include Devise::Test::IntegrationHelpers
+  config.include DownloadHelper
 
   config.before(:each, type: :system) do |example|
     if ENV["BROWSER"].present?
@@ -34,6 +35,15 @@ RSpec.configure do |config|
       (example.metadata[:js] || ENV["BROWSER"].present?)
       puts browser_logs
     end
+  end
+
+  config.before(:each, type: :system, js: true) do
+    clear_downloads
+    driven_by :headless_chrome
+  end
+
+  config.after(:each, type: :system, js: true) do
+    clear_downloads
   end
 
   def browser_logs

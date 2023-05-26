@@ -24,7 +24,10 @@ Capybara.save_path = ENV.fetch("CAPYBARA_ARTIFACTS", "./tmp/capybara")
 
 # Register drivers with options
 Capybara.register_driver :headless_chrome do |app|
-  options = Selenium::WebDriver::Chrome::Options.new(args: %w[start-maximized headless disable-gpu no-sandbox])
+  options = Selenium::WebDriver::Chrome::Options.new(args: %w[start-maximized headless disable-gpu no-sandbox disable-site-isolation-trials])
+
+  options.add_preference(:download, prompt_for_download: false, default_directory: DownloadHelper::PATH.to_s)
+  options.add_preference(:browser, set_download_behavior: { behavior: 'allow' })
 
   Capybara::Selenium::Driver.new(
     app,
