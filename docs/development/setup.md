@@ -11,6 +11,7 @@ This project depends on:
 - [Postgres](https://www.postgresql.org/)
 - [Sidekiq](https://github.com/sidekiq/sidekiq)
 - [Redis](https://redis.io)
+- [ClamAV](https://docs.clamav.net/Introduction.html)
 
 ### Inital setup
 
