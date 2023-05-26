@@ -24,7 +24,7 @@ RSpec.describe GovukComponent::TagHelpers, type: :helper do
       end
     end
 
-    context 'without unregistered status' do
+    context 'with status without colour mapping' do
       subject(:markup) do
         helper.govuk_status_tag('unknown')
       end

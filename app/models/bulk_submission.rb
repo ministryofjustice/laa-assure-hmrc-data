@@ -20,7 +20,6 @@ class BulkSubmission < ApplicationRecord
              :exhausted,
              :ready
 
-  # TODO: this should be doable in a single query
   def finished?
     submissions.count.positive? &&
       unfinished_submissions.count.zero?

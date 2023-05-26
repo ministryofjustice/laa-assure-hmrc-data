@@ -3,18 +3,6 @@
 # see docs/development/sidekiq_flows.md
 #
 
-# TODO: alternatives to applying dynamic queue names and concurrency
-#
-# 1. sidekiq-limit_fetch - see https://github.com/deanpcmad/sidekiq-limit_fetch
-# 2. sidekiq capsules - see https://github.com/sidekiq/sidekiq/wiki/Advanced-Options#capsules
-# 3. use sidekiq's erb engine here,
-# EXAMPLE:
-#
-# :concurrency: 1
-# :queues:
-#   - <%= 'uc-one-' + ENV.fetch('APP_BRANCH', 'development') + '-submissions' %>
-#   - <%= 'uc-two-' + ENV.fetch('APP_BRANCH', 'development') + '-submissions' %>
-
 :scheduler:
   :schedule:
     bulk_submissions_worker:
