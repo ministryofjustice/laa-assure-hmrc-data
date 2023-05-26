@@ -10,7 +10,7 @@ class HmrcInterfaceBaseWorker < ApplicationWorker
   #
   # rubocop:disable Style/CaseLikeIf
   sidekiq_retry_in do |_count, exception, _jobhash|
-    if exception.is_a?(HmrcInterface::TryAgain)
+    if exception.is_a?(WorkerErrors::TryAgain)
       nil
     elsif exception.is_a?(HmrcInterface::IncompleteResult)
       Rails.logger.error(exception.message)
@@ -23,6 +23,6 @@ class HmrcInterfaceBaseWorker < ApplicationWorker
   # rubocop:enable Style/CaseLikeIf
 
   sidekiq_retries_exhausted do |job, _ex|
-    Sentry.capture_message("Failed #{job['class']} with #{job['args']}: #{job['error_message']}")
+    Sentry.capture_message("Failed #{job['class']} for submission #{job['args']}: #{job['error_message']}")
   end
 end

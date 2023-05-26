@@ -1,5 +1,4 @@
 require "rails_helper"
-require 'sidekiq/testing' # Warning: Requiring sidekiq/testing will automatically call Sidekiq::Testing.fake!, see https://github.com/sidekiq/sidekiq/wiki/Testing
 
 RSpec.describe BulkSubmissionWorker, type: :worker do
   describe ".perform_async" do
@@ -27,7 +26,9 @@ RSpec.describe BulkSubmissionWorker, type: :worker do
   describe "#perform" do
     subject(:perform) { described_class.new.perform(bulk_submission.id) }
 
-    let(:bulk_submission) { create(:bulk_submission, :with_original_file) }
+    let(:bulk_submission) do
+      create(:bulk_submission, :with_original_file)
+    end
 
     it_behaves_like "applcation worker logger"
 

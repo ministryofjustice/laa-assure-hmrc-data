@@ -13,16 +13,20 @@ case basis.
 ```text
 - BulkSubmissionsWorker (plural)
   - BulkSubmissionWorker (singular)
-   - BulkSubmissionService
-    - HmrcInterfaceBulkSubmissionWorker (singular)
-      - HmrcInterfaceSubmissionWorker (on uc-one-submission queue)
-        - HmrcInterfaceSubmissionService
-         - HmrcInterfaceResultsWorker (retry upto x times)
-          - HmrcInterfaceResultService
-      - HmrcInterfaceSubmissionWorker (on uc-two-submission queue)
-        - HmrcInterfaceSubmissionService
-         - HmrcInterfaceResultsWorker (retry upto x times)
-          - HmrcInterfaceResultService
+    - BulkSubmissionService
+      - HmrcInterfaceBulkSubmissionWorker (singular)
+        - HmrcInterfaceSubmissionWorker (on uc-one-submission queue)
+          - HmrcInterfaceSubmissionService
+            - HmrcInterfaceResultsWorker (retry upto x times)
+              - HmrcInterfaceResultService
+        - HmrcInterfaceSubmissionWorker (on uc-two-submission queue)
+          - HmrcInterfaceSubmissionService
+            - HmrcInterfaceResultsWorker (retry upto x times)
+              - HmrcInterfaceResultService
+      - BulkSubmissionStatusWorker
+        - BulkSubmissionResultWriterWorker
+          - BulkSubmissionResultWriterService
+
 ```
 
 ## Processes, dynamic queue names and concurrency
@@ -89,9 +93,10 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   - pending
   - preparing
   - prepared
-  - processing (completing instead?!)
-  - completed (TODO: relates to AP-4053)
-  - ready (TODO: relates to AP-4053)
+  - processing
+  - completed
+  - writing
+  - ready
 
 - submissions
   - pending
@@ -99,6 +104,6 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   - submitted
   - completing
   - created || processing [temporary status from API]
-  - completed || failed [finished status from API]
-  - exhausted [fallback when retries exhausted]
+  - completed || failed [final status from API]
+  - exhausted [final status fallback from app when retries exhausted]
 

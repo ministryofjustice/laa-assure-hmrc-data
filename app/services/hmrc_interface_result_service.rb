@@ -1,4 +1,5 @@
 class HmrcInterfaceResultService
+  extend WorkerErrors
   attr_reader :submission, :requestor
 
   def self.call(*args)
@@ -19,7 +20,7 @@ class HmrcInterfaceResultService
 
     # "processing" and "created" statuses require a retry
     unless %w[completed failed].include?(response[:status])
-      raise HmrcInterface::TryAgain,
+      raise WorkerErrors::TryAgain,
               "still processing submission: #{submission.id} with hmrc interface id #{submission.hmrc_interface_id}"
     end
   end

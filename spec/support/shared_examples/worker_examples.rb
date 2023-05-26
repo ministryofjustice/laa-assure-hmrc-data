@@ -1,6 +1,6 @@
 RSpec.shared_examples "applcation worker logger" do
   let(:log_regex) do
-    %r{\[\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}.*\] running #{described_class} with args: \[.*\]}
+    %r{\[\d{4}-\d{2}-\d{2}\s*\d{2}:\d{2}:\d{2}.*\] ran #{described_class} with args: \[.*\]}
   end
 
   it "logs timestamp, class and args of run" do
@@ -21,7 +21,7 @@ RSpec.shared_examples "hmrc interface worker" do
     subject(:config) { described_class }
 
     context "when try again error raised" do
-      let(:exc) { HmrcInterface::TryAgain.new('only me') }
+      let(:exc) { WorkerErrors::TryAgain.new('only me') }
 
       it 'uses the default retry fallback interval' do
         expect(config.sidekiq_retry_in_block.call(1, exc)).to be_nil

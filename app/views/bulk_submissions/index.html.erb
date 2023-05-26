@@ -1,5 +1,5 @@
 <div class="govuk-grid-row">
-  <div class="govuk-grid-column-two-thirds">
+  <div class="govuk-grid-column-full">
     <h1 class="govuk-heading-xl"><%= t(".page_heading") %></h1>
 
     <%= govuk_button_link_to(t(".new_submission"), new_bulk_submission_form_path) %>
@@ -7,23 +7,42 @@
     <%= govuk_table do |table|
       table.with_head do |head|
         head.with_row do |row|
-          row.with_cell(text: "Filename", header: true) if Rails.env.development?
           row.with_cell(text: t(".created_at"), header: true)
           row.with_cell(text: t(".expires_at"), header: true)
+          row.with_cell(text: t(".filename"), header: true)
           row.with_cell(text: t(".status"), header: true)
-          row.with_cell(text: t(".action"), header: true)
+          row.with_cell(text: t(".action"), header: true, colspan: 2, scope: 'colgroup')
         end
       end
 
       table.with_body do |body|
-        @bulk_submissions.each do |bulk_submission|
+        @bulk_submissions.order(created_at: :desc).each do |bulk_submission|
+          filename = bulk_submission&.original_file&.filename
+
           body.with_row do |row|
-            row.with_cell(text: bulk_submission&.original_file&.filename) if Rails.env.development?
             row.with_cell(text: bulk_submission.created_at&.to_fs(:date_only))
-            row.with_cell(text: bulk_submission.expires_at&.to_fs(:default))
-            row.with_cell(text: govuk_tag(text: bulk_submission.status || 'unavailable'))
+            row.with_cell(text: bulk_submission.expires_at&.to_fs(:date_only))
+            row.with_cell(text: filename)
+            row.with_cell(text: govuk_status_tag(bulk_submission.status))
+
             row.with_cell do
-              button_to('Remove', bulk_submission_path(bulk_submission.id), method: :delete)
+              if bulk_submission.pending?
+                button_to(t(".cancel_html", filename:),
+                          bulk_submission_path(bulk_submission.id),
+                          method: :delete)
+              elsif bulk_submission.ready?
+                link_to(t(".download_html",filename:),
+                        rails_blob_path(bulk_submission.result_file.blob,
+                          disposition: 'attachment'))
+              end
+            end
+
+            row.with_cell do
+              if bulk_submission.ready?
+                button_to(t(".remove_html", filename:),
+                          bulk_submission_path(bulk_submission.id),
+                          method: :delete)
+              end
             end
           end
         end

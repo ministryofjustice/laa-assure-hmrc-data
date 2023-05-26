@@ -3,9 +3,13 @@ en:
   bulk_submissions:
     index:
       action: Action
+      cancel_html: Cancel <span class='govuk-visually-hidden'>%{filename}</span>
       created_at: Date requested
+      download_html: Download <span class='govuk-visually-hidden'>%{filename}</span>
       expires_at: Expiry date
+      filename: File name
       new_submission: Check new details
       page_heading: Checked details
       process_all: Process all pending
+      remove_html: Remove <span class='govuk-visually-hidden'>%{filename}</span>
       status: Status

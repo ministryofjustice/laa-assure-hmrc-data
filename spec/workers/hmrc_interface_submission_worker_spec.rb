@@ -1,5 +1,4 @@
 require "rails_helper"
-require 'sidekiq/testing' # Warning: Requiring sidekiq/testing will automatically call Sidekiq::Testing.fake!, see https://github.com/sidekiq/sidekiq/wiki/Testing
 
 RSpec.describe HmrcInterfaceSubmissionWorker, type: :worker do
   let(:submission) { create(:submission) }
@@ -12,7 +11,7 @@ RSpec.describe HmrcInterfaceSubmissionWorker, type: :worker do
     let(:job) do
       {
         "class" => described_class,
-        "args" => ["whatever"],
+        "args" => [submission.id],
         "error_message" => "oops, I did it again!"
       }
     end
@@ -28,7 +27,7 @@ RSpec.describe HmrcInterfaceSubmissionWorker, type: :worker do
       expect(Sentry)
         .to have_received(:capture_message)
         .with(
-          %r{Failed #{job['class']} with \["whatever"\]: oops, I did it again!.*}
+          %r{Failed #{job['class']} for submission \["#{submission.id}"\]: oops, I did it again!.*}
         )
     end
   end

@@ -12,7 +12,7 @@ RSpec.describe BulkSubmissionCsvParser do
   describe "#call" do
     subject(:call) { described_class.new(content).call }
 
-    context "with \"typical\" csv content" do
+    context "with expected csv content" do
       let(:content) do
         <<~CSV
           period_start_date, period_end_date, first_name, last_name, date_of_birth, nino
@@ -117,6 +117,27 @@ RSpec.describe BulkSubmissionCsvParser do
       call
       expect(described_class).to have_received(:new).with(content)
       expect(instance).to have_received(:call)
+    end
+  end
+
+  describe "#record_struct" do
+    subject(:record_struct) { described_class.new(content).record_struct }
+
+    it "defaults to SubmissionRecord" do
+      expect(record_struct).to be SubmissionRecord
+    end
+
+    it { is_expected.to respond_to(:members) }
+
+    it "can be instantiated with expected attributes and respond to them plus others" do
+      args = { period_start_date: '', period_end_date: '',
+               first_name: '', last_name: '',
+               date_of_birth: '', nino: '' }
+
+      instance = record_struct.new(**args)
+      expect(instance).to be_kind_of(Struct)
+      expect(instance).to respond_to(*args.keys)
+      expect(instance).to respond_to(:period_start_at, :period_end_at, :dob)
     end
   end
 end

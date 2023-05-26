@@ -4,7 +4,7 @@ class HmrcInterfaceResultWorker < HmrcInterfaceBaseWorker
     submission.exhausted!
 
     Sentry.capture_message <<~ERROR
-      "Failed #{job['class']} with #{job['args']}: #{job['error_message']} - status marked as \"exhausted\""
+      "Failed #{job['class']} for submission #{job['args']}: #{job['error_message']} - status marked as \"exhausted\""
     ERROR
   end
 

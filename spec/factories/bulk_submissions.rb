@@ -3,6 +3,18 @@ FactoryBot.define do
     association :user
     status { 'pending' }
 
+    trait :pending do
+      status { 'pending' }
+    end
+
+    trait :processing do
+      status { 'processing' }
+    end
+
+    trait :ready do
+      status { 'ready' }
+    end
+
     # name must be of a file that exists in `spec/fixtures/files/`
     transient do
       original_file_fixture_name { nil }
@@ -19,6 +31,29 @@ FactoryBot.define do
                 end
 
         bulk_submission.original_file.attach(
+          io: File.open(file),
+          filename: file.original_filename,
+          content_type: file.content_type
+        )
+      end
+    end
+
+    # name must be of a file that exists in `spec/fixtures/files/`
+    transient do
+      result_file_fixture_name { nil }
+      result_file_fixture_content_type { nil }
+    end
+
+    trait :with_result_file do
+      after(:build) do |bulk_submission, evaluator|
+        file =  if evaluator.result_file_fixture_name
+                  factorybot_file_fixture(evaluator.result_file_fixture_name,
+                                          evaluator.result_file_fixture_content_type)
+                else
+                  factorybot_file_fixture("basic_bulk_submission.csv-result.csv", "text/csv")
+                end
+
+        bulk_submission.result_file.attach(
           io: File.open(file),
           filename: file.original_filename,
           content_type: file.content_type

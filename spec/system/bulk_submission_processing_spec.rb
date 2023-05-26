@@ -1,5 +1,4 @@
 require "rails_helper"
-require 'sidekiq/testing' # Warning: Requiring sidekiq/testing will automatically call Sidekiq::Testing.fake!, see https://github.com/sidekiq/sidekiq/wiki/Testing
 
 RSpec.describe "Processing of a bulk submission", type: :worker do
   subject(:perform_inline) do
@@ -29,12 +28,14 @@ RSpec.describe "Processing of a bulk submission", type: :worker do
     it "creates 2 x rows submission records and populates result for each" do
       expect { perform_inline }.to change(Submission, :count).by(70)
 
-      expect(Submission.pluck(:status)).to all(eql("completed"))
-      expect(Submission.pluck(:hmrc_interface_result)).to all(be_present)
+      submissions = bulk_submission.submissions
+      expect(submissions.pluck(:status)).to all(eql("completed"))
+      expect(submissions.pluck(:hmrc_interface_result)).to all(be_present)
 
-      # TODO: this will need to have been changed to "completed" or "ready" once
-      # result file generation ticket is done.
-      expect(bulk_submission.reload.status).to eql("processing")
+      bulk_submission.reload
+
+      expect(bulk_submission).to be_finished
+      expect(bulk_submission).to be_ready
     end
   end
 end

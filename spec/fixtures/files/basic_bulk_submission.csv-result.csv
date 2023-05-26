@@ -1,0 +1,19 @@
+"period_start_date","period_end_date","first_name","last_name","date_of_birth","nino","status","comment","uc_one_data"
+"2023-01-01","2023-03-31","Jim","Bob","2001-01-01","JA123456D","failed","submitted client details could not be found in HMRC service","[
+  {
+    ""use_case"": ""use_case_one"",
+    ""correlation_id"": ""cb545dee-7c2f-4410-b44c-35a175bc2980""
+  },
+  {
+    ""error"": ""submitted client details could not be found in HMRC service""
+  }
+]"
+"2022-01-01","2022-03-31","John","Boy","2002-01-01","JA654321D","failed","submitted client details could not be found in HMRC service","[
+  {
+    ""use_case"": ""use_case_one"",
+    ""correlation_id"": ""ec52c6fd-1cf4-4740-9bbe-73ab3388786e""
+  },
+  {
+    ""error"": ""submitted client details could not be found in HMRC service""
+  }
+]"

@@ -52,10 +52,41 @@ RSpec.describe BulkSubmission, type: :model do
     end
   end
 
+  describe "#finished?" do
+    subject(:finished?) { instance.finished? }
+
+    context "with no submissions" do
+      before { instance.submissions.destroy_all }
+
+      it { is_expected.to be false }
+    end
+
+    context "with one or more submissions in non-final states" do
+      before do
+        instance.submissions << create(:submission, status: "completed")
+        instance.submissions << create(:submission, status: "processing")
+      end
+
+      it { is_expected.to be false }
+    end
+
+    context "with all submissions in final states" do
+      before do
+        instance.submissions << create(:submission, :completed)
+        instance.submissions << create(:submission, :failed)
+        instance.submissions << create(:submission, :exhausted)
+      end
+
+      it { is_expected.to be true }
+    end
+  end
+
   it "is status settable" do
     expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
-      memo << ["pending#{c}", "preparing#{c}", "prepared#{c}",
-               "processing#{c}", "completed#{c}"]
+      memo << ["pending#{c}",
+               "preparing#{c}", "prepared#{c}", "processing#{c}",
+               "completed#{c}", "exhausted#{c}",
+               "writing#{c}", "ready#{c}"]
     end
 
     expect(instance).to respond_to(*expected_status_methods.flatten)

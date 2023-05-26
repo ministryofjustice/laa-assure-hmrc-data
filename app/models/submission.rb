@@ -23,6 +23,8 @@ class Submission < ApplicationRecord
   validates :period_start_at, :period_end_at, not_in_future: true
   validate :period_end_after_period_start
 
+  scope :finished, -> { where(status: %w[completed failed exhausted]) }
+
 private
 
   def period_end_after_period_start
