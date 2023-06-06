@@ -29,7 +29,8 @@ class BulkSubmissionForm
   validate :file_chosen,
            :file_empty,
            :file_too_big,
-           :file_content_type
+           :file_content_type,
+           :malware_scan
 
   validate :file_content, if: proc {
  errors.empty? } # only attempt to validate the file contents if initial validations pass
@@ -37,12 +38,6 @@ class BulkSubmissionForm
   def self.max_file_size
     MAX_FILE_SIZE
   end
-
-  # def upload
-  #   return if false unless valid?
-
-  #   validate_bulk_submission
-  # end
 
   def save
     validate
@@ -62,11 +57,11 @@ class BulkSubmissionForm
 
 private
 
-  def validate_bulk_submission
-    self.uploaded_file = bulk_submission.uploaded_file
-    scanner_down
-    malware_scan
-  end
+def malware_scan
+  return unless malware_scan_result(uploaded_file).virus_found?
+
+  errors.add(:uploaded_file, uploaded_file_error_for(:file_virus, file_name: uploaded_file.name))
+end
 
   def file_chosen
     return if uploaded_file || bulk_submission&.original_file&.attached?
@@ -118,10 +113,6 @@ private
     errors.add(:uploaded_file, :unparseable_file, filename: uploaded_file.original_filename)
     nil
   end
-
-  # def scanner_down
-  #  return if
-  # end
 
   def file_content
     return unless uploaded_file && csv && row_count
