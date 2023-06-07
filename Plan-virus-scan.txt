@@ -1,4 +1,5 @@
 PLAN:
+✅ Get ClamAV working locally both with a clean file and one with malware. 
 ✅ Install ClamAV and run it within a Docker container
 - When a bulk_submission file is uploaded, it should be saved in a temp directory (as a new file called uploaded_file) in a S3 bucket (in quarantine?). Go into the directory, scan it, then continue the bulk_submission process if it passes.
 - If there is a virus in the file, it should be contained and/or destroyed. User should receive an error message saying there was a virus in the file.

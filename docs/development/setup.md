@@ -72,7 +72,7 @@ rails s -b "ssl://localhost:3000?key=$HOME/.ssl/localhost.key&cert=$HOME/.ssl/lo
 ```
 note: running `bin/setup` will give you the option to generate this certificate via its script.
 
-You can now open `https://localhost:3000` and login. If you recieve an unauthorised error this will be because you have not seeded your self in your local database.
+You can now open `https://localhost:3000` and login. If you receive an unauthorised error this will be because you have not seeded your self in your local database.
 
 ```
 $ rails console
