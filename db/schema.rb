@@ -10,7 +10,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.0].define(version: 2023_04_27_141829) do
+ActiveRecord::Schema[7.0].define(version: 2023_06_07_074210) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
   enable_extension "pgcrypto"
@@ -51,6 +51,15 @@ ActiveRecord::Schema[7.0].define(version: 2023_04_27_141829) do
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
     t.index ["user_id"], name: "index_bulk_submissions_on_user_id"
+  end
+
+  create_table "malware_scan_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.boolean "virus_found", null: false
+    t.text "scan_result"
+    t.json "file_details"
+    t.boolean "scanner_working"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
   end
 
   create_table "submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
