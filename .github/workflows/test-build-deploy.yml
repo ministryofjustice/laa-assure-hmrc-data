@@ -80,7 +80,6 @@ jobs:
 
   build:
     if: github.actor != 'dependabot[bot]'
-    needs: test
     runs-on: ubuntu-latest
 
     steps:
