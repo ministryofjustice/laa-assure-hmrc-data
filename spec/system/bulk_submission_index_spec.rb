@@ -105,7 +105,7 @@ RSpec.describe "sign in", type: :system do
 
           wait_for_download
           expect(downloads.length).to eq(1)
-          expect(download).to match(/basic_bulk_submission.csv-result.csv/)
+          expect(download).to match(/basic_bulk_submission-result.csv/)
         end
       end
     end

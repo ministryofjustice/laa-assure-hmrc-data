@@ -40,6 +40,12 @@ RSpec.describe BulkSubmissionResultWriterService do
           .to("ready")
     end
 
+    it "names the attachment after the original_file" do
+      call
+      expect(bulk_submission.result_file.filename.to_s)
+        .to eql("#{bulk_submission.original_file.filename.base}-result.csv")
+    end
+
     context "with results populated" do
       it "attaches a result_file with expected uc one only data, with csv headers and rows with forced quotes" do
         expect { call }
