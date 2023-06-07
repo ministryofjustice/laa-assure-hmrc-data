@@ -29,7 +29,8 @@ class BulkSubmissionForm
   validate :file_chosen,
            :file_empty,
            :file_too_big,
-           :file_content_type
+           :file_content_type,
+           :malware_scan
 
   validate :file_content, if: proc {
  errors.empty? } # only attempt to validate the file contents if initial validations pass
@@ -37,12 +38,6 @@ class BulkSubmissionForm
   def self.max_file_size
     MAX_FILE_SIZE
   end
-
-  # def upload
-  #   return if false unless valid?
-
-  #   validate_bulk_submission
-  # end
 
   def save
     validate
@@ -62,10 +57,10 @@ class BulkSubmissionForm
 
 private
 
-  def validate_bulk_submission
-    self.uploaded_file = bulk_submission.uploaded_file
-    scanner_down
-    malware_scan
+  def malware_scan
+    return unless malware_scan_result(uploaded_file).virus_found?
+
+    errors.add(:uploaded_file, 'virus found!')
   end
 
   def file_chosen
@@ -119,10 +114,6 @@ private
     nil
   end
 
-  # def scanner_down
-  #  return if
-  # end
-
   def file_content
     return unless uploaded_file && csv && row_count
 
@@ -143,41 +134,41 @@ private
   end
 
   def validate_headers
-    errors.add(:uploaded_file, :invalid_headers,
+    errors.add(:uploaded_file, :invalid_headers, 
 filename: uploaded_file.original_filename) unless csv.headers == EXPECTED_HEADERS
   end
 
   def validate_first_names
     csv.by_col["first_name"].each_with_index do |first_name, index|
-      errors.add(:uploaded_file, :missing_first_name, filename: uploaded_file.original_filename,
+      errors.add(:uploaded_file, :missing_first_name, filename: uploaded_file.original_filename, 
 row_num: index+2) if first_name.blank?
     end
   end
 
   def validate_last_names
     csv.by_col["last_name"].each_with_index do |last_name, index|
-      errors.add(:uploaded_file, :missing_last_name, filename: uploaded_file.original_filename,
+      errors.add(:uploaded_file, :missing_last_name, filename: uploaded_file.original_filename, 
 row_num: index+2) if last_name.blank?
     end
   end
 
   def validate_ninos
     csv.by_col["nino"].each_with_index do |nino, index|
-      errors.add(:uploaded_file, :invalid_nino, filename: uploaded_file.original_filename,
+      errors.add(:uploaded_file, :invalid_nino, filename: uploaded_file.original_filename, 
 row_num: index+2) unless Submission::NINO_REGEXP.match? nino
     end
   end
 
   def validate_dobs
     csv.by_col["date_of_birth"].each_with_index do |dob, index|
-      errors.add(:uploaded_file, :invalid_dob, filename: uploaded_file.original_filename,
+      errors.add(:uploaded_file, :invalid_dob, filename: uploaded_file.original_filename, 
 row_num: index+2) unless valid_date?(parse_date(dob))
     end
   end
 
   def validate_period_start_dates
     csv.by_col["period_start_date"].each_with_index do |start_date, index|
-      errors.add(:uploaded_file, :invalid_period_start_date, filename: uploaded_file.original_filename,
+      errors.add(:uploaded_file, :invalid_period_start_date, filename: uploaded_file.original_filename, 
 row_num: index+2) unless valid_date?(parse_date(start_date))
     end
   end
@@ -187,10 +178,10 @@ row_num: index+2) unless valid_date?(parse_date(start_date))
       parsed_end_date = parse_date(end_date)
       parsed_start_date =  parse_date(csv[index]["period_start_date"])
       if !valid_date?(parsed_end_date)
-        errors.add(:uploaded_file, :invalid_period_end_date, filename: uploaded_file.original_filename,
+        errors.add(:uploaded_file, :invalid_period_end_date, filename: uploaded_file.original_filename, 
 row_num: index+2)
       elsif valid_date?(parsed_start_date) && (parsed_end_date < parsed_start_date)
-        errors.add(:uploaded_file, :period_end_date_before_start_date, filename: uploaded_file.original_filename,
+        errors.add(:uploaded_file, :period_end_date_before_start_date, filename: uploaded_file.original_filename, 
 row_num: index+2)
       end
     end
