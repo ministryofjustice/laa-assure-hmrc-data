@@ -1,8 +1,14 @@
 name: "Deploy"
 description: 'Deploy docker image to namespace'
 inputs:
-  ecr-url:
-    description: "ECR endpoint url"
+  ecr-repository:
+    description: "ECR repository"
+    required: true
+  ecr-region:
+    description: "ECR region"
+    required: true
+  ecr-role-to-assume:
+    description: "ECR role to assume"
     required: true
   kube-cert:
     description: "Kubernetes cluster authentication certificate"
@@ -34,10 +40,21 @@ runs:
         kube-cluster: ${{ inputs.kube-cluster }}
         kube-namespace: ${{ inputs.kube-namespace }}
 
+    - name: Assume role in Cloud Platform
+      uses: aws-actions/configure-aws-credentials@v2
+      with:
+        role-to-assume: ${{ inputs.ecr-role-to-assume }}
+        aws-region: ${{ inputs.ecr-region }}
+
+    - name: Docker login to ECR
+      id: login-ecr
+      uses: aws-actions/amazon-ecr-login@v1
+
     - name: Helm deployment
       shell: bash
       env:
-        ECR_URL: ${{ inputs.ecr-url }}
+        ECR_REPOSITORY: ${{ inputs.ecr-repository }}
+        ECR_REGISTRY: ${{ steps.login-ecr.outputs.registry }}
         GIT_SHA: ${{ github.sha }}
         KUBE_NAMESPACE: ${{ inputs.kube-namespace }}
         VALUES_FILE: .helm/assure-hmrc-data/values/${{ inputs.app-environment }}.yaml
@@ -46,7 +63,7 @@ runs:
 
         helm upgrade assure-hmrc-data .helm/assure-hmrc-data \
           --namespace ${KUBE_NAMESPACE} \
-          --set image.repository="${ECR_URL}" \
+          --set image.repository="${ECR_REGISTRY}/${ECR_REPOSITORY}" \
           --set image.tag="${GIT_SHA}" \
           --set ingress.annotations."nginx\.ingress\.kubernetes\.io/whitelist-source-range"=$allow_list \
           --values ${VALUES_FILE} \
