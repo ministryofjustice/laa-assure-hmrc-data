@@ -1,0 +1,262 @@
+{
+  "submission": "fake-hmrc-interface-submission-id",
+  "status": "completed",
+  "data": [
+    {
+      "use_case": "use_case_one",
+      "correlation_id": "fake-hmrc-interface-submission-id"
+    },
+    {
+      "individuals/matching/individual": {
+         "nino": "XY123456D",
+        "lastName": "lname",
+        "firstName": "fname",
+        "dateOfBirth": "1985-01-01"
+      }
+    },
+    {
+      "income/paye/paye": {
+        "income": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/selfAssessment": {
+        "taxReturns": [
+
+        ],
+        "registrations": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/pensions_and_state_benefits/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/source/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/employments/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/additional_information/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/partnerships/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/uk_properties/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/foreign/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/further_details/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/interests_and_dividends/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/other/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/summary/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "income/sa/trusts/selfAssessment": {
+        "taxReturns": [
+
+        ]
+      }
+    },
+    {
+      "employments/paye/employments": [
+
+      ]
+    },
+    {
+      "benefits_and_credits/working_tax_credit/applications": [
+        {
+          "awards": [
+            {
+              "payments": [
+                {
+                  "amount": 3.4,
+                  "tcType": "ETC",
+                  "endDate": "2023-01-01",
+                  "frequency": 1,
+                  "startDate": "2023-01-01",
+                  "postedDate": "2023-01-01"
+                },
+                {
+                  "amount": 3.02,
+                  "tcType": "ETC",
+                  "endDate": "2024-01-01",
+                  "frequency": 7,
+                  "startDate": "2023-04-18",
+                  "postedDate": "2023-04-25"
+                },
+                {
+                  "amount": 8.37,
+                  "tcType": "ETC",
+                  "endDate": "2023-01-01",
+                  "frequency": 1,
+                  "startDate": "2023-01-01"
+                },
+                {
+                  "amount": 7.32,
+                  "tcType": "ETC",
+                  "endDate": "2024-01-01",
+                  "frequency": 7,
+                  "startDate": "2023-04-18"
+                }
+              ],
+              "childTaxCredit": {
+                "childCareAmount": 0
+              },
+              "payProfCalcDate": "2023-01-11",
+              "totalEntitlement": 8075.96,
+              "workingTaxCredit": {
+                "amount": 1056.08,
+                "paidYTD": 9.44
+              }
+            },
+            {
+              "payments": [
+                {
+                  "amount": 1.63,
+                  "tcType": "ETC",
+                  "endDate": "2022-05-03",
+                  "frequency": 1,
+                  "startDate": "2022-05-03",
+                  "postedDate": "2022-05-03"
+                },
+                {
+                  "amount": 12.56,
+                  "tcType": "ETC",
+                  "endDate": "2022-05-03",
+                  "frequency": 1,
+                  "startDate": "2022-05-03",
+                  "postedDate": "2022-05-03"
+                },
+                {
+                  "amount": 11.72,
+                  "tcType": "ETC",
+                  "endDate": "2023-04-04",
+                  "frequency": 7,
+                  "startDate": "2022-05-10",
+                  "postedDate": "2022-06-21"
+                },
+                {
+                  "amount": 7.11,
+                  "tcType": "ETC",
+                  "endDate": "2023-04-04",
+                  "frequency": 7,
+                  "startDate": "2022-07-05"
+                },
+                {
+                  "amount": 12.04,
+                  "tcType": "ETC",
+                  "endDate": "2022-06-28",
+                  "frequency": 1,
+                  "startDate": "2022-06-28"
+                }
+              ],
+              "childTaxCredit": {
+                "childCareAmount": 0
+              },
+              "payProfCalcDate": "2023-01-11",
+              "totalEntitlement": 8008.07,
+              "workingTaxCredit": {
+                "amount": 392.67,
+                "paidYTD": 392.67
+              }
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "benefits_and_credits/child_tax_credit/applications": [
+        {
+          "awards": [
+            {
+              "payments": [
+
+              ],
+              "childTaxCredit": {
+                "paidYTD": 0,
+                "babyAmount": 0,
+                "familyAmount": 549,
+                "ctcChildAmount": 6470.88,
+                "childCareAmount": 0
+              },
+              "payProfCalcDate": "2023-01-11",
+              "totalEntitlement": 8075.96
+            },
+            {
+              "payments": [
+
+              ],
+              "childTaxCredit": {
+                "paidYTD": 0,
+                "babyAmount": 0,
+                "familyAmount": 547.5,
+                "ctcChildAmount": 7067.9,
+                "childCareAmount": 0
+              },
+              "payProfCalcDate": "2023-01-11",
+              "totalEntitlement": 8008.07
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

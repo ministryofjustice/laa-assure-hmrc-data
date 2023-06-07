@@ -1,8 +1,10 @@
 class SubmissionResultCsv
+  include HmrcInterfaceResultable
+
   attr_reader :submission
 
   def self.headers(original_headers = SubmissionRecord.members)
-    original_headers + [:status, :comment, :uc_one_data, :uc_two_data]
+    original_headers + [:status, :comment, :tax_credit_annual_award_amount, :uc_one_data, :uc_two_data]
   end
 
   delegate :period_start_at,
@@ -32,6 +34,7 @@ class SubmissionResultCsv
       nino,
       status,
       comment,
+      tax_credit_annual_award_amount,
       uc_one_data,
       uc_two_data,
     ]
@@ -43,7 +46,7 @@ private
     if exhausted?
       "attempts to retrieve details for the individual were unsuccessful"
     elsif failed?
-      hmrc_interface_result["data"][1]["error"]
+      error
     end
   end
 
@@ -75,3 +78,4 @@ private
                                                last_name:)
   end
 end
+
