@@ -50,7 +50,7 @@ FactoryBot.define do
                   factorybot_file_fixture(evaluator.result_file_fixture_name,
                                           evaluator.result_file_fixture_content_type)
                 else
-                  factorybot_file_fixture("basic_bulk_submission.csv-result.csv", "text/csv")
+                  factorybot_file_fixture("basic_bulk_submission-result.csv", "text/csv")
                 end
 
         bulk_submission.result_file.attach(

@@ -12,7 +12,7 @@ class HmrcInterfaceSubmissionService
   end
 
   def call
-    submission.update!(status: "submitting")
+    submission.submitting!
 
     response = requestor.call(client, use_case, filter)
 

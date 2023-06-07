@@ -26,7 +26,7 @@ private
     bulk_submission
       .result_file
         .attach(io: StringIO.new(csv_string),
-                filename: "#{bulk_submission.original_file.filename}-result.csv",
+                filename: "#{bulk_submission.original_file.filename.base}-result.csv",
                 content_type: "text/csv")
   end
 

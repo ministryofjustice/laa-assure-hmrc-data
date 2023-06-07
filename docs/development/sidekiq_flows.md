@@ -10,7 +10,8 @@ The isolation of separate workers is intended to make each step capable of handl
 interface does itself, and ultimately reflects the throttling HMRC enforces on a per use
 case basis.
 
-```text
+```ruby
+# Workers/jobs, services flows and nesting (including queues used where not `default`)
 - BulkSubmissionsWorker (plural)
   - BulkSubmissionWorker (singular)
     - BulkSubmissionService
@@ -38,7 +39,7 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
 
 ### production (uat)
   creation of workers/processes for specific queues with specific concurrency is handled
-  via deployment-worker.yml the github deployment for uat action and codebase
+  via `deployment-worker.yml`, the github deployment for uat action and codebase
   setting of queues for a uat environment's branch.
 
   This creates:
@@ -56,7 +57,8 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   * container with processor for "uc-two-submissions" queue with concurrency of 1
 
 ### development with `bin/dev`
-  `bin/dev` executes `Procfile.dev`
+  `bin/dev` executes `Procfile.dev` which emulates a production-like set of processes
+  \- web, sidekiq-workers and queues
 
   This creates
   * process (worker) for "default" queue with concurrency of 5
@@ -85,25 +87,33 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
   ```
 
 ### test
-  Webmock disables all external requests so stubbing is needed. Warnings will be raised by tests that make actual requests. You can add `require sidekiq/testing` in any test that needs to excercise enqueuing of jobs/workers. This defaults to enabling `Sidekiq::Testing.fake!`. see [sidekiq testing](https://github.com/sidekiq/sidekiq/wiki/Testing)
+  Webmock disables all external requests so stubbing is needed. Warnings will be raised by tests that make actual requests. Sidekiq testing's fake mode is enabled by default via a `require sidekiq/testing` in `rails_helper.rb`. see [sidekiq testing](https://github.com/sidekiq/sidekiq/wiki/Testing)
 
 ### Status change flow
 
-- bulk_submissions
-  - pending
-  - preparing
-  - prepared
-  - processing
-  - completed
-  - writing
-  - ready
+#### Bulk submissions
 
-- submissions
-  - pending
-  - submitting
-  - submitted
-  - completing
-  - created || processing [temporary status from API]
-  - completed || failed [final status from API]
-  - exhausted [final status fallback from app when retries exhausted]
+| Status     | Description                                                                                                                           | Order |
+|------------|---------------------------------------------------------------------------------------------------------------------------------------|-------|
+| pending    | Initial status of bulk_submission once the original_file has been attached to it                                                      | 1     |
+| preparing  | Submission records are being created 2 for each row in the original_file - one per use case (one and two)                             | 2     |
+| prepared   | Submission records have been created                                                                                                  | 3     |
+| processing | Requests for data from HMRC are being made for each of the created submission records                                                 | 4     |
+| completed  | All requests made to HMRC have finished for this bulk_submission - each submission could have been completed, failed or exhausted     | 5     |
+| writing    | Responses from HMRC for each submission are being written to a result_file                                                            | 6     |
+| ready      | All response written to a file and the file has been attached to the bulk_submission  record                                          | 7a    |
+| exhausted  | The bulk_submission job was unable to be completed within the given timeframe  - 6 checks over a period of approx 20 minutes in total | 7b    |
+
+#### Submissions
+| Status     | Description                                                                                                                                                                | Order |
+|------------|----------------------------------------------------------------------------------------------------------------------------------------------------------------------------|-------|
+| pending    | Initial status of submission record on creation                                                                                                                            | 1     |
+| submitting | Request for data from HMRC being made                                                                                                                                      | 2     |
+| submitted  | Response received from HMRC indicating request was recieved and is being processed                                                                                         | 3     |
+| completing | Request for result from HMRC being made                                                                                                                                    | 4     |
+| created    | Response for result from HMRC informing us that they have created the request from the HMRC API                                                                            | 5a    |
+| processing | Response for result from HMRC informing us that they are still processing the request via the HMRC API                                                                     | 5b    |
+| completed  | Response for result from HMRC providing us with client details that they have found                                                                                        | 6a    |
+| failed     | Response for result from HMRC informing us that client details were not found or possibly  that there has been an error that it has handled. The body contains the details | 6b    |
+| exhausted  | Attempts to retrieve a result have been exhausted within a given timeframe - 5 checks over a period of approx 9 minutes in total                                           | 6c    |
 
