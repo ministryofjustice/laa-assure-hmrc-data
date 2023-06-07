@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe StatusController, clamav: true do
+RSpec.describe StatusController do
   describe "#healthcheck" do
     before do
       allow(ActiveRecord::Base.connection).to receive(:active?).and_return(true)
