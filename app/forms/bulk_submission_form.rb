@@ -58,7 +58,7 @@ class BulkSubmissionForm
 private
 
   def malware_scan
-    return unless malware_scan_result(uploaded_file).virus_found?
+    return unless uploaded_file && malware_scan_result(uploaded_file).virus_found?
 
     errors.add(:uploaded_file, 'virus found!')
   end
