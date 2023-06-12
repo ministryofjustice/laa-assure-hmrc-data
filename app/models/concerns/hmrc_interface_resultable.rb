@@ -10,6 +10,11 @@ module HmrcInterfaceResultable
                                             || working_tax_credit_award_total_entitlements&.first
     end
 
+    # Sum all of "income/paye/paye":"income":["grossEarningsForNics"]:"inPayPeriod1"
+    def clients_income_from_employment
+      gross_earnings_for_nics_in_pay_period_1&.sum
+    end
+
     # returns string or nil
     def error
       @error ||= data&.second&.fetch("error", nil)
@@ -58,6 +63,32 @@ module HmrcInterfaceResultable
     def working_tax_credit_award_total_entitlements
       @working_tax_credit_award_total_entitlements ||=
         working_tax_credit_awards&.map { |el| el["totalEntitlement"] }
+    end
+
+    # returns hash
+    def income_paye_paye
+      key = "income/paye/paye"
+      @income_paye_paye ||= data&.find { |el| el.key?(key) }&.fetch(key, nil)
+    end
+
+    # returns array of objects
+    def income
+      @income ||= income_paye_paye&.fetch("income", nil)
+    end
+
+    # returns array of objects
+    def gross_earnings_for_nics
+      key = "grossEarningsForNics"
+      @gross_earnings_for_nics ||= income
+        &.find_all { |el| el.key?(key) }
+        &.flat_map { |el| el[key] }
+    end
+
+    # returns array of integers
+    def gross_earnings_for_nics_in_pay_period_1
+      @gross_earnings_for_nics_in_pay_period_1 ||= gross_earnings_for_nics
+        &.find_all {|el| el.key?("inPayPeriod1") }
+        &.flat_map { |el| el["inPayPeriod1"] }
     end
   end
 end

@@ -18,6 +18,7 @@ RSpec.describe SubmissionResultCsv do
          status
          comment
          tax_credit_annual_award_amount
+         clients_income_from_employment
          uc_one_data
          uc_two_data]
     end
@@ -55,6 +56,7 @@ RSpec.describe SubmissionResultCsv do
           "completed",
           nil,
           nil,
+          nil,
           %([\n  {\n    "use_case": "use_case_one"\n  }\n]),
           %([\n  {\n    "use_case": "use_case_two"\n  }\n]),
         ]
@@ -73,8 +75,8 @@ RSpec.describe SubmissionResultCsv do
                bulk_submission:)
       end
 
-      it "includes most recent child tax credit award's total entitlement value" do
-        expect(row).to include(8075.96)
+      it "includes most recent child tax credit award's total entitlement value at position 9" do
+        expect(row[8]).to be 8075.96
       end
     end
 
@@ -86,8 +88,8 @@ RSpec.describe SubmissionResultCsv do
                bulk_submission:)
       end
 
-      it "includes most recent working tax credit awards total entitlement value" do
-        expect(row).to include(8075.96)
+      it "includes most recent working tax credit award's total entitlement value at position 9" do
+        expect(row[8]).to be 8075.96
       end
     end
 
@@ -99,8 +101,21 @@ RSpec.describe SubmissionResultCsv do
                bulk_submission:)
       end
 
-      it "includes most recent child tax credit awards total entitlement value" do
-        expect(row).to include(9075.96)
+      it "includes most recent child tax credit award's total entitlement value at position 9" do
+        expect(row[8]).to be 9075.96
+      end
+    end
+
+    context "with a completed submission with multiple income paye objects" do
+            let(:submission) do
+        create(:submission,
+               :for_john_doe,
+               :with_use_case_one_income_paye,
+               bulk_submission:)
+      end
+
+      it "includes sum of all income grossEarningsForNics#inPayPeriod1 values at position 10" do
+        expect(row[9]).to be 999
       end
     end
 
@@ -129,6 +144,7 @@ RSpec.describe SubmissionResultCsv do
           "JA123456D",
           "failed",
           "submitted client details could not be found in HMRC service",
+          nil,
           nil,
           %([\n  {\n    "use_case": "use_case_one",\n    "correlation_id": "an-hmrc-interface-submission-uuid"\n  },\n  {\n    "error": "submitted client details could not be found in HMRC service"\n  }\n]),
           %([\n  {\n    "use_case": "use_case_two",\n    "correlation_id": "an-hmrc-interface-submission-uuid"\n  },\n  {\n    "error": "submitted client details could not be found in HMRC service"\n  }\n]),
@@ -166,6 +182,7 @@ RSpec.describe SubmissionResultCsv do
           "JA123456D",
           "exhausted",
           "attempts to retrieve details for the individual were unsuccessful",
+          nil,
           nil,
           %({\n  "submission": "uc-one-hmrc-interface-submission-uuid",\n  "status": "processing",\n  "_links": [\n    {\n      "href": "http://www.example.com/api/v1/submission/result/uc-one-hmrc-interface-submission-uuid"\n    }\n  ]\n}),
           # TODO: handle failing test in which the keys are not coming back in order inserted
