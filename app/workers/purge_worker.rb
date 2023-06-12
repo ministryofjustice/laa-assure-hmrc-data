@@ -6,7 +6,7 @@ class PurgeWorker < ApplicationWorker
       bulk_submission.original_file.purge
       bulk_submission.result_file.purge
       bulk_submission.submissions.each do |submission|
-        submission.update!(first_name: 'purged', last_name: 'purged', dob: '01/01/1970', nino: 'AB123456C')
+        submission.update!(first_name: 'purged', last_name: 'purged', dob: Date.parse('1970-01-01'), nino: 'AB123456C')
       end
     end
 
