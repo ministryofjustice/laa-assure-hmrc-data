@@ -35,7 +35,7 @@ RSpec.describe HmrcInterfaceResultService do
       end
 
       let(:parsed_response) do
-        file = file_fixture("hmrc_interface_successful_result_response_body.json")
+        file = file_fixture("results/hmrc_interface_successful_result_response_body.json")
         raw_response = file.read
         JSON.parse(raw_response, symbolize_names: true)
       end

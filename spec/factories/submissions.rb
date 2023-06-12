@@ -80,6 +80,66 @@ FactoryBot.define do
       hmrc_interface_result { { data: [ use_case: "use_case_one" ] }.as_json }
     end
 
+    trait :with_use_case_one_child_tax_credit do
+      status { :completed }
+      use_case { :one }
+      hmrc_interface_result do
+        {
+          "data" => [
+           { "use_case" => "use_case_one" },
+           { "benefits_and_credits/child_tax_credit/applications"=>
+               [{ "awards"=>
+                  [{ "payments"=>[],
+                     "totalEntitlement"=>8075.96 },
+                   { "payments"=>[],
+                     "totalEntitlement"=>8008.07 }] }] }
+          ]
+        }.as_json
+      end
+    end
+
+    trait :with_use_case_one_working_tax_credit do
+      status { :completed }
+      use_case { :one }
+      hmrc_interface_result do
+        {
+          "data" => [
+           { "use_case" => "use_case_one" },
+           { "benefits_and_credits/working_tax_credit/applications"=>
+               [{ "awards"=>
+                  [{ "payments"=>[],
+                     "totalEntitlement"=>8075.96 },
+                   { "payments"=>[],
+                     "totalEntitlement"=>8008.07 }] }] }
+          ]
+        }.as_json
+      end
+    end
+
+    trait :with_use_case_one_child_and_working_tax_credit do
+      status { :completed }
+      use_case { :one }
+      hmrc_interface_result do
+        {
+          "data" => [
+           { "use_case" => "use_case_one" },
+           { "benefits_and_credits/working_tax_credit/applications"=>
+               [{ "awards"=>
+                  [{ "payments"=>[],
+                     "totalEntitlement"=>8075.96 },
+                   { "payments"=>[],
+                     "totalEntitlement"=>8008.07 }] }] },
+           { "benefits_and_credits/child_tax_credit/applications"=>
+               [{ "awards"=>
+                  [{ "payments"=>[],
+                     "totalEntitlement"=>9075.96 },
+                   { "payments"=>[],
+                     "totalEntitlement"=>9008.07 }] }] }
+          ]
+        }.as_json
+      end
+    end
+
     trait :with_completed_use_case_two_hmrc_interface_result do
       status { :completed }
       use_case { :two }

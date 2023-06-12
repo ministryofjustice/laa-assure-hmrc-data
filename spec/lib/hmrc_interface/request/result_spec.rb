@@ -44,7 +44,7 @@ RSpec.describe HmrcInterface::Request::Result do
       end
 
       it "returns expected parsed JSON response" do
-        file = file_fixture("hmrc_interface_successful_result_response_body.json")
+        file = file_fixture("results/hmrc_interface_successful_result_response_body.json")
         json = file.read
         parsed_json = JSON.parse(json, symbolize_names: true)
 
@@ -263,7 +263,7 @@ RSpec.describe HmrcInterface::Request::Result do
     include_context "with stubbed hmrc-interface result completed"
 
     it "returns expected parsed JSON response" do
-      file = file_fixture("hmrc_interface_successful_result_response_body.json")
+      file = file_fixture("results/hmrc_interface_successful_result_response_body.json")
       json = file.read
       parsed_json = JSON.parse(json, symbolize_names: true)
 

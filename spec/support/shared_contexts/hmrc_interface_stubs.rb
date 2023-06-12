@@ -47,7 +47,7 @@ RSpec.shared_context "with stubbed hmrc-interface result completed" do
     stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
       .to_return(
         status: 200,
-        body: file_fixture("hmrc_interface_successful_result_response_body.json").read,
+        body: file_fixture("results/hmrc_interface_successful_result_response_body.json").read,
         headers: { "Content-Type" => "application/json; charset=utf-8" },
       )
   end
@@ -60,7 +60,7 @@ RSpec.shared_context "with stubbed hmrc-interface result in_progress" do
     stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
       .to_return(
         status: 200,
-        body: file_fixture("hmrc_interface_successful_result_response_body.json").read,
+        body: file_fixture("results/hmrc_interface_successful_result_response_body.json").read,
         headers: { "Content-Type" => "application/json; charset=utf-8" },
       )
   end
