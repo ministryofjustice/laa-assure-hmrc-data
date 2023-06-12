@@ -103,6 +103,7 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
 | writing    | Responses from HMRC for each submission are being written to a result_file                                                            | 6     |
 | ready      | All response written to a file and the file has been attached to the bulk_submission  record                                          | 7a    |
 | exhausted  | The bulk_submission job was unable to be completed within the given timeframe  - 6 checks over a period of approx 20 minutes in total | 7b    |
+| purged  | The bulk_submission is more than 1 month old and has been purged | 8    |
 
 #### Submissions
 | Status     | Description                                                                                                                                                                | Order |

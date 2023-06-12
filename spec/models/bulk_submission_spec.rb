@@ -86,7 +86,7 @@ RSpec.describe BulkSubmission, type: :model do
       memo << ["pending#{c}",
                "preparing#{c}", "prepared#{c}", "processing#{c}",
                "completed#{c}", "exhausted#{c}",
-               "writing#{c}", "ready#{c}"]
+               "writing#{c}", "ready#{c}", "purged#{c}"]
     end
 
     expect(instance).to respond_to(*expected_status_methods.flatten)

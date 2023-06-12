@@ -18,7 +18,8 @@ class BulkSubmission < ApplicationRecord
              :completed,
              :writing,
              :exhausted,
-             :ready
+             :ready,
+             :purged
 
   def finished?
     submissions.count.positive? &&
