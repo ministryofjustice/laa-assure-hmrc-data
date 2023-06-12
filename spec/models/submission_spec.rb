@@ -85,7 +85,7 @@ RSpec.describe Submission, type: :model do
     expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
       memo << ["pending#{c}", "submitting#{c}", "submitted#{c}",
                "completing#{c}", "created#{c}", "processing#{c}",
-               "completed#{c}", "failed#{c}", "exhausted#{c}"]
+               "completed#{c}", "failed#{c}", "exhausted#{c}", "purged#{c}"]
     end
 
     expect(instance).to respond_to(*expected_status_methods.flatten)

@@ -11,7 +11,8 @@ class Submission < ApplicationRecord
              :processing,
              :completed,
              :failed,
-             :exhausted
+             :exhausted,
+             :purged
 
   USE_CASES = %w[one two].freeze
   NINO_REGEXP = /\A(?!BG)(?!GB)(?!NK)(?!KN)(?!TN)(?!NT)(?!ZZ)[A-CEGHJ-PR-TW-Z][A-CEGHJ-NPR-TW-Z][0-9]{6}([A-DFM])\Z/

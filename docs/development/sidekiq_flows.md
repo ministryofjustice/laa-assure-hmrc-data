@@ -117,4 +117,5 @@ emulates this through use of `bin/dev` (which calls Procfile.dev).
 | completed  | Response for result from HMRC providing us with client details that they have found                                                                                        | 6a    |
 | failed     | Response for result from HMRC informing us that client details were not found or possibly  that there has been an error that it has handled. The body contains the details | 6b    |
 | exhausted  | Attempts to retrieve a result have been exhausted within a given timeframe - 5 checks over a period of approx 9 minutes in total                                           | 6c    |
+| purged  | The submission is more than 1 month old and has been purged                                           | 7    |
 
