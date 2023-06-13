@@ -28,7 +28,7 @@ RSpec.describe PurgeWorker, type: :worker do
     let(:submission) do
  create(:submission, first_name: 'Rosie', last_name: 'Conway', nino: 'JC654321A', dob: '1977-03-08'.to_date,  
 bulk_submission:) end
-    let(:expires_at) { Time.zone.now }
+    let(:expires_at) { 1.day.ago.midnight }
 
     before do
       bulk_submission
@@ -63,7 +63,7 @@ bulk_submission:) end
     end
 
     context "when the bulk submission has not expired" do
-      let(:expires_at) { Time.zone.tomorrow }
+      let(:expires_at) { Time.zone.tomorrow.midnight }
 
       it "does not purge the original file" do
         perform
@@ -86,6 +86,36 @@ bulk_submission:) end
         expect(submission.last_name).to eq 'Conway'
         expect(submission.nino).to eq 'JC654321A'
         expect(submission.dob).to eq '1977-03-08'
+      end
+    end
+
+    context "when the bulk submission is purgeable" do
+      let(:bulk_submission) do
+        create(:bulk_submission, :with_original_file, :with_result_file, expires_at: nil, 
+created_at: 1.month.ago.midnight)
+      end
+    
+      it "purges the original file" do
+        perform
+        bulk_submission.reload
+        expect(bulk_submission.original_file.attachment).to be_nil
+        expect(bulk_submission.original_file.blob).to be_nil
+      end
+    
+      it "purges the result file" do
+        perform
+        bulk_submission.reload
+        expect(bulk_submission.result_file.attachment).to be_nil
+        expect(bulk_submission.result_file.blob).to be_nil
+      end
+    
+      it "updates the submission record" do
+        perform
+        submission.reload
+        expect(submission.first_name).to eq 'purged'
+        expect(submission.last_name).to eq 'purged'
+        expect(submission.nino).to eq 'AB123456C'
+        expect(submission.dob).to eq '01-01-1970'
       end
     end
   end
