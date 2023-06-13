@@ -10,7 +10,7 @@ module HmrcInterfaceResultable
                                             || working_tax_credit_award_total_entitlements&.first
     end
 
-    # Sum all of "income/paye/paye":"income":["grossEarningsForNics"]:"inPayPeriod1"
+    # returns integer or zero
     def clients_income_from_employment
       gross_earnings_for_nics_in_pay_period_1&.sum
     end
@@ -35,9 +35,8 @@ module HmrcInterfaceResultable
 
     # returns array of hashes
     def child_tax_credit_awards
-      @child_tax_credit_awards ||= child_tax_credits
-        &.find_all { |el| el.key?("awards") }
-        &.flat_map { |el| el["awards"] }
+      @child_tax_credit_awards ||=
+        child_tax_credits&.all_hashes("awards")
     end
 
     # returns array of decimals
@@ -54,9 +53,8 @@ module HmrcInterfaceResultable
 
     # returns array of hashes
     def working_tax_credit_awards
-      @working_tax_credit_awards ||= working_tax_credits
-        &.find_all { |el| el.key?("awards") }
-        &.flat_map { |el| el["awards"] }
+      @working_tax_credit_awards ||=
+        working_tax_credits&.all_hashes("awards")
     end
 
     # returns array of decimals
@@ -78,17 +76,13 @@ module HmrcInterfaceResultable
 
     # returns array of hashes
     def gross_earnings_for_nics
-      key = "grossEarningsForNics"
-      @gross_earnings_for_nics ||= income
-        &.find_all { |el| el.key?(key) }
-        &.flat_map { |el| el[key] }
+      @gross_earnings_for_nics ||= income&.all_hashes("grossEarningsForNics")
     end
 
     # returns array of integers
     def gross_earnings_for_nics_in_pay_period_1
-      @gross_earnings_for_nics_in_pay_period_1 ||= gross_earnings_for_nics
-        &.find_all {|el| el.key?("inPayPeriod1") }
-        &.flat_map { |el| el["inPayPeriod1"] }
+      @gross_earnings_for_nics_in_pay_period_1 ||=
+        gross_earnings_for_nics&.all_hashes("inPayPeriod1")
     end
   end
 end
