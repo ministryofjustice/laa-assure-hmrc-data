@@ -12,7 +12,7 @@ module HmrcInterfaceResultable
 
     # returns integer or zero
     def clients_income_from_employment
-      gross_earnings_for_nics_in_pay_period_1&.sum
+      @clients_income_from_employment ||= gross_earnings_for_nics_in_pay_period_1&.sum
     end
 
     # returns string or nil
