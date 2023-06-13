@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe PurgeWorker, type: :worker do
+RSpec.describe PurgeSensitiveDataWorker, type: :worker do
   describe ".perform_async" do
     subject(:perform_async) { described_class.perform_async }
 
@@ -14,7 +14,7 @@ RSpec.describe PurgeWorker, type: :worker do
                   "retry" => true,
                   "queue" => "default",
                   "args" => [],
-                  "class" => "PurgeWorker"
+                  "class" => "PurgeSensitiveDataWorker"
                 )
               ]
           )
@@ -26,8 +26,8 @@ RSpec.describe PurgeWorker, type: :worker do
 
     let(:bulk_submission) { create(:bulk_submission, :with_original_file, :with_result_file, expires_at:) }
     let(:submission) do
- create(:submission, first_name: 'Rosie', last_name: 'Conway', nino: 'JC654321A', dob: '1977-03-08'.to_date,  
-bulk_submission:) end
+ create(:submission, :with_completed_use_case_one_hmrc_interface_result, first_name: 'Rosie', last_name: 'Conway', 
+nino: 'JC654321A', dob: '1977-03-08'.to_date, bulk_submission:) end
     let(:expires_at) { 1.day.ago.midnight }
 
     before do
@@ -55,10 +55,13 @@ bulk_submission:) end
       it "updates the submission record" do
         perform
         submission.reload
-        expect(submission.first_name).to eq 'purged'
-        expect(submission.last_name).to eq 'purged'
-        expect(submission.nino).to eq 'AB123456C'
-        expect(submission.dob).to eq '01-01-1970'
+        expect(submission).to have_attributes(
+          first_name: 'purged',
+          last_name: 'purged',
+          nino:'AB123456C',
+          dob: Date.parse('1970-01-01'),
+          hmrc_interface_result: '{}'
+        )
       end
     end
 
@@ -82,10 +85,13 @@ bulk_submission:) end
       it "does not update the submission record" do
         perform
         submission.reload
-        expect(submission.first_name).to eq 'Rosie'
-        expect(submission.last_name).to eq 'Conway'
-        expect(submission.nino).to eq 'JC654321A'
-        expect(submission.dob).to eq '1977-03-08'
+        expect(submission).to have_attributes(
+          first_name: 'Rosie',
+          last_name: 'Conway',
+          nino:'JC654321A',
+          dob: Date.parse('1977-03-08'),
+          hmrc_interface_result: {"data"=>[{"use_case"=>"use_case_one"}]}
+        )
       end
     end
 
@@ -112,10 +118,13 @@ created_at: 1.month.ago.midnight)
       it "updates the submission record" do
         perform
         submission.reload
-        expect(submission.first_name).to eq 'purged'
-        expect(submission.last_name).to eq 'purged'
-        expect(submission.nino).to eq 'AB123456C'
-        expect(submission.dob).to eq '01-01-1970'
+        expect(submission).to have_attributes(
+          first_name: 'purged',
+          last_name: 'purged',
+          nino:'AB123456C',
+          dob: Date.parse('1970-01-01'),
+          hmrc_interface_result: '{}'
+        )
       end
     end
   end

@@ -1,4 +1,4 @@
-class PurgeWorker < ApplicationWorker
+class PurgeSensitiveDataWorker < ApplicationWorker
 
   def perform
     bulk_submissions = expired_bulk_submissions.or(purgeable_bulk_submissions)
@@ -6,7 +6,8 @@ class PurgeWorker < ApplicationWorker
       bulk_submission.original_file.purge
       bulk_submission.result_file.purge
       bulk_submission.submissions.each do |submission|
-        submission.update!(first_name: 'purged', last_name: 'purged', dob: Date.parse('1970-01-01'), nino: 'AB123456C')
+        submission.update!(first_name: 'purged', last_name: 'purged', dob: Date.parse('1970-01-01'), nino: 'AB123456C', 
+hmrc_interface_result: '{}')
       end
     end
 
