@@ -20,46 +20,46 @@ module HmrcInterfaceResultable
       @error ||= data&.second&.fetch("error", nil)
     end
 
-    # returns array
+    # returns array of hashes
     def data
       @data ||= hmrc_interface_result.with_indifferent_access["data"]
     end
 
   private
 
-    # returns array
+    # returns array of hashes
     def child_tax_credits
       key = "benefits_and_credits/child_tax_credit/applications"
-      @child_tax_credits ||= data&.find { |el| el.key?(key) }&.fetch(key, nil)
+      @child_tax_credits ||= data&.fetch_first(key, nil)
     end
 
-    # returns array
+    # returns array of hashes
     def child_tax_credit_awards
       @child_tax_credit_awards ||= child_tax_credits
         &.find_all { |el| el.key?("awards") }
         &.flat_map { |el| el["awards"] }
     end
 
-    # returns array
+    # returns array of decimals
     def child_tax_credit_award_total_entitlements
       @child_tax_credit_award_total_entitlements ||=
         child_tax_credit_awards&.map { |el| el["totalEntitlement"] }
     end
 
-    # returns array
+    # returns array of hashes
     def working_tax_credits
       key = "benefits_and_credits/working_tax_credit/applications"
-      @working_tax_credits ||= data&.find { |el| el.key?(key) }&.fetch(key, nil)
+      @working_tax_credits ||= data&.fetch_first(key, nil)
     end
 
-    # returns array
+    # returns array of hashes
     def working_tax_credit_awards
       @working_tax_credit_awards ||= working_tax_credits
         &.find_all { |el| el.key?("awards") }
         &.flat_map { |el| el["awards"] }
     end
 
-    # returns array
+    # returns array of decimals
     def working_tax_credit_award_total_entitlements
       @working_tax_credit_award_total_entitlements ||=
         working_tax_credit_awards&.map { |el| el["totalEntitlement"] }
@@ -68,15 +68,15 @@ module HmrcInterfaceResultable
     # returns hash
     def income_paye_paye
       key = "income/paye/paye"
-      @income_paye_paye ||= data&.find { |el| el.key?(key) }&.fetch(key, nil)
+      @income_paye_paye ||= data&.fetch_first(key, nil)
     end
 
-    # returns array of objects
+    # returns array of hashes
     def income
       @income ||= income_paye_paye&.fetch("income", nil)
     end
 
-    # returns array of objects
+    # returns array of hashes
     def gross_earnings_for_nics
       key = "grossEarningsForNics"
       @gross_earnings_for_nics ||= income
