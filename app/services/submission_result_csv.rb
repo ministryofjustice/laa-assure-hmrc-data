@@ -4,7 +4,11 @@ class SubmissionResultCsv
   attr_reader :submission
 
   def self.headers(original_headers = SubmissionRecord.members)
-    original_headers + [:status, :comment, :tax_credit_annual_award_amount, :uc_one_data, :uc_two_data]
+    original_headers + %i[status
+                          comment
+                          tax_credit_annual_award_amount
+                          clients_income_from_employment
+                          uc_one_data uc_two_data]
   end
 
   delegate :period_start_at,
@@ -25,7 +29,7 @@ class SubmissionResultCsv
   end
 
   def row
-    [
+    @row = [
       period_start_at.to_fs(:csv),
       period_end_at.to_fs(:csv),
       first_name,
@@ -35,9 +39,13 @@ class SubmissionResultCsv
       status,
       comment,
       tax_credit_annual_award_amount,
+      clients_income_from_employment,
       uc_one_data,
       uc_two_data,
     ]
+
+    raise StandardError, "mismatched header and row element size" if self.class.headers.size != @row.size
+    @row
   end
 
 private
