@@ -19,6 +19,7 @@ RSpec.describe SubmissionResultCsv do
          comment
          tax_credit_annual_award_amount
          clients_income_from_employment
+         clients_ni_contributions_from_employment
          uc_one_data
          uc_two_data]
     end
@@ -54,6 +55,7 @@ RSpec.describe SubmissionResultCsv do
           "2001-07-21",
           "JA123456D",
           "completed",
+          nil,
           nil,
           nil,
           nil,
@@ -106,16 +108,29 @@ RSpec.describe SubmissionResultCsv do
       end
     end
 
-    context "with a completed submission with multiple income paye objects" do
-            let(:submission) do
+    context "with a completed submission with multiple income paye grossEarningsForNics hashes" do
+      let(:submission) do
         create(:submission,
                :for_john_doe,
-               :with_use_case_one_income_paye,
+               :with_use_case_one_gross_income_for_nics,
                bulk_submission:)
       end
 
       it "includes sum of all income grossEarningsForNics#inPayPeriod1 values at position 10" do
         expect(row[9]).to be 999
+      end
+    end
+
+    context "with a completed submission with multiple income paye employeeNics hashes" do
+      let(:submission) do
+        create(:submission,
+               :for_john_doe,
+               :with_use_case_one_employee_nics,
+               bulk_submission:)
+      end
+
+      it "includes sum of all income employeeNics#inPayPeriod1 values at position 11" do
+        expect(row[10]).to be 666.66
       end
     end
 
@@ -144,6 +159,7 @@ RSpec.describe SubmissionResultCsv do
           "JA123456D",
           "failed",
           "submitted client details could not be found in HMRC service",
+          nil,
           nil,
           nil,
           %([\n  {\n    "use_case": "use_case_one",\n    "correlation_id": "an-hmrc-interface-submission-uuid"\n  },\n  {\n    "error": "submitted client details could not be found in HMRC service"\n  }\n]),
@@ -182,6 +198,7 @@ RSpec.describe SubmissionResultCsv do
           "JA123456D",
           "exhausted",
           "attempts to retrieve details for the individual were unsuccessful",
+          nil,
           nil,
           nil,
           %({\n  "submission": "uc-one-hmrc-interface-submission-uuid",\n  "status": "processing",\n  "_links": [\n    {\n      "href": "http://www.example.com/api/v1/submission/result/uc-one-hmrc-interface-submission-uuid"\n    }\n  ]\n}),
