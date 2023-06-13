@@ -366,6 +366,93 @@ RSpec.describe HmrcInterfaceResultable do
     end
   end
 
+  describe "#start_and_end_dates_for_employments" do
+    subject(:start_and_end_dates_for_employments) { instance.start_and_end_dates_for_employments }
+
+    context "when multiple employments exist" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "employments/paye/employments": [
+                {
+                  "endDate": "2099-12-31",
+                  "startDate": "2023-01-26"
+                },
+                {
+                  "endDate": "2022-11-11",
+                  "startDate": "2022-09-11"
+                }
+              ]
+            },
+          ]
+        }
+      end
+
+      it "returns a multiline String with \"start-date to end-date\"" do
+        expect(start_and_end_dates_for_employments).to eql("2023-01-26 to 2099-12-31\n2022-09-11 to 2022-11-11")
+      end
+    end
+
+    context "when single employment exists" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "employments/paye/employments": [
+                {
+                  "endDate": "2099-12-31",
+                  "startDate": "2023-01-26"
+                },
+              ]
+            },
+          ]
+        }
+      end
+
+      it "returns a String with \"start-date to end-date\"" do
+        expect(start_and_end_dates_for_employments).to eql("2023-01-26 to 2099-12-31")
+      end
+    end
+
+    context "when no employments exist" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "employments/paye/employments" => [
+              ]
+            },
+          ]
+        }
+      end
+
+      it { expect(start_and_end_dates_for_employments).to be_nil }
+    end
+
+    # NOTE: have not seen real data that reflect's it but is useful safeguard
+    context "when employments key does not exist" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+          ]
+        }
+      end
+
+      it { expect(start_and_end_dates_for_employments).to be_nil }
+    end
+
+    context "with no data key" do
+      let(:result) { { foo: [ { bar: "baz" } ] } }
+
+      it { expect(start_and_end_dates_for_employments).to be_nil }
+    end
+  end
+
   describe "#most_recent_payment" do
     subject(:most_recent_payment) { instance.most_recent_payment }
 

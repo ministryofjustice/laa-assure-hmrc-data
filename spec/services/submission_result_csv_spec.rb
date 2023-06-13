@@ -20,7 +20,7 @@ RSpec.describe SubmissionResultCsv do
          tax_credit_annual_award_amount
          clients_income_from_employment
          clients_ni_contributions_from_employment
-         start_and_end_date_for_employment
+         start_and_end_dates_for_employments
          most_recent_payment
          uc_one_data
          uc_two_data]
@@ -138,6 +138,19 @@ RSpec.describe SubmissionResultCsv do
       end
     end
 
+    context "with a completed submission with multiple employment paye hashes" do
+      let(:submission) do
+        create(:submission,
+               :for_john_doe,
+               :with_use_case_one_employment_paye,
+               bulk_submission:)
+      end
+
+      it "includes string built from latest all employment paye #startDate and #endDate values at position 12" do
+        expect(row[11]).to eql("2023-01-26 to 2099-12-31\n2022-09-11 to 2022-11-11")
+      end
+    end
+
     context "with a completed submission with multiple income paye paymentDate and grossEarningsForNics hashes" do
       let(:submission) do
         create(:submission,
@@ -146,7 +159,6 @@ RSpec.describe SubmissionResultCsv do
                bulk_submission:)
       end
 
-      # NOTE: may need to move to position 14 (index 13)
       it "includes string built from latest paymentDate and grossEarningsForNics#inPayPeriod1 value at position 13" do
         expect(row[12]).to eql("2022-03-17: 333.33")
       end
