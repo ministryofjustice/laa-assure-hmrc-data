@@ -22,7 +22,7 @@ module HmrcInterfaceResultable
 
     # returns string or nil
     def error
-      @error ||= data&.second&.fetch("error", nil)
+      @error ||= data&.second&.fetch("error")
     end
 
     # returns array of hashes
@@ -34,14 +34,13 @@ module HmrcInterfaceResultable
 
     # returns array of hashes
     def child_tax_credits
-      key = "benefits_and_credits/child_tax_credit/applications"
-      @child_tax_credits ||= data&.fetch_first(key, nil)
+      @child_tax_credits ||=
+        data&.fetch_first("benefits_and_credits/child_tax_credit/applications")
     end
 
     # returns array of hashes
     def child_tax_credit_awards
-      @child_tax_credit_awards ||=
-        child_tax_credits&.fetch_all("awards")
+      @child_tax_credit_awards ||= child_tax_credits&.fetch_all("awards")
     end
 
     # returns array of decimals
@@ -52,14 +51,13 @@ module HmrcInterfaceResultable
 
     # returns array of hashes
     def working_tax_credits
-      key = "benefits_and_credits/working_tax_credit/applications"
-      @working_tax_credits ||= data&.fetch_first(key, nil)
+      @working_tax_credits ||=
+        data&.fetch_first("benefits_and_credits/working_tax_credit/applications")
     end
 
     # returns array of hashes
     def working_tax_credit_awards
-      @working_tax_credit_awards ||=
-        working_tax_credits&.fetch_all("awards")
+      @working_tax_credit_awards ||= working_tax_credits&.fetch_all("awards")
     end
 
     # returns array of decimals
@@ -70,13 +68,12 @@ module HmrcInterfaceResultable
 
     # returns hash
     def income_paye_paye
-      key = "income/paye/paye"
-      @income_paye_paye ||= data&.fetch_first(key, nil)
+      @income_paye_paye ||= data&.fetch_first("income/paye/paye")
     end
 
     # returns array of hashes
     def income
-      @income ||= income_paye_paye&.fetch("income", nil)
+      @income ||= income_paye_paye&.fetch("income")
     end
 
     # returns array of hashes
