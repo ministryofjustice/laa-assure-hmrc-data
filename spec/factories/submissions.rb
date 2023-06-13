@@ -140,7 +140,7 @@ FactoryBot.define do
       end
     end
 
-    trait :with_use_case_one_income_paye do
+    trait :with_use_case_one_gross_income_for_nics do
       status { :completed }
       use_case { :one }
       hmrc_interface_result do
@@ -150,14 +150,43 @@ FactoryBot.define do
            { "income/paye/paye" => {
                 "income" => [
                   {
-                    "grossEarningsForNics": {
-                      "inPayPeriod1": 333
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 333
                     },
                   },
-                  { "grossEarningsForNics": {
-                      "inPayPeriod1": 666
+                  { "grossEarningsForNics" => {
+                      "inPayPeriod1" => 666
+                    },
                   },
-                },
+                ]
+              }
+            }
+          ]
+        }.as_json
+      end
+    end
+
+    # NOTE: reflects real data where some income entries have no `employeeNics`
+    trait :with_use_case_one_employee_nics do
+      status { :completed }
+      use_case { :one }
+      hmrc_interface_result do
+        {
+          "data" => [
+           { "use_case" => "use_case_one" },
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "employeeNics" => {
+                      "inPayPeriod1" => 222.22
+                    },
+                  },
+                  { "employeeNics" => {
+                      "inPayPeriod1" => 444.44
+                    },
+                  },
+                  {
+                  },
                 ]
               }
             }

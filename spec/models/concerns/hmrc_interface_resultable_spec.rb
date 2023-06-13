@@ -264,4 +264,105 @@ RSpec.describe HmrcInterfaceResultable do
       it { expect(clients_income_from_employment).to be_nil }
     end
   end
+
+  describe "#clients_ni_contributions_from_employment" do
+    subject(:clients_ni_contributions_from_employment) { instance.clients_ni_contributions_from_employment }
+
+    context "when multiple income exists" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "employeeNics" => {
+                      "inPayPeriod1" => 222.22
+                    },
+                  },
+                  { "employeeNics" => {
+                      "inPayPeriod1" => 444.44
+                    },
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the sum of all employeeNics#inPayPeriod1 values" do
+        expect(clients_ni_contributions_from_employment).to be 666.66
+      end
+    end
+
+    context "when single income exists" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "employeeNics" => {
+                      "inPayPeriod1" => 222.22
+                    },
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the single employeeNics#inPayPeriod1 value" do
+        expect(clients_ni_contributions_from_employment).to be 222.22
+      end
+    end
+
+    context "when no income exists" do
+      let(:result) do
+        {
+          "data" => [
+            {
+              "income/paye/paye" => {
+                "income" => []
+              }
+            }
+          ]
+        }
+      end
+
+      it { expect(clients_ni_contributions_from_employment).to be_zero }
+    end
+
+    # NOTE: real data seen that reflects this
+    context "when one income entry has employeeNics and one does not" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  { "employeeNics" => {
+                      "inPayPeriod1" => 444.44
+                    },
+                  },
+                  {
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the single valid employeeNics#inPayPeriod1 value" do
+        expect(clients_ni_contributions_from_employment).to be 444.44
+      end
+    end
+
+    context "with no data key" do
+      let(:result) { { foo: [ { bar: "baz" } ] } }
+
+      it { expect(clients_ni_contributions_from_employment).to be_nil }
+    end
+  end
 end

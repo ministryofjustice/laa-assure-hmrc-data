@@ -15,9 +15,14 @@ module HmrcInterfaceResultable
       @clients_income_from_employment ||= gross_earnings_for_nics_in_pay_period_1&.sum
     end
 
+    # returns decimal or zero
+    def clients_ni_contributions_from_employment
+      @clients_ni_contributions_from_employment ||= employee_nics_in_pay_period_1&.sum
+    end
+
     # returns string or nil
     def error
-      @error ||= data&.second&.fetch("error", nil)
+      @error ||= data&.second&.fetch("error")
     end
 
     # returns array of hashes
@@ -29,14 +34,13 @@ module HmrcInterfaceResultable
 
     # returns array of hashes
     def child_tax_credits
-      key = "benefits_and_credits/child_tax_credit/applications"
-      @child_tax_credits ||= data&.fetch_first(key, nil)
+      @child_tax_credits ||=
+        data&.fetch_first("benefits_and_credits/child_tax_credit/applications")
     end
 
     # returns array of hashes
     def child_tax_credit_awards
-      @child_tax_credit_awards ||=
-        child_tax_credits&.all_hashes("awards")
+      @child_tax_credit_awards ||= child_tax_credits&.fetch_all("awards")
     end
 
     # returns array of decimals
@@ -47,14 +51,13 @@ module HmrcInterfaceResultable
 
     # returns array of hashes
     def working_tax_credits
-      key = "benefits_and_credits/working_tax_credit/applications"
-      @working_tax_credits ||= data&.fetch_first(key, nil)
+      @working_tax_credits ||=
+        data&.fetch_first("benefits_and_credits/working_tax_credit/applications")
     end
 
     # returns array of hashes
     def working_tax_credit_awards
-      @working_tax_credit_awards ||=
-        working_tax_credits&.all_hashes("awards")
+      @working_tax_credit_awards ||= working_tax_credits&.fetch_all("awards")
     end
 
     # returns array of decimals
@@ -65,24 +68,34 @@ module HmrcInterfaceResultable
 
     # returns hash
     def income_paye_paye
-      key = "income/paye/paye"
-      @income_paye_paye ||= data&.fetch_first(key, nil)
+      @income_paye_paye ||= data&.fetch_first("income/paye/paye")
     end
 
     # returns array of hashes
     def income
-      @income ||= income_paye_paye&.fetch("income", nil)
+      @income ||= income_paye_paye&.fetch("income")
     end
 
     # returns array of hashes
     def gross_earnings_for_nics
-      @gross_earnings_for_nics ||= income&.all_hashes("grossEarningsForNics")
+      @gross_earnings_for_nics ||= income&.fetch_all("grossEarningsForNics")
     end
 
     # returns array of integers
     def gross_earnings_for_nics_in_pay_period_1
       @gross_earnings_for_nics_in_pay_period_1 ||=
-        gross_earnings_for_nics&.all_hashes("inPayPeriod1")
+        gross_earnings_for_nics&.fetch_all("inPayPeriod1")
     end
+
+    # returns array of decimals
+    def employee_nics_in_pay_period_1
+      @employee_nics_in_pay_period_1 ||= employee_nics&.fetch_all("inPayPeriod1")
+    end
+
+    # returns array of hashes
+    def employee_nics
+      @employee_nics ||= income&.fetch_all("employeeNics")
+    end
+
   end
 end

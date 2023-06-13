@@ -8,7 +8,9 @@ class SubmissionResultCsv
                           comment
                           tax_credit_annual_award_amount
                           clients_income_from_employment
-                          uc_one_data uc_two_data]
+                          clients_ni_contributions_from_employment
+                          uc_one_data
+                          uc_two_data]
   end
 
   delegate :period_start_at,
@@ -40,6 +42,7 @@ class SubmissionResultCsv
       comment,
       tax_credit_annual_award_amount,
       clients_income_from_employment,
+      clients_ni_contributions_from_employment,
       uc_one_data,
       uc_two_data,
     ]
