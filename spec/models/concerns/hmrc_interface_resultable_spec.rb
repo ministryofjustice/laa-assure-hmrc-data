@@ -395,6 +395,32 @@ RSpec.describe HmrcInterfaceResultable do
       end
     end
 
+    context "when multiple employments exist with different key positions" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "employments/paye/employments": [
+                {
+                  "endDate": "2099-12-31",
+                  "startDate": "2023-01-26"
+                },
+                {
+                  "startDate": "2022-09-11",
+                  "endDate": "2022-11-11"
+                }
+              ]
+            },
+          ]
+        }
+      end
+
+      it "returns a multiline String with \"start-date to end-date\"" do
+        expect(start_and_end_dates_for_employments).to eql("2023-01-26 to 2099-12-31\n2022-09-11 to 2022-11-11")
+      end
+    end
+
     context "when single employment exists" do
       let(:result) do
         {
