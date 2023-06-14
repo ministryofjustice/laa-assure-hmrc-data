@@ -22,7 +22,7 @@ spec:
         releaseTime: {{ dateInZone "2006-01-02 15:04:05Z" (now) "UTC"| quote }}
     spec:
       containers:
-      - name: clamav
+        - name: clamav
           image: ghcr.io/ministryofjustice/hmpps-clamav:sha-0ae98e9
           imagePullPolicy: IfNotPresent
           ports:
