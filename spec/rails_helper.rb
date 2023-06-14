@@ -73,4 +73,6 @@ RSpec.configure do |config|
 
   # application test suite specific helpers
   config.include TestHelpers
+
+  config.include ActiveSupport::Testing::TimeHelpers
 end
