@@ -22,6 +22,7 @@ RSpec.describe SubmissionResultCsv do
          clients_ni_contributions_from_employment
          start_and_end_dates_for_employments
          most_recent_payment
+         clients_income_from_self_employment
          uc_one_data
          uc_two_data]
     end
@@ -57,6 +58,7 @@ RSpec.describe SubmissionResultCsv do
           "2001-07-21",
           "JA123456D",
           "completed",
+          nil,
           nil,
           nil,
           nil,
@@ -138,6 +140,19 @@ RSpec.describe SubmissionResultCsv do
       end
     end
 
+    context "with a completed submission with multiple self assessment taxReturn hashes" do
+      let(:submission) do
+        create(:submission,
+               :for_john_doe,
+               :with_use_case_one_self_assessment_summary,
+               bulk_submission:)
+      end
+
+      it "includes string built from all self assessment summary taxReturns values at position 14" do
+        expect(row[13]).to eql("2019-20: 6487\n2020-21: 7995\n2021-22: 6824")
+      end
+    end
+
     context "with a failed submission" do
       before do
         create(:submission,
@@ -163,6 +178,7 @@ RSpec.describe SubmissionResultCsv do
           "JA123456D",
           "failed",
           "submitted client details could not be found in HMRC service",
+          nil,
           nil,
           nil,
           nil,
@@ -204,6 +220,7 @@ RSpec.describe SubmissionResultCsv do
           "JA123456D",
           "exhausted",
           "attempts to retrieve details for the individual were unsuccessful",
+          nil,
           nil,
           nil,
           nil,
