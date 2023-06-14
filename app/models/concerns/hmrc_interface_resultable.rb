@@ -20,8 +20,9 @@ module HmrcInterfaceResultable
       @clients_ni_contributions_from_employment ||= employee_nics_in_pay_period_1&.sum
     end
 
-    # TODO: placeholder for subsequent PR as this maybe one OR two fields based on requested caseworker feedback
-    def start_and_end_date_for_employment
+    # returns [multiline] string or nil
+    def start_and_end_dates_for_employments
+      @start_and_end_dates_for_employments ||= employment_start_and_end_dates&.join_compact_blank("\n")
     end
 
     def most_recent_payment
@@ -110,6 +111,19 @@ module HmrcInterfaceResultable
     # returns array of string dates
     def payment_dates
       income&.fetch_all("paymentDate")
+    end
+
+    # returns array of hashes
+    def employments
+      @employments ||= data&.fetch_first("employments/paye/employments")
+    end
+
+    # returns [multiline] string or ""
+    def employment_start_and_end_dates
+      @employment_start_and_end_dates ||=
+        employments&.map do |emp|
+          "#{emp&.fetch("startDate")} to #{emp&.fetch("endDate")}"
+        end
     end
   end
 end

@@ -7,5 +7,12 @@ module ArrayExtension
     find_all { |el| el.key?(key) }
       &.flat_map { |el| el[key] }
   end
+
+  def join_compact_blank(args)
+    joined = join(*args)
+
+    return if joined.blank?
+    joined
+  end
 end
 

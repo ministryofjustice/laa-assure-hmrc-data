@@ -9,7 +9,7 @@ class SubmissionResultCsv
                           tax_credit_annual_award_amount
                           clients_income_from_employment
                           clients_ni_contributions_from_employment
-                          start_and_end_date_for_employment
+                          start_and_end_dates_for_employments
                           most_recent_payment
                           uc_one_data
                           uc_two_data]
@@ -45,7 +45,7 @@ class SubmissionResultCsv
       tax_credit_annual_award_amount,
       clients_income_from_employment,
       clients_ni_contributions_from_employment,
-      start_and_end_date_for_employment,
+      start_and_end_dates_for_employments,
       most_recent_payment,
       uc_one_data,
       uc_two_data,

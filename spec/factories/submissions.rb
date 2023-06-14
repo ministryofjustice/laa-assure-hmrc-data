@@ -198,6 +198,30 @@ FactoryBot.define do
       end
     end
 
+    trait :with_use_case_one_employment_paye do
+      status { :completed }
+      use_case { :one }
+      hmrc_interface_result do
+         {
+            "data" => [
+              { "use_case" => "use_case_one" },
+              {
+                "employments/paye/employments": [
+                  {
+                    "endDate": "2099-12-31",
+                    "startDate": "2023-01-26"
+                  },
+                  {
+                    "endDate": "2022-11-11",
+                    "startDate": "2022-09-11"
+                  }
+                ]
+              },
+            ]
+          }.as_json
+      end
+    end
+
     trait :with_completed_use_case_two_hmrc_interface_result do
       status { :completed }
       use_case { :two }
