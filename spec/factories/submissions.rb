@@ -150,12 +150,15 @@ FactoryBot.define do
            { "income/paye/paye" => {
                 "income" => [
                   {
+                    "paymentDate" => "2022-03-17",
                     "grossEarningsForNics" => {
-                      "inPayPeriod1" => 333
+                      "inPayPeriod1" => 333.33
                     },
                   },
-                  { "grossEarningsForNics" => {
-                      "inPayPeriod1" => 666
+                  {
+                    "paymentDate" => "2022-02-20",
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 666.66
                     },
                   },
                 ]

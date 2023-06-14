@@ -167,12 +167,12 @@ RSpec.describe HmrcInterfaceResultable do
                 "income" => [
                   {
                     "grossEarningsForNics" => {
-                      "inPayPeriod1" => 433
+                      "inPayPeriod1" => 111.11
                     },
                   },
                   {
                     "grossEarningsForNics" => {
-                      "inPayPeriod1" => 525
+                      "inPayPeriod1" => 222.22
                     },
                   }
                 ]
@@ -183,7 +183,7 @@ RSpec.describe HmrcInterfaceResultable do
       end
 
       it "returns the sum of all grossEarningsForNics#inPayPeriod1 values" do
-        expect(clients_income_from_employment).to be 958
+        expect(clients_income_from_employment).to be 333.33
       end
     end
 
@@ -197,7 +197,7 @@ RSpec.describe HmrcInterfaceResultable do
                 "income" => [
                   {
                     "grossEarningsForNics" => {
-                      "inPayPeriod1" => 433
+                      "inPayPeriod1" => 444.44
                     },
                   },
                 ]
@@ -208,7 +208,7 @@ RSpec.describe HmrcInterfaceResultable do
       end
 
       it "returns the single grossEarningsForNics#inPayPeriod1 value" do
-        expect(clients_income_from_employment).to be 433
+        expect(clients_income_from_employment).to be 444.44
       end
     end
 
@@ -239,7 +239,7 @@ RSpec.describe HmrcInterfaceResultable do
                 "income" => [
                   {
                     "grossEarningsForNics" => {
-                      "inPayPeriod1" => 333
+                      "inPayPeriod1" => 333.33
                     },
                   },
                   {
@@ -254,7 +254,7 @@ RSpec.describe HmrcInterfaceResultable do
       end
 
       it "returns the single valid grossEarningsForNics#inPayPeriod1 value" do
-        expect(clients_income_from_employment).to be 333
+        expect(clients_income_from_employment).to be 333.33
       end
     end
 
@@ -363,6 +363,117 @@ RSpec.describe HmrcInterfaceResultable do
       let(:result) { { foo: [ { bar: "baz" } ] } }
 
       it { expect(clients_ni_contributions_from_employment).to be_nil }
+    end
+  end
+
+  describe "#most_recent_payment" do
+    subject(:most_recent_payment) { instance.most_recent_payment }
+
+    context "when multiple income exists" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/paye/paye" => {
+                "income" => [
+                  {
+                    "paymentDate" => "2022-03-17",
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 111.11
+                    },
+                  },
+                  {
+                    "paymentDate" => "2022-02-20",
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 222.22
+                    },
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the most recent/top income entry's #paymentDate and grossEarningsForNics#inPayPeriod1 value" do
+        expect(most_recent_payment).to eql("2022-03-17: 111.11")
+      end
+    end
+
+    context "when single income exists" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "paymentDate" => "2022-03-17",
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 222.22
+                    },
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the most recent/top income entry's #paymentDate and grossEarningsForNics#inPayPeriod1 value" do
+        expect(most_recent_payment).to eql("2022-03-17: 222.22")
+      end
+    end
+
+    context "when no income exists" do
+      let(:result) do
+        {
+          "data" => [
+            {
+              "income/paye/paye" => {
+                "income" => []
+              }
+            }
+          ]
+        }
+      end
+
+      it { expect(most_recent_payment).to be_nil }
+    end
+
+    # NOTE: have not seen real data that reflect's it but is useful safeguard
+    context "when top income entry has no #paymentDate and grossEarningsForNics#inPayPeriod1" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                  },
+                  {
+                    "paymentDate" => "2022-03-17",
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 555.55
+                    },
+                  },
+                  {
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "ignores payments where the #paymentDate and grossEarningsForNics#inPayPeriod1 are not available" do
+        expect(most_recent_payment).to eql("2022-03-17: 555.55")
+      end
+    end
+
+    context "with no data key" do
+      let(:result) { { foo: [ { bar: "baz" } ] } }
+
+      it { expect(most_recent_payment).to be_nil }
     end
   end
 end
