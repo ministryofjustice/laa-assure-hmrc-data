@@ -38,7 +38,7 @@ RSpec.describe HmrcInterfaceBulkSubmissionWorker, type: :worker do
       allow(worker).to receive(:perform_async)
     end
 
-    it_behaves_like "applcation worker logger"
+    it_behaves_like "application worker logger"
 
     it "updates status to :processing" do
       expect { perform }

@@ -90,7 +90,7 @@ RSpec.describe HmrcInterfaceResultWorker, type: :worker do
       allow(HmrcInterfaceResultService).to receive(:call)
     end
 
-    it_behaves_like "applcation worker logger"
+    it_behaves_like "application worker logger"
 
     it "calls HmrcInterfaceResultService with submission id" do
       perform

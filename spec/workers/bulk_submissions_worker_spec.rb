@@ -28,7 +28,7 @@ RSpec.describe BulkSubmissionsWorker, type: :worker do
 
     before { bulk_submission }
 
-    it_behaves_like "applcation worker logger"
+    it_behaves_like "application worker logger"
 
     it "enqueues BulkSubmissionWorker with ids" do
       allow(BulkSubmissionWorker).to receive(:perform_async)
