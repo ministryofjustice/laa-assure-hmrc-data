@@ -28,7 +28,7 @@ RSpec.describe BulkSubmissionResultWriterWorker, type: :worker do
   describe "#perform" do
     subject(:perform) { described_class.new.perform('an-id') }
 
-    it_behaves_like "applcation worker logger"
+    it_behaves_like "application worker logger"
 
     it "calls BulkSubmissionResultWriterService with id" do
       perform

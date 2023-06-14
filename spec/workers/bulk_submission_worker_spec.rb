@@ -30,7 +30,7 @@ RSpec.describe BulkSubmissionWorker, type: :worker do
       create(:bulk_submission, :with_original_file)
     end
 
-    it_behaves_like "applcation worker logger"
+    it_behaves_like "application worker logger"
 
     it "calls BulkSubmissionService with id" do
       allow(BulkSubmissionService).to receive(:call)

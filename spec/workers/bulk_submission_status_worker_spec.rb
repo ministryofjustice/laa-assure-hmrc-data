@@ -75,7 +75,7 @@ RSpec.describe BulkSubmissionStatusWorker, type: :worker do
         end
       end
 
-      it_behaves_like "applcation worker logger"
+      it_behaves_like "application worker logger"
 
       it "calls BulkSubmissionResultWriterWorker with id" do
         allow(BulkSubmissionResultWriterWorker).to receive(:perform_async)
