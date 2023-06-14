@@ -20,6 +20,8 @@ RSpec.describe SubmissionResultCsv do
          tax_credit_annual_award_amount
          clients_income_from_employment
          clients_ni_contributions_from_employment
+         start_and_end_date_for_employment
+         most_recent_payment
          uc_one_data
          uc_two_data]
     end
@@ -55,6 +57,8 @@ RSpec.describe SubmissionResultCsv do
           "2001-07-21",
           "JA123456D",
           "completed",
+          nil,
+          nil,
           nil,
           nil,
           nil,
@@ -117,7 +121,7 @@ RSpec.describe SubmissionResultCsv do
       end
 
       it "includes sum of all income grossEarningsForNics#inPayPeriod1 values at position 10" do
-        expect(row[9]).to be 999
+        expect(row[9]).to be 999.99
       end
     end
 
@@ -131,6 +135,20 @@ RSpec.describe SubmissionResultCsv do
 
       it "includes sum of all income employeeNics#inPayPeriod1 values at position 11" do
         expect(row[10]).to be 666.66
+      end
+    end
+
+    context "with a completed submission with multiple income paye paymentDate and grossEarningsForNics hashes" do
+      let(:submission) do
+        create(:submission,
+               :for_john_doe,
+               :with_use_case_one_gross_income_for_nics,
+               bulk_submission:)
+      end
+
+      # NOTE: may need to move to position 14 (index 13)
+      it "includes string built from latest paymentDate and grossEarningsForNics#inPayPeriod1 value at position 13" do
+        expect(row[12]).to eql("2022-03-17: 333.33")
       end
     end
 
@@ -159,6 +177,8 @@ RSpec.describe SubmissionResultCsv do
           "JA123456D",
           "failed",
           "submitted client details could not be found in HMRC service",
+          nil,
+          nil,
           nil,
           nil,
           nil,
@@ -198,6 +218,8 @@ RSpec.describe SubmissionResultCsv do
           "JA123456D",
           "exhausted",
           "attempts to retrieve details for the individual were unsuccessful",
+          nil,
+          nil,
           nil,
           nil,
           nil,

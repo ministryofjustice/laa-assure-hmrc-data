@@ -20,9 +20,19 @@ module HmrcInterfaceResultable
       @clients_ni_contributions_from_employment ||= employee_nics_in_pay_period_1&.sum
     end
 
+    # TODO: placeholder for subsequent PR as this maybe one OR two fields based on requested caseworker feedback
+    def start_and_end_date_for_employment
+    end
+
+    def most_recent_payment
+      return unless payment_dates&.first && gross_earnings_for_nics_in_pay_period_1&.first
+
+      @most_recent_payment ||= "#{payment_dates&.first}: #{gross_earnings_for_nics_in_pay_period_1&.first}"
+    end
+
     # returns string or nil
     def error
-      @error ||= data&.second&.fetch("error")
+      @error ||= data&.second&.fetch("error", nil)
     end
 
     # returns array of hashes
@@ -73,7 +83,7 @@ module HmrcInterfaceResultable
 
     # returns array of hashes
     def income
-      @income ||= income_paye_paye&.fetch("income")
+      @income ||= income_paye_paye&.fetch("income", nil)
     end
 
     # returns array of hashes
@@ -81,7 +91,7 @@ module HmrcInterfaceResultable
       @gross_earnings_for_nics ||= income&.fetch_all("grossEarningsForNics")
     end
 
-    # returns array of integers
+    # returns array of decimals
     def gross_earnings_for_nics_in_pay_period_1
       @gross_earnings_for_nics_in_pay_period_1 ||=
         gross_earnings_for_nics&.fetch_all("inPayPeriod1")
@@ -97,5 +107,9 @@ module HmrcInterfaceResultable
       @employee_nics ||= income&.fetch_all("employeeNics")
     end
 
+    # returns array of string dates
+    def payment_dates
+      income&.fetch_all("paymentDate")
+    end
   end
 end
