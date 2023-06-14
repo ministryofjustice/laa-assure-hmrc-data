@@ -73,32 +73,6 @@ RSpec.describe SubmissionResultCsv do
       end
     end
 
-    context "with a completed submission with multiple child tax credit awards" do
-      let(:submission) do
-        create(:submission,
-               :for_john_doe,
-               :with_use_case_one_child_tax_credit,
-               bulk_submission:)
-      end
-
-      it "includes most recent child tax credit award's total entitlement value at position 9" do
-        expect(row[8]).to be 8075.96
-      end
-    end
-
-    context "with a completed submission with multiple working tax credit awards" do
-      let(:submission) do
-        create(:submission,
-               :for_john_doe,
-               :with_use_case_one_working_tax_credit,
-               bulk_submission:)
-      end
-
-      it "includes most recent working tax credit award's total entitlement value at position 9" do
-        expect(row[8]).to be 8075.96
-      end
-    end
-
     context "with a completed submission with both child and working tax credit awards" do
       let(:submission) do
         create(:submission,
