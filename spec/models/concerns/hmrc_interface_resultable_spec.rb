@@ -589,4 +589,160 @@ RSpec.describe HmrcInterfaceResultable do
       it { expect(most_recent_payment).to be_nil }
     end
   end
+
+  describe "#clients_income_from_self_employment" do
+    subject(:clients_income_from_self_employment) { instance.clients_income_from_self_employment }
+
+    context "when multiple self assessment tax returns exists" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/sa/summary/selfAssessment" => {
+                "taxReturns" => [
+                  {
+                    "taxYear" => "2019-20",
+                    "summary" => [
+                      {
+                        "totalIncome" => 6487
+                      }
+                    ]
+                  },
+                  {
+                    "taxYear" => "2020-21",
+                    "summary" => [
+                      {
+                        "totalIncome" => 7995
+                      }
+                    ]
+                  },
+                  {
+                    "taxYear" => "2021-22",
+                    "summary" => [
+                      {
+                        "totalIncome" => 6824
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+          ]
+        }
+      end
+
+      it "returns multiline string with \"tax year: total income\" format separated by newline as the value" do
+        expect(clients_income_from_self_employment).to eql("2019-20: 6487\n2020-21: 7995\n2021-22: 6824")
+      end
+    end
+
+    context "when single self assessment tax returns exists" do
+       let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/sa/summary/selfAssessment" => {
+                "taxReturns" => [
+                  {
+                    "taxYear" => "2019-20",
+                    "summary" => [
+                      {
+                        "totalIncome" => 5487
+                      }
+                    ]
+                  },
+                ]
+              }
+            },
+          ]
+        }
+      end
+
+      it "returns singleline string with \"tax year: total income\" format as the value" do
+        expect(clients_income_from_self_employment).to eql("2019-20: 5487")
+      end
+    end
+
+    # NOTE: have not seen real data that reflect's it but is useful safeguard as implied by `summary` array structure
+    context "when single self assessment tax returns exists with multiple total incomes" do
+       let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/sa/summary/selfAssessment" => {
+                "taxReturns" => [
+                  {
+                    "taxYear" => "2019-20",
+                    "summary" => [
+                      {
+                        "totalIncome" => 5487
+                      },
+                      {
+                        "totalIncome" => 7487
+                      },
+                    ]
+                  },
+                ]
+              }
+            },
+          ]
+        }
+      end
+
+      it "returns singleline string with \"tax year: total income\" format as the value" do
+        expect(clients_income_from_self_employment).to eql("2019-20: 5487, 7487")
+      end
+    end
+
+    context "when no self assessment summary tax returns exists" do
+       let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/sa/summary/selfAssessment" => {
+                "taxReturns" => []
+              }
+            },
+          ]
+        }
+      end
+
+      it { expect(clients_income_from_self_employment).to be_nil }
+    end
+
+    # NOTE: have not seen real data that reflect's it but is useful safeguard
+    context "when partial self assessment summary tax returns exists" do
+       let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/sa/summary/selfAssessment" => {
+                "taxReturns" => [
+                  {
+                    "taxYear" => "2019-20",
+                    "summary" => []
+                  },
+                ]
+              }
+            },
+          ]
+        }
+      end
+
+      it "does not error, returning an incomplete string with \"tax year: total income\" format as the value" do
+        expect(clients_income_from_self_employment).to eql("2019-20: ")
+      end
+    end
+
+    context "with no data key" do
+      let(:result) { { foo: [ { bar: "baz" } ] } }
+
+      it { expect(clients_income_from_self_employment).to be_nil }
+    end
+  end
 end

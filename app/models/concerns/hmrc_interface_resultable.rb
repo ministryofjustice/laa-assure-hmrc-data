@@ -25,10 +25,17 @@ module HmrcInterfaceResultable
       @start_and_end_dates_for_employments ||= employment_start_and_end_dates&.join_compact_blank("\n")
     end
 
+    # returns string or nil
     def most_recent_payment
       return unless payment_dates&.first && gross_earnings_for_nics_in_pay_period_1&.first
 
       @most_recent_payment ||= "#{payment_dates&.first}: #{gross_earnings_for_nics_in_pay_period_1&.first}"
+    end
+
+    # returns [multiline] string or nil
+    def clients_income_from_self_employment
+      @clients_income_from_self_employment ||=
+        self_assessment_summary_tax_return_total_incomes_by_year&.join_compact_blank("\n")
     end
 
     # returns string or nil
@@ -124,6 +131,37 @@ module HmrcInterfaceResultable
         employments&.map do |emp|
           "#{emp&.fetch("startDate")} to #{emp&.fetch("endDate")}"
         end
+    end
+
+    # returns hash
+    def self_assessment_summary
+      @self_assessment_summary ||=
+        data&.fetch_first("income/sa/summary/selfAssessment")
+    end
+
+    # returns array of hashes
+    def self_assessment_summary_tax_returns
+      @self_assessment_summary_tax_returns ||=
+        self_assessment_summary&.fetch("taxReturns", nil)
+    end
+
+    # returns array of strings
+    def self_assessment_summary_tax_return_total_incomes_by_year
+      @self_assessment_summary_tax_return_total_incomes_by_year ||=
+        self_assessment_summary_tax_returns&.map do |tax_return|
+          tax_return_with_year(tax_return)
+        end
+    end
+
+    # returns string
+    def tax_return_with_year(tax_return)
+      summaries = tax_return&.fetch("summary", nil)
+
+      total_incomes = summaries.map do |summary|
+        summary&.fetch("totalIncome", nil)
+      end
+
+      "#{tax_return&.fetch("taxYear", nil)}: #{total_incomes.join(", ")}"
     end
   end
 end

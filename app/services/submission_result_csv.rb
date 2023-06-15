@@ -11,6 +11,7 @@ class SubmissionResultCsv
                           clients_ni_contributions_from_employment
                           start_and_end_dates_for_employments
                           most_recent_payment
+                          clients_income_from_self_employment
                           uc_one_data
                           uc_two_data]
   end
@@ -47,6 +48,7 @@ class SubmissionResultCsv
       clients_ni_contributions_from_employment,
       start_and_end_dates_for_employments,
       most_recent_payment,
+      clients_income_from_self_employment,
       uc_one_data,
       uc_two_data,
     ]

@@ -1,0 +1,799 @@
+{
+  "submission": "fake-hmrc-interface-submission-id",
+  "status": "completed",
+  "data": [
+    {
+      "correlation_id": "",
+      "use_case": "use_case_one"
+    },
+    {
+      "individuals/matching/individual": {
+        "firstName": "fname",
+        "lastName": "lname",
+        "nino": "XY123456D",
+        "dateOfBirth": "1985-01-01"
+      }
+    },
+    {
+      "income/paye/paye": {
+        "income": []
+      }
+    },
+    {
+      "income/sa/selfAssessment": {
+        "registrations": [
+          {
+            "registrationDate": "2015-03-18"
+          },
+          {
+            "registrationDate": "2015-03-18"
+          },
+          {
+            "registrationDate": "2015-03-18"
+          }
+        ],
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "submissions": []
+          },
+          {
+            "taxYear": "2020-21",
+            "submissions": []
+          },
+          {
+            "taxYear": "2021-22",
+            "submissions": []
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/pensions_and_state_benefits/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "pensionsAndStateBenefits": [
+              {
+                "totalIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "pensionsAndStateBenefits": [
+              {
+                "totalIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "pensionsAndStateBenefits": [
+              {
+                "totalIncome": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/employments/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "employments": [
+              {
+                "employmentIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "employments": [
+              {
+                "employmentIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "employments": [
+              {
+                "employmentIncome": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/additional_information/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "additionalInformation": [
+              {
+                "gainsOnLifePolicies": 0,
+                "sharesOptionsIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "additionalInformation": [
+              {
+                "gainsOnLifePolicies": 0,
+                "sharesOptionsIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "additionalInformation": [
+              {
+                "gainsOnLifePolicies": 0,
+                "sharesOptionsIncome": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/partnerships/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "partnerships": [
+              {
+                "partnershipProfit": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "partnerships": [
+              {
+                "partnershipProfit": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "partnerships": [
+              {
+                "partnershipProfit": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/uk_properties/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "ukProperties": [
+              {
+                "totalProfit": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "ukProperties": [
+              {
+                "totalProfit": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "ukProperties": [
+              {
+                "totalProfit": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/foreign/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "foreign": [
+              {
+                "foreignIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "foreign": [
+              {
+                "foreignIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "foreign": [
+              {
+                "foreignIncome": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/further_details/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "furtherDetails": [
+              {
+                "turnover": 8400,
+                "deducts": {
+                  "totalBusExpenses": 1913
+                }
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "furtherDetails": [
+              {
+                "turnover": 5670,
+                "deducts": {
+                  "totalBusExpenses": 1866
+                }
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "furtherDetails": [
+              {
+                "turnover": 7295,
+                "deducts": {
+                  "totalBusExpenses": 3307
+                }
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/interests_and_dividends/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "interestsAndDividends": [
+              {
+                "ukInterestsIncome": 0,
+                "foreignDividendsIncome": 0,
+                "ukDividendsIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "interestsAndDividends": [
+              {
+                "ukInterestsIncome": 0,
+                "foreignDividendsIncome": 0,
+                "ukDividendsIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "interestsAndDividends": [
+              {
+                "ukInterestsIncome": 0,
+                "foreignDividendsIncome": 0,
+                "ukDividendsIncome": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/other/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "other": [
+              {
+                "otherIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "other": [
+              {
+                "otherIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "other": [
+              {
+                "otherIncome": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/summary/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "summary": [
+              {
+                "totalIncome": 6487
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "summary": [
+              {
+                "totalIncome": 7995
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "summary": [
+              {
+                "totalIncome": 6824
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "income/sa/trusts/selfAssessment": {
+        "taxReturns": [
+          {
+            "taxYear": "2019-20",
+            "trusts": [
+              {
+                "trustIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2020-21",
+            "trusts": [
+              {
+                "trustIncome": 0
+              }
+            ]
+          },
+          {
+            "taxYear": "2021-22",
+            "trusts": [
+              {
+                "trustIncome": 0
+              }
+            ]
+          }
+        ]
+      }
+    },
+    {
+      "employments/paye/employments": []
+    },
+    {
+      "benefits_and_credits/working_tax_credit/applications": [
+      ]
+    },
+    {
+      "benefits_and_credits/child_tax_credit/applications": [
+      ]
+    }
+  ]
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

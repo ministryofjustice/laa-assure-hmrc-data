@@ -170,19 +170,61 @@ FactoryBot.define do
             "data" => [
               { "use_case" => "use_case_one" },
               {
-                "employments/paye/employments": [
+                "employments/paye/employments" => [
                   {
-                    "endDate": "2099-12-31",
-                    "startDate": "2023-01-26"
+                    "endDate" => "2099-12-31",
+                    "startDate" => "2023-01-26"
                   },
                   {
-                    "endDate": "2022-11-11",
-                    "startDate": "2022-09-11"
+                    "endDate" => "2022-11-11",
+                    "startDate" => "2022-09-11"
                   }
                 ]
               },
             ]
           }.as_json
+      end
+    end
+
+    trait :with_use_case_one_self_assessment_summary do
+      status { :completed }
+      use_case { :one }
+      hmrc_interface_result do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/sa/summary/selfAssessment" => {
+                "taxReturns" => [
+                  {
+                    "taxYear" => "2019-20",
+                    "summary" => [
+                      {
+                        "totalIncome" => 6487
+                      }
+                    ]
+                  },
+                  {
+                    "taxYear" => "2020-21",
+                    "summary" => [
+                      {
+                        "totalIncome" => 7995
+                      }
+                    ]
+                  },
+                  {
+                    "taxYear" => "2021-22",
+                    "summary" => [
+                      {
+                        "totalIncome" => 6824
+                      }
+                    ]
+                  }
+                ]
+              }
+            },
+          ]
+        }.as_json
       end
     end
 
