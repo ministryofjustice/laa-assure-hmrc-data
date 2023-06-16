@@ -36,6 +36,8 @@ bundle exec sidekiq
 redis-server
 ```
 
+*see [Virus scanning](docs/development/virus_scanning.md) Local setup if clamav reliant tests fail locally*
+
 ### Authentication with Azure AD
 
 Retrieve/create local Azure AD secrets for yourself:

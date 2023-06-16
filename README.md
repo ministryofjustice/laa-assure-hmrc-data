@@ -11,3 +11,4 @@ The "Assure HMRC data" application is a web service for Legal Aid Agency Assuran
   - [Docker compose](docs/development/docker-compose.md)
   - [CI/CD](docs/development/deployment.md)
   - [Background processing (sidekiq)](docs/development/sidekiq_flows.md)
+  - [Virus scanning](docs/development/virus_scanning.md)
