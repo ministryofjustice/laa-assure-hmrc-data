@@ -41,13 +41,52 @@ RSpec.shared_context "with stubbed hmrc-interface submission created" do
 end
 
 RSpec.shared_context "with stubbed hmrc-interface result completed" do
-  include_context "with stubbed host and bearer token"
+  include_context "with stubbed hmrc-interface submission created"
 
   before do
     stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
       .to_return(
         status: 200,
         body: file_fixture("results/hmrc_interface_successful_result_response_body.json").read,
+        headers: { "Content-Type" => "application/json; charset=utf-8" },
+      )
+  end
+end
+
+RSpec.shared_context "with stubbed hmrc-interface result with income paye and employments completed" do
+  include_context "with stubbed hmrc-interface submission created"
+
+  before do
+    stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
+      .to_return(
+        status: 200,
+        body: file_fixture("results/hmrc_interface_successful_result_response_body_with_income_paye.json").read,
+        headers: { "Content-Type" => "application/json; charset=utf-8" },
+      )
+  end
+end
+
+RSpec.shared_context "with stubbed hmrc-interface result with self assessment tax returns completed" do
+  include_context "with stubbed hmrc-interface submission created"
+
+  before do
+    stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
+      .to_return(
+        status: 200,
+        body: file_fixture("results/hmrc_interface_successful_result_response_body_with_self_assessment_summary.json").read,
+        headers: { "Content-Type" => "application/json; charset=utf-8" },
+      )
+  end
+end
+
+RSpec.shared_context "with stubbed hmrc-interface result with benefits and credits completed" do
+  include_context "with stubbed hmrc-interface submission created"
+
+  before do
+    stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
+      .to_return(
+        status: 200,
+        body: file_fixture("results/hmrc_interface_successful_result_response_body_with_benefits_and_credits.json").read,
         headers: { "Content-Type" => "application/json; charset=utf-8" },
       )
   end

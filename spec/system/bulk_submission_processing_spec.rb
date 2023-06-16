@@ -25,7 +25,7 @@ RSpec.describe "Processing of a bulk submission", type: :worker do
 
     let(:user) { create(:user) }
 
-    it "creates 2 x rows submission records and populates result for each" do
+    it "creates 2 x original_file rows submission records, populates result for each and generates result_file" do
       expect { perform_inline }.to change(Submission, :count).by(70)
 
       submissions = bulk_submission.submissions
@@ -36,6 +36,7 @@ RSpec.describe "Processing of a bulk submission", type: :worker do
 
       expect(bulk_submission).to be_finished
       expect(bulk_submission).to be_ready
+      expect(bulk_submission.result_file).to be_attached
     end
   end
 end
