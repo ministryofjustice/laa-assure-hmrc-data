@@ -23,7 +23,7 @@ RSpec.describe HmrcInterface::Request::Submission do
     subject(:call) { instance.call }
 
     context "when a successful response is received" do
-      include_context "with stubbed hmrc-interface submission success"
+      include_context "with stubbed hmrc-interface submission created"
       include_context "with nil access token"
 
       it "submits expected token request" do
@@ -191,7 +191,7 @@ RSpec.describe HmrcInterface::Request::Submission do
   describe ".call" do
     subject(:call) { described_class.call(client, use_case, filter) }
 
-    include_context "with stubbed hmrc-interface submission success"
+    include_context "with stubbed hmrc-interface submission created"
 
     it "returns expected parsed JSON response" do
       expect(call).to match({ id: "fake-hmrc-interface-submission-id",

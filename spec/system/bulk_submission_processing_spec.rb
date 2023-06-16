@@ -8,7 +8,7 @@ RSpec.describe "Processing of a bulk submission", type: :worker do
   end
 
   context "with a large valid format file" do
-    include_context "with stubbed hmrc-interface submission success"
+    include_context "with stubbed hmrc-interface submission created"
     include_context "with stubbed hmrc-interface result completed"
 
     before do

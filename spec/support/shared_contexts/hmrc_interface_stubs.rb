@@ -27,7 +27,7 @@ RSpec.shared_context "with stubbed host and bearer token" do
   end
 end
 
-RSpec.shared_context "with stubbed hmrc-interface submission success" do
+RSpec.shared_context "with stubbed hmrc-interface submission created" do
   include_context "with stubbed host and bearer token"
 
   before do
