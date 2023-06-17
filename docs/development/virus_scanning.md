@@ -31,9 +31,9 @@ clamd     76965          root    6u  IPv6 0xcefaa303d8212407      0t0  TCP local
 clamd     76965          root    7u  IPv4 0xcefaa308a8c5b167      0t0  TCP localhost:3310 (LISTEN)
 ```
 
-If not then check your local `/usr/local/etc/clamav/clamd.conf`
+If not then check your local `clamd.conf`
 ```sh
-cat /usr/local/etc/clamav/clamd.conf | grep TCP
+cat $(brew --prefix)/etc/clamav/clamd.conf | grep TCP
 =>
 # TCP port address.
 TCPSocket 3310
@@ -51,9 +51,3 @@ sudo launchctl list | grep clam
 sudo launchctl unload /Library/LaunchDaemons/clamav.clamd.plist
 sudo launchctl load /Library/LaunchDaemons/clamav.clamd.plist
 ```
-
-***TODO**: Amend `bin/install_clamav_on_mac` to apply the above config once satisfied this is the best solution*
-
-
-
-
