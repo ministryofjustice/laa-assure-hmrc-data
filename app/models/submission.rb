@@ -1,5 +1,6 @@
 class Submission < ApplicationRecord
   include StatusSettable
+  include Discard::Model
 
   belongs_to :bulk_submission
 

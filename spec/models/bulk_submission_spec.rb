@@ -4,6 +4,19 @@ RSpec.describe BulkSubmission, type: :model do
   let(:instance) { create(:bulk_submission, user:) }
   let(:user) { create(:user) }
 
+  it_behaves_like "discardable model"
+
+  it "is status settable" do
+    expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
+      memo << ["pending#{c}",
+               "preparing#{c}", "prepared#{c}", "processing#{c}",
+               "completed#{c}", "exhausted#{c}",
+               "writing#{c}", "ready#{c}"]
+    end
+
+    expect(instance).to respond_to(*expected_status_methods.flatten)
+  end
+
   describe "#user" do
     subject { instance.user }
 
@@ -79,16 +92,5 @@ RSpec.describe BulkSubmission, type: :model do
 
       it { is_expected.to be true }
     end
-  end
-
-  it "is status settable" do
-    expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
-      memo << ["pending#{c}",
-               "preparing#{c}", "prepared#{c}", "processing#{c}",
-               "completed#{c}", "exhausted#{c}",
-               "writing#{c}", "ready#{c}"]
-    end
-
-    expect(instance).to respond_to(*expected_status_methods.flatten)
   end
 end
