@@ -6,6 +6,41 @@ RSpec.describe BulkSubmission, type: :model do
 
   it_behaves_like "discardable model"
 
+  describe "#dicard" do
+    subject(:discard) { instance.discard }
+
+    before do
+      submission
+    end
+
+    let(:submission) { create(:submission, bulk_submission: instance) }
+
+    it "discards associated submissions" do
+      expect { discard }
+        .to change { submission.reload.discarded? }
+          .from(false)
+          .to(true)
+    end
+  end
+
+  describe "#undicard" do
+    subject(:undiscard) { instance.undiscard }
+
+    before do
+      submission
+      instance.discard!
+    end
+
+    let(:submission) { create(:submission, bulk_submission: instance) }
+
+    it "undiscards associated submissions" do
+      expect { undiscard }
+        .to change { submission.reload.discarded? }
+          .from(true)
+          .to(false)
+    end
+  end
+
   it "is status settable" do
     expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
       memo << ["pending#{c}",
