@@ -1,5 +1,14 @@
 class BulkSubmission < ApplicationRecord
   include StatusSettable
+  include Discard::Model
+
+  after_discard do
+    submissions.discard_all
+  end
+
+  after_undiscard do
+    submissions.undiscard_all
+  end
 
   belongs_to :user
   has_many :submissions, dependent: :destroy

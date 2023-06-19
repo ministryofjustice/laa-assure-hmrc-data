@@ -4,6 +4,54 @@ RSpec.describe BulkSubmission, type: :model do
   let(:instance) { create(:bulk_submission, user:) }
   let(:user) { create(:user) }
 
+  it_behaves_like "discardable model"
+
+  describe "#dicard" do
+    subject(:discard) { instance.discard }
+
+    before do
+      submission
+    end
+
+    let(:submission) { create(:submission, bulk_submission: instance) }
+
+    it "discards associated submissions" do
+      expect { discard }
+        .to change { submission.reload.discarded? }
+          .from(false)
+          .to(true)
+    end
+  end
+
+  describe "#undicard" do
+    subject(:undiscard) { instance.undiscard }
+
+    before do
+      submission
+      instance.discard!
+    end
+
+    let(:submission) { create(:submission, bulk_submission: instance) }
+
+    it "undiscards associated submissions" do
+      expect { undiscard }
+        .to change { submission.reload.discarded? }
+          .from(true)
+          .to(false)
+    end
+  end
+
+  it "is status settable" do
+    expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
+      memo << ["pending#{c}",
+               "preparing#{c}", "prepared#{c}", "processing#{c}",
+               "completed#{c}", "exhausted#{c}",
+               "writing#{c}", "ready#{c}"]
+    end
+
+    expect(instance).to respond_to(*expected_status_methods.flatten)
+  end
+
   describe "#user" do
     subject { instance.user }
 
@@ -79,16 +127,5 @@ RSpec.describe BulkSubmission, type: :model do
 
       it { is_expected.to be true }
     end
-  end
-
-  it "is status settable" do
-    expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
-      memo << ["pending#{c}",
-               "preparing#{c}", "prepared#{c}", "processing#{c}",
-               "completed#{c}", "exhausted#{c}",
-               "writing#{c}", "ready#{c}"]
-    end
-
-    expect(instance).to respond_to(*expected_status_methods.flatten)
   end
 end

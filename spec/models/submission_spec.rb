@@ -3,6 +3,18 @@ require 'rails_helper'
 RSpec.describe Submission, type: :model do
   let(:instance) { create(:submission) }
 
+  it_behaves_like "discardable model"
+
+  it "is status settable" do
+    expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
+      memo << ["pending#{c}", "submitting#{c}", "submitted#{c}",
+               "completing#{c}", "created#{c}", "processing#{c}",
+               "completed#{c}", "failed#{c}", "exhausted#{c}"]
+    end
+
+    expect(instance).to respond_to(*expected_status_methods.flatten)
+  end
+
   describe "#bulk_submission" do
     subject(:bulk_submission) { instance.bulk_submission }
 
@@ -79,15 +91,5 @@ RSpec.describe Submission, type: :model do
       expect(submission.errors[:period_start_at]).to include("Start date cannot be after end date")
       expect(submission.errors[:period_end_at]).to include("End date cannot be before Start date")
     end
-  end
-
-  it "is status settable" do
-    expected_status_methods = ["!", "?"].each_with_object([]) do |c, memo|
-      memo << ["pending#{c}", "submitting#{c}", "submitted#{c}",
-               "completing#{c}", "created#{c}", "processing#{c}",
-               "completed#{c}", "failed#{c}", "exhausted#{c}"]
-    end
-
-    expect(instance).to respond_to(*expected_status_methods.flatten)
   end
 end
