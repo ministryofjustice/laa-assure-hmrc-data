@@ -1,12 +1,11 @@
 class BulkSubmissionsController < ApplicationController
   def index
-    @bulk_submissions = BulkSubmission.all
+    @bulk_submissions = BulkSubmission.undiscarded.order(created_at: :desc)
   end
 
   def destroy
     bulk_submission = BulkSubmission.find(params[:id])
-    bulk_submission.original_file.purge
-    bulk_submission.destroy!
+    bulk_submission.discard!
     redirect_back(fallback_location: authenticated_root_path)
   end
 

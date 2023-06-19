@@ -15,6 +15,14 @@ FactoryBot.define do
       status { 'ready' }
     end
 
+    trait :discarded do
+      discarded_at { Time.current - 1.second }
+    end
+
+    trait :undiscarded do
+      discarded_at { nil }
+    end
+
     # name must be of a file that exists in `spec/fixtures/files/`
     transient do
       original_file_fixture_name { nil }
