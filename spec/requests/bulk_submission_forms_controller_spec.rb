@@ -217,6 +217,12 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
           patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
         }.to change(BulkSubmission, :count).by(0)
       end
+
+      it "records the attempt to upload a file" do
+        expect {
+          patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        }.to change(MalwareScanResult, :count).by(1)
+      end
     end
 
     context "without file added and upload pressed" do
@@ -241,6 +247,24 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
         patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
         expect(response).to render_template(:edit)
         expect(response.body).to include('empty.csv is empty')
+      end
+    end
+
+    context "with malware file added and upload pressed", scan_with_clamav: true do
+      let(:commit) { "upload" }
+
+      let(:bulk_submission_form_params) { { commit:, uploaded_file: fixture_file_upload('malware.doc') } }
+
+      it "renders edit and displays error" do
+        patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        expect(response).to render_template(:edit)
+        expect(response.body).to include('malware.doc contains a virus!')
+      end
+
+      it "records the attempt to upload a file" do
+        expect {
+          patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        }.to change(MalwareScanResult, :count).by(1)
       end
     end
 

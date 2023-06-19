@@ -29,3 +29,7 @@ Style/NumericLiterals:
 
 Lint/AmbiguousBlockAssociation:
   AllowedMethods: [change]
+
+Rails/SaveBang:
+  Exclude:
+    - spec/forms/bulk_submission_form_spec.rb
