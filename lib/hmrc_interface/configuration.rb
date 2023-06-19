@@ -19,6 +19,15 @@ module HmrcInterface
       @headers.merge!(headers)
     end
 
+    def scopes
+      @scopes&.join(",")
+    end
+
+    def scopes=(scopes)
+      raise ConfigurationError, "scopes must be provider as an array" unless scopes.is_a?(Array)
+      @scopes = scopes
+    end
+
     def logger
       @logger ||= defined?(Rails) ? Rails.logger : Logger.new($stdout)
     end

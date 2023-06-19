@@ -81,7 +81,7 @@ RSpec.describe HmrcInterface::Client do
         it "retrieves new access_token using client_credentials grant type" do
           expect(access_token).to eq(new_token)
           expect(oauth_client).to have_received(:client_credentials)
-          expect(client_credentials).to have_received(:get_token)
+          expect(client_credentials).to have_received(:get_token).with(scopes: "use_case_one,use_case_two")
         end
       end
 
@@ -95,7 +95,7 @@ RSpec.describe HmrcInterface::Client do
         it "retrieves new access_token using client_credentials grant type" do
           expect(access_token).to eq(new_token)
           expect(oauth_client).to have_received(:client_credentials)
-          expect(client_credentials).to have_received(:get_token)
+          expect(client_credentials).to have_received(:get_token).with(scopes: "use_case_one,use_case_two")
         end
       end
     end
