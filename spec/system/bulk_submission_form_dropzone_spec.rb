@@ -146,10 +146,8 @@ RSpec.describe "sign in", type: :system, js: true do
           .to have_selector(".govuk-error-summary__body", text: "invalid_content.csv first name missing at row 2")
           .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv last name missing at row 2")
           .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid date of birth at row 2")
-          .and have_selector(".govuk-error-summary__body", 
-text: "invalid_content.csv invalid national insurance number at row 2")
-          .and have_selector(".govuk-error-summary__body", 
-text: "invalid_content.csv invalid period start date at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid national insurance number at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid period start date at row 2")
           .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid period end date at row 2")
           .and have_selector(".govuk-error-message", text: "invalid_content.csv first name missing at row 2")
           .and have_selector(".govuk-error-message", text: "invalid_content.csv last name missing at row 2")
@@ -159,10 +157,8 @@ text: "invalid_content.csv invalid period start date at row 2")
 
         find(".dz-clickable").drop(file_fixture("invalid_period.csv"))
         expect(page)
-          .to have_selector(".govuk-error-summary__body", 
-text: "invalid_period.csv period end date earlier than period start date at row 2")
-          .and have_selector(".govuk-error-message", 
-text: "invalid_period.csv period end date earlier than period start date at row 2")
+          .to have_selector(".govuk-error-summary__body", text: "invalid_period.csv period end date earlier than period start date at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_period.csv period end date earlier than period start date at row 2")
       end
     end
 
@@ -230,10 +226,8 @@ text: "invalid_period.csv period end date earlier than period start date at row 
           .to have_selector(".govuk-error-summary__body", text: "invalid_content.csv first name missing at row 2")
           .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv last name missing at row 2")
           .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid date of birth at row 2")
-          .and have_selector(".govuk-error-summary__body", 
-text: "invalid_content.csv invalid national insurance number at row 2")
-          .and have_selector(".govuk-error-summary__body", 
-text: "invalid_content.csv invalid period start date at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid national insurance number at row 2")
+          .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid period start date at row 2")
           .and have_selector(".govuk-error-summary__body", text: "invalid_content.csv invalid period end date at row 2")
           .and have_selector(".govuk-error-message", text: "invalid_content.csv first name missing at row 2")
           .and have_selector(".govuk-error-message", text: "invalid_content.csv last name missing at row 2")
@@ -243,10 +237,8 @@ text: "invalid_content.csv invalid period start date at row 2")
 
         find(".dz-clickable").drop(file_fixture("invalid_period.csv"))
         expect(page)
-          .to have_selector(".govuk-error-summary__body", 
-text: "invalid_period.csv period end date earlier than period start date at row 2")
-          .and have_selector(".govuk-error-message", 
-text: "invalid_period.csv period end date earlier than period start date at row 2")
+          .to have_selector(".govuk-error-summary__body", text: "invalid_period.csv period end date earlier than period start date at row 2")
+          .and have_selector(".govuk-error-message", text: "invalid_period.csv period end date earlier than period start date at row 2")
       end
     end
   end
