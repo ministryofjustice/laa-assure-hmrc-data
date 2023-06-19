@@ -18,7 +18,12 @@ class BulkSubmissionFormsController < ApplicationController
   end
 
   def update
-    @form = BulkSubmissionForm.new(bulk_submission_form_params.merge(bulk_submission: BulkSubmission.find(params[:id])))
+    @form = BulkSubmissionForm.new(
+              bulk_submission_form_params.merge(
+                bulk_submission: BulkSubmission.find(params[:id]),
+                user_id: current_user.id
+              )
+            )
 
     respond_to do |format|
       format.html { respond_to_update_with_html }
