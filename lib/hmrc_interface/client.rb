@@ -3,7 +3,7 @@ require 'forwardable'
 module HmrcInterface
   class Client
     delegate :configuration, :config, to: HmrcInterface
-    delegate :host, to: :configuration
+    delegate :host, :scopes, to: :configuration
 
     attr_reader :connection
 
@@ -42,7 +42,7 @@ private
     end
 
     def new_access_token
-      oauth_client.client_credentials.get_token
+      oauth_client.client_credentials.get_token(scopes:)
     end
 
     def fake_bearer_token

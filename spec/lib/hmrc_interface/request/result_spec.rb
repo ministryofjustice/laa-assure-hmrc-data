@@ -20,7 +20,7 @@ RSpec.describe HmrcInterface::Request::Result do
           a_request(
             :post,
             "#{fake_host}/oauth/token"
-          ).with(body: "grant_type=client_credentials",
+          ).with(body: "grant_type=client_credentials&scopes=use_case_one%2Cuse_case_two",
                  headers: { 'Accept'=>'*/*',
                             'Content-Type'=>'application/x-www-form-urlencoded',
                             'Accept-Encoding'=>/.*/,

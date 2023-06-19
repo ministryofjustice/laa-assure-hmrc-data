@@ -1,10 +1,10 @@
 require "rails_helper"
 
 RSpec.describe HmrcInterface::Configuration do
-  subject(:configuration) { described_class.new }
+  subject(:instance) { described_class.new }
 
   describe '#host' do
-    subject(:host) { described_class.new.host }
+    subject(:host) { instance.host }
 
     it 'defaults to nil' do
       expect(host).to be_nil
@@ -12,18 +12,60 @@ RSpec.describe HmrcInterface::Configuration do
   end
 
   describe '#host=' do
-    let(:config) { described_class.new }
     let(:host) { 'https://mycustom-laa-hmrc-interface-env' }
 
-    before { config.host = host }
+    before { instance.host = host }
 
     it 'assigns a non-default host' do
-      expect(config.host).to eql host
+      expect(instance.host).to eql host
+    end
+  end
+
+  describe '#scopes' do
+    subject(:scopes) { instance.scopes }
+
+    context "when non supplied" do
+      it { is_expected.to be_nil }
+    end
+
+    context "when array supplied" do
+      before { instance.scopes = %w[foo bar] }
+
+      it { is_expected.to eql("foo,bar") }
+    end
+  end
+
+  describe '#scopes=' do
+    context "when array of strings supplied" do
+      let(:scopes) { %w[use_case_one use_case_two] }
+
+      it 'does not raise any error and stores the array' do
+        expect { instance.scopes = scopes }.not_to raise_error
+        expect(instance.scopes).to eql("use_case_one,use_case_two")
+      end
+    end
+
+    context "when array of symbols supplied" do
+      let(:scopes) { %i[use_case_one use_case_two] }
+
+      it 'does not raise any error and stores the array' do
+        expect { instance.scopes = scopes }.not_to raise_error
+        expect(instance.scopes).to eql("use_case_one,use_case_two")
+      end
+    end
+
+    context "when string supplied" do
+      let(:scopes) { "use_case_one,use_case_two" }
+
+      it 'raises ConfigurationError' do
+        expect { instance.scopes = scopes }
+          .to raise_error(HmrcInterface::ConfigurationError, "scopes must be provider as an array")
+      end
     end
   end
 
   describe '#headers' do
-    subject(:headers) { described_class.new.headers }
+    subject(:headers) { instance.headers }
 
     it 'defaults to adding a custom User-Agent' do
       expect(headers).to include('User-Agent' => "laa-hmrc-interface-client/#{described_class::VERSION}")
@@ -31,16 +73,14 @@ RSpec.describe HmrcInterface::Configuration do
   end
 
   describe '#headers=' do
-    let(:config) { described_class.new }
-
-    before { config.headers = headers }
+    before { instance.headers = headers }
 
     context "with non-user-agent headers added" do
       let(:headers) { { 'Accept' => 'application/json' } }
 
       it 'appends the header' do
-        expect(config.headers).to include(headers)
-        expect(config.headers).to include('User-Agent' => "laa-hmrc-interface-client/#{described_class::VERSION}")
+        expect(instance.headers).to include(headers)
+        expect(instance.headers).to include('User-Agent' => "laa-hmrc-interface-client/#{described_class::VERSION}")
       end
     end
 
@@ -48,8 +88,8 @@ RSpec.describe HmrcInterface::Configuration do
       let(:headers) { { 'User-Agent' => 'my-own-user-agent', 'Accept' => 'application/xml' } }
 
       it 'overwrites the existing headers' do
-        expect(config.headers).to include('Accept' => 'application/xml')
-        expect(config.headers).to include('User-Agent' => 'my-own-user-agent')
+        expect(instance.headers).to include('Accept' => 'application/xml')
+        expect(instance.headers).to include('User-Agent' => 'my-own-user-agent')
       end
     end
   end
@@ -122,14 +162,12 @@ RSpec.describe HmrcInterface::Configuration do
   end
 
   describe "#logger=" do
-    let(:config) { described_class.new }
-
     context "with logger that responds to expected methods" do
       let(:logger) { Logger.new($stdout) }
 
       it "sets logger without errors" do
-        expect { config.logger = logger }.not_to raise_error
-        expect(config.logger).to be logger
+        expect { instance.logger = logger }.not_to raise_error
+        expect(instance.logger).to be logger
       end
     end
 
@@ -144,7 +182,7 @@ RSpec.describe HmrcInterface::Configuration do
       end
 
       it "raises HmrcInterface::ConfigurationError with expected message" do
-        expect { config.logger = logger }
+        expect { instance.logger = logger }
           .to raise_error HmrcInterface::ConfigurationError,
                             "configured logger must respond to info, warn, error, fatal, debug"
       end
@@ -152,28 +190,26 @@ RSpec.describe HmrcInterface::Configuration do
   end
 
   describe "#test_mode?" do
-    subject(:call) { config.test_mode? }
-
-    let(:config) { described_class.new }
+    subject(:call) { instance.test_mode? }
 
     context "when test_mode not set in config" do
       it { is_expected.to be false }
     end
 
     context "when test_mode set to \"rubbishg\" in config" do
-      before { config.test_mode = 'not-true-string' }
+      before { instance.test_mode = 'not-true-string' }
 
       it { is_expected.to be false }
     end
 
     context "when test_mode set to string \"true\" in config" do
-      before { config.test_mode = "true" }
+      before { instance.test_mode = "true" }
 
       it { is_expected.to be true }
     end
 
     context "when test_mode set to boolean true in config" do
-      before { config.test_mode = true }
+      before { instance.test_mode = true }
 
       it { is_expected.to be true }
     end
