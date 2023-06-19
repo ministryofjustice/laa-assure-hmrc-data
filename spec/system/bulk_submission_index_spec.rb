@@ -57,7 +57,7 @@ RSpec.describe "sign in", type: :system do
             .and have_selector(".govuk-table__cell", text: "Cancel")
 
           expect(page).to have_selector(".govuk-table__body tr")
-          click_button("Cancel", match: :one)
+          click_link("Cancel", match: :one)
           expect(page).not_to have_selector(".govuk-table__body tr")
         end
       end
@@ -82,7 +82,7 @@ RSpec.describe "sign in", type: :system do
           expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
 
           expect(page).to have_selector(".govuk-table__body tr")
-          click_button("Remove", match: :one)
+          click_link("Remove", match: :one)
           expect(page).to have_no_selector(".govuk-table__body tr")
         end
       end
