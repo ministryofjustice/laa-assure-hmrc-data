@@ -70,7 +70,7 @@ RSpec.describe BulkSubmissionForm, type: :model do
         expect(instance.errors[:uploaded_file]).to include("basic_bulk_submission.csv must be a CSV")
       end
     end
-    
+
     context "with a file that is too long" do
       let(:a_file) { fixture_file_upload('too_many_rows.csv', 'text/csv') }
 
@@ -137,10 +137,27 @@ RSpec.describe BulkSubmissionForm, type: :model do
         expect(instance.errors).to be_empty
       end
     end
+
+    context "with a file containing a virus", scan_with_clamav: true do
+      let(:a_file) { fixture_file_upload('malware.doc', 'text/csv') }
+
+      it "adds error to object" do
+        save
+        expect(instance.errors[:uploaded_file])
+          .to include("malware.doc contains a virus!")
+      end
+
+      it "does not persist the bulk_submission" do
+        expect { save }.to change(BulkSubmission, :count).by(0)
+      end
+
+      it "record upload attempt in database" do
+        expect { save }.to change(MalwareScanResult, :count).by(1)
+      end
+    end
   end
 
   describe "#update" do
-    # rubocop:disable Rails/SaveBang
     subject(:update) do
       instance.uploaded_file = a_file
       instance.update
@@ -150,7 +167,6 @@ RSpec.describe BulkSubmissionForm, type: :model do
       instance.uploaded_file = fixture_file_upload('basic_bulk_submission.csv', 'text/csv')
       instance.save
     end
-    # rubocop:enable Rails/SaveBang
 
     let(:instance) { described_class.new(user_id: user.id, status: "pending") }
 

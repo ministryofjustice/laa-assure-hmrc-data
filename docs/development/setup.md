@@ -11,6 +11,7 @@ This project depends on:
 - [Postgres](https://www.postgresql.org/)
 - [Sidekiq](https://github.com/sidekiq/sidekiq)
 - [Redis](https://redis.io)
+- [ClamAV](https://docs.clamav.net/Introduction.html)
 
 ### Inital setup
 
@@ -34,6 +35,8 @@ bin/rails server
 bundle exec sidekiq
 redis-server
 ```
+
+*see [Virus scanning](docs/development/virus_scanning.md) Local setup if clamav reliant tests fail locally*
 
 ### Authentication with Azure AD
 
@@ -71,7 +74,7 @@ rails s -b "ssl://localhost:3000?key=$HOME/.ssl/localhost.key&cert=$HOME/.ssl/lo
 ```
 note: running `bin/setup` will give you the option to generate this certificate via its script.
 
-You can now open `https://localhost:3000` and login. If you recieve an unauthorised error this will be because you have not seeded your self in your local database.
+You can now open `https://localhost:3000` and login. If you receive an unauthorised error this will be because you have not seeded your self in your local database.
 
 ```
 $ rails console

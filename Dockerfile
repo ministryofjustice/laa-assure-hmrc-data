@@ -14,7 +14,8 @@ MAINTAINER LAA Apply for civil legal aid team
 # yarn: node package manager
 RUN apk add --update --no-cache \
   postgresql-dev \
-  yarn
+  yarn \
+  clamav-daemon
 
 # tzdata: timezone builder
 # as it's not configured by default in Alpine
