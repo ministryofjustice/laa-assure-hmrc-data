@@ -13,17 +13,15 @@ class BulkSubmissionFormsController < ApplicationController
   end
 
   def edit
-    bulk_submission = BulkSubmission.find(params[:id])
+    bulk_submission = BulkSubmission.find(bulk_submission_form_params[:id])
     @form = BulkSubmissionForm.new(bulk_submission:)
   end
 
   def update
-    @form = BulkSubmissionForm.new(
-              bulk_submission_form_params.merge(
-                bulk_submission: BulkSubmission.find(params[:id]),
-                user_id: current_user.id
-              )
-            )
+    @form = BulkSubmissionForm.new(bulk_submission_form_params
+                                     .except(:id)
+                                     .merge(bulk_submission: BulkSubmission.find(bulk_submission_form_params[:id]),
+                                            user_id: current_user.id))
 
     respond_to do |format|
       format.html { respond_to_update_with_html }
@@ -32,17 +30,17 @@ class BulkSubmissionFormsController < ApplicationController
   end
 
   def destroy
-    @bulk_submission = BulkSubmission.find(params[:id])
+    @bulk_submission = BulkSubmission.find(bulk_submission_form_params[:id])
     @bulk_submission.original_file.purge
     @bulk_submission.destroy!
 
     redirect_to new_bulk_submission_form_path
   end
 
-  private
+private
 
   def bulk_submission_form_params
-    params.permit(:uploaded_file)
+    params.permit(:id, :uploaded_file)
   end
 
   def upload_button_pressed?
@@ -78,12 +76,12 @@ class BulkSubmissionFormsController < ApplicationController
       if @form.valid?
         redirect_to bulk_submissions_path
       else
-        render :edit, id: params[:id]
+        render :edit, id: bulk_submission_form_params[:id]
       end
 
     elsif params[:uploaded_file].nil? && upload_button_pressed?
       @form.errors.add(:uploaded_file, :blank)
-      render :edit, id: params[:id]
+      render :edit, id: bulk_submission_form_params[:id]
 
     elsif @form.update
       if upload_button_pressed?
