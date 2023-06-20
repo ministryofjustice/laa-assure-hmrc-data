@@ -13,14 +13,13 @@ class BulkSubmissionFormsController < ApplicationController
   end
 
   def edit
-    bulk_submission = BulkSubmission.find(bulk_submission_form_params[:id])
-    @form = BulkSubmissionForm.new(bulk_submission:)
+    @form = BulkSubmissionForm.new(bulk_submission: bulk_submission_from_params)
   end
 
   def update
     @form = BulkSubmissionForm.new(bulk_submission_form_params
                                      .except(:id)
-                                     .merge(bulk_submission: BulkSubmission.find(bulk_submission_form_params[:id]),
+                                     .merge(bulk_submission: bulk_submission_from_params,
                                             user_id: current_user.id))
 
     respond_to do |format|
@@ -30,7 +29,7 @@ class BulkSubmissionFormsController < ApplicationController
   end
 
   def destroy
-    @bulk_submission = BulkSubmission.find(bulk_submission_form_params[:id])
+    @bulk_submission = bulk_submission_from_params
     @bulk_submission.original_file.purge
     @bulk_submission.destroy!
 
@@ -38,6 +37,10 @@ class BulkSubmissionFormsController < ApplicationController
   end
 
 private
+
+  def bulk_submission_from_params
+    BulkSubmission.find(bulk_submission_form_params[:id])
+  end
 
   def bulk_submission_form_params
     params.permit(:id, :uploaded_file)
