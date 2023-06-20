@@ -28,7 +28,7 @@
             row.with_cell do
               if bulk_submission.pending?
                 link_to(t(".cancel_html", filename:),
-                          discard_bulk_submission_path(bulk_submission.id))
+                          cancel_bulk_submission_path(bulk_submission.id))
               elsif bulk_submission.ready?
                 link_to(t(".download_html",filename:),
                         rails_blob_path(bulk_submission.result_file.blob,
