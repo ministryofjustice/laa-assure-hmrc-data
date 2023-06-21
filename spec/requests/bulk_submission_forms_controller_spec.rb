@@ -253,12 +253,12 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
     context "with malware file added and upload pressed", scan_with_clamav: true do
       let(:commit) { "upload" }
 
-      let(:bulk_submission_form_params) { { commit:, uploaded_file: fixture_file_upload('malware.doc') } }
+      let(:bulk_submission_form_params) { { commit:, uploaded_file: fixture_file_upload('malware.csv') } }
 
       it "renders edit and displays error" do
         patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
         expect(response).to render_template(:edit)
-        expect(response.body).to include('malware.doc contains a virus!')
+        expect(response.body).to include('malware.csv contains a virus!')
       end
 
       it "records the attempt to upload a file" do
