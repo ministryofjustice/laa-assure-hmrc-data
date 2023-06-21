@@ -13,3 +13,13 @@ en:
       process_all: Process all pending
       remove_html: Remove <span class='govuk-visually-hidden'>%{filename}</span>
       status: Status
+    show:
+      confirm_cancel_html: Confirm cancel <span class='govuk-visually-hidden'>%{filename}</span>
+      confirm_remove_html: Confirm remove <span class='govuk-visually-hidden'>%{filename}</span>
+      created_at: Date requested
+      download_html: Download <span class='govuk-visually-hidden'>%{filename}</span>
+      expires_at: Expiry date
+      filename: File name
+      page_heading: Checked detail
+      status: Status
+      uploaded_by: Uploaded by

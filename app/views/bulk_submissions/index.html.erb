@@ -22,26 +22,28 @@
           body.with_row do |row|
             row.with_cell(text: bulk_submission.created_at&.to_fs(:date_only))
             row.with_cell(text: bulk_submission.expires_at&.to_fs(:date_only))
-            row.with_cell(text: filename)
+            row.with_cell(text: govuk_link_to(filename,
+                                              bulk_submission_path(bulk_submission.id, context: :view),
+                                              method: :get,
+                                              text_colour: true))
             row.with_cell(text: govuk_status_tag(bulk_submission.status))
 
             row.with_cell do
               if bulk_submission.pending?
-                govuk_button_to(t(".cancel_html", filename:),
-                          bulk_submission_path(bulk_submission.id),
-                          { method: :delete, secondary: true } )
+                govuk_link_to(t(".cancel_html", filename:),
+                              bulk_submission_path(bulk_submission.id, context: :cancel),
+                              method: :get)
               elsif bulk_submission.ready?
-                link_to(t(".download_html",filename:),
-                        rails_blob_path(bulk_submission.result_file.blob,
-                          disposition: 'attachment'))
+                govuk_link_to(t(".download_html",filename:),
+                              rails_blob_path(bulk_submission.result_file.blob, disposition: 'attachment'))
               end
             end
 
             row.with_cell do
-              if bulk_submission.ready? || bulk_submission.exhausted?
-                govuk_button_to(t(".remove_html", filename:),
-                          bulk_submission_path(bulk_submission.id),
-                          { method: :delete, secondary: true } )
+              if bulk_submission.ready?
+                govuk_link_to(t(".remove_html", filename:),
+                                bulk_submission_path(bulk_submission.id, context: :remove),
+                                method: :get)
               end
             end
           end
