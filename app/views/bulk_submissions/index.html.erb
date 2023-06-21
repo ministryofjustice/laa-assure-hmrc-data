@@ -27,9 +27,9 @@
 
             row.with_cell do
               if bulk_submission.pending?
-                button_to(t(".cancel_html", filename:),
+                govuk_button_to(t(".cancel_html", filename:),
                           bulk_submission_path(bulk_submission.id),
-                          method: :delete)
+                          { method: :delete, secondary: true } )
               elsif bulk_submission.ready?
                 link_to(t(".download_html",filename:),
                         rails_blob_path(bulk_submission.result_file.blob,
@@ -38,10 +38,10 @@
             end
 
             row.with_cell do
-              if bulk_submission.ready?
-                button_to(t(".remove_html", filename:),
+              if bulk_submission.ready? || bulk_submission.exhausted?
+                govuk_button_to(t(".remove_html", filename:),
                           bulk_submission_path(bulk_submission.id),
-                          method: :delete)
+                          { method: :delete, secondary: true } )
               end
             end
           end

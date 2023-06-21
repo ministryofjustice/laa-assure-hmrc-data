@@ -83,7 +83,7 @@ RSpec.describe "sign in", type: :system do
 
           expect(page).to have_selector(".govuk-table__body tr")
           click_button("Remove", match: :one)
-          expect(page).to have_no_selector(".govuk-table__body tr")
+          expect(page).not_to have_selector(".govuk-table__body tr")
         end
       end
 
@@ -127,6 +127,31 @@ RSpec.describe "sign in", type: :system do
           expect(page).not_to have_selector(".govuk-table__cell", text: "Download")
           expect(page).not_to have_selector(".govuk-table__cell", text: "Remove")
           expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
+        end
+      end
+    end
+
+    context "with an existing exhausted bulk_submission" do
+      before do
+        create(:bulk_submission, :with_original_file, :exhausted)
+      end
+
+      it "user can remove them" do
+        visit "/bulk_submissions"
+
+        within(".govuk-table") do
+          expect(page)
+            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--red", text: /Exhausted/i)
+            .and have_selector(".govuk-table__cell", text: "Remove")
+
+          expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
+          expect(page).not_to have_selector(".govuk-table__cell", text: "Download")
+
+          expect(page).to have_selector(".govuk-table__body tr")
+          click_button("Remove", match: :one)
+          expect(page).not_to have_selector(".govuk-table__body tr")
         end
       end
     end

@@ -23,6 +23,10 @@ FactoryBot.define do
       discarded_at { nil }
     end
 
+    trait :exhausted do
+      status { 'exhausted' }
+    end
+
     # name must be of a file that exists in `spec/fixtures/files/`
     transient do
       original_file_fixture_name { nil }
