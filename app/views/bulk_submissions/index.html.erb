@@ -16,7 +16,7 @@
       end
 
       table.with_body do |body|
-        @bulk_submissions.order(created_at: :desc).each do |bulk_submission|
+        @bulk_submissions.each do |bulk_submission|
           filename = bulk_submission&.original_file&.filename
 
           body.with_row do |row|

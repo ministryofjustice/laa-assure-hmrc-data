@@ -26,14 +26,32 @@ RSpec.describe BulkSubmissionsWorker, type: :worker do
 
     let(:bulk_submission) { create(:bulk_submission, :with_original_file, status: 'pending') }
 
-    before { bulk_submission }
+    context "with one undiscarded pending bulk submission" do
+      before { bulk_submission }
 
-    it_behaves_like "application worker logger"
+      let(:bulk_submission) { create(:bulk_submission, :undiscarded, :pending, :with_original_file) }
 
-    it "enqueues BulkSubmissionWorker with ids" do
-      allow(BulkSubmissionWorker).to receive(:perform_async)
-      perform
-      expect(BulkSubmissionWorker).to have_received(:perform_async).with(bulk_submission.id)
+      it_behaves_like "application worker logger"
+
+      it "enqueues BulkSubmissionWorker with ids" do
+        allow(BulkSubmissionWorker).to receive(:perform_async)
+        perform
+        expect(BulkSubmissionWorker).to have_received(:perform_async).with(bulk_submission.id)
+      end
+    end
+
+    context "with one discarded pending bulk submission" do
+      before { bulk_submission }
+
+      let(:bulk_submission) { create(:bulk_submission, :discarded, :pending, :with_original_file) }
+
+      it_behaves_like "application worker logger"
+
+      it "does NOT enqueue a BulkSubmissionWorker for the bulk submission" do
+        allow(BulkSubmissionWorker).to receive(:perform_async)
+        perform
+        expect(BulkSubmissionWorker).not_to have_received(:perform_async)
+      end
     end
   end
 end
