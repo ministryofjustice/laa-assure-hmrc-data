@@ -27,6 +27,17 @@ RSpec.shared_examples "purges sensitive data" do
   end
 end
 
+RSpec.shared_examples "discards bulk submission and associated submissions" do
+  it "marks bulk submission and submissions as discarded" do
+    expect { perform }
+      .to change { bulk_submission.reload.discarded? }
+            .from(false)
+            .to(true)
+
+    expect(submission.reload).to be_discarded
+  end
+end
+
 RSpec.describe PurgeSensitiveDataWorker, type: :worker do
   describe ".perform_async" do
     subject(:perform_async) { described_class.perform_async }
@@ -82,6 +93,7 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
       let(:expires_at) { Time.current }
 
       include_examples "purges sensitive data"
+      include_examples "discards bulk submission and associated submissions"
     end
 
     context "when the bulk submission expires 1 second from now" do
@@ -123,6 +135,7 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
       end
 
       include_examples "purges sensitive data"
+      include_examples "discards bulk submission and associated submissions"
     end
 
     context "when the bulk submission is ready but discarded and expires now" do
@@ -136,6 +149,10 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
       end
 
       include_examples "purges sensitive data"
+
+      it "does not re discard the bulk submission" do
+        expect { perform }.not_to change { bulk_submission.reload.discarded_at }
+      end
     end
   end
 end
