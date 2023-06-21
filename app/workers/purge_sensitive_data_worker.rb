@@ -4,6 +4,7 @@ class PurgeSensitiveDataWorker < ApplicationWorker
     purgeable_bulk_submissions.each do |bulk_submission|
       bulk_submission.original_file.purge
       bulk_submission.result_file.purge
+
       bulk_submission.submissions.each do |submission|
         submission.update!(first_name: 'purged',
                            last_name: 'purged',
@@ -11,6 +12,8 @@ class PurgeSensitiveDataWorker < ApplicationWorker
                            nino: 'AB123456C',
                            hmrc_interface_result: '{}')
       end
+
+      bulk_submission.discard! unless bulk_submission.discarded?
     end
 
     super
