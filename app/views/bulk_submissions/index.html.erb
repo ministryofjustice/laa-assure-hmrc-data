@@ -40,7 +40,7 @@
             end
 
             row.with_cell do
-              if bulk_submission.ready?
+              if bulk_submission.ready? || bulk_submission.exhausted?
                 govuk_link_to(t(".remove_html", filename:),
                                 bulk_submission_path(bulk_submission.id, context: :remove),
                                 method: :get)

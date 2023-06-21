@@ -46,6 +46,27 @@ RSpec.describe "sign in", type: :system do
         create(:bulk_submission, :with_original_file, :pending)
       end
 
+      it "user can view them" do
+        visit "/bulk_submissions"
+
+        within(".govuk-table") do
+          expect(page)
+            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--yellow", text: /Pending/i)
+            .and have_selector(".govuk-table__cell", text: "Cancel")
+
+          expect(page).to have_selector(".govuk-table__body tr")
+          click_link("basic_bulk_submission.csv", match: :first)
+        end
+
+        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).not_to have_button("Confirm cancel")
+
+        click_link("Back")
+        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
+      end
+
       it "user can cancel them" do
         visit "/bulk_submissions"
 
@@ -74,6 +95,27 @@ RSpec.describe "sign in", type: :system do
     context "with an existing ready bulk_submission" do
       before do
         create(:bulk_submission, :with_original_file, :with_result_file, :ready)
+      end
+
+      it "user can view them" do
+        visit "/bulk_submissions"
+
+        within(".govuk-table") do
+          expect(page)
+            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
+            .and have_selector(".govuk-table__cell", text: "Remove")
+
+          expect(page).to have_selector(".govuk-table__body tr")
+          click_link("basic_bulk_submission.csv", match: :first)
+        end
+
+        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).not_to have_button("Confirm remove")
+
+        click_link("Back")
+        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
       end
 
       it "user can remove them" do
@@ -166,9 +208,17 @@ RSpec.describe "sign in", type: :system do
           expect(page).not_to have_selector(".govuk-table__cell", text: "Download")
 
           expect(page).to have_selector(".govuk-table__body tr")
-          click_button("Remove", match: :one)
-          expect(page).not_to have_selector(".govuk-table__body tr")
+          click_link("Remove", match: :one)
         end
+
+        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_button("Confirm remove")
+        click_button("Confirm remove")
+
+        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
+        expect(page).to have_selector(".govuk-notification-banner__content",
+                                      text: "Deleted \"basic_bulk_submission.csv\"")
+        expect(page).not_to have_selector(".govuk-table__body tr")
       end
     end
   end
