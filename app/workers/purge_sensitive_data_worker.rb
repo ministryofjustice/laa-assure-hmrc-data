@@ -13,7 +13,7 @@ class PurgeSensitiveDataWorker < ApplicationWorker
                            hmrc_interface_result: '{}')
       end
 
-      bulk_submission.discard! unless bulk_submission.discarded?
+      bulk_submission.discard
     end
 
     super
