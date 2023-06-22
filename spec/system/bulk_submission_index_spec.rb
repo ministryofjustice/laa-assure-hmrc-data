@@ -82,7 +82,7 @@ RSpec.describe "View bulk submission index page", type: :system do
         end
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to cancel this check?")
-        expect(page).to have_button("Yes, cancel the check on basic_bulk_submission.csv")
+        expect(page).to have_button("Yes, cancel check on basic_bulk_submission.csv")
       end
     end
 
@@ -132,7 +132,7 @@ RSpec.describe "View bulk submission index page", type: :system do
         end
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
-        expect(page).to have_button("Yes, remove basic_bulk_submission.csv")
+        expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
       end
 
       it "user can download them", js: true do
@@ -205,7 +205,7 @@ RSpec.describe "View bulk submission index page", type: :system do
         end
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
-        expect(page).to have_button("Yes, remove basic_bulk_submission.csv")
+        expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
       end
     end
   end
