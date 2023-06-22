@@ -47,10 +47,10 @@ RSpec.describe "View bulk submission show page", type: :system do
         click_link("Cancel", match: :one)
         expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to cancel this check?")
 
-        expect(page).to have_button("Yes, cancel the check on basic_bulk_submission.csv")
+        expect(page).to have_button("Yes, cancel check on basic_bulk_submission.csv")
         expect(page).not_to have_link("Download")
 
-        click_button("Yes, cancel the check on basic_bulk_submission.csv")
+        click_button("Yes, cancel check on basic_bulk_submission.csv")
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
         expect(page).to have_selector(".govuk-notification-banner__content",
@@ -93,10 +93,10 @@ RSpec.describe "View bulk submission show page", type: :system do
         click_link("Remove", match: :one)
         expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
 
-        expect(page).to have_button("Yes, remove basic_bulk_submission.csv")
+        expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
         expect(page).to have_link("Download results file for basic_bulk_submission.csv")
 
-        click_button("Yes, remove basic_bulk_submission.csv")
+        click_button("Yes, remove file basic_bulk_submission.csv")
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
         expect(page).to have_selector(".govuk-notification-banner__content",
@@ -171,10 +171,10 @@ RSpec.describe "View bulk submission show page", type: :system do
         visit "/bulk_submissions/#{bulk_submission.id}?context=remove"
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
-        expect(page).to have_button("Yes, remove basic_bulk_submission.csv")
+        expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
         expect(page).not_to have_link("Download")
 
-       click_button("Yes, remove basic_bulk_submission.csv")
+       click_button("Yes, remove file basic_bulk_submission.csv")
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
         expect(page).to have_selector(".govuk-notification-banner__content",

@@ -18,8 +18,8 @@ en:
       remove_html: Remove <span class='govuk-visually-hidden'>%{filename}</span>
       status: Status
     show:
-      confirm_cancel_html: Yes, cancel the check <span class='govuk-visually-hidden'>on %{filename}</span>
-      confirm_remove_html: Yes, remove <span class='govuk-visually-hidden'>%{filename}</span>
+      confirm_cancel_html: Yes, cancel check <span class='govuk-visually-hidden'>on %{filename}</span>
+      confirm_remove_html: Yes, remove file <span class='govuk-visually-hidden'>%{filename}</span>
       created_at: Date requested
       download_html: Download results <span class='govuk-visually-hidden'>file for %{filename}</span>
       expires_at: Expiry date
