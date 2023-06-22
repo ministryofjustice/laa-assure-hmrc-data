@@ -22,6 +22,12 @@ class BulkSubmissionsController < ApplicationController
     redirect_to authenticated_root_path
   end
 
+  def download
+    bulk_submission = BulkSubmission.find(params[:id])
+    Rails.logger.info "User with id #{current_user.id} downloaded results file for bulk submission with id #{bulk_submission.id}"
+    redirect_to rails_blob_path(bulk_submission.result_file.blob, disposition: 'attachment')
+  end
+
   # NOTE: route only available in test/development or uat
   def process_all
     BulkSubmissionsWorker.perform_async
