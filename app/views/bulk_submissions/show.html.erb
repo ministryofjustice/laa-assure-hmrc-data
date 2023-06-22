@@ -10,7 +10,13 @@
 
   <div class="govuk-grid-row">
     <div class="govuk-grid-column-two-thirds">
-      <h1 class="govuk-heading-xl"><%= t(".page_heading") %></h1>
+      <% if @context == "cancel" %>
+        <h1 class="govuk-heading-xl"><%= t(".page_heading.cancel") %></h1>
+      <% elsif @context == "remove" %>
+        <h1 class="govuk-heading-xl"><%= t(".page_heading.remove") %></h1>
+      <% else %>
+        <h1 class="govuk-heading-xl"><%= t(".page_heading.view") %></h1>
+      <% end %>
 
       <%= govuk_summary_list(
         rows: [
