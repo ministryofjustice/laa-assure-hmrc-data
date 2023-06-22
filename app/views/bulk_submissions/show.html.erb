@@ -24,10 +24,12 @@
 
       <%= hidden_field_tag(:context, @context) %>
 
-      <% if @context == "cancel" %>
-        <%= form.govuk_submit(t(".confirm_cancel_html", filename:), warning: true) %>
-      <% elsif @context == "remove" %>
-        <%= form.govuk_submit(t(".confirm_remove_html", filename:), warning: true) %>
+      <% unless @bulk_submission.processing? %>
+        <% if @context == "cancel" %>
+          <%= form.govuk_submit(t(".confirm_cancel_html", filename:), warning: true) %>
+        <% elsif @context == "remove" %>
+          <%= form.govuk_submit(t(".confirm_remove_html", filename:), warning: true) %>
+        <% end %>
       <% end %>
 
       <% if @bulk_submission.ready? %>

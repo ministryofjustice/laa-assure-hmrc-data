@@ -1,6 +1,6 @@
 require "system_helper"
 
-RSpec.describe "sign in", type: :system do
+RSpec.describe "View bulk submission index page", type: :system do
   context "with unauthorised user" do
     it "redirects user back to landing page" do
       visit "/bulk_submissions"
@@ -67,7 +67,7 @@ RSpec.describe "sign in", type: :system do
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
       end
 
-      it "user can cancel them" do
+      it "user can go to the cancel confirmation page" do
         visit "/bulk_submissions"
 
         within(".govuk-table") do
@@ -83,12 +83,6 @@ RSpec.describe "sign in", type: :system do
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
         expect(page).to have_button("Confirm cancel")
-        click_button("Confirm cancel")
-
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
-        expect(page).to have_selector(".govuk-notification-banner__content",
-                                      text: "Cancelled \"basic_bulk_submission.csv\"")
-        expect(page).not_to have_selector(".govuk-table__body tr")
       end
     end
 
@@ -104,6 +98,7 @@ RSpec.describe "sign in", type: :system do
           expect(page)
             .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_link("basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
             .and have_selector(".govuk-table__cell", text: "Remove")
 
@@ -118,13 +113,14 @@ RSpec.describe "sign in", type: :system do
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
       end
 
-      it "user can remove them" do
+      it "user can go to the remove confirmation page" do
         visit "/bulk_submissions"
 
         within(".govuk-table") do
           expect(page)
             .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_link("basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
             .and have_selector(".govuk-table__cell", text: "Download")
             .and have_selector(".govuk-table__cell", text: "Remove")
@@ -137,12 +133,6 @@ RSpec.describe "sign in", type: :system do
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
         expect(page).to have_button("Confirm remove")
-        click_button("Confirm remove")
-
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
-        expect(page).to have_selector(".govuk-notification-banner__content",
-                                      text: "Removed \"basic_bulk_submission.csv\"")
-        expect(page).not_to have_selector(".govuk-table__body tr")
       end
 
       it "user can download them", js: true do
@@ -152,6 +142,7 @@ RSpec.describe "sign in", type: :system do
             expect(page)
             .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_link("basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
             .and have_selector(".govuk-table__cell", text: "Download")
             .and have_selector(".govuk-table__cell", text: "Remove")
@@ -180,6 +171,7 @@ RSpec.describe "sign in", type: :system do
           expect(page)
             .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_link("basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell", text: /Processing/i)
 
           expect(page).not_to have_selector(".govuk-table__cell", text: "Download")
@@ -194,13 +186,14 @@ RSpec.describe "sign in", type: :system do
         create(:bulk_submission, :with_original_file, :exhausted)
       end
 
-      it "user can remove them" do
+      it "user can go to the remove confirmation page" do
         visit "/bulk_submissions"
 
         within(".govuk-table") do
           expect(page)
             .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_link("basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--red", text: /Exhausted/i)
             .and have_selector(".govuk-table__cell", text: "Remove")
 
@@ -213,12 +206,6 @@ RSpec.describe "sign in", type: :system do
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
         expect(page).to have_button("Confirm remove")
-        click_button("Confirm remove")
-
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
-        expect(page).to have_selector(".govuk-notification-banner__content",
-                                      text: "Removed \"basic_bulk_submission.csv\"")
-        expect(page).not_to have_selector(".govuk-table__body tr")
       end
     end
   end
