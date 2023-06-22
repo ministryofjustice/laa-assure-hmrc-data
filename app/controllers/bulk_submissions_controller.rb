@@ -14,9 +14,9 @@ class BulkSubmissionsController < ApplicationController
 
     flash[:notice] = case bulk_submission_params[:context]
     when "remove"
-      "Removed \"#{bulk_submission.original_file.filename}\""
+      I18n.t("bulk_submissions.flash.removed", filename: bulk_submission.original_file.filename)
     when "cancel"
-      "Cancelled \"#{bulk_submission.original_file.filename}\""
+      I18n.t('bulk_submissions.flash.cancelled', filename: bulk_submission.original_file.filename)
     end
 
     redirect_to authenticated_root_path
@@ -26,7 +26,7 @@ class BulkSubmissionsController < ApplicationController
   def process_all
     BulkSubmissionsWorker.perform_async
 
-    flash[:notice] = "processing all pending bulk submissions..."
+    flash[:notice] = I18n.t("bulk_submissions.flash.process_all")
     redirect_back(fallback_location: authenticated_root_path)
   end
 

@@ -1,6 +1,10 @@
 ---
 en:
   bulk_submissions:
+    flash:
+      cancelled: Cancelled "%{filename}"
+      process_all: Processing all pending bulk submissions...
+      removed: Removed "%{filename}"
     index:
       action: Action
       cancel_html: Cancel <span class='govuk-visually-hidden'>%{filename}</span>
