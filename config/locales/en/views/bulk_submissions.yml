@@ -24,6 +24,6 @@ en:
       download_html: Download <span class='govuk-visually-hidden'>%{filename}</span>
       expires_at: Expiry date
       filename: File name
-      page_heading: Checked detail
+      page_heading: About this file
       status: Status
       uploaded_by: Uploaded by

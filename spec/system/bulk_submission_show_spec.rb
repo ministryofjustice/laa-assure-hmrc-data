@@ -26,7 +26,7 @@ RSpec.describe "View bulk submission show page", type: :system do
       it "user can view it" do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).to have_link("Back")
 
         within(".govuk-summary-list") do
@@ -45,7 +45,7 @@ RSpec.describe "View bulk submission show page", type: :system do
         visit "/bulk_submissions"
 
         click_link("Cancel", match: :one)
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
 
         expect(page).to have_button("Confirm cancel basic_bulk_submission.csv")
         expect(page).not_to have_link("Download")
@@ -71,7 +71,7 @@ RSpec.describe "View bulk submission show page", type: :system do
       it "user can view it" do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).to have_link("Back")
 
         within(".govuk-summary-list") do
@@ -91,7 +91,7 @@ RSpec.describe "View bulk submission show page", type: :system do
         visit "/bulk_submissions"
 
         click_link("Remove", match: :one)
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
 
         expect(page).to have_button("Confirm remove basic_bulk_submission.csv")
         expect(page).to have_link("Download")
@@ -107,7 +107,7 @@ RSpec.describe "View bulk submission show page", type: :system do
       it "user can download it", js: true do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).to have_link("Download basic_bulk_submission.csv")
 
         click_link("Download", match: :one)
@@ -124,7 +124,7 @@ RSpec.describe "View bulk submission show page", type: :system do
       it "user can view it" do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
 
         within(".govuk-summary-list") do
           expect(page)
@@ -141,7 +141,7 @@ RSpec.describe "View bulk submission show page", type: :system do
       it "user can NOT remove it" do
         visit "/bulk_submissions/#{bulk_submission.id}?context=remove"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).not_to have_button("Confirm")
         expect(page).not_to have_link("Download")
       end
@@ -153,7 +153,7 @@ RSpec.describe "View bulk submission show page", type: :system do
       it "user can view it" do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
 
         within(".govuk-summary-list") do
           expect(page)
@@ -170,7 +170,7 @@ RSpec.describe "View bulk submission show page", type: :system do
       it "user can remove it" do
         visit "/bulk_submissions/#{bulk_submission.id}?context=remove"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).to have_button("Confirm")
         expect(page).not_to have_link("Download")
 

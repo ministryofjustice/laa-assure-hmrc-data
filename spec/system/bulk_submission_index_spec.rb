@@ -60,7 +60,7 @@ RSpec.describe "View bulk submission index page", type: :system do
           click_link("basic_bulk_submission.csv", match: :first)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).not_to have_button("Confirm cancel")
 
         click_link("Back")
@@ -81,7 +81,7 @@ RSpec.describe "View bulk submission index page", type: :system do
           click_link("Cancel", match: :one)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).to have_button("Confirm cancel")
       end
     end
@@ -106,7 +106,7 @@ RSpec.describe "View bulk submission index page", type: :system do
           click_link("basic_bulk_submission.csv", match: :first)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).not_to have_button("Confirm remove")
 
         click_link("Back")
@@ -131,7 +131,7 @@ RSpec.describe "View bulk submission index page", type: :system do
           click_link("Remove", match: :one)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).to have_button("Confirm remove")
       end
 
@@ -204,7 +204,7 @@ RSpec.describe "View bulk submission index page", type: :system do
           click_link("Remove", match: :one)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked detail")
+        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
         expect(page).to have_button("Confirm remove")
       end
     end
