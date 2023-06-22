@@ -84,7 +84,7 @@ RSpec.describe "View bulk submission show page", type: :system do
         end
 
         expect(page).not_to have_button("Confirm")
-        expect(page).to have_link("Download basic_bulk_submission.csv")
+        expect(page).to have_link("Download results file for basic_bulk_submission.csv")
       end
 
       it "user can remove it" do
@@ -94,7 +94,7 @@ RSpec.describe "View bulk submission show page", type: :system do
         expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
 
         expect(page).to have_button("Yes, remove basic_bulk_submission.csv")
-        expect(page).to have_link("Download")
+        expect(page).to have_link("Download results file for basic_bulk_submission.csv")
 
         click_button("Yes, remove basic_bulk_submission.csv")
 
@@ -108,9 +108,9 @@ RSpec.describe "View bulk submission show page", type: :system do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
         expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
-        expect(page).to have_link("Download basic_bulk_submission.csv")
+        expect(page).to have_link("Download results file for basic_bulk_submission.csv")
 
-        click_link("Download", match: :one)
+        click_link("Download results file for basic_bulk_submission.csv", match: :one)
         wait_for_download
 
         expect(downloads.length).to eq(1)

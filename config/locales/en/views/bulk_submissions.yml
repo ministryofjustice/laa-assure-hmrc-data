@@ -9,7 +9,7 @@ en:
       action: Action
       cancel_html: Cancel <span class='govuk-visually-hidden'>%{filename}</span>
       created_at: Date requested
-      download_html: Download results <span class='govuk-visually-hidden'>for %{filename}</span>
+      download_html: Download results <span class='govuk-visually-hidden'>file for %{filename}</span>
       expires_at: Expiry date
       filename: File name
       new_submission: Check new details
@@ -21,7 +21,7 @@ en:
       confirm_cancel_html: Yes, cancel the check <span class='govuk-visually-hidden'>on %{filename}</span>
       confirm_remove_html: Yes, remove <span class='govuk-visually-hidden'>%{filename}</span>
       created_at: Date requested
-      download_html: Download <span class='govuk-visually-hidden'>%{filename}</span>
+      download_html: Download results <span class='govuk-visually-hidden'>file for %{filename}</span>
       expires_at: Expiry date
       filename: File name
       page_heading:

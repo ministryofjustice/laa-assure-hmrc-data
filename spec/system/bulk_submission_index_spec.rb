@@ -122,7 +122,7 @@ RSpec.describe "View bulk submission index page", type: :system do
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
             .and have_link("basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
-            .and have_selector(".govuk-table__cell", text: "Download")
+            .and have_selector(".govuk-table__cell", text: "Download results file for basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell", text: "Remove")
 
           expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
@@ -144,13 +144,13 @@ RSpec.describe "View bulk submission index page", type: :system do
             .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
             .and have_link("basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
-            .and have_selector(".govuk-table__cell", text: "Download")
+            .and have_selector(".govuk-table__cell", text: "Download results file for basic_bulk_submission.csv")
             .and have_selector(".govuk-table__cell", text: "Remove")
 
           expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
 
           expect(page).to have_selector(".govuk-table__body tr")
-          click_link("Download", match: :one)
+          click_link("Download results file for basic_bulk_submission.csv", match: :one)
 
           wait_for_download
           expect(downloads.length).to eq(1)
