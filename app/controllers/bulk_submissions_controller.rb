@@ -1,7 +1,7 @@
 class BulkSubmissionsController < ApplicationController
   def show
-    @bulk_submission = BulkSubmission.find(params[:id])
-    @context = params[:context]
+    @bulk_submission = BulkSubmission.find(bulk_submission_params[:id])
+    @context = bulk_submission_params[:context]
   end
 
   def index
@@ -9,10 +9,16 @@ class BulkSubmissionsController < ApplicationController
   end
 
   def destroy
-    bulk_submission = BulkSubmission.find(params[:id])
+    bulk_submission = BulkSubmission.find(bulk_submission_params[:id])
     bulk_submission.discard!
 
-    flash[:notice] = "Deleted \"#{bulk_submission.original_file.filename}\""
+    flash[:notice] = case bulk_submission_params[:context]
+    when "remove"
+      "Removed \"#{bulk_submission.original_file.filename}\""
+    when "cancel"
+      "Cancelled \"#{bulk_submission.original_file.filename}\""
+    end
+
     redirect_to authenticated_root_path
   end
 
@@ -22,5 +28,9 @@ class BulkSubmissionsController < ApplicationController
 
     flash[:notice] = "processing all pending bulk submissions..."
     redirect_back(fallback_location: authenticated_root_path)
+  end
+
+  def bulk_submission_params
+    params.permit(:id, :context)
   end
 end

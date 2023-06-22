@@ -87,7 +87,7 @@ RSpec.describe "sign in", type: :system do
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
         expect(page).to have_selector(".govuk-notification-banner__content",
-                                      text: "Deleted \"basic_bulk_submission.csv\"")
+                                      text: "Cancelled \"basic_bulk_submission.csv\"")
         expect(page).not_to have_selector(".govuk-table__body tr")
       end
     end
@@ -141,7 +141,7 @@ RSpec.describe "sign in", type: :system do
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
         expect(page).to have_selector(".govuk-notification-banner__content",
-                                      text: "Deleted \"basic_bulk_submission.csv\"")
+                                      text: "Removed \"basic_bulk_submission.csv\"")
         expect(page).not_to have_selector(".govuk-table__body tr")
       end
 
@@ -217,7 +217,7 @@ RSpec.describe "sign in", type: :system do
 
         expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
         expect(page).to have_selector(".govuk-notification-banner__content",
-                                      text: "Deleted \"basic_bulk_submission.csv\"")
+                                      text: "Removed \"basic_bulk_submission.csv\"")
         expect(page).not_to have_selector(".govuk-table__body tr")
       end
     end

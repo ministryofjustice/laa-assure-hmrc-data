@@ -22,6 +22,8 @@
         ]
       ) %>
 
+      <%= hidden_field_tag(:context, @context) %>
+
       <% if @context == "cancel" %>
         <%= form.govuk_submit(t(".confirm_cancel_html", filename:), warning: true) %>
       <% elsif @context == "remove" %>
