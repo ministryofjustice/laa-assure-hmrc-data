@@ -8,15 +8,15 @@
     "sass": "^1.63.6"
   },
   "scripts": {
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --no-source-map --load-path=node_modules --quiet-deps",
-    "build": "esbuild app/javascript/*.* --bundle --sourcemap --outdir=app/assets/builds --public-path=assets",
+    "build": "esbuild app/javascript/*.* --bundle --sourcemap --minify --outdir=app/assets/builds --public-path=assets",
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --style=compressed --load-path=node_modules --quiet-deps",
     "standardjs": "standard",
     "stylelint": "stylelint app/assets/stylesheets"
   },
   "devDependencies": {
     "@prettier/plugin-ruby": "^3.2.2",
-    "prettier": "^2.8.8",
     "postcss": "^8.4.24",
+    "prettier": "^2.8.8",
     "standard": "^17.1.0",
     "stylelint": "^14.16.1",
     "stylelint-config-gds": "^0.3.0",
