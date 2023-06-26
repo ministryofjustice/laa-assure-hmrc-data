@@ -24,7 +24,7 @@ class BulkSubmissionsController < ApplicationController
 
   def download
     bulk_submission = BulkSubmission.find(params[:id])
-    Rails.logger.info "User with id #{current_user.id} downloaded results file for bulk submission with id #{bulk_submission.id}"
+    Rails.logger.info "User #{current_user.id} downloaded results file for bulk submission #{bulk_submission.id}"
     redirect_to rails_blob_path(bulk_submission.result_file.blob, disposition: 'attachment')
   end
 

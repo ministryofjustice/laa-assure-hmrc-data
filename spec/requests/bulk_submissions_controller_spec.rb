@@ -147,4 +147,30 @@ RSpec.describe BulkSubmissionsController, type: :request do
         .or redirect_to(authenticated_root_path)
     end
   end
+
+  describe "GET /download" do
+    before { bulk_submission }
+
+    let(:bulk_submission) do
+      create(:bulk_submission,
+             :undiscarded,
+             :pending,
+             :with_original_file,
+             :with_result_file,
+             user_id: user.id)
+    end
+
+    it "downloads the results file" do
+      get download_bulk_submission_path(bulk_submission.id)
+      expect(response)
+        .to redirect_to(redirect_to(rails_blob_path(bulk_submission.result_file.blob, disposition: 'attachment')))
+    end
+
+    it "logs the user downloading the results file" do
+      allow(Rails.logger).to receive(:info).and_call_original
+      get download_bulk_submission_path(bulk_submission.id)
+      expect(Rails.logger).to have_received(:info)
+                          .with("User #{user.id} downloaded results file for bulk submission #{bulk_submission.id}")
+    end
+  end
 end
