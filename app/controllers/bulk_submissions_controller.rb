@@ -25,7 +25,10 @@ class BulkSubmissionsController < ApplicationController
   def download
     bulk_submission = BulkSubmission.find(params[:id])
     Rails.logger.info "User #{current_user.id} downloaded results file for bulk submission #{bulk_submission.id}"
-    redirect_to rails_blob_path(bulk_submission.result_file.blob, disposition: 'attachment')
+    attachment = bulk_submission.result_file.attachment
+    send_data attachment.blob.download,
+      filename: attachment.filename.to_s,
+      content_type: 'text/csv'
   end
 
   # NOTE: route only available in test/development or uat
