@@ -40,7 +40,7 @@ module LaaAssureHmrcData
     # https://edgeguides.rubyonrails.org/active_storage_overview.html#authenticated-controllers
     # TODO: can we just expose the routes we need? is there another way to handle this?
     # we need to use the `rails_blob_path` helper
-    config.active_storage.draw_routes = true
+    config.active_storage.draw_routes = false
 
     config.exceptions_app = routes
     config.x.status.build_date = ENV.fetch("APP_BUILD_DATE", "Not Available")
