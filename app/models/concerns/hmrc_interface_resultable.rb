@@ -38,6 +38,18 @@ module HmrcInterfaceResultable
         self_assessment_summary_tax_return_total_incomes_by_year&.join_compact_blank("\n")
     end
 
+    # returns decimal or zero
+    def clients_income_from_other_sources
+      @clients_income_from_other_sources ||= taxable_pay&.sum
+    end
+
+     # returns string or nil
+    def most_recent_payment_from_other_sources
+      return unless payment_dates&.first && taxable_pay&.first
+
+      @most_recent_payment_from_other_sources ||= "#{payment_dates&.first}: #{taxable_pay&.first}"
+    end
+
     # returns string or nil
     def error
       @error ||= data&.second&.fetch("error", nil)
@@ -97,6 +109,11 @@ module HmrcInterfaceResultable
     # returns array of hashes
     def gross_earnings_for_nics
       @gross_earnings_for_nics ||= income&.fetch_all("grossEarningsForNics")
+    end
+
+    # returns array of decimals
+    def taxable_pay
+      @taxable_pay ||= income&.fetch_all("taxablePay")
     end
 
     # returns array of decimals

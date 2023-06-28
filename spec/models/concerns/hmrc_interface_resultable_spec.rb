@@ -745,4 +745,139 @@ RSpec.describe HmrcInterfaceResultable do
       it { expect(clients_income_from_self_employment).to be_nil }
     end
   end
+
+  describe "#clients_income_from_other_sources" do
+    subject(:clients_income_from_other_sources) { instance.clients_income_from_other_sources }
+
+    context "when multiple income exists" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "taxablePay" => 222.22
+                  },
+                  { 
+                    "taxablePay" => 444.44
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the sum of all taxablePay values" do
+        expect(clients_income_from_other_sources).to be 666.66
+      end
+    end
+
+    context "when single income exists" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "taxablePay" => 222.22
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the single taxablePay value" do
+        expect(clients_income_from_other_sources).to be 222.22
+      end
+    end
+
+    context "when no income exists" do
+      let(:result) do
+        {
+          "data" => [
+            {
+              "income/paye/paye" => {
+                "income" => []
+              }
+            }
+          ]
+        }
+      end
+
+      it { expect(clients_income_from_other_sources).to be_zero }
+    end
+  end
+
+  describe "#most_recent_payment_from_other_sources" do
+    subject(:most_recent_payment_from_other_sources) { instance.most_recent_payment_from_other_sources }
+
+    context "when multiple income exists" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/paye/paye" => {
+                "income" => [
+                  {
+                    "paymentDate" => "2022-03-17",
+                    "taxablePay" => 111.11
+                  },
+                  {
+                    "paymentDate" => "2022-02-20",
+                    "taxablePay" => 222.22
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the most recent/top income entry's #paymentDate and taxablePay value" do
+        expect(most_recent_payment_from_other_sources).to eql("2022-03-17: 111.11")
+      end
+    end
+
+    context "when single income exists" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "paymentDate" => "2022-03-17",
+                    "taxablePay" => 222.22
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the most recent/top income entry's #paymentDate and taxablePay value" do
+        expect(most_recent_payment_from_other_sources).to eql("2022-03-17: 222.22")
+      end
+    end
+
+    context "when no income exists" do
+      let(:result) do
+        {
+          "data" => [
+            {
+              "income/paye/paye" => {
+                "income" => []
+              }
+            }
+          ]
+        }
+      end
+
+      it { expect(most_recent_payment_from_other_sources).to be_nil }
+    end
+  end
 end
