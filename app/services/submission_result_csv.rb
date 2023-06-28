@@ -12,6 +12,8 @@ class SubmissionResultCsv
                           start_and_end_dates_for_employments
                           most_recent_payment
                           clients_income_from_self_employment
+                          clients_income_from_other_sources
+                          most_recent_payment_from_other_sources
                           uc_one_data
                           uc_two_data]
   end
@@ -49,6 +51,8 @@ class SubmissionResultCsv
       start_and_end_dates_for_employments,
       most_recent_payment,
       clients_income_from_self_employment,
+      clients_income_from_other_sources,
+      most_recent_payment_from_other_sources,
       uc_one_data,
       uc_two_data,
     ]

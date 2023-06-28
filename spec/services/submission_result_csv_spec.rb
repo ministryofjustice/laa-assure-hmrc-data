@@ -23,6 +23,8 @@ RSpec.describe SubmissionResultCsv do
          start_and_end_dates_for_employments
          most_recent_payment
          clients_income_from_self_employment
+         clients_income_from_other_sources
+         most_recent_payment_from_other_sources
          uc_one_data
          uc_two_data]
     end
@@ -58,6 +60,8 @@ RSpec.describe SubmissionResultCsv do
           "2001-07-21",
           "JA123456D",
           "completed",
+          nil,
+          nil,
           nil,
           nil,
           nil,
@@ -184,6 +188,8 @@ RSpec.describe SubmissionResultCsv do
           nil,
           nil,
           nil,
+          nil,
+          nil,
           %([\n  {\n    "use_case": "use_case_one",\n    "correlation_id": "an-hmrc-interface-submission-uuid"\n  },\n  {\n    "error": "submitted client details could not be found in HMRC service"\n  }\n]),
           %([\n  {\n    "use_case": "use_case_two",\n    "correlation_id": "an-hmrc-interface-submission-uuid"\n  },\n  {\n    "error": "submitted client details could not be found in HMRC service"\n  }\n]),
         ]
@@ -220,6 +226,8 @@ RSpec.describe SubmissionResultCsv do
           "JA123456D",
           "exhausted",
           "attempts to retrieve details for the individual were unsuccessful",
+          nil,
+          nil,
           nil,
           nil,
           nil,
