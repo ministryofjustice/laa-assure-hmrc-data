@@ -58,7 +58,5 @@ module LaaAssureHmrcData
     config.x.mock_azure_password = ENV.fetch("MOCK_AZURE_PASSWORD", nil)
 
     config.x.host_env = ENV.fetch("HOST_ENV", nil)
-
-    config.x.local_clamav = ENV.fetch("LOCAL_CLAMAV", nil)
   end
 end
