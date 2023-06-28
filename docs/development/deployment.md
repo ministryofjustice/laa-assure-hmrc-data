@@ -56,8 +56,8 @@ helm upgrade my-dry-run-version .helm/assure-hmrc-data \
   --install \
   --wait \
   --namespace laa-assure-hmrc-data-staging \
-  --set image.repository="<ECR_TEAM_REPO_URL>" \
-  --set image.tag="<ECR_TEAM_REPO_NAME:latest>" \
+  --set image.repository="<ECR_REPOSITORY_URL>" \
+  --set image.tag="<ECR_REPOSITORY:latest>" \
   --values .helm/assure-hmrc-data/values/staging.yaml
 ```
 
@@ -68,7 +68,7 @@ i.e. To manually deploy a branch/commit to staging
 helm upgrade assure-hmrc-data .helm/assure-hmrc-data \
   --install --wait \
   --namespace laa-assure-hmrc-data-staging \
-  --set image.repository="<ECR_TEAM_REPO_URL>" \
+  --set image.repository="<ECR_REPOSITORY_URL>" \
   --set image.tag="latest" \
   --values .helm/assure-hmrc-data/values/staging.yaml
 ```
@@ -77,12 +77,15 @@ helm upgrade assure-hmrc-data .helm/assure-hmrc-data \
 
 Secrets mentioned as ENVVARS below can be retrieved from kubernetes ECR secret in UAT namespace.
 
+WARNING: enforcement of short lived credentials means the long lived ECR credentials, at least,
+are deprecated and will be removed from 04/09/2023.
+
 - Login into Docker with ECR credentials
 ```sh
 
 AWS_ACCESS_KEY_ID=ecr-access-key \
 AWS_SECRET_ACCESS_KEY=ecr-secret-access-key \
-  aws ecr get-login-password --region ${ECR_REGION} | docker login --username AWS --password-stdin ${ECR_URL}
+  aws ecr get-login-password --region <ECR_REGION> | docker login --username AWS --password-stdin <ECR_REPOSITORY_URL>
 ```
 
 - Build the image
@@ -98,7 +101,7 @@ docker build \
   --tag app .
 
 # tag that image locally
-docker tag app <ECR_TEAM_REPO_NAME:latest>
+docker tag app <ECR_REPOSITORY:latest>
 docker push "<ECR_URL>:my-local-commit-sha"
 ```
 
@@ -108,7 +111,7 @@ docker push "<ECR_URL>:my-local-commit-sha"
 helm upgrade assure-hmrc-data .helm/assure-hmrc-data \
   --install --wait \
   --namespace laa-assure-hmrc-data-staging \
-  --set image.repository="<ECR_TEAM_REPO_URL>" \
+  --set image.repository="<ECR_REPOSITORY_URL>" \
   --set image.tag="my-local-commit-sha" \
   --values .helm/assure-hmrc-data/values/staging.yaml
 ```
