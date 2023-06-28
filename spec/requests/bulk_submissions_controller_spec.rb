@@ -147,4 +147,46 @@ RSpec.describe BulkSubmissionsController, type: :request do
         .or redirect_to(authenticated_root_path)
     end
   end
+
+  describe "GET /download" do
+    before { bulk_submission }
+
+    context "when authenticated" do
+      let(:bulk_submission) do
+        create(:bulk_submission,
+               :undiscarded,
+               :pending,
+               :with_original_file,
+               :with_result_file,
+               user_id: user.id)
+      end
+
+      it "renders successfully" do
+        get download_bulk_submission_path(bulk_submission.id)
+        expect(response).to have_http_status(:ok)
+      end
+
+      it "downloads the results file" do
+        get download_bulk_submission_path(bulk_submission.id)
+        expect(response.body).to match(/^"period_start_date","period_end_date","first_name","last_name",
+                                       "date_of_birth","nino","status","comment","uc_one_data"/x)
+      end
+
+      it "logs the user downloading the results file" do
+        allow(Rails.logger).to receive(:info).and_call_original
+        get download_bulk_submission_path(bulk_submission.id)
+        expect(Rails.logger).to have_received(:info)
+                          .with("User #{user.id} downloaded results file for bulk submission #{bulk_submission.id}")
+      end
+    end
+
+    context "when not authenticated" do
+      before { sign_out user }
+
+      it "redirects to login" do
+        get download_bulk_submission_path(bulk_submission.id)
+        expect(response).to redirect_to(unauthenticated_root_path)
+      end
+    end
+  end
 end

@@ -42,6 +42,7 @@ Rails.application.routes.draw do
     if Rails.env.development? || Rails.env.test? || Rails.host.uat?
       get :process_all, on: :collection
     end
+    get :download, on: :member
   end
   resources :bulk_submission_forms, only: [:new, :create, :edit, :update, :destroy]
 

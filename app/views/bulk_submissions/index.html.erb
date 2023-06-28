@@ -35,7 +35,7 @@
                               method: :get)
               elsif bulk_submission.ready?
                 govuk_link_to(t(".download_html",filename:),
-                              rails_blob_path(bulk_submission.result_file.blob, disposition: 'attachment'))
+                        download_bulk_submission_path(bulk_submission.id))
               end
             end
 
