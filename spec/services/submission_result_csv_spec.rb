@@ -21,7 +21,7 @@ RSpec.describe SubmissionResultCsv do
          clients_income_from_employment
          clients_ni_contributions_from_employment
          start_and_end_dates_for_employments
-         most_recent_payment
+         most_recent_payment_from_employment
          clients_income_from_self_employment
          clients_income_from_other_sources
          most_recent_payment_from_other_sources

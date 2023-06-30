@@ -479,8 +479,8 @@ RSpec.describe HmrcInterfaceResultable do
     end
   end
 
-  describe "#most_recent_payment" do
-    subject(:most_recent_payment) { instance.most_recent_payment }
+  describe "#most_recent_payment_from_employment" do
+    subject(:most_recent_payment_from_employment) { instance.most_recent_payment_from_employment }
 
     context "when multiple income exists" do
       let(:result) do
@@ -510,7 +510,7 @@ RSpec.describe HmrcInterfaceResultable do
       end
 
       it "returns the most recent/top income entry's #paymentDate and grossEarningsForNics#inPayPeriod1 value" do
-        expect(most_recent_payment).to eql("2022-03-17: 111.11")
+        expect(most_recent_payment_from_employment).to eql("2022-03-17: 111.11")
       end
     end
 
@@ -534,7 +534,7 @@ RSpec.describe HmrcInterfaceResultable do
       end
 
       it "returns the most recent/top income entry's #paymentDate and grossEarningsForNics#inPayPeriod1 value" do
-        expect(most_recent_payment).to eql("2022-03-17: 222.22")
+        expect(most_recent_payment_from_employment).to eql("2022-03-17: 222.22")
       end
     end
 
@@ -551,7 +551,7 @@ RSpec.describe HmrcInterfaceResultable do
         }
       end
 
-      it { expect(most_recent_payment).to be_nil }
+      it { expect(most_recent_payment_from_employment).to be_nil }
     end
 
     # NOTE: have not seen real data that reflect's it but is useful safeguard
@@ -579,14 +579,14 @@ RSpec.describe HmrcInterfaceResultable do
       end
 
       it "ignores payments where the #paymentDate and grossEarningsForNics#inPayPeriod1 are not available" do
-        expect(most_recent_payment).to eql("2022-03-17: 555.55")
+        expect(most_recent_payment_from_employment).to eql("2022-03-17: 555.55")
       end
     end
 
     context "with no data key" do
       let(:result) { { foo: [ { bar: "baz" } ] } }
 
-      it { expect(most_recent_payment).to be_nil }
+      it { expect(most_recent_payment_from_employment).to be_nil }
     end
   end
 

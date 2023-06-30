@@ -26,10 +26,11 @@ module HmrcInterfaceResultable
     end
 
     # returns string or nil
-    def most_recent_payment
+    def most_recent_payment_from_employment
       return unless payment_dates&.first && gross_earnings_for_nics_in_pay_period_1&.first
 
-      @most_recent_payment ||= "#{payment_dates&.first}: #{gross_earnings_for_nics_in_pay_period_1&.first}"
+      @most_recent_payment_from_employment ||=
+        "#{payment_dates&.first}: #{gross_earnings_for_nics_in_pay_period_1&.first}"
     end
 
     # returns [multiline] string or nil
