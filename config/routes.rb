@@ -2,7 +2,8 @@ require "sidekiq/web"
 
 # Configure Sidekiq-specific session middleware
 Sidekiq::Web.use ActionDispatch::Cookies
-Sidekiq::Web.use Rails.application.config.session_store, Rails.application.config.session_options
+Sidekiq::Web.use Rails.application.config.session_store,
+                 Rails.application.config.session_options
 
 Rails.application.routes.draw do
   mount Sidekiq::Web => "/sidekiq"
@@ -13,38 +14,39 @@ Rails.application.routes.draw do
     # - See https://thisdata.com/blog/timing-attacks-against-string-comparison/
     # - Use & (do not use &&) so that it doesn't short circuit.
     # - Use digests to stop length information leaking
-    secure_compare(username, ENV['SIDEKIQ_WEB_UI_USERNAME']) & secure_compare(password, ENV['SIDEKIQ_WEB_UI_PASSWORD'])
+    secure_compare(username, ENV["SIDEKIQ_WEB_UI_USERNAME"]) &
+      secure_compare(password, ENV["SIDEKIQ_WEB_UI_PASSWORD"])
   end
 
   devise_for :users,
-    controllers: {
-      omniauth_callbacks: 'users/omniauth_callbacks'
-    }
+             controllers: {
+               omniauth_callbacks: "users/omniauth_callbacks"
+             }
 
   devise_scope :user do
     unauthenticated :user do
-      root 'pages#landing', as: :unauthenticated_root
+      root "pages#landing", as: :unauthenticated_root
     end
 
     authenticated :user do
-      root to: 'bulk_submissions#index', as: :authenticated_root
+      root to: "bulk_submissions#index", as: :authenticated_root
     end
 
     if Rails.configuration.x.mock_azure
-      get 'sign_in', to: 'users/mock_azure#new', as: :new_user_session
-      post 'sign_in', to: 'users/mock_azure#create', as: :user_session
+      get "sign_in", to: "users/mock_azure#new", as: :new_user_session
+      post "sign_in", to: "users/mock_azure#create", as: :user_session
     end
-    get 'sign_out', to: 'devise/sessions#destroy', as: :destroy_user_session
+    get "sign_out", to: "devise/sessions#destroy", as: :destroy_user_session
   end
 
   resources :users, only: :show
-  resources :bulk_submissions, only: [:show, :index, :destroy] do
+  resources :bulk_submissions, only: %i[show index destroy] do
     if Rails.env.development? || Rails.env.test? || Rails.host.uat?
       get :process_all, on: :collection
     end
     get :download, on: :member
   end
-  resources :bulk_submission_forms, only: [:new, :create, :edit, :update, :destroy]
+  resources :bulk_submission_forms, only: %i[new create edit update destroy]
 
   get "ping", to: "status#ping", format: :json
   get "healthcheck", to: "status#status", format: :json
@@ -59,5 +61,8 @@ Rails.application.routes.draw do
 end
 
 def secure_compare(passed, stored)
-  Rack::Utils.secure_compare(::Digest::SHA256.hexdigest(passed), ::Digest::SHA256.hexdigest(stored))
+  Rack::Utils.secure_compare(
+    ::Digest::SHA256.hexdigest(passed),
+    ::Digest::SHA256.hexdigest(stored)
+  )
 end

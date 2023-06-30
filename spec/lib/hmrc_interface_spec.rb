@@ -16,53 +16,57 @@ RSpec.describe HmrcInterface do
 
     it { is_expected.to be_instance_of(described_class::Configuration) }
 
-    it 'memoizes the configuration' do
+    it "memoizes the configuration" do
       expect(configuration).to be_equal(described_class.configuration)
     end
 
     it "aliased to config" do
-      expect(described_class.method(:config)).to eql(described_class.method(:configuration))
+      expect(described_class.method(:config)).to eql(
+        described_class.method(:configuration)
+      )
     end
   end
 
-  describe '.configure' do
-    it 'yields a config' do
-      expect { |block| described_class.configure(&block) }.to yield_with_args(kind_of(described_class::Configuration))
+  describe ".configure" do
+    it "yields a config" do
+      expect { |block| described_class.configure(&block) }.to yield_with_args(
+        kind_of(described_class::Configuration)
+      )
     end
 
-    it 'returns a configuration' do
-      expect(described_class.configure).to be_an_instance_of(described_class::Configuration)
+    it "returns a configuration" do
+      expect(described_class.configure).to be_an_instance_of(
+        described_class::Configuration
+      )
     end
 
-    context 'with configured host' do
-      let(:host) { 'https://mycustom-laa-hmrc-interface-env' }
+    context "with configured host" do
+      let(:host) { "https://mycustom-laa-hmrc-interface-env" }
 
-      before do
-        described_class.configure do |config|
-          config.host = host
-        end
-      end
+      before { described_class.configure { |config| config.host = host } }
 
-      it 'changes the host configuration' do
+      it "changes the host configuration" do
         expect(described_class.configuration.host).to eql host
       end
     end
   end
 
-  describe '.reset' do
+  describe ".reset" do
     subject(:reset) { described_class.reset }
 
     let(:options) do
       {
-        "headers"=>{ "User-Agent"=>"laa-hmrc-interface-client/0.0.1" },
-        "client_id"=>"my-client-id",
-        "client_secret"=>"my-client-secret",
-        "host"=>"https://mycustom-laa-hmrc-interface-env"
+        "headers" => {
+          "User-Agent" => "laa-hmrc-interface-client/0.0.1"
+        },
+        "client_id" => "my-client-id",
+        "client_secret" => "my-client-secret",
+        "host" => "https://mycustom-laa-hmrc-interface-env"
       }
     end
 
     let(:reset_options) do
-      { "headers"=> { "User-Agent"=>"laa-hmrc-interface-client/0.0.1" } }
+      { "headers" => { "User-Agent" => "laa-hmrc-interface-client/0.0.1" } }
     end
 
     before do
@@ -73,11 +77,10 @@ RSpec.describe HmrcInterface do
       end
     end
 
-    it 'resets the configured options to defaults' do
-      expect { reset }
-        .to change { described_class.configuration.as_json.to_h }
-        .from(hash_including(options))
-        .to(hash_including(reset_options))
+    it "resets the configured options to defaults" do
+      expect { reset }.to change {
+        described_class.configuration.as_json.to_h
+      }.from(hash_including(options)).to(hash_including(reset_options))
     end
   end
 end

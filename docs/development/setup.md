@@ -16,17 +16,20 @@ This project depends on:
 ### Inital setup
 
 - clone the repo
+
 ```shell
 cd my-parent-directory
 git clone https://github.com/ministryofjustice/laa-assure-hmrc-data.git
 ```
 
 - run the setup script
+
 ```shell
 bin/setup
 ```
 
 - run the application
+
 ```shell
 bin/dev
 # OR
@@ -36,7 +39,7 @@ bundle exec sidekiq
 redis-server
 ```
 
-*see [Virus scanning](docs/development/virus_scanning.md) Local setup if clamav reliant tests fail locally*
+_see [Virus scanning](docs/development/virus_scanning.md) Local setup if clamav reliant tests fail locally_
 
 ### Authentication with Azure AD
 
@@ -72,6 +75,7 @@ openssl req -x509 -sha256 -nodes -newkey rsa:2048 -days 365 -keyout ~/.ssl/local
 # run rails server using the self-signed certificate
 rails s -b "ssl://localhost:3000?key=$HOME/.ssl/localhost.key&cert=$HOME/.ssl/localhost.crt"
 ```
+
 note: running `bin/setup` will give you the option to generate this certificate via its script.
 
 You can now open `https://localhost:3000` and login. If you receive an unauthorised error this will be because you have not seeded your self in your local database.
@@ -87,4 +91,3 @@ $ rails console
 If the MOCK_AZURE env var is set to "true" it will be possible to bypass azure authentication and login
 as the mock azure user that is seeded in the database. The mock user's login details are supplied via
 `MOCK_AZURE_USERNAME` and `MOCK_AZURE_PASSWORD` env var values included in the seeds (i.e. by `db:seed`)
-

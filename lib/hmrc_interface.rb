@@ -1,9 +1,9 @@
-require 'hmrc_interface/configuration'
-require 'hmrc_interface/connection'
-require 'hmrc_interface/client'
-require 'hmrc_interface/error'
-require 'hmrc_interface/request/submission'
-require 'hmrc_interface/request/result'
+require "hmrc_interface/configuration"
+require "hmrc_interface/connection"
+require "hmrc_interface/client"
+require "hmrc_interface/error"
+require "hmrc_interface/request/submission"
+require "hmrc_interface/request/result"
 
 module HmrcInterface
   class << self

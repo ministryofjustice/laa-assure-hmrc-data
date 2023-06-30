@@ -10,10 +10,12 @@ RSpec.describe Users::OmniauthCallbacksController, type: :request do
 
     context "when applicable user exists" do
       let(:user) do
-        User.create!(email: "Jim.Bob@example.co.uk",
-                     first_name: "Jim",
-                     last_name: "Bob",
-                     auth_provider: "azure_ad")
+        User.create!(
+          email: "Jim.Bob@example.co.uk",
+          first_name: "Jim",
+          last_name: "Bob",
+          auth_provider: "azure_ad"
+        )
       end
 
       it "redirects to authenticated users root path" do
@@ -27,7 +29,9 @@ RSpec.describe Users::OmniauthCallbacksController, type: :request do
 
       it "redirects to fallback location, logs and sets flash" do
         expect(flash[:notice]).to match(/User not found or authorised!/)
-        expect(Rails.logger).to have_received(:error).with("Couldn't login user")
+        expect(Rails.logger).to have_received(:error).with(
+          "Couldn't login user"
+        )
         expect(response).to redirect_to(unauthenticated_root_path)
       end
     end
@@ -36,8 +40,12 @@ RSpec.describe Users::OmniauthCallbacksController, type: :request do
       let(:user) { nil }
 
       it "redirects to unauthenticated root" do
-        expect(flash[:alert]).to match(/There has been a problem authenticating you!/)
-        expect(Rails.logger).to have_received(:error).with("omniauth error authenticating a user!")
+        expect(flash[:alert]).to match(
+          /There has been a problem authenticating you!/
+        )
+        expect(Rails.logger).to have_received(:error).with(
+          "omniauth error authenticating a user!"
+        )
         expect(response).to redirect_to(unauthenticated_root_path)
       end
     end

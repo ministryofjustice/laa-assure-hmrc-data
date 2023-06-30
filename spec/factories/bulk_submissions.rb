@@ -1,18 +1,18 @@
 FactoryBot.define do
   factory :bulk_submission do
     association :user
-    status { 'pending' }
+    status { "pending" }
 
     trait :pending do
-      status { 'pending' }
+      status { "pending" }
     end
 
     trait :processing do
-      status { 'processing' }
+      status { "processing" }
     end
 
     trait :ready do
-      status { 'ready' }
+      status { "ready" }
     end
 
     trait :discarded do
@@ -24,7 +24,7 @@ FactoryBot.define do
     end
 
     trait :exhausted do
-      status { 'exhausted' }
+      status { "exhausted" }
     end
 
     # name must be of a file that exists in `spec/fixtures/files/`
@@ -35,12 +35,15 @@ FactoryBot.define do
 
     trait :with_original_file do
       after(:build) do |bulk_submission, evaluator|
-        file =  if evaluator.original_file_fixture_name
-                  factorybot_file_fixture(evaluator.original_file_fixture_name,
-                                          evaluator.original_file_fixture_content_type)
-                else
-                  factorybot_file_fixture("basic_bulk_submission.csv", "text/csv")
-                end
+        file =
+          if evaluator.original_file_fixture_name
+            factorybot_file_fixture(
+              evaluator.original_file_fixture_name,
+              evaluator.original_file_fixture_content_type
+            )
+          else
+            factorybot_file_fixture("basic_bulk_submission.csv", "text/csv")
+          end
 
         bulk_submission.original_file.attach(
           io: File.open(file),
@@ -58,12 +61,18 @@ FactoryBot.define do
 
     trait :with_result_file do
       after(:build) do |bulk_submission, evaluator|
-        file =  if evaluator.result_file_fixture_name
-                  factorybot_file_fixture(evaluator.result_file_fixture_name,
-                                          evaluator.result_file_fixture_content_type)
-                else
-                  factorybot_file_fixture("basic_bulk_submission-result.csv", "text/csv")
-                end
+        file =
+          if evaluator.result_file_fixture_name
+            factorybot_file_fixture(
+              evaluator.result_file_fixture_name,
+              evaluator.result_file_fixture_content_type
+            )
+          else
+            factorybot_file_fixture(
+              "basic_bulk_submission-result.csv",
+              "text/csv"
+            )
+          end
 
         bulk_submission.result_file.attach(
           io: File.open(file),
@@ -73,14 +82,11 @@ FactoryBot.define do
       end
     end
 
-    transient do
-      content_for_original_file { nil }
-    end
+    transient { content_for_original_file { nil } }
 
     trait :with_content_for_original_file do
       after(:build) do |bulk_submission, evaluator|
-        content = evaluator.content_for_original_file ||
-                    <<~CSV
+        content = evaluator.content_for_original_file || <<~CSV
                       nino, start_date, end_date, first_name, last_name, date_of_birth
                       JA123456D, 2023-01-01, 2023-03-01, Jim, Bob, 2001-01-01
                     CSV

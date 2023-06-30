@@ -1,4 +1,4 @@
-require 'system_helper'
+require "system_helper"
 
 # Request specs do not excercise JS, only the
 # non-JS controller actions
@@ -18,7 +18,11 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
 
   describe "POST /create" do
     let(:bulk_submission_form_params) do
-     { commit:, uploaded_file: fixture_file_upload('basic_bulk_submission.csv', 'text/csv')}
+      {
+        commit:,
+        uploaded_file:
+          fixture_file_upload("basic_bulk_submission.csv", "text/csv")
+      }
     end
 
     context "with valid file added and upload pressed" do
@@ -26,7 +30,9 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
 
       it "redirects to edit" do
         post bulk_submission_forms_path, params: bulk_submission_form_params
-        expect(response).to redirect_to(edit_bulk_submission_form_path(assigns[:form].bulk_submission.id))
+        expect(response).to redirect_to(
+          edit_bulk_submission_form_path(assigns[:form].bulk_submission.id)
+        )
       end
 
       it "creates a bulk_submission" do
@@ -52,9 +58,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
     end
 
     context "with no file added and upload button pressed" do
-      let(:bulk_submission_form_params) do
-       { commit: "upload" }
-      end
+      let(:bulk_submission_form_params) { { commit: "upload" } }
 
       it "renders new with error" do
         post bulk_submission_forms_path, params: bulk_submission_form_params
@@ -72,7 +76,10 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
 
     context "with empty csv added and upload button pressed" do
       let(:bulk_submission_form_params) do
-       { commit: "upload", uploaded_file: fixture_file_upload('empty.csv', 'text/csv')}
+        {
+          commit: "upload",
+          uploaded_file: fixture_file_upload("empty.csv", "text/csv")
+        }
       end
 
       it "renders new with error" do
@@ -91,7 +98,10 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
 
     context "with invalid file type and upload button pressed" do
       let(:bulk_submission_form_params) do
-       { commit: "upload", uploaded_file: fixture_file_upload('empty.png', 'image/png')}
+        {
+          commit: "upload",
+          uploaded_file: fixture_file_upload("empty.png", "image/png")
+        }
       end
 
       it "renders new with error" do
@@ -110,14 +120,20 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
 
     context "with invalid CHECKED content_type not matching extension and upload button pressed" do
       let(:bulk_submission_form_params) do
-       { commit: "upload", uploaded_file: fixture_file_upload('invalid_content_type_png_as_csv.csv')}
+        {
+          commit: "upload",
+          uploaded_file:
+            fixture_file_upload("invalid_content_type_png_as_csv.csv")
+        }
       end
 
       it "renders new with error" do
         post bulk_submission_forms_path, params: bulk_submission_form_params
         expect(response).to have_http_status(:success)
         expect(response).to render_template(:new)
-        expect(response.body).to include("invalid_content_type_png_as_csv.csv must be a CSV")
+        expect(response.body).to include(
+          "invalid_content_type_png_as_csv.csv must be a CSV"
+        )
       end
 
       it "does not create bulk_submission" do
@@ -129,14 +145,20 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
 
     context "with invalid DECLARED content_type not matching extension and upload button pressed" do
       let(:bulk_submission_form_params) do
-       { commit: "upload", uploaded_file: fixture_file_upload('basic_bulk_submission.csv', 'image/png')}
+        {
+          commit: "upload",
+          uploaded_file:
+            fixture_file_upload("basic_bulk_submission.csv", "image/png")
+        }
       end
 
       it "renders new with error" do
         post bulk_submission_forms_path, params: bulk_submission_form_params
         expect(response).to have_http_status(:success)
         expect(response).to render_template(:new)
-        expect(response.body).to include("basic_bulk_submission.csv must be a CSV")
+        expect(response.body).to include(
+          "basic_bulk_submission.csv must be a CSV"
+        )
       end
 
       it "does not create bulk_submission" do
@@ -148,14 +170,19 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
 
     context "with file that is too big and upload button pressed" do
       let(:bulk_submission_form_params) do
-       { commit: "upload", uploaded_file: fixture_file_upload('one_byte_too_big.csv')}
+        {
+          commit: "upload",
+          uploaded_file: fixture_file_upload("one_byte_too_big.csv")
+        }
       end
 
       it "renders new with error" do
         post bulk_submission_forms_path, params: bulk_submission_form_params
         expect(response).to have_http_status(:success)
         expect(response).to render_template(:new)
-        expect(response.body).to include("one_byte_too_big.csv is more than 1MB")
+        expect(response.body).to include(
+          "one_byte_too_big.csv is more than 1MB"
+        )
       end
 
       it "does not create bulk_submission" do
@@ -170,7 +197,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
     let(:bulk_submission) do
       BulkSubmission.create!(
         user_id: user.id,
-        original_file: fixture_file_upload('basic_bulk_submission.csv')
+        original_file: fixture_file_upload("basic_bulk_submission.csv")
       )
     end
 
@@ -179,9 +206,9 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
 
       expect(response).to have_http_status(:success)
       expect(response).to render_template(:edit)
-      expect(response.body).to include('basic_bulk_submission.csv')
-      expect(response.body).to include('Uploaded')
-      expect(response.body).to include('Delete')
+      expect(response.body).to include("basic_bulk_submission.csv")
+      expect(response.body).to include("Uploaded")
+      expect(response.body).to include("Delete")
     end
   end
 
@@ -189,13 +216,18 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
     before { bulk_submission }
 
     let(:bulk_submission_form_params) do
-     { commit:, uploaded_file: fixture_file_upload('basic_bulk_submission_copy.csv', 'text/csv')}
+      {
+        commit:,
+        uploaded_file:
+          fixture_file_upload("basic_bulk_submission_copy.csv", "text/csv")
+      }
     end
 
     let(:bulk_submission) do
       BulkSubmission.create!(
         user_id: user.id,
-        original_file: fixture_file_upload('basic_bulk_submission.csv', 'text/csv')
+        original_file:
+          fixture_file_upload("basic_bulk_submission.csv", "text/csv")
       )
     end
 
@@ -203,24 +235,29 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       let(:commit) { "upload" }
 
       it "replaces existing original_file with uploaded_file" do
-        patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        patch bulk_submission_form_path(bulk_submission.id),
+              params: bulk_submission_form_params
 
-        expect(response).to redirect_to(edit_bulk_submission_form_path(bulk_submission.id))
+        expect(response).to redirect_to(
+          edit_bulk_submission_form_path(bulk_submission.id)
+        )
         follow_redirect!
-        expect(response.body).to include('basic_bulk_submission_copy.csv')
-        expect(response.body).to include('Uploaded')
-        expect(response.body).to include('Delete')
+        expect(response.body).to include("basic_bulk_submission_copy.csv")
+        expect(response.body).to include("Uploaded")
+        expect(response.body).to include("Delete")
       end
 
       it "does not create a new bulk_submission" do
         expect {
-          patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+          patch bulk_submission_form_path(bulk_submission.id),
+                params: bulk_submission_form_params
         }.to change(BulkSubmission, :count).by(0)
       end
 
       it "records the attempt to upload a file" do
         expect {
-          patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+          patch bulk_submission_form_path(bulk_submission.id),
+                params: bulk_submission_form_params
         }.to change(MalwareScanResult, :count).by(1)
       end
     end
@@ -231,39 +268,48 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       let(:bulk_submission_form_params) { { commit: } }
 
       it "renders edit and displays error" do
-        patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        patch bulk_submission_form_path(bulk_submission.id),
+              params: bulk_submission_form_params
 
         expect(response).to render_template(:edit)
-        expect(response.body).to include('You must select a file to upload')
+        expect(response.body).to include("You must select a file to upload")
       end
     end
 
     context "with invalid file added and upload pressed" do
       let(:commit) { "upload" }
 
-      let(:bulk_submission_form_params) { { commit:, uploaded_file: fixture_file_upload('empty.csv') } }
+      let(:bulk_submission_form_params) do
+        { commit:, uploaded_file: fixture_file_upload("empty.csv") }
+      end
 
       it "renders edit and displays error" do
-        patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        patch bulk_submission_form_path(bulk_submission.id),
+              params: bulk_submission_form_params
         expect(response).to render_template(:edit)
-        expect(response.body).to include('empty.csv is empty')
+        expect(response.body).to include("empty.csv is empty")
       end
     end
 
-    context "with malware file added and upload pressed", scan_with_clamav: true do
+    context "with malware file added and upload pressed",
+            scan_with_clamav: true do
       let(:commit) { "upload" }
 
-      let(:bulk_submission_form_params) { { commit:, uploaded_file: fixture_file_upload('malware.csv') } }
+      let(:bulk_submission_form_params) do
+        { commit:, uploaded_file: fixture_file_upload("malware.csv") }
+      end
 
       it "renders edit and displays error" do
-        patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        patch bulk_submission_form_path(bulk_submission.id),
+              params: bulk_submission_form_params
         expect(response).to render_template(:edit)
-        expect(response.body).to include('malware.csv contains a virus!')
+        expect(response.body).to include("malware.csv contains a virus!")
       end
 
       it "records the attempt to upload a file" do
         expect {
-          patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+          patch bulk_submission_form_path(bulk_submission.id),
+                params: bulk_submission_form_params
         }.to change(MalwareScanResult, :count).by(1)
       end
     end
@@ -272,17 +318,18 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       let(:commit) { "continue" }
 
       it "replaces existing original_file with uploaded_file" do
-        patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        patch bulk_submission_form_path(bulk_submission.id),
+              params: bulk_submission_form_params
         expect(response).to redirect_to(bulk_submissions_path)
       end
 
       it "updates the bulk submissions original file" do
         expect {
-          patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
-        }.to change {
-          bulk_submission.reload.original_file.filename.to_s
-        }.from('basic_bulk_submission.csv')
-         .to('basic_bulk_submission_copy.csv')
+          patch bulk_submission_form_path(bulk_submission.id),
+                params: bulk_submission_form_params
+        }.to change { bulk_submission.reload.original_file.filename.to_s }.from(
+          "basic_bulk_submission.csv"
+        ).to("basic_bulk_submission_copy.csv")
       end
     end
 
@@ -290,7 +337,8 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       let(:bulk_submission_form_params) { { commit: "continue" } }
 
       it "redirects to index" do
-        patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        patch bulk_submission_form_path(bulk_submission.id),
+              params: bulk_submission_form_params
         expect(response).to redirect_to(bulk_submissions_path)
       end
     end
@@ -302,14 +350,12 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       let(:bulk_submission_form_params) { { commit: "continue" } }
 
       let(:bulk_submission) do
-        BulkSubmission.create!(
-          user_id: user.id,
-          original_file: nil
-        )
+        BulkSubmission.create!(user_id: user.id, original_file: nil)
       end
 
       it "renders edit" do
-        patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
+        patch bulk_submission_form_path(bulk_submission.id),
+              params: bulk_submission_form_params
         expect(response).to render_template(:edit)
         expect(response.body).to include("You must select a file to upload")
       end
@@ -322,7 +368,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
     let(:bulk_submission) do
       BulkSubmission.create!(
         user_id: user.id,
-        original_file: fixture_file_upload('basic_bulk_submission.csv')
+        original_file: fixture_file_upload("basic_bulk_submission.csv")
       )
     end
 

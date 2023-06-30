@@ -3,26 +3,30 @@ require "active_support/concern"
 module HmrcInterfaceResultable
   extend ActiveSupport::Concern
 
- included do
+  included do
     # returns integer or nil
     def tax_credit_annual_award_amount
-      @tax_credit_annual_award_amount ||= child_tax_credit_award_total_entitlements&.first \
-                                            || working_tax_credit_award_total_entitlements&.first
+      @tax_credit_annual_award_amount ||=
+        child_tax_credit_award_total_entitlements&.first ||
+          working_tax_credit_award_total_entitlements&.first
     end
 
     # returns integer or zero
     def clients_income_from_employment
-      @clients_income_from_employment ||= gross_earnings_for_nics_in_pay_period_1&.sum || 0
+      @clients_income_from_employment ||=
+        gross_earnings_for_nics_in_pay_period_1&.sum || 0
     end
 
     # returns decimal or zero
     def clients_ni_contributions_from_employment
-      @clients_ni_contributions_from_employment ||= employee_nics_in_pay_period_1&.sum || 0
+      @clients_ni_contributions_from_employment ||=
+        employee_nics_in_pay_period_1&.sum || 0
     end
 
     # returns [multiline] string or nil
     def start_and_end_dates_for_employments
-      @start_and_end_dates_for_employments ||= employment_start_and_end_dates&.join_compact_blank("\n")
+      @start_and_end_dates_for_employments ||=
+        employment_start_and_end_dates&.join_compact_blank("\n")
     end
 
     # returns string or nil
@@ -36,7 +40,9 @@ module HmrcInterfaceResultable
     # returns [multiline] string or nil
     def clients_income_from_self_employment
       @clients_income_from_self_employment ||=
-        self_assessment_summary_tax_return_total_incomes_by_year&.join_compact_blank("\n")
+        self_assessment_summary_tax_return_total_incomes_by_year&.join_compact_blank(
+          "\n"
+        )
     end
 
     # returns decimal or zero
@@ -62,7 +68,7 @@ module HmrcInterfaceResultable
       @data ||= hmrc_interface_result.with_indifferent_access["data"]
     end
 
-  private
+    private
 
     # returns array of hashes
     def child_tax_credits
@@ -84,7 +90,9 @@ module HmrcInterfaceResultable
     # returns array of hashes
     def working_tax_credits
       @working_tax_credits ||=
-        data&.fetch_first("benefits_and_credits/working_tax_credit/applications")
+        data&.fetch_first(
+          "benefits_and_credits/working_tax_credit/applications"
+        )
     end
 
     # returns array of hashes
@@ -141,7 +149,8 @@ module HmrcInterfaceResultable
 
     # returns array of decimals
     def employee_nics_in_pay_period_1
-      @employee_nics_in_pay_period_1 ||= employee_nics&.fetch_all("inPayPeriod1")
+      @employee_nics_in_pay_period_1 ||=
+        employee_nics&.fetch_all("inPayPeriod1")
     end
 
     # returns array of hashes
@@ -191,9 +200,8 @@ module HmrcInterfaceResultable
     def tax_return_with_year(tax_return)
       summaries = tax_return&.fetch("summary", nil)
 
-      total_incomes = summaries.map do |summary|
-        summary&.fetch("totalIncome", nil)
-      end
+      total_incomes =
+        summaries.map { |summary| summary&.fetch("totalIncome", nil) }
 
       "#{tax_return&.fetch("taxYear", nil)}: #{total_incomes.join(", ")}"
     end

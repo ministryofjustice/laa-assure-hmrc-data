@@ -13,10 +13,12 @@ RSpec.describe PagesController, type: :request do
     before { sign_in user }
 
     let(:user) do
-      User.create!(email: "Jim.Bob@example.co.uk",
-                   first_name: "Jim",
-                   last_name: "Bob",
-                   auth_provider: "azure_ad")
+      User.create!(
+        email: "Jim.Bob@example.co.uk",
+        first_name: "Jim",
+        last_name: "Bob",
+        auth_provider: "azure_ad"
+      )
     end
 
     it "returns http success" do

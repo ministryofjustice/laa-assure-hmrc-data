@@ -88,96 +88,68 @@
     },
     {
       "income/sa/selfAssessment": {
-        "taxReturns": [
-
-        ],
-        "registrations": [
-
-        ]
+        "taxReturns": [],
+        "registrations": []
       }
     },
     {
       "income/sa/pensions_and_state_benefits/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/source/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/employments/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/additional_information/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/partnerships/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/uk_properties/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/foreign/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/further_details/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/interests_and_dividends/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/other/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/summary/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/trusts/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
@@ -195,18 +167,14 @@
     {
       "benefits_and_credits/working_tax_credit/applications": [
         {
-          "awards": [
-
-          ]
+          "awards": []
         }
       ]
     },
     {
       "benefits_and_credits/child_tax_credit/applications": [
         {
-          "awards": [
-
-          ]
+          "awards": []
         }
       ]
     }

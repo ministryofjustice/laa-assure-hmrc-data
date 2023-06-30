@@ -1,4 +1,4 @@
-require_relative 'smoke_test'
+require_relative "smoke_test"
 
 namespace :hmrc_interface do
   desc "Run HMRC Interface test"
@@ -9,7 +9,7 @@ namespace :hmrc_interface do
       first_name: "Langley",
       last_name: "Yorke",
       dob: "1992-07-22",
-      nino: "MN212451D",
+      nino: "MN212451D"
     }
 
     smoke_test = HmrcInterface::SmokeTest.new(HmrcInterface.client, filter)

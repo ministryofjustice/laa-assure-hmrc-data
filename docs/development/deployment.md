@@ -1,6 +1,5 @@
 # CI/CD - Deployment
 
-
 We use github actions (GHA) for our CI and CD. This was decided upon because:
 
 - They can do most anything CircleCI and other CI/CD tools provide, and often more simply.
@@ -10,13 +9,12 @@ We use github actions (GHA) for our CI and CD. This was decided upon because:
 - cloud-platform automatically generates `KUBE_` secrets for use in deployment steps
 - You can have multiple github action workflows in separate flows, rather than one large one.
 
-
-
 # Helm
 
 ## What was done
 
 ### create the helm chart/package for the app
+
 ```sh
 cd laa-assure-hmrc-data
 mkdir .helm
@@ -25,13 +23,13 @@ helm create assure-hmrc-data
 ```
 
 ### amend files
- - amend the ingress.yaml
- - amend the deployment.yaml and rename to deployment-web.yaml
- - remove serviceaccount.yaml and all references to it
- - remove test director
- - remove various unused config in values and template files
- - add `_envs.tpl` with secret references
 
+- amend the ingress.yaml
+- amend the deployment.yaml and rename to deployment-web.yaml
+- remove serviceaccount.yaml and all references to it
+- remove test director
+- remove various unused config in values and template files
+- add `_envs.tpl` with secret references
 
 ## Helm chart development cheat sheet
 
@@ -62,6 +60,7 @@ helm upgrade my-dry-run-version .helm/assure-hmrc-data \
 ```
 
 ### Upgrade (or install) of chart (in cluster)
+
 i.e. To manually deploy a branch/commit to staging
 
 ```sh
@@ -78,6 +77,7 @@ helm upgrade assure-hmrc-data .helm/assure-hmrc-data \
 Secrets mentioned as ENVVARS below can be retrieved from kubernetes ECR secret in UAT namespace.
 
 - Login into Docker with ECR credentials
+
 ```sh
 
 AWS_ACCESS_KEY_ID=ecr-access-key \
@@ -86,6 +86,7 @@ AWS_SECRET_ACCESS_KEY=ecr-secret-access-key \
 ```
 
 - Build the image
+
 ```sh
 docker build \
   --label build.git.sha="my-local-commit-sha" \

@@ -3,13 +3,16 @@ class HmrcInterfaceBulkSubmissionWorker < ApplicationWorker
 
   def perform(bulk_submission_id)
     bulk_submission = BulkSubmission.find(bulk_submission_id)
-    pending_submissions = bulk_submission.submissions.where(status: 'pending')
+    pending_submissions = bulk_submission.submissions.where(status: "pending")
 
     bulk_submission.processing!
 
     pending_submissions.each_with_index do |submission, idx|
       queue = SubmissionQueueNameService.call(submission.use_case)
-      HmrcInterfaceSubmissionWorker.set(queue:).perform_async(submission.id, idx)
+      HmrcInterfaceSubmissionWorker.set(queue:).perform_async(
+        submission.id,
+        idx
+      )
     end
 
     super

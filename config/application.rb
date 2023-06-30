@@ -18,7 +18,7 @@ require "rails/test_unit/railtie"
 Bundler.require(*Rails.groups)
 
 # Custom railties that are not gems can be required here
-require_relative '../lib/govuk_component'
+require_relative "../lib/govuk_component"
 
 module LaaAssureHmrcData
   class Application < Rails::Application
@@ -49,11 +49,14 @@ module LaaAssureHmrcData
     config.x.status.app_branch = ENV.fetch("APP_BRANCH", "Not Available")
 
     # ActiveRecord::Encryption keys generated with `bin/rails db:encryption:init`
-    config.active_record.encryption.primary_key = ENV.fetch("AR_ENCRYPTION_PRIMARY_KEY", "fake-primary-key")
-    config.active_record.encryption.deterministic_key = ENV.fetch("AR_ENCRYPTION_DETERMINISTIC_KEY", "fake-deterministic-key")
-    config.active_record.encryption.key_derivation_salt = ENV.fetch("AR_ENCRYPTION_KEY_DERIVATION_SALT", "fake-key-derivation-salt")
+    config.active_record.encryption.primary_key =
+      ENV.fetch("AR_ENCRYPTION_PRIMARY_KEY", "fake-primary-key")
+    config.active_record.encryption.deterministic_key =
+      ENV.fetch("AR_ENCRYPTION_DETERMINISTIC_KEY", "fake-deterministic-key")
+    config.active_record.encryption.key_derivation_salt =
+      ENV.fetch("AR_ENCRYPTION_KEY_DERIVATION_SALT", "fake-key-derivation-salt")
 
-    config.x.mock_azure = ENV.fetch("MOCK_AZURE", "false")=="true"
+    config.x.mock_azure = ENV.fetch("MOCK_AZURE", "false") == "true"
     config.x.mock_azure_username = ENV.fetch("MOCK_AZURE_USERNAME", nil)
     config.x.mock_azure_password = ENV.fetch("MOCK_AZURE_PASSWORD", nil)
 

@@ -6,7 +6,7 @@ RSpec.describe HmrcInterfaceSubmissionService do
   let(:submission) { create(:submission, status: :pending, use_case: :one) }
 
   describe "#submission" do
-   it { expect(instance.submission).to eql(submission) }
+    it { expect(instance.submission).to eql(submission) }
   end
 
   describe "#requestor" do
@@ -40,31 +40,27 @@ RSpec.describe HmrcInterfaceSubmissionService do
 
     context "with a submission success" do
       before do
-        allow(instance.requestor)
-          .to receive(:call)
-          .and_return(response_with_id)
+        allow(instance.requestor).to receive(:call).and_return(response_with_id)
       end
 
-      let(:response_with_id) do
-        { id: "5ae37a62-59af-4eab-a995-c99ebe994f39" }
-      end
+      let(:response_with_id) { { id: "5ae37a62-59af-4eab-a995-c99ebe994f39" } }
 
       it "updates submission status to submitted" do
-        expect { call }
-          .to change { submission.reload.status }
-                .from("pending")
-                .to("submitted")
+        expect { call }.to change { submission.reload.status }.from(
+          "pending"
+        ).to("submitted")
       end
 
       it "updates submission hmrc_interface_id to responses :id" do
-        expect { instance.call }
-          .to change { submission.reload.hmrc_interface_id }
-                .from(nil)
-                .to("5ae37a62-59af-4eab-a995-c99ebe994f39")
+        expect { instance.call }.to change {
+          submission.reload.hmrc_interface_id
+        }.from(nil).to("5ae37a62-59af-4eab-a995-c99ebe994f39")
       end
 
       context "with use_case one submission" do
-        let(:submission) { create(:submission, status: :pending, use_case: :one) }
+        let(:submission) do
+          create(:submission, status: :pending, use_case: :one)
+        end
         let(:worker) { class_double(HmrcInterfaceResultWorker) }
 
         before do
@@ -74,13 +70,20 @@ RSpec.describe HmrcInterfaceSubmissionService do
 
         it "enqueues HmrcInterfaceResultWorker on uc-one-submissions queue to be performed in 10 seconds" do
           call
-          expect(HmrcInterfaceResultWorker).to have_received(:set).with(queue: "uc-one-submissions").once
-          expect(worker).to have_received(:perform_in).with(7.seconds, submission.id).once
+          expect(HmrcInterfaceResultWorker).to have_received(:set).with(
+            queue: "uc-one-submissions"
+          ).once
+          expect(worker).to have_received(:perform_in).with(
+            7.seconds,
+            submission.id
+          ).once
         end
       end
 
       context "with use_case two submission" do
-        let(:submission) { create(:submission, status: :pending, use_case: :two) }
+        let(:submission) do
+          create(:submission, status: :pending, use_case: :two)
+        end
         let(:worker) { class_double(HmrcInterfaceResultWorker) }
 
         before do
@@ -90,46 +93,48 @@ RSpec.describe HmrcInterfaceSubmissionService do
 
         it "enqueues HmrcInterfaceResultWorker on uc-two-submissions queue to be performed in 10 seconds" do
           call
-          expect(HmrcInterfaceResultWorker).to have_received(:set).with(queue: "uc-two-submissions").once
-          expect(worker).to have_received(:perform_in).with(7.seconds, submission.id).once
+          expect(HmrcInterfaceResultWorker).to have_received(:set).with(
+            queue: "uc-two-submissions"
+          ).once
+          expect(worker).to have_received(:perform_in).with(
+            7.seconds,
+            submission.id
+          ).once
         end
       end
     end
 
     context "when submission request returns erroroneous response" do
       before do
-        allow(instance.requestor)
-          .to receive(:call)
-          .and_return(response_without_id)
+        allow(instance.requestor).to receive(:call).and_return(
+          response_without_id
+        )
       end
 
-      let(:response_without_id) do
-        { foo: "bar" }
-      end
+      let(:response_without_id) { { foo: "bar" } }
 
       it "updates submission status to submitting" do
-        expect { call }
-          .to change { submission.reload.status }
-                .from("pending")
-                .to("submitting")
+        expect { call }.to change { submission.reload.status }.from(
+          "pending"
+        ).to("submitting")
       end
 
       it "does not update submission hmrc_interface_id" do
-        expect { call }
-          .not_to change { submission.reload.hmrc_interface_id }
-                    .from(nil)
+        expect { call }.not_to change {
+          submission.reload.hmrc_interface_id
+        }.from(nil)
       end
     end
 
     context "when submission request raises error" do
       before do
-        allow(instance.requestor)
-          .to receive(:call)
-          .and_raise StandardError, "oops, something went wrong"
+        allow(instance.requestor).to receive(:call).and_raise StandardError,
+                    "oops, something went wrong"
       end
 
       it "allows error to go unhandled (so sidekiq job can retry)" do
-        expect { call }.to raise_error StandardError, "oops, something went wrong"
+        expect { call }.to raise_error StandardError,
+                    "oops, something went wrong"
 
         expect(submission.reload.hmrc_interface_id).to be_nil
         expect(submission.reload.status).to eql("submitting")

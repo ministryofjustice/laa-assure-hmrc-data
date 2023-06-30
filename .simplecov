@@ -3,7 +3,7 @@
 #
 unless ENV["NOCOVERAGE"]
   SimpleCov.start "rails" do
-    add_filter 'lib/tasks'
+    add_filter "lib/tasks"
     add_group "Forms", "app/forms"
     add_group "Services", "app/services"
     add_group "Validators", "app/validators"
@@ -13,8 +13,6 @@ unless ENV["NOCOVERAGE"]
     enable_coverage :branch
     refuse_coverage_drop :line, :branch
 
-    SimpleCov.at_exit do
-      SimpleCov.result.format!
-    end
+    SimpleCov.at_exit { SimpleCov.result.format! }
   end
 end

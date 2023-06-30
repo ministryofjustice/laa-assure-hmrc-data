@@ -7,7 +7,9 @@ RSpec.describe DefaultQueueNameService do
     context "when the service is called in UAT" do
       before do
         allow(Rails.configuration.x).to receive(:host_env).and_return("uat")
-        allow(Rails.configuration.x.status).to receive(:app_branch).and_return("this-is/a.test-branch")
+        allow(Rails.configuration.x.status).to receive(:app_branch).and_return(
+          "this-is/a.test-branch"
+        )
       end
 
       it "suffixes the submission queue name with the branch name" do
@@ -18,7 +20,9 @@ RSpec.describe DefaultQueueNameService do
     context "when the service is called in UAT with special characters in branch name" do
       before do
         allow(Rails.configuration.x).to receive(:host_env).and_return("uat")
-        allow(Rails.configuration.x.status).to receive(:app_branch).and_return(" this-is/a[test.branch](here)")
+        allow(Rails.configuration.x.status).to receive(:app_branch).and_return(
+          " this-is/a[test.branch](here)"
+        )
       end
 
       it "suffixes the submission queue name with the branch name" do

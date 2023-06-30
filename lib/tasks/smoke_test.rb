@@ -2,7 +2,12 @@ module HmrcInterface
   class SmokeTest
     attr_reader :client, :filter
 
-    def initialize(client, filter = {}, duration = 5.minutes, interval = 5.seconds)
+    def initialize(
+      client,
+      filter = {},
+      duration = 5.minutes,
+      interval = 5.seconds
+    )
       @client = client
       @filter = filter
       @duration = duration
@@ -10,7 +15,8 @@ module HmrcInterface
     end
 
     def call
-      submission_request = HmrcInterface::Request::Submission.new(client, :one, filter)
+      submission_request =
+        HmrcInterface::Request::Submission.new(client, :one, filter)
       response = submission_request.call
       submission_id = response[:id]
 
@@ -26,10 +32,10 @@ module HmrcInterface
       end
     end
 
-  private
+    private
 
     def time_iterate(duration:, interval:)
-      while(Time.current <= duration.from_now)
+      while (Time.current <= duration.from_now)
         yield(Time.current)
         sleep(interval)
       end

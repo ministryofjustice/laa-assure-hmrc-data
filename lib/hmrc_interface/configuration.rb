@@ -2,12 +2,9 @@
 
 module HmrcInterface
   class Configuration
-    VERSION = '0.0.1'
+    VERSION = "0.0.1"
 
-    attr_accessor :client_id,
-                  :client_secret,
-                  :host,
-                  :test_mode
+    attr_accessor :client_id, :client_secret, :host, :test_mode
 
     attr_reader :headers
 
@@ -24,7 +21,9 @@ module HmrcInterface
     end
 
     def scopes=(scopes)
-      raise ConfigurationError, "scopes must be provider as an array" unless scopes.is_a?(Array)
+      unless scopes.is_a?(Array)
+        raise ConfigurationError, "scopes must be provider as an array"
+      end
       @scopes = scopes
     end
 
@@ -36,7 +35,8 @@ module HmrcInterface
       if has_required_logger_methods?(logger)
         @logger = logger
       else
-        raise ConfigurationError, "configured logger must respond to #{required_logger_methods.join(', ')}"
+        raise ConfigurationError,
+              "configured logger must respond to #{required_logger_methods.join(", ")}"
       end
     end
 
@@ -44,10 +44,10 @@ module HmrcInterface
       test_mode.to_s == "true"
     end
 
-  private
+    private
 
     def user_agent_header
-      { 'User-Agent' => "laa-hmrc-interface-client/#{VERSION}" }
+      { "User-Agent" => "laa-hmrc-interface-client/#{VERSION}" }
     end
 
     def has_required_logger_methods?(logger)

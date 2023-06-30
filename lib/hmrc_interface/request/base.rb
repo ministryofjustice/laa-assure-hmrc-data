@@ -1,4 +1,4 @@
-require 'hmrc_interface/error_helper'
+require "hmrc_interface/error_helper"
 
 module HmrcInterface
   module Request
@@ -12,7 +12,7 @@ module HmrcInterface
         @client = client
       end
 
-    private
+      private
 
       def parse_json_response(response_body)
         JSON.parse(response_body, symbolize_names: true)

@@ -16,12 +16,15 @@ class HmrcInterfaceResultService
 
     response = requestor.call(client, submission.hmrc_interface_id)
 
-    submission.update!(hmrc_interface_result: response, status: response[:status])
+    submission.update!(
+      hmrc_interface_result: response,
+      status: response[:status]
+    )
 
     # "processing" and "created" statuses require a retry
     unless %w[completed failed].include?(response[:status])
       raise WorkerErrors::TryAgain,
-              "still processing submission: #{submission.id} with hmrc interface id #{submission.hmrc_interface_id}"
+            "still processing submission: #{submission.id} with hmrc interface id #{submission.hmrc_interface_id}"
     end
   end
 
@@ -31,4 +34,3 @@ class HmrcInterfaceResultService
     @client ||= HmrcInterface.client
   end
 end
-

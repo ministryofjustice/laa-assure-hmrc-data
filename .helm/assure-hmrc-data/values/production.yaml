@@ -31,8 +31,8 @@ ingress:
     - check-clients-details-using-hmrc-data.service.justice.gov.uk
   tls:
     - hosts:
-      - domain: check-clients-details-using-hmrc-data.service.justice.gov.uk
-        secretName: check-clients-details-using-hmrc-data-tls-certificate
+        - domain: check-clients-details-using-hmrc-data.service.justice.gov.uk
+          secretName: check-clients-details-using-hmrc-data-tls-certificate
 
 branch_builder:
   enabled: false

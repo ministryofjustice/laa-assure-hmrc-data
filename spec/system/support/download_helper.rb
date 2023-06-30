@@ -2,10 +2,10 @@
 #
 module DownloadHelper
   TIMEOUT = 10
-  PATH = Rails.root.join('tmp/downloads')
+  PATH = Rails.root.join("tmp/downloads")
 
   def downloads
-    Dir[PATH.join('*')]
+    Dir[PATH.join("*")]
   end
 
   def download
@@ -18,9 +18,7 @@ module DownloadHelper
   end
 
   def wait_for_download
-    Timeout.timeout(TIMEOUT) do
-      sleep 0.1 until downloaded?
-    end
+    Timeout.timeout(TIMEOUT) { sleep 0.1 until downloaded? }
   end
 
   def downloaded?

@@ -1,4 +1,4 @@
-require 'hmrc_interface'
+require "hmrc_interface"
 
 HmrcInterface.configure do |config|
   config.client_id = ENV.fetch("HMRC_INTERFACE_UID", nil)
@@ -7,4 +7,3 @@ HmrcInterface.configure do |config|
   config.scopes = %i[use_case_one use_case_two]
   config.logger = Rails.logger
 end
-

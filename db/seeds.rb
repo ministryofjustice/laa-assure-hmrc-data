@@ -5,13 +5,15 @@
 # DO NOT SEED OUR ACTUAL USERS THIS WAY
 # as they are not public domain
 test_users = [
-  { email: 'joel.sugarman@justice.gov.uk', auth_provider: 'azure_ad' }
+  { email: "joel.sugarman@justice.gov.uk", auth_provider: "azure_ad" }
 ]
 
-test_users.each do |attributes|
-  User.create_or_find_by!(attributes)
-end
+test_users.each { |attributes| User.create_or_find_by!(attributes) }
 
-User.create_or_find_by!(email: Rails.configuration.x.mock_azure_username,
-                        first_name: 'Mock',
-                        last_name: 'Azure') if Rails.configuration.x.mock_azure
+if Rails.configuration.x.mock_azure
+  User.create_or_find_by!(
+    email: Rails.configuration.x.mock_azure_username,
+    first_name: "Mock",
+    last_name: "Azure"
+  )
+end

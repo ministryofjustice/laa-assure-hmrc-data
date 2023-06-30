@@ -1,4 +1,4 @@
-require 'sidekiq-scheduler'
+require "sidekiq-scheduler"
 
 class ApplicationWorker
   include Sidekiq::Worker

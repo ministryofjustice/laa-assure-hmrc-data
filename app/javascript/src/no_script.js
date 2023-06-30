@@ -12,7 +12,7 @@
 //   Note, that the order is important - the `no-script` code needs to be
 //   after the default entry for it to override the behaviour.
 //
-document.addEventListener('DOMContentLoaded', event => {
+document.addEventListener('DOMContentLoaded', (event) => {
   document.querySelectorAll('.no-script').forEach(function (obj) {
     obj.classList.add('hidden')
   })

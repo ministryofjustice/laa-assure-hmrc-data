@@ -7,12 +7,19 @@ module HmrcInterface
         message: formatted_error_message(error),
         backtrace: error.backtrace&.join("\n"),
         http_method:, # TODO: do we even need this
-        http_status: error.respond_to?(:http_status) ? error.http_status : nil, # TODO: do we even need this
+        http_status: error.respond_to?(:http_status) ? error.http_status : nil # TODO: do we even need this
       )
     end
 
-    def log_and_raise_request_error(message:, backtrace: nil, http_method: "POST", http_status: nil)
-      config.logger.info { { message:, backtrace:, http_method:, http_status: } }
+    def log_and_raise_request_error(
+      message:,
+      backtrace: nil,
+      http_method: "POST",
+      http_status: nil
+    )
+      config.logger.info do
+        { message:, backtrace:, http_method:, http_status: }
+      end
       raise HmrcInterface::RequestError.new(message, http_status)
     end
 

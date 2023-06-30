@@ -4,8 +4,7 @@ module ArrayExtension
   end
 
   def fetch_all(key)
-    find_all { |el| el.key?(key) }
-      &.flat_map { |el| el[key] }
+    find_all { |el| el.key?(key) }&.flat_map { |el| el[key] }
   end
 
   def join_compact_blank(args)
@@ -15,4 +14,3 @@ module ArrayExtension
     joined
   end
 end
-

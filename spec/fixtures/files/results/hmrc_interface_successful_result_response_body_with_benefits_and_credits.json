@@ -8,7 +8,7 @@
     },
     {
       "individuals/matching/individual": {
-         "nino": "XY123456D",
+        "nino": "XY123456D",
         "lastName": "lname",
         "firstName": "fname",
         "dateOfBirth": "1985-01-01"
@@ -16,109 +16,77 @@
     },
     {
       "income/paye/paye": {
-        "income": [
-
-        ]
+        "income": []
       }
     },
     {
       "income/sa/selfAssessment": {
-        "taxReturns": [
-
-        ],
-        "registrations": [
-
-        ]
+        "taxReturns": [],
+        "registrations": []
       }
     },
     {
       "income/sa/pensions_and_state_benefits/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/source/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/employments/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/additional_information/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/partnerships/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/uk_properties/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/foreign/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/further_details/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/interests_and_dividends/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/other/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/summary/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
       "income/sa/trusts/selfAssessment": {
-        "taxReturns": [
-
-        ]
+        "taxReturns": []
       }
     },
     {
-      "employments/paye/employments": [
-
-      ]
+      "employments/paye/employments": []
     },
     {
       "benefits_and_credits/working_tax_credit/applications": [
@@ -227,9 +195,7 @@
         {
           "awards": [
             {
-              "payments": [
-
-              ],
+              "payments": [],
               "childTaxCredit": {
                 "paidYTD": 0,
                 "babyAmount": 0,
@@ -241,9 +207,7 @@
               "totalEntitlement": 8075.96
             },
             {
-              "payments": [
-
-              ],
+              "payments": [],
               "childTaxCredit": {
                 "paidYTD": 0,
                 "babyAmount": 0,

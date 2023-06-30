@@ -23,6 +23,8 @@ class HmrcInterfaceBaseWorker < ApplicationWorker
   # rubocop:enable Style/CaseLikeIf
 
   sidekiq_retries_exhausted do |job, _ex|
-    Sentry.capture_message("Failed #{job['class']} for submission #{job['args']}: #{job['error_message']}")
+    Sentry.capture_message(
+      "Failed #{job["class"]} for submission #{job["args"]}: #{job["error_message"]}"
+    )
   end
 end

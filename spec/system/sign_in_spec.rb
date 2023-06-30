@@ -17,27 +17,24 @@ RSpec.describe "sign in", type: :system do
     it "takes user to home page" do
       visit "/"
       click_button "Start now"
-      
-      expect(page)
-        .to have_css("h1", text: "Checked details")
-        .and have_css(".govuk-header__navigation-item--active", text: "Checked details")
-        .and have_link("Jim Bob")
-        .and have_link("Sign out")
+
+      expect(page).to have_css("h1", text: "Checked details").and have_css(
+              ".govuk-header__navigation-item--active",
+              text: "Checked details"
+            ).and have_link("Jim Bob").and have_link("Sign out")
     end
   end
 
   context "with an authorised user on subsequent logins" do
-    before do
-      User.create!(auth_subject_uid: "jim-bob-fake-uid")
-    end
+    before { User.create!(auth_subject_uid: "jim-bob-fake-uid") }
 
     it "takes user to home page" do
       visit "/"
       click_button "Start now"
 
-      expect(page)
-        .to have_css("h1", text: "Checked details")
-        .and have_link("Sign out")
+      expect(page).to have_css("h1", text: "Checked details").and have_link(
+              "Sign out"
+            )
     end
   end
 end

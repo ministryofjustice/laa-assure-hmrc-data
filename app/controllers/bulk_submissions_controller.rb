@@ -14,9 +14,15 @@ class BulkSubmissionsController < ApplicationController
 
     flash[:notice] = case bulk_submission_params[:context]
     when "remove"
-      I18n.t("bulk_submissions.flash.removed", filename: bulk_submission.original_file.filename)
+      I18n.t(
+        "bulk_submissions.flash.removed",
+        filename: bulk_submission.original_file.filename
+      )
     when "cancel"
-      I18n.t('bulk_submissions.flash.cancelled', filename: bulk_submission.original_file.filename)
+      I18n.t(
+        "bulk_submissions.flash.cancelled",
+        filename: bulk_submission.original_file.filename
+      )
     end
 
     redirect_to authenticated_root_path
@@ -27,8 +33,8 @@ class BulkSubmissionsController < ApplicationController
     Rails.logger.info "User #{current_user.id} downloaded results file for bulk submission #{bulk_submission.id}"
     attachment = bulk_submission.result_file.attachment
     send_data attachment.blob.download,
-      filename: attachment.filename.to_s,
-      content_type: 'text/csv'
+              filename: attachment.filename.to_s,
+              content_type: "text/csv"
   end
 
   # NOTE: route only available in test/development or uat

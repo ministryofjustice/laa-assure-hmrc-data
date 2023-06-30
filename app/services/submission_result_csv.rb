@@ -4,18 +4,21 @@ class SubmissionResultCsv
   attr_reader :submission
 
   def self.headers(original_headers = SubmissionRecord.members)
-    original_headers + %i[status
-                          comment
-                          tax_credit_annual_award_amount
-                          clients_income_from_employment
-                          clients_ni_contributions_from_employment
-                          start_and_end_dates_for_employments
-                          most_recent_payment_from_employment
-                          clients_income_from_self_employment
-                          clients_income_from_other_sources
-                          most_recent_payment_from_other_sources
-                          uc_one_data
-                          uc_two_data]
+    original_headers +
+      %i[
+          status
+          comment
+          tax_credit_annual_award_amount
+          clients_income_from_employment
+          clients_ni_contributions_from_employment
+          start_and_end_dates_for_employments
+          most_recent_payment_from_employment
+          clients_income_from_self_employment
+          clients_income_from_other_sources
+          most_recent_payment_from_other_sources
+          uc_one_data
+          uc_two_data
+      ]
   end
 
   delegate :period_start_at,
@@ -54,14 +57,16 @@ class SubmissionResultCsv
       clients_income_from_other_sources,
       most_recent_payment_from_other_sources,
       uc_one_data,
-      uc_two_data,
+      uc_two_data
     ]
 
-    raise StandardError, "mismatched header and row element size" if self.class.headers.size != @row.size
+    if self.class.headers.size != @row.size
+      raise StandardError, "mismatched header and row element size"
+    end
     @row
   end
 
-private
+  private
 
   def comment
     if exhausted?
@@ -85,18 +90,21 @@ private
     if matching_uc_two_submission.exhausted?
       JSON.pretty_generate(matching_uc_two_submission.hmrc_interface_result)
     else
-      JSON.pretty_generate(matching_uc_two_submission.hmrc_interface_result["data"])
+      JSON.pretty_generate(
+        matching_uc_two_submission.hmrc_interface_result["data"]
+      )
     end
   end
 
   def matching_uc_two_submission
-    @matching_uc_two_submission ||= submission.class
-                                      .find_by(bulk_submission_id:,
-                                               use_case: "two",
-                                               nino:,
-                                               dob:,
-                                               first_name:,
-                                               last_name:)
+    @matching_uc_two_submission ||=
+      submission.class.find_by(
+        bulk_submission_id:,
+        use_case: "two",
+        nino:,
+        dob:,
+        first_name:,
+        last_name:
+      )
   end
 end
-

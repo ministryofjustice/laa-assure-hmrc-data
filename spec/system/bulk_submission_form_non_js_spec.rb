@@ -29,21 +29,30 @@ RSpec.describe "sign in", type: :system do
       expect(page).to have_content("Upload a file")
 
       within("#uploaded-files-table-container") do
-        expect(page).to have_selector(".govuk-body", text: "Files uploaded will appear here")
+        expect(page).to have_selector(
+          ".govuk-body",
+          text: "Files uploaded will appear here"
+        )
       end
 
-      attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))
+      attach_file("uploaded_file", file_fixture("basic_bulk_submission.csv"))
       click_button "Upload"
 
       within("#uploaded-files-table-container") do
-        expect(page)
-          .to have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
-          .and have_selector(".govuk-table__cell .govuk-tag", text: /Uploaded/i)
-          .and have_button("Delete")
+        expect(page).to have_selector(
+          ".govuk-table__cell",
+          text: "basic_bulk_submission.csv"
+        ).and have_selector(
+                ".govuk-table__cell .govuk-tag",
+                text: /Uploaded/i
+              ).and have_button("Delete")
 
         click_button "Delete"
 
-        expect(page).to have_selector(".govuk-body", text: "Files uploaded will appear here")
+        expect(page).to have_selector(
+          ".govuk-body",
+          text: "Files uploaded will appear here"
+        )
       end
     end
 
@@ -52,21 +61,33 @@ RSpec.describe "sign in", type: :system do
       expect(page).to have_content("Upload a file")
 
       within("#uploaded-files-table-container") do
-        expect(page).to have_selector(".govuk-body", text: "Files uploaded will appear here")
+        expect(page).to have_selector(
+          ".govuk-body",
+          text: "Files uploaded will appear here"
+        )
       end
 
-      attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))
+      attach_file("uploaded_file", file_fixture("basic_bulk_submission.csv"))
       click_button "Upload"
 
       within("#uploaded-files-table-container") do
-        expect(page).to have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+        expect(page).to have_selector(
+          ".govuk-table__cell",
+          text: "basic_bulk_submission.csv"
+        )
       end
 
-      attach_file('uploaded_file', file_fixture("basic_bulk_submission_copy.csv"))
+      attach_file(
+        "uploaded_file",
+        file_fixture("basic_bulk_submission_copy.csv")
+      )
       click_button "Upload"
 
       within("#uploaded-files-table-container") do
-        expect(page).to have_selector(".govuk-table__cell", text: "basic_bulk_submission_copy.csv")
+        expect(page).to have_selector(
+          ".govuk-table__cell",
+          text: "basic_bulk_submission_copy.csv"
+        )
       end
     end
   end

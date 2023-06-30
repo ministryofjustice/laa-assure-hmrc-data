@@ -3,18 +3,18 @@ git_source(:github) { |repo| "https://github.com/#{repo}.git" }
 
 ruby "3.2.2"
 
-gem 'aws-sdk-s3', require: false
+gem "aws-sdk-s3", require: false
 gem "bootsnap", require: false
 gem "cssbundling-rails"
-gem 'devise'
+gem "devise"
 gem "discard", "~> 1.2"
-gem 'dotenv-rails'
+gem "dotenv-rails"
 gem "govuk-components"
 gem "govuk_design_system_formbuilder"
 gem "jsbundling-rails"
 gem "nesty"
 gem "oauth2"
-gem 'omniauth_openid_connect'
+gem "omniauth_openid_connect"
 gem "omniauth-rails_csrf_protection"
 gem "pg", "~> 1.5"
 gem "propshaft"
@@ -29,7 +29,7 @@ gem "tzinfo-data", platforms: %i[mingw mswin x64_mingw jruby]
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug", platforms: %i[mri mingw x64_mingw]
-  gem 'factory_bot_rails'
+  gem "factory_bot_rails"
 end
 
 group :development do
@@ -45,8 +45,8 @@ end
 group :test do
   # Use system testing [https://guides.rubyonrails.org/testing.html#system-testing]
   gem "capybara"
-  gem 'rails-controller-testing'
-  gem 'rspec-html-matchers'
+  gem "rails-controller-testing"
+  gem "rspec-html-matchers"
   gem "selenium-webdriver"
   gem "simplecov", require: false
   gem "webdrivers"
@@ -54,7 +54,7 @@ end
 
 group :test, :development do
   gem "erb_lint", require: false
-  gem 'i18n-tasks'
+  gem "i18n-tasks"
   gem "overcommit"
   gem "rspec"
   gem "rspec-rails"

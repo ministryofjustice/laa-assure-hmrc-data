@@ -16,7 +16,7 @@ class CreateSubmissions < ActiveRecord::Migration[7.0]
       t.string :nino, null: false, default: ""
       t.string :status, null: false, default: ""
       t.uuid :hmrc_interface_id
-      t.jsonb :hmrc_interface_result, null: false, default: '{}'
+      t.jsonb :hmrc_interface_result, null: false, default: "{}"
 
       t.timestamps null: false
     end
@@ -25,4 +25,3 @@ class CreateSubmissions < ActiveRecord::Migration[7.0]
     add_index :submissions, :hmrc_interface_result, using: :gin
   end
 end
-

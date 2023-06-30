@@ -10,7 +10,6 @@ any asset or dependency issues.
 
 - [Docker desktop for mac](https://docs.docker.com/desktop/install/mac-install/) (Docker version 20.10.21)
 
-
 ## Build and run
 
 ```shell
@@ -45,13 +44,16 @@ docker volume rm laa-assure-hmrc-data-db laa-assure-hmrc-data-gem_cache laa-assu
 ```
 
 ### Tail logs
+
 ```shell
 # docker-compose logs -f <service-name>
 #.e.g.
 docker compose logs -f web
 docker compose logs -f database
 ```
+
 OR
+
 ```shell
 # shell in and tail logs
 docker compose exec web sh
@@ -59,6 +61,7 @@ tail -f log/production.log
 ```
 
 ### Shell into running web container
+
 ```shell
 docker compose exec web sh
 docker compose exec database sh

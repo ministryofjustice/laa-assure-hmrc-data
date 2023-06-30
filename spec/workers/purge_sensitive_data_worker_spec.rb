@@ -18,21 +18,20 @@ RSpec.shared_examples "purges sensitive data" do
   it "updates the submission record" do
     perform
     expect(submission.reload).to have_attributes(
-      first_name: 'purged',
-      last_name: 'purged',
-      nino:'AB123456C',
-      dob: Date.parse('1970-01-01'),
-      hmrc_interface_result: '{}'
+      first_name: "purged",
+      last_name: "purged",
+      nino: "AB123456C",
+      dob: Date.parse("1970-01-01"),
+      hmrc_interface_result: "{}"
     )
   end
 end
 
 RSpec.shared_examples "discards bulk submission and associated submissions" do
   it "marks bulk submission and submissions as discarded" do
-    expect { perform }
-      .to change { bulk_submission.reload.discarded? }
-            .from(false)
-            .to(true)
+    expect { perform }.to change { bulk_submission.reload.discarded? }.from(
+      false
+    ).to(true)
 
     expect(submission.reload).to be_discarded
   end
@@ -43,35 +42,41 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
     subject(:perform_async) { described_class.perform_async }
 
     it "enqueues 1 job with expected options" do
-      expect { perform_async }
-        .to change(described_class, :jobs)
-          .from([])
-          .to(
-              [
-                hash_including(
-                  "retry" => true,
-                  "queue" => "default",
-                  "args" => [],
-                  "class" => "PurgeSensitiveDataWorker"
-                )
-              ]
+      expect { perform_async }.to change(described_class, :jobs).from([]).to(
+        [
+          hash_including(
+            "retry" => true,
+            "queue" => "default",
+            "args" => [],
+            "class" => "PurgeSensitiveDataWorker"
           )
+        ]
+      )
     end
   end
 
   describe "#perform" do
     subject(:perform) { described_class.new.perform }
 
-    let(:bulk_submission) { create(:bulk_submission, :with_original_file, :with_result_file, expires_at:) }
+    let(:bulk_submission) do
+      create(
+        :bulk_submission,
+        :with_original_file,
+        :with_result_file,
+        expires_at:
+      )
+    end
 
     let(:submission) do
-      create(:submission,
-              :with_completed_use_case_one_hmrc_interface_result,
-              first_name: 'Rosie',
-              last_name: 'Conway',
-              nino: 'JC654321A',
-              dob: '1977-03-08'.to_date,
-              bulk_submission:)
+      create(
+        :submission,
+        :with_completed_use_case_one_hmrc_interface_result,
+        first_name: "Rosie",
+        last_name: "Conway",
+        nino: "JC654321A",
+        dob: "1977-03-08".to_date,
+        bulk_submission:
+      )
     end
 
     let(:expires_at) { nil }
@@ -105,7 +110,7 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
         expect(bulk_submission.original_file.attachment).not_to be_nil
         expect(bulk_submission.original_file.blob).not_to be_nil
       end
-  
+
       it "does not purge the result file" do
         perform
         bulk_submission.reload
@@ -116,22 +121,26 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
       it "does not update the submission record" do
         perform
         expect(submission.reload).to have_attributes(
-          first_name: 'Rosie',
-          last_name: 'Conway',
-          nino:'JC654321A',
-          dob: Date.parse('1977-03-08'),
-          hmrc_interface_result: {"data"=>[{"use_case"=>"use_case_one"}]}
+          first_name: "Rosie",
+          last_name: "Conway",
+          nino: "JC654321A",
+          dob: Date.parse("1977-03-08"),
+          hmrc_interface_result: {
+            "data" => [{ "use_case" => "use_case_one" }]
+          }
         )
       end
     end
 
     context "when the bulk submission is not set to expire but was created one month ago" do
       let(:bulk_submission) do
-        create(:bulk_submission,
-               :with_original_file,
-               :with_result_file,
-               expires_at: nil,
-               created_at: 1.month.ago)
+        create(
+          :bulk_submission,
+          :with_original_file,
+          :with_result_file,
+          expires_at: nil,
+          created_at: 1.month.ago
+        )
       end
 
       include_examples "purges sensitive data"
@@ -140,12 +149,14 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
 
     context "when the bulk submission is ready but discarded and expires now" do
       let(:bulk_submission) do
-        create(:bulk_submission,
-               :discarded,
-               :ready,
-               :with_original_file,
-               :with_result_file,
-               expires_at: Time.current)
+        create(
+          :bulk_submission,
+          :discarded,
+          :ready,
+          :with_original_file,
+          :with_result_file,
+          expires_at: Time.current
+        )
       end
 
       include_examples "purges sensitive data"

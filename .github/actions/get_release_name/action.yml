@@ -1,5 +1,5 @@
 name: "Get release name"
-description: 'Get a release name'
+description: "Get a release name"
 
 outputs:
   branch-name:

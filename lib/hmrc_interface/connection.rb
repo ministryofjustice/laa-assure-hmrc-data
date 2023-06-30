@@ -1,6 +1,6 @@
 # frozen_string_literal: true
 
-require 'forwardable'
+require "forwardable"
 
 module HmrcInterface
   class Connection
@@ -11,7 +11,8 @@ module HmrcInterface
     def_delegators :connection, :post, :get
 
     def initialize(client)
-      @connection = Faraday.new(url: configuration.host, headers: client.headers)
+      @connection =
+        Faraday.new(url: configuration.host, headers: client.headers)
     end
   end
 end

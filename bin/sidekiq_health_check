@@ -2,7 +2,7 @@
 
 module Worker
   def self.healthcheck
-    abort 'sidekiq not found' unless system('pgrep -f sidekiq')
+    abort "sidekiq not found" unless system("pgrep -f sidekiq")
   end
 end
 

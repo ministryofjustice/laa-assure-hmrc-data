@@ -2,7 +2,8 @@
 
 # Add to patch a zietwerk loading error due to not using ActionMailer with devise
 if Rails.autoloaders.zeitwerk_enabled?
-  class Devise::Mailer; end
+  class Devise::Mailer
+  end
 end
 
 # Assuming you have not yet modified this file, each configuration option below
@@ -29,7 +30,8 @@ Devise.setup do |config|
   # Configure the e-mail address which will be shown in Devise::Mailer,
   # note that it will be overwritten if you use your own mailer class
   # with default "from" parameter.
-  config.mailer_sender = 'please-change-me-at-config-initializers-devise@example.com'
+  config.mailer_sender =
+    "please-change-me-at-config-initializers-devise@example.com"
 
   # Configure the class responsible to send e-mails.
   # config.mailer = 'Devise::Mailer'
@@ -41,7 +43,7 @@ Devise.setup do |config|
   # Load and configure the ORM. Supports :active_record (default) and
   # :mongoid (bson_ext recommended) by default. Other ORMs may be
   # available as additional gems.
-  require 'devise/orm/active_record'
+  require "devise/orm/active_record"
 
   # ==> Configuration for any authentication mechanism
   # Configure which keys are used when authenticating a user. The default is
@@ -279,18 +281,21 @@ Devise.setup do |config|
   # config.omniauth :github, 'APP_ID', 'APP_SECRET', scope: 'user,public_repo'
 
   config.omniauth :openid_connect,
-                  scope: [:openid, :email, :profile],
+                  scope: %i[openid email profile],
                   response_type: :code,
                   client_options: {
                     identifier: ENV["OMNIAUTH_AZURE_CLIENT_ID"],
                     secret: ENV["OMNIAUTH_AZURE_CLIENT_SECRET"],
-                    redirect_uri: ENV["OMNIAUTH_AZURE_REDIRECT_URI"],
+                    redirect_uri: ENV["OMNIAUTH_AZURE_REDIRECT_URI"]
                   },
                   discovery: true,
-                  issuer: "https://login.microsoftonline.com/#{ENV["OMNIAUTH_AZURE_TENANT_ID"]}/v2.0",
+                  issuer:
+                    "https://login.microsoftonline.com/#{ENV["OMNIAUTH_AZURE_TENANT_ID"]}/v2.0",
                   pkce: true,
-                  extra_authorise_params: { tenant: ENV["OMNIAUTH_AZURE_TENANT_ID"] },
-                  name: 'azure_ad'
+                  extra_authorise_params: {
+                    tenant: ENV["OMNIAUTH_AZURE_TENANT_ID"]
+                  },
+                  name: "azure_ad"
 
   # ==> Warden configuration
   # If you want to use other strategies, that are not supported by Devise, or

@@ -33,7 +33,7 @@ export function addErrorMessage (msg) {
 export function removeErrorMessages () {
   document.querySelectorAll('.dropzone-error').forEach((dzError) => {
     if (dzError) {
-      dzError.querySelectorAll('div').forEach(div => {
+      dzError.querySelectorAll('div').forEach((div) => {
         div.remove()
       })
     }
@@ -41,10 +41,16 @@ export function removeErrorMessages () {
 
   const errorSummary = document.querySelector('.govuk-error-summary')
   if (errorSummary) {
-    errorSummary.querySelectorAll('li').forEach(listItem => { listItem.remove() })
+    errorSummary.querySelectorAll('li').forEach((listItem) => {
+      listItem.remove()
+    })
     errorSummary.classList.add('hidden') // toggle error-summary-hideable
   }
 
-  document.querySelector('#dropzone-form-group').classList.remove('govuk-form-group--error')
-  document.querySelector('#dropzone-form-group > p.govuk-error-message').classList.add('hidden')
+  document
+    .querySelector('#dropzone-form-group')
+    .classList.remove('govuk-form-group--error')
+  document
+    .querySelector('#dropzone-form-group > p.govuk-error-message')
+    .classList.add('hidden')
 }

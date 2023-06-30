@@ -17,18 +17,19 @@ RSpec.describe HmrcInterfaceResultable do
     allow(instance).to receive(:hmrc_interface_result).and_return(result)
   end
 
-  it 'includes the expected methods' do
-    expect(instance)
-      .to respond_to(:data,
-                     :error,
-                     :tax_credit_annual_award_amount)
+  it "includes the expected methods" do
+    expect(instance).to respond_to(
+      :data,
+      :error,
+      :tax_credit_annual_award_amount
+    )
   end
 
   describe "#data" do
     subject(:data) { instance.data }
 
     context "with symbols for keys" do
-      let(:result) { { data: [ { use_case: "use_case_one" } ] } }
+      let(:result) { { data: [{ use_case: "use_case_one" }] } }
 
       it "returns the hash value for data with indifferent access" do
         expect(data).to be_an Array
@@ -38,7 +39,7 @@ RSpec.describe HmrcInterfaceResultable do
     end
 
     context "with strings for keys" do
-      let(:result) { { "data" => [ { "use_case" => "use_case_one" } ] } }
+      let(:result) { { "data" => [{ "use_case" => "use_case_one" }] } }
 
       it "returns the hash value for data with indifferent access" do
         expect(data).to be_an Array
@@ -48,7 +49,7 @@ RSpec.describe HmrcInterfaceResultable do
     end
 
     context "with no data key" do
-      let(:result) { { not_this: [ { "use_case" => "use_case_one" } ] } }
+      let(:result) { { not_this: [{ "use_case" => "use_case_one" }] } }
 
       it { expect(data).to be_nil }
     end
@@ -58,13 +59,7 @@ RSpec.describe HmrcInterfaceResultable do
     subject(:error) { instance.error }
 
     context "when error exists" do
-      let(:result) do
-        {
-          data: [
-            { use_case: "whatever" },
-            { error: "foobar" } ]
-        }
-      end
+      let(:result) { { data: [{ use_case: "whatever" }, { error: "foobar" }] } }
 
       it "returns the string value for error" do
         expect(error).to eql("foobar")
@@ -72,38 +67,48 @@ RSpec.describe HmrcInterfaceResultable do
     end
 
     context "when error does not exist" do
-      let(:result) { { data: [ { foo: "bar" } ] } }
+      let(:result) { { data: [{ foo: "bar" }] } }
 
       it { expect(error).to be_nil }
     end
 
     context "with no data key" do
-      let(:result) { { foo: [ { bar: "baz" } ] } }
+      let(:result) { { foo: [{ bar: "baz" }] } }
 
       it { expect(error).to be_nil }
     end
   end
 
   describe "#tax_credit_annual_award_amount" do
-    subject(:tax_credit_annual_award_amount) { instance.tax_credit_annual_award_amount }
+    subject(:tax_credit_annual_award_amount) do
+      instance.tax_credit_annual_award_amount
+    end
 
     context "when working and child tax credits exist" do
       let(:result) do
-         {
+        {
           "data" => [
             { "use_case" => "use_case_one" },
-            { "benefits_and_credits/working_tax_credit/applications"=>
-               [{ "awards"=>
-                  [{ "payments"=>[],
-                     "totalEntitlement"=>8075.96 },
-                   { "payments"=>[],
-                     "totalEntitlement"=>8008.07 }] }] },
-            { "benefits_and_credits/child_tax_credit/applications"=>
-               [{ "awards"=>
-                  [{ "payments"=>[],
-                     "totalEntitlement"=>9075.96 },
-                   { "payments"=>[],
-                     "totalEntitlement"=>9008.07 }] }] }
+            {
+              "benefits_and_credits/working_tax_credit/applications" => [
+                {
+                  "awards" => [
+                    { "payments" => [], "totalEntitlement" => 8075.96 },
+                    { "payments" => [], "totalEntitlement" => 8008.07 }
+                  ]
+                }
+              ]
+            },
+            {
+              "benefits_and_credits/child_tax_credit/applications" => [
+                {
+                  "awards" => [
+                    { "payments" => [], "totalEntitlement" => 9075.96 },
+                    { "payments" => [], "totalEntitlement" => 9008.07 }
+                  ]
+                }
+              ]
+            }
           ]
         }
       end
@@ -115,15 +120,19 @@ RSpec.describe HmrcInterfaceResultable do
 
     context "when working tax credits exist (only)" do
       let(:result) do
-         {
+        {
           "data" => [
             { "use_case" => "use_case_one" },
-            { "benefits_and_credits/working_tax_credit/applications"=>
-               [{ "awards"=>
-                  [{ "payments"=>[],
-                     "totalEntitlement"=>8075.96 },
-                   { "payments"=>[],
-                    "totalEntitlement"=>8008.07 }] }] }
+            {
+              "benefits_and_credits/working_tax_credit/applications" => [
+                {
+                  "awards" => [
+                    { "payments" => [], "totalEntitlement" => 8075.96 },
+                    { "payments" => [], "totalEntitlement" => 8008.07 }
+                  ]
+                }
+              ]
+            }
           ]
         }
       end
@@ -135,7 +144,7 @@ RSpec.describe HmrcInterfaceResultable do
 
     context "when no working or tax credits exist" do
       let(:result) do
-         {
+        {
           "data" => [
             { "use_case" => "use_case_one" },
             { "benefits_and_credits/working_tax_credit/applications" => [] },
@@ -148,14 +157,16 @@ RSpec.describe HmrcInterfaceResultable do
     end
 
     context "with no data key" do
-      let(:result) { { foo: [ { bar: "baz" } ] } }
+      let(:result) { { foo: [{ bar: "baz" }] } }
 
       it { expect(tax_credit_annual_award_amount).to be_nil }
     end
   end
 
   describe "#clients_income_from_employment" do
-    subject(:clients_income_from_employment) { instance.clients_income_from_employment }
+    subject(:clients_income_from_employment) do
+      instance.clients_income_from_employment
+    end
 
     context "when multiple income exists" do
       let(:result) do
@@ -165,16 +176,8 @@ RSpec.describe HmrcInterfaceResultable do
             {
               "income/paye/paye" => {
                 "income" => [
-                  {
-                    "grossEarningsForNics" => {
-                      "inPayPeriod1" => 111.11
-                    },
-                  },
-                  {
-                    "grossEarningsForNics" => {
-                      "inPayPeriod1" => 222.22
-                    },
-                  }
+                  { "grossEarningsForNics" => { "inPayPeriod1" => 111.11 } },
+                  { "grossEarningsForNics" => { "inPayPeriod1" => 222.22 } }
                 ]
               }
             }
@@ -195,11 +198,7 @@ RSpec.describe HmrcInterfaceResultable do
             {
               "income/paye/paye" => {
                 "income" => [
-                  {
-                    "grossEarningsForNics" => {
-                      "inPayPeriod1" => 444.44
-                    },
-                  },
+                  { "grossEarningsForNics" => { "inPayPeriod1" => 444.44 } }
                 ]
               }
             }
@@ -217,11 +216,7 @@ RSpec.describe HmrcInterfaceResultable do
         {
           "data" => [
             { "use_case" => "use_case_one" },
-            {
-              "income/paye/paye" => {
-                "income" => []
-              }
-            }
+            { "income/paye/paye" => { "income" => [] } }
           ]
         }
       end
@@ -237,15 +232,8 @@ RSpec.describe HmrcInterfaceResultable do
             {
               "income/paye/paye" => {
                 "income" => [
-                  {
-                    "grossEarningsForNics" => {
-                      "inPayPeriod1" => 333.33
-                    },
-                  },
-                  {
-                    "grossEarningsForNics" => {
-                    },
-                  },
+                  { "grossEarningsForNics" => { "inPayPeriod1" => 333.33 } },
+                  { "grossEarningsForNics" => {} }
                 ]
               }
             }
@@ -259,30 +247,26 @@ RSpec.describe HmrcInterfaceResultable do
     end
 
     context "with no data key" do
-      let(:result) { { foo: [ { bar: "baz" } ] } }
+      let(:result) { { foo: [{ bar: "baz" }] } }
 
       it { expect(clients_income_from_employment).to be_zero }
     end
   end
 
   describe "#clients_ni_contributions_from_employment" do
-    subject(:clients_ni_contributions_from_employment) { instance.clients_ni_contributions_from_employment }
+    subject(:clients_ni_contributions_from_employment) do
+      instance.clients_ni_contributions_from_employment
+    end
 
     context "when multiple income exists" do
       let(:result) do
         {
           "data" => [
-           { "income/paye/paye" => {
+            {
+              "income/paye/paye" => {
                 "income" => [
-                  {
-                    "employeeNics" => {
-                      "inPayPeriod1" => 222.22
-                    },
-                  },
-                  { "employeeNics" => {
-                      "inPayPeriod1" => 444.44
-                    },
-                  },
+                  { "employeeNics" => { "inPayPeriod1" => 222.22 } },
+                  { "employeeNics" => { "inPayPeriod1" => 444.44 } }
                 ]
               }
             }
@@ -299,14 +283,9 @@ RSpec.describe HmrcInterfaceResultable do
       let(:result) do
         {
           "data" => [
-           { "income/paye/paye" => {
-                "income" => [
-                  {
-                    "employeeNics" => {
-                      "inPayPeriod1" => 222.22
-                    },
-                  },
-                ]
+            {
+              "income/paye/paye" => {
+                "income" => [{ "employeeNics" => { "inPayPeriod1" => 222.22 } }]
               }
             }
           ]
@@ -320,15 +299,7 @@ RSpec.describe HmrcInterfaceResultable do
 
     context "when no income exists" do
       let(:result) do
-        {
-          "data" => [
-            {
-              "income/paye/paye" => {
-                "income" => []
-              }
-            }
-          ]
-        }
+        { "data" => [{ "income/paye/paye" => { "income" => [] } }] }
       end
 
       it { expect(clients_ni_contributions_from_employment).to be_zero }
@@ -339,14 +310,11 @@ RSpec.describe HmrcInterfaceResultable do
       let(:result) do
         {
           "data" => [
-           { "income/paye/paye" => {
+            {
+              "income/paye/paye" => {
                 "income" => [
-                  { "employeeNics" => {
-                      "inPayPeriod1" => 444.44
-                    },
-                  },
-                  {
-                  },
+                  { "employeeNics" => { "inPayPeriod1" => 444.44 } },
+                  {}
                 ]
               }
             }
@@ -360,14 +328,16 @@ RSpec.describe HmrcInterfaceResultable do
     end
 
     context "with no data key" do
-      let(:result) { { foo: [ { bar: "baz" } ] } }
+      let(:result) { { foo: [{ bar: "baz" }] } }
 
       it { expect(clients_ni_contributions_from_employment).to be_zero }
     end
   end
 
   describe "#start_and_end_dates_for_employments" do
-    subject(:start_and_end_dates_for_employments) { instance.start_and_end_dates_for_employments }
+    subject(:start_and_end_dates_for_employments) do
+      instance.start_and_end_dates_for_employments
+    end
 
     context "when multiple employments exist" do
       let(:result) do
@@ -376,22 +346,18 @@ RSpec.describe HmrcInterfaceResultable do
             { "use_case" => "use_case_one" },
             {
               "employments/paye/employments": [
-                {
-                  "endDate": "2099-12-31",
-                  "startDate": "2023-01-26"
-                },
-                {
-                  "endDate": "2022-11-11",
-                  "startDate": "2022-09-11"
-                }
+                { endDate: "2099-12-31", startDate: "2023-01-26" },
+                { endDate: "2022-11-11", startDate: "2022-09-11" }
               ]
-            },
+            }
           ]
         }
       end
 
       it "returns a multiline String with \"start-date to end-date\"" do
-        expect(start_and_end_dates_for_employments).to eql("2023-01-26 to 2099-12-31\n2022-09-11 to 2022-11-11")
+        expect(start_and_end_dates_for_employments).to eql(
+          "2023-01-26 to 2099-12-31\n2022-09-11 to 2022-11-11"
+        )
       end
     end
 
@@ -402,22 +368,18 @@ RSpec.describe HmrcInterfaceResultable do
             { "use_case" => "use_case_one" },
             {
               "employments/paye/employments": [
-                {
-                  "endDate": "2099-12-31",
-                  "startDate": "2023-01-26"
-                },
-                {
-                  "startDate": "2022-09-11",
-                  "endDate": "2022-11-11"
-                }
+                { endDate: "2099-12-31", startDate: "2023-01-26" },
+                { startDate: "2022-09-11", endDate: "2022-11-11" }
               ]
-            },
+            }
           ]
         }
       end
 
       it "returns a multiline String with \"start-date to end-date\"" do
-        expect(start_and_end_dates_for_employments).to eql("2023-01-26 to 2099-12-31\n2022-09-11 to 2022-11-11")
+        expect(start_and_end_dates_for_employments).to eql(
+          "2023-01-26 to 2099-12-31\n2022-09-11 to 2022-11-11"
+        )
       end
     end
 
@@ -428,18 +390,17 @@ RSpec.describe HmrcInterfaceResultable do
             { "use_case" => "use_case_one" },
             {
               "employments/paye/employments": [
-                {
-                  "endDate": "2099-12-31",
-                  "startDate": "2023-01-26"
-                },
+                { endDate: "2099-12-31", startDate: "2023-01-26" }
               ]
-            },
+            }
           ]
         }
       end
 
       it "returns a String with \"start-date to end-date\"" do
-        expect(start_and_end_dates_for_employments).to eql("2023-01-26 to 2099-12-31")
+        expect(start_and_end_dates_for_employments).to eql(
+          "2023-01-26 to 2099-12-31"
+        )
       end
     end
 
@@ -448,10 +409,7 @@ RSpec.describe HmrcInterfaceResultable do
         {
           "data" => [
             { "use_case" => "use_case_one" },
-            {
-              "employments/paye/employments" => [
-              ]
-            },
+            { "employments/paye/employments" => [] }
           ]
         }
       end
@@ -461,19 +419,13 @@ RSpec.describe HmrcInterfaceResultable do
 
     # NOTE: have not seen real data that reflect's it but is useful safeguard
     context "when employments key does not exist" do
-      let(:result) do
-        {
-          "data" => [
-            { "use_case" => "use_case_one" },
-          ]
-        }
-      end
+      let(:result) { { "data" => [{ "use_case" => "use_case_one" }] } }
 
       it { expect(start_and_end_dates_for_employments).to be_nil }
     end
 
     context "with no data key" do
-      let(:result) { { foo: [ { bar: "baz" } ] } }
+      let(:result) { { foo: [{ bar: "baz" }] } }
 
       it { expect(start_and_end_dates_for_employments).to be_nil }
     end
@@ -494,13 +446,13 @@ RSpec.describe HmrcInterfaceResultable do
                     "paymentDate" => "2022-03-17",
                     "grossEarningsForNics" => {
                       "inPayPeriod1" => 111.11
-                    },
+                    }
                   },
                   {
                     "paymentDate" => "2022-02-20",
                     "grossEarningsForNics" => {
                       "inPayPeriod1" => 222.22
-                    },
+                    }
                   }
                 ]
               }
@@ -518,14 +470,15 @@ RSpec.describe HmrcInterfaceResultable do
       let(:result) do
         {
           "data" => [
-           { "income/paye/paye" => {
+            {
+              "income/paye/paye" => {
                 "income" => [
                   {
                     "paymentDate" => "2022-03-17",
                     "grossEarningsForNics" => {
                       "inPayPeriod1" => 222.22
-                    },
-                  },
+                    }
+                  }
                 ]
               }
             }
@@ -540,15 +493,7 @@ RSpec.describe HmrcInterfaceResultable do
 
     context "when no income exists" do
       let(:result) do
-        {
-          "data" => [
-            {
-              "income/paye/paye" => {
-                "income" => []
-              }
-            }
-          ]
-        }
+        { "data" => [{ "income/paye/paye" => { "income" => [] } }] }
       end
 
       it { expect(most_recent_payment_from_employment).to be_nil }
@@ -559,18 +504,17 @@ RSpec.describe HmrcInterfaceResultable do
       let(:result) do
         {
           "data" => [
-           { "income/paye/paye" => {
+            {
+              "income/paye/paye" => {
                 "income" => [
-                  {
-                  },
+                  {},
                   {
                     "paymentDate" => "2022-03-17",
                     "grossEarningsForNics" => {
                       "inPayPeriod1" => 555.55
-                    },
+                    }
                   },
-                  {
-                  },
+                  {}
                 ]
               }
             }
@@ -584,14 +528,16 @@ RSpec.describe HmrcInterfaceResultable do
     end
 
     context "with no data key" do
-      let(:result) { { foo: [ { bar: "baz" } ] } }
+      let(:result) { { foo: [{ bar: "baz" }] } }
 
       it { expect(most_recent_payment_from_employment).to be_nil }
     end
   end
 
   describe "#clients_income_from_self_employment" do
-    subject(:clients_income_from_self_employment) { instance.clients_income_from_self_employment }
+    subject(:clients_income_from_self_employment) do
+      instance.clients_income_from_self_employment
+    end
 
     context "when multiple self assessment tax returns exists" do
       let(:result) do
@@ -603,42 +549,32 @@ RSpec.describe HmrcInterfaceResultable do
                 "taxReturns" => [
                   {
                     "taxYear" => "2019-20",
-                    "summary" => [
-                      {
-                        "totalIncome" => 6487
-                      }
-                    ]
+                    "summary" => [{ "totalIncome" => 6487 }]
                   },
                   {
                     "taxYear" => "2020-21",
-                    "summary" => [
-                      {
-                        "totalIncome" => 7995
-                      }
-                    ]
+                    "summary" => [{ "totalIncome" => 7995 }]
                   },
                   {
                     "taxYear" => "2021-22",
-                    "summary" => [
-                      {
-                        "totalIncome" => 6824
-                      }
-                    ]
+                    "summary" => [{ "totalIncome" => 6824 }]
                   }
                 ]
               }
-            },
+            }
           ]
         }
       end
 
       it "returns multiline string with \"tax year: total income\" format separated by newline as the value" do
-        expect(clients_income_from_self_employment).to eql("2019-20: 6487\n2020-21: 7995\n2021-22: 6824")
+        expect(clients_income_from_self_employment).to eql(
+          "2019-20: 6487\n2020-21: 7995\n2021-22: 6824"
+        )
       end
     end
 
     context "when single self assessment tax returns exists" do
-       let(:result) do
+      let(:result) do
         {
           "data" => [
             { "use_case" => "use_case_one" },
@@ -647,15 +583,11 @@ RSpec.describe HmrcInterfaceResultable do
                 "taxReturns" => [
                   {
                     "taxYear" => "2019-20",
-                    "summary" => [
-                      {
-                        "totalIncome" => 5487
-                      }
-                    ]
-                  },
+                    "summary" => [{ "totalIncome" => 5487 }]
+                  }
                 ]
               }
-            },
+            }
           ]
         }
       end
@@ -667,7 +599,7 @@ RSpec.describe HmrcInterfaceResultable do
 
     # NOTE: have not seen real data that reflect's it but is useful safeguard as implied by `summary` array structure
     context "when single self assessment tax returns exists with multiple total incomes" do
-       let(:result) do
+      let(:result) do
         {
           "data" => [
             { "use_case" => "use_case_one" },
@@ -677,36 +609,30 @@ RSpec.describe HmrcInterfaceResultable do
                   {
                     "taxYear" => "2019-20",
                     "summary" => [
-                      {
-                        "totalIncome" => 5487
-                      },
-                      {
-                        "totalIncome" => 7487
-                      },
+                      { "totalIncome" => 5487 },
+                      { "totalIncome" => 7487 }
                     ]
-                  },
+                  }
                 ]
               }
-            },
+            }
           ]
         }
       end
 
       it "returns singleline string with \"tax year: total income\" format as the value" do
-        expect(clients_income_from_self_employment).to eql("2019-20: 5487, 7487")
+        expect(clients_income_from_self_employment).to eql(
+          "2019-20: 5487, 7487"
+        )
       end
     end
 
     context "when no self assessment summary tax returns exists" do
-       let(:result) do
+      let(:result) do
         {
           "data" => [
             { "use_case" => "use_case_one" },
-            {
-              "income/sa/summary/selfAssessment" => {
-                "taxReturns" => []
-              }
-            },
+            { "income/sa/summary/selfAssessment" => { "taxReturns" => [] } }
           ]
         }
       end
@@ -716,20 +642,15 @@ RSpec.describe HmrcInterfaceResultable do
 
     # NOTE: have not seen real data that reflect's it but is useful safeguard
     context "when partial self assessment summary tax returns exists" do
-       let(:result) do
+      let(:result) do
         {
           "data" => [
             { "use_case" => "use_case_one" },
             {
               "income/sa/summary/selfAssessment" => {
-                "taxReturns" => [
-                  {
-                    "taxYear" => "2019-20",
-                    "summary" => []
-                  },
-                ]
+                "taxReturns" => [{ "taxYear" => "2019-20", "summary" => [] }]
               }
-            },
+            }
           ]
         }
       end
@@ -740,7 +661,7 @@ RSpec.describe HmrcInterfaceResultable do
     end
 
     context "with no data key" do
-      let(:result) { { foo: [ { bar: "baz" } ] } }
+      let(:result) { { foo: [{ bar: "baz" }] } }
 
       it { expect(clients_income_from_self_employment).to be_nil }
     end

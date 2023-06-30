@@ -1,4 +1,4 @@
-require 'system_helper'
+require "system_helper"
 
 RSpec.describe BulkSubmissionsController, type: :request do
   before { sign_in user }
@@ -8,8 +8,8 @@ RSpec.describe BulkSubmissionsController, type: :request do
   let(:bulk_submission) do
     BulkSubmission.create!(
       user_id: user.id,
-      original_file: fixture_file_upload('basic_bulk_submission.csv'),
-      status: :pending,
+      original_file: fixture_file_upload("basic_bulk_submission.csv"),
+      status: :pending
     )
   end
 
@@ -29,23 +29,27 @@ RSpec.describe BulkSubmissionsController, type: :request do
       end
 
       let(:discarded) do
-        create(:bulk_submission,
-               :discarded,
-               :pending,
-               :with_original_file,
-               original_file_fixture_name: "multiple_bulk_submission.csv",
-               original_file_fixture_content_type: "text/csv",
-               user_id: user.id)
+        create(
+          :bulk_submission,
+          :discarded,
+          :pending,
+          :with_original_file,
+          original_file_fixture_name: "multiple_bulk_submission.csv",
+          original_file_fixture_content_type: "text/csv",
+          user_id: user.id
+        )
       end
 
       let(:undiscarded) do
-        create(:bulk_submission,
-               :undiscarded,
-               :pending,
-               :with_original_file,
-               original_file_fixture_name: "basic_bulk_submission.csv",
-               original_file_fixture_content_type: "text/csv",
-               user_id: user.id)
+        create(
+          :bulk_submission,
+          :undiscarded,
+          :pending,
+          :with_original_file,
+          original_file_fixture_name: "basic_bulk_submission.csv",
+          original_file_fixture_content_type: "text/csv",
+          user_id: user.id
+        )
       end
 
       it "displays only undiscarded bulk submissions" do
@@ -62,29 +66,35 @@ RSpec.describe BulkSubmissionsController, type: :request do
       end
 
       let(:newer) do
-        create(:bulk_submission,
-               :pending,
-               :with_original_file,
-               original_file_fixture_name: "multiple_bulk_submission.csv",
-               original_file_fixture_content_type: "text/csv",
-               user_id: user.id)
+        create(
+          :bulk_submission,
+          :pending,
+          :with_original_file,
+          original_file_fixture_name: "multiple_bulk_submission.csv",
+          original_file_fixture_content_type: "text/csv",
+          user_id: user.id
+        )
       end
 
       let(:older) do
         travel_to(1.day.ago) do
-          create(:bulk_submission,
-                 :ready,
-                 :with_original_file,
-                 :with_result_file,
-                 original_file_fixture_name: "basic_bulk_submission.csv",
-                 original_file_fixture_content_type: "text/csv",
-                 user_id: user.id)
+          create(
+            :bulk_submission,
+            :ready,
+            :with_original_file,
+            :with_result_file,
+            original_file_fixture_name: "basic_bulk_submission.csv",
+            original_file_fixture_content_type: "text/csv",
+            user_id: user.id
+          )
         end
       end
 
       it "displays bulk submissions, newest first, by date created" do
         get bulk_submissions_path
-        expect(response.body).to match(/multiple_bulk_submission.csv.+basic_bulk_submission.csv/)
+        expect(response.body).to match(
+          /multiple_bulk_submission.csv.+basic_bulk_submission.csv/
+        )
       end
     end
   end
@@ -93,30 +103,30 @@ RSpec.describe BulkSubmissionsController, type: :request do
     before { bulk_submission }
 
     it "does not destroy any bulk_submission" do
-      expect {
-        delete bulk_submission_path(bulk_submission.id)
-      }.to change(BulkSubmission, :count).by(0)
+      expect { delete bulk_submission_path(bulk_submission.id) }.to change(
+        BulkSubmission,
+        :count
+      ).by(0)
     end
 
     it "does not destroy any bulk_submissions attachments" do
-      expect {
-        delete bulk_submission_path(bulk_submission.id)
-      }.to change(ActiveStorage::Attachment, :count).by(0)
+      expect { delete bulk_submission_path(bulk_submission.id) }.to change(
+        ActiveStorage::Attachment,
+        :count
+      ).by(0)
     end
 
     it "discards the requested bulk_submission" do
-      expect {
-        delete bulk_submission_path(bulk_submission.id)
-      }.to change { bulk_submission.reload.discarded? }
-              .from(false)
-              .to(true)
+      expect { delete bulk_submission_path(bulk_submission.id) }.to change {
+        bulk_submission.reload.discarded?
+      }.from(false).to(true)
     end
 
     it "redirects to bulk submissions index or authenticated root path" do
       delete bulk_submission_path(bulk_submission.id)
-      expect(response)
-        .to redirect_to(bulk_submissions_path)
-        .or redirect_to(authenticated_root_path)
+      expect(response).to redirect_to(bulk_submissions_path).or redirect_to(
+             authenticated_root_path
+           )
     end
   end
 
@@ -124,27 +134,29 @@ RSpec.describe BulkSubmissionsController, type: :request do
     before { bulk_submission }
 
     it "enqueues BulkSubmissionsWorker job", type: :worker do
-      expect { get process_all_bulk_submissions_path }
-        .to change(BulkSubmissionsWorker, :jobs)
-        .from([])
-        .to(
-          [
-            hash_including(
-              "retry" => true,
-              "queue" => "default",
-              "args" => [],
-              "class" => "BulkSubmissionsWorker"
-            )
-          ]
-        )
+      expect { get process_all_bulk_submissions_path }.to change(
+        BulkSubmissionsWorker,
+        :jobs
+      ).from([]).to(
+        [
+          hash_including(
+            "retry" => true,
+            "queue" => "default",
+            "args" => [],
+            "class" => "BulkSubmissionsWorker"
+          )
+        ]
+      )
     end
 
     it "redirects to fallback location and renders flash" do
       get process_all_bulk_submissions_path
-      expect(flash[:notice]).to match(/processing all pending bulk submissions/i)
-      expect(response)
-        .to redirect_to(bulk_submissions_path)
-        .or redirect_to(authenticated_root_path)
+      expect(flash[:notice]).to match(
+        /processing all pending bulk submissions/i
+      )
+      expect(response).to redirect_to(bulk_submissions_path).or redirect_to(
+             authenticated_root_path
+           )
     end
   end
 
@@ -153,12 +165,14 @@ RSpec.describe BulkSubmissionsController, type: :request do
 
     context "when authenticated" do
       let(:bulk_submission) do
-        create(:bulk_submission,
-               :undiscarded,
-               :pending,
-               :with_original_file,
-               :with_result_file,
-               user_id: user.id)
+        create(
+          :bulk_submission,
+          :undiscarded,
+          :pending,
+          :with_original_file,
+          :with_result_file,
+          user_id: user.id
+        )
       end
 
       it "renders successfully" do
@@ -168,15 +182,18 @@ RSpec.describe BulkSubmissionsController, type: :request do
 
       it "downloads the results file" do
         get download_bulk_submission_path(bulk_submission.id)
-        expect(response.body).to match(/^"period_start_date","period_end_date","first_name","last_name",
-                                       "date_of_birth","nino","status","comment","uc_one_data"/x)
+        expect(response.body).to match(
+          /^"period_start_date","period_end_date","first_name","last_name",
+                                       "date_of_birth","nino","status","comment","uc_one_data"/x
+        )
       end
 
       it "logs the user downloading the results file" do
         allow(Rails.logger).to receive(:info).and_call_original
         get download_bulk_submission_path(bulk_submission.id)
-        expect(Rails.logger).to have_received(:info)
-                          .with("User #{user.id} downloaded results file for bulk submission #{bulk_submission.id}")
+        expect(Rails.logger).to have_received(:info).with(
+          "User #{user.id} downloaded results file for bulk submission #{bulk_submission.id}"
+        )
       end
     end
 

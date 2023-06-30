@@ -5,7 +5,7 @@ RSpec.describe HmrcInterface::Connection do
 
   let(:client) { HmrcInterface.client }
 
-  describe '#configuration' do
+  describe "#configuration" do
     subject(:configuration) { client.configuration }
 
     include_context "with stubbed host and bearer token"
@@ -15,26 +15,30 @@ RSpec.describe HmrcInterface::Connection do
     end
   end
 
-  describe '#connection' do
+  describe "#connection" do
     subject(:connection) { instance.connection }
 
     include_context "with stubbed host and bearer token"
 
-    it 'is a faraday connection instance' do
+    it "is a faraday connection instance" do
       expect(connection).to be_instance_of(Faraday::Connection)
     end
 
-    it 'has headers from configuration and client merged' do
-      expect(connection.headers)
-        .to include({ "User-Agent"=>"laa-hmrc-interface-client/0.0.1",
-                      "Content-Type"=>"application/json",
-                      "Accept"=>"application/json",
-                      "Authorization"=>"Bearer test-bearer-token"})
+    it "has headers from configuration and client merged" do
+      expect(connection.headers).to include(
+        {
+          "User-Agent" => "laa-hmrc-interface-client/0.0.1",
+          "Content-Type" => "application/json",
+          "Accept" => "application/json",
+          "Authorization" => "Bearer test-bearer-token"
+        }
+      )
     end
 
-    it 'has host from configuration' do
-      expect(connection.build_url)
-        .to eql URI.parse("https://fake-laa-hmrc-interface.service.justice.gov.uk/")
+    it "has host from configuration" do
+      expect(connection.build_url).to eql URI.parse(
+            "https://fake-laa-hmrc-interface.service.justice.gov.uk/"
+          )
     end
   end
 
@@ -43,7 +47,7 @@ RSpec.describe HmrcInterface::Connection do
       allow(instance.connection).to receive(:post)
       instance.post
       expect(instance.connection).to have_received(:post)
-     end
+    end
   end
 
   describe "#get" do
@@ -51,6 +55,6 @@ RSpec.describe HmrcInterface::Connection do
       allow(instance.connection).to receive(:get)
       instance.get
       expect(instance.connection).to have_received(:get)
-     end
+    end
   end
 end

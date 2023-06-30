@@ -4,14 +4,10 @@ class DefaultQueueNameService
   end
 
   def call
-    if Rails.host.uat?
-      "default-#{uat_queue_name}"
-    else
-      "default"
-    end
+    Rails.host.uat? ? "default-#{uat_queue_name}" : "default"
   end
 
-private
+  private
 
   def uat_queue_name
     branch_name = Rails.configuration.x.status.app_branch

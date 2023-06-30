@@ -16,7 +16,7 @@ class SubmissionQueueNameService
     end
   end
 
-private
+  private
 
   def uat_queue_name
     branch_name = Rails.configuration.x.status.app_branch

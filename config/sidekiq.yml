@@ -6,8 +6,8 @@
 :scheduler:
   :schedule:
     bulk_submissions_worker:
-      cron: '0 21 * * *'
+      cron: "0 21 * * *"
       class: BulkSubmissionsWorker
     purge_sensitive_data_worker:
-      cron: '0 20 * * *'
+      cron: "0 20 * * *"
       class: PurgeSensitiveDataWorker

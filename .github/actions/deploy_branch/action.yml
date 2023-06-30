@@ -1,5 +1,5 @@
 name: "Deploy branch"
-description: 'Deploy docker image of branch to namespace with an ingress based on branch name'
+description: "Deploy docker image of branch to namespace with an ingress based on branch name"
 inputs:
   ecr-repository:
     description: "ECR repository"

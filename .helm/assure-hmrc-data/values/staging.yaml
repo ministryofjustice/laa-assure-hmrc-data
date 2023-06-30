@@ -33,8 +33,8 @@ ingress:
     - staging.check-clients-details-using-hmrc-data.service.justice.gov.uk
   tls:
     - hosts:
-      - domain: staging.check-clients-details-using-hmrc-data.service.justice.gov.uk
-        secretName: check-clients-details-using-hmrc-data-tls-certificate
+        - domain: staging.check-clients-details-using-hmrc-data.service.justice.gov.uk
+          secretName: check-clients-details-using-hmrc-data-tls-certificate
 
 resources:
   limits:

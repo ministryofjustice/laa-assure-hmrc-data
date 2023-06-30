@@ -2,24 +2,20 @@ require "rails_helper"
 
 RSpec.describe "Processing of a bulk submission", type: :worker do
   subject(:perform_inline) do
-    Sidekiq::Testing.inline! do
-      BulkSubmissionsWorker.perform_async
-    end
+    Sidekiq::Testing.inline! { BulkSubmissionsWorker.perform_async }
   end
 
   context "with a large valid format file" do
     include_context "with stubbed hmrc-interface submission created"
     include_context "with stubbed hmrc-interface result completed"
 
-    before do
-      bulk_submission
-    end
+    before { bulk_submission }
 
     let(:bulk_submission) do
       BulkSubmission.create!(
         user_id: user.id,
-        original_file: fixture_file_upload('large_valid_bulk_submission.csv'),
-        status: :pending,
+        original_file: fixture_file_upload("large_valid_bulk_submission.csv"),
+        status: :pending
       )
     end
 

@@ -1,4 +1,4 @@
-require 'hmrc_interface/request/base'
+require "hmrc_interface/request/base"
 
 module HmrcInterface
   module Request
@@ -22,17 +22,23 @@ module HmrcInterface
         when 200, 202
           parsed_response
         when 500
-          raise IncompleteResult, detailed_error(response.env.url,
-                                                     response.status,
-                                                     parsed_response)
+          raise IncompleteResult,
+                detailed_error(
+                  response.env.url,
+                  response.status,
+                  parsed_response
+                )
         else
-          raise RequestUnacceptable, detailed_error(response.env.url,
-                                                    response.status,
-                                                    parsed_response)
+          raise RequestUnacceptable,
+                detailed_error(
+                  response.env.url,
+                  response.status,
+                  parsed_response
+                )
         end
       end
 
-    private
+      private
 
       def request
         connection.get do |request|

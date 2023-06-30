@@ -12,9 +12,7 @@ RSpec.describe StatusSettable, type: :concern do
       has_status :pending, :processing
 
       def update!(options)
-        if options[:status].present?
-          self.status = options[:status]
-        end
+        self.status = options[:status] if options[:status].present?
       end
     end
   end
@@ -25,10 +23,9 @@ RSpec.describe StatusSettable, type: :concern do
     it "changes status to pending" do
       instance.status = "initial"
 
-      expect { pending! }
-        .to change(instance, :status)
-          .from("initial")
-          .to("pending")
+      expect { pending! }.to change(instance, :status).from("initial").to(
+        "pending"
+      )
     end
   end
 
@@ -52,10 +49,9 @@ RSpec.describe StatusSettable, type: :concern do
     it "changes status to processing" do
       instance.status = "initial"
 
-      expect { processing! }
-        .to change(instance, :status)
-          .from("initial")
-          .to("processing")
+      expect { processing! }.to change(instance, :status).from("initial").to(
+        "processing"
+      )
     end
   end
 

@@ -1,5 +1,5 @@
 class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
- def azure_ad
+  def azure_ad
     @user = User.from_omniauth(request.env["omniauth.auth"])
 
     if @user&.persisted?
@@ -8,7 +8,10 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       flash[:notice] = I18n.t "devise.omniauth_callbacks.unauthorised"
       Rails.logger.error "Couldn't login user"
-      redirect_back(fallback_location: unauthenticated_root_path, allow_other_host: false)
+      redirect_back(
+        fallback_location: unauthenticated_root_path,
+        allow_other_host: false
+      )
     end
   end
 

@@ -5,14 +5,17 @@ We use ClamAV to scan for viruses in uploaded bulk submission files. Regardless 
 ## Configuration
 
 ### Hosted enviroments (uat, staging and production)
+
 In production we use a container within each App kubernetes pod that has a docker image with clamav installed. The web App pod has clamav "client", `clamav-daemon`, installed via the Dockerfile. There is a configuration file `clamd.container.conf` that opens the clamav container's port, 3310, on localhost, thus allowing the "client" to communicate with the container.
 
 ### Testing on CI
+
 The test job uses a clamav "service" built from the same docker image used by hosted environment clamav containers. The service opens ports 3310 for internal/localhost use. In addition there is a step to install the `clamdscan` tool in the test container. This allows the test run container to communicate with the clamav service container, to enable test examples to scan actual files.
 
 Tests that really scan a file are [must be] marked `scan_with_clamav: true`. All other test's stub any calls to the scanner for speed purposes.
 
 ### Testing locally
+
 see [local setup](#local-setup)
 
 ## Local setup
@@ -22,6 +25,7 @@ Executing `bin/setup` should already have installed clamav for local development
 There may be additional configuration needed if tests marked `scan_with_clamav: true` fail.
 
 ### Trouble shooting failing clamav reliant tests
+
 Check open ports return something like below
 
 ```sh
@@ -32,6 +36,7 @@ clamd     76965          root    7u  IPv4 0xcefaa308a8c5b167      0t0  TCP local
 ```
 
 If not then check your local `clamd.conf`
+
 ```sh
 cat $(brew --prefix)/etc/clamav/clamd.conf | grep TCP
 =>

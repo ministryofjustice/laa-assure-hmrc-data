@@ -24,19 +24,19 @@ class BulkSubmissionService
     BulkSubmissionStatusWorker.perform_in(delay.seconds, bulk_submission.id)
   end
 
-private
+  private
 
   def create_submission!(use_case:, submission:)
     Submission.create!(
-        use_case:,
-        bulk_submission_id: bulk_submission.id,
-        period_start_at: submission.period_start_at,
-        period_end_at: submission.period_end_at,
-        first_name: submission.first_name,
-        last_name: submission.last_name,
-        dob: submission.dob,
-        nino: submission.nino,
-        status: :pending,
+      use_case:,
+      bulk_submission_id: bulk_submission.id,
+      period_start_at: submission.period_start_at,
+      period_end_at: submission.period_end_at,
+      first_name: submission.first_name,
+      last_name: submission.last_name,
+      dob: submission.dob,
+      nino: submission.nino,
+      status: :pending
     )
   rescue Date::Error, ActiveRecord::RecordInvalid => e
     Rails.logger.error(e.message)

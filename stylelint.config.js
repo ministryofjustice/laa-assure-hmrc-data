@@ -1,10 +1,6 @@
 module.exports = {
   extends: 'stylelint-config-gds/scss',
-  ignoreFiles: [
-    'node-modules/**/*',
-    'public/**/*',
-    'vendor/**/*'
-  ],
+  ignoreFiles: ['node-modules/**/*', 'public/**/*', 'vendor/**/*'],
   overrides: [
     {
       customSyntax: 'postcss-scss',

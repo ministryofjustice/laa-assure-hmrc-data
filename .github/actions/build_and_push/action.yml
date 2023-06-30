@@ -1,5 +1,5 @@
 name: "Build and push"
-description: 'builds docker image and pushes it to the specified ECR'
+description: "builds docker image and pushes it to the specified ECR"
 inputs:
   ecr-region:
     description: "ECR region"

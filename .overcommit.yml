@@ -18,19 +18,19 @@ CommitMsg:
 PreCommit:
   RuboCop:
     enabled: true
-    command: ['bundle', 'exec', 'rubocop'] # Invoke within Bundler context
+    command: ["bundle", "exec", "rubocop"] # Invoke within Bundler context
     requires_files: true
   ErbLint:
     enabled: true
-    command: ['erblint']
+    command: ["erblint"]
     requires_files: true
   StandardJS:
     enabled: true
-    command: ['yarn', 'run', 'standard']
+    command: ["yarn", "run", "standard"]
     requires_files: true
-    include: 'app/javascript/**/*.js'
+    include: "app/javascript/**/*.js"
   StyleLint:
     enabled: true
-    command: ['yarn', 'run', 'stylelint']
+    command: ["yarn", "run", "stylelint"]
     requires_files: true
-    include: 'app/assets/stylesheets/**/*.scss'
+    include: "app/assets/stylesheets/**/*.scss"

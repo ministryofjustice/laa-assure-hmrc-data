@@ -1,5 +1,5 @@
 name: "Deploy"
-description: 'Deploy docker image to namespace'
+description: "Deploy docker image to namespace"
 inputs:
   ecr-repository:
     description: "ECR repository"

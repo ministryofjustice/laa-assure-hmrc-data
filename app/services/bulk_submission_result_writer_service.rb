@@ -1,4 +1,4 @@
-require 'csv'
+require "csv"
 
 class BulkSubmissionResultWriterService
   attr_reader :bulk_submission, :original_headers, :result_parser
@@ -20,23 +20,24 @@ class BulkSubmissionResultWriterService
     bulk_submission.ready!
   end
 
-private
+  private
 
   def attach_result
-    bulk_submission
-      .result_file
-        .attach(io: StringIO.new(csv_string),
-                filename: "#{bulk_submission.original_file.filename.base}-result.csv",
-                content_type: "text/csv")
+    bulk_submission.result_file.attach(
+      io: StringIO.new(csv_string),
+      filename: "#{bulk_submission.original_file.filename.base}-result.csv",
+      content_type: "text/csv"
+    )
   end
 
   def csv_string
     CSV.generate(headers: :first_row, force_quotes: true) do |csv|
       csv << result_parser.headers
 
-      bulk_submission.submissions.where(use_case: :one).each do |submission|
-        csv << result_parser.new(submission).row
-      end
+      bulk_submission
+        .submissions
+        .where(use_case: :one)
+        .each { |submission| csv << result_parser.new(submission).row }
     end
   end
 end

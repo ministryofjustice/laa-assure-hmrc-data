@@ -31,8 +31,7 @@ RSpec.configure do |config|
   end
 
   config.after(:each, type: :system) do |example|
-    if example.exception &&
-      (example.metadata[:js] || ENV["BROWSER"].present?)
+    if example.exception && (example.metadata[:js] || ENV["BROWSER"].present?)
       puts browser_logs
     end
   end
@@ -42,9 +41,7 @@ RSpec.configure do |config|
     driven_by :headless_chrome
   end
 
-  config.after(:each, type: :system, js: true) do
-    clear_downloads
-  end
+  config.after(:each, type: :system, js: true) { clear_downloads }
 
   def browser_logs
     <<~BROWSER_LOGS

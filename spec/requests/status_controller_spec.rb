@@ -4,16 +4,25 @@ RSpec.describe StatusController do
   describe "#healthcheck" do
     before do
       allow(ActiveRecord::Base.connection).to receive(:active?).and_return(true)
-      allow(Sidekiq::ProcessSet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 1))
-      allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 0))
-      allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 0))
+      allow(Sidekiq::ProcessSet).to receive(:new).and_return(
+        instance_double(Sidekiq::ProcessSet, size: 1)
+      )
+      allow(Sidekiq::RetrySet).to receive(:new).and_return(
+        instance_double(Sidekiq::RetrySet, size: 0)
+      )
+      allow(Sidekiq::DeadSet).to receive(:new).and_return(
+        instance_double(Sidekiq::DeadSet, size: 0)
+      )
       connection = instance_double("connection", info: {})
       allow(Sidekiq).to receive(:redis).and_yield(connection)
     end
 
     context "when there is a problem with the database" do
       before do
-        allow(ActiveRecord::Base.connection).to receive(:active?).and_raise(PG::ConnectionBad, "error")
+        allow(ActiveRecord::Base.connection).to receive(:active?).and_raise(
+          PG::ConnectionBad,
+          "error"
+        )
         get "/healthcheck"
       end
 
@@ -23,7 +32,7 @@ RSpec.describe StatusController do
             database: false,
             redis: true,
             sidekiq: true,
-            sidekiq_queue: true,
+            sidekiq_queue: true
           }
         }.to_json
       end
@@ -38,9 +47,7 @@ RSpec.describe StatusController do
     end
 
     context "when there is a problem with redis" do
-      before do
-        allow(Sidekiq).to receive(:redis).and_yield(StandardError)
-      end
+      before { allow(Sidekiq).to receive(:redis).and_yield(StandardError) }
 
       it "response is bad_gateway and body contains redis: false" do
         get "/healthcheck"
@@ -63,14 +70,20 @@ RSpec.describe StatusController do
 
     context "when failed Sidekiq jobs exist" do
       before do
-        allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 1))
+        allow(Sidekiq::RetrySet).to receive(:new).and_return(
+          instance_double(Sidekiq::ProcessSet, size: 1)
+        )
         get "/healthcheck"
       end
 
       context "when dead set exists" do
         before do
-          allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 1))
-          allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 0))
+          allow(Sidekiq::DeadSet).to receive(:new).and_return(
+            instance_double(Sidekiq::DeadSet, size: 1)
+          )
+          allow(Sidekiq::RetrySet).to receive(:new).and_return(
+            instance_double(Sidekiq::RetrySet, size: 0)
+          )
           get "/healthcheck"
         end
 
@@ -82,8 +95,12 @@ RSpec.describe StatusController do
 
       context "when retry set exists" do
         before do
-          allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 0))
-          allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 1))
+          allow(Sidekiq::DeadSet).to receive(:new).and_return(
+            instance_double(Sidekiq::DeadSet, size: 0)
+          )
+          allow(Sidekiq::RetrySet).to receive(:new).and_return(
+            instance_double(Sidekiq::RetrySet, size: 1)
+          )
           get "/healthcheck"
         end
 
@@ -107,9 +124,7 @@ RSpec.describe StatusController do
     end
 
     context "when everything is ok" do
-      before do
-        get "/healthcheck"
-      end
+      before { get "/healthcheck" }
 
       let(:expected_response) do
         {
@@ -117,8 +132,8 @@ RSpec.describe StatusController do
             database: true,
             redis: true,
             sidekiq: true,
-            sidekiq_queue: true,
-          },
+            sidekiq_queue: true
+          }
         }.to_json
       end
 
@@ -137,15 +152,17 @@ RSpec.describe StatusController do
           "build_date" => "20220301",
           "build_tag" => "test",
           "git_commit" => "ab12345",
-          "app_branch" => "test_branch",
+          "app_branch" => "test_branch"
         }
       end
 
       before do
-        allow(Rails.configuration.x.status).to receive_messages(build_date: "20220301",
-                                                                build_tag: "test",
-                                                                git_commit: "ab12345",
-                                                                app_branch: "test_branch")
+        allow(Rails.configuration.x.status).to receive_messages(
+          build_date: "20220301",
+          build_tag: "test",
+          git_commit: "ab12345",
+          app_branch: "test_branch"
+        )
         get("/ping")
       end
 
@@ -156,10 +173,12 @@ RSpec.describe StatusController do
 
     context "when environment variables not set" do
       before do
-        allow(Rails.configuration.x.status).to receive_messages(build_date: "Not Available",
-                                                                build_tag: "Not Available",
-                                                                git_commit: "Not Available",
-                                                                app_branch: "Not Available")
+        allow(Rails.configuration.x.status).to receive_messages(
+          build_date: "Not Available",
+          build_tag: "Not Available",
+          git_commit: "Not Available",
+          app_branch: "Not Available"
+        )
         get "/ping"
       end
 

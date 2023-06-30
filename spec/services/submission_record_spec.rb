@@ -10,31 +10,33 @@ RSpec.describe SubmissionRecord do
       first_name: "Jim",
       last_name: "Bob",
       date_of_birth: "2001-01-01",
-      nino: "JA123456D",
+      nino: "JA123456D"
     }
   end
 
   it "has required attributes for a submission record from a csv" do
-    expect(instance)
-      .to respond_to(:period_start_date,
-                     :period_end_date,
-                     :first_name,
-                     :last_name,
-                     :date_of_birth,
-                     :nino)
+    expect(instance).to respond_to(
+      :period_start_date,
+      :period_end_date,
+      :first_name,
+      :last_name,
+      :date_of_birth,
+      :nino
+    )
   end
 
   describe "#members" do
     subject(:members) { described_class.new.members }
 
     it "returns list of attributes" do
-      expect(members).to include(:period_start_date,
-                     :period_end_date,
-                     :first_name,
-                     :last_name,
-                     :date_of_birth,
-                     :nino,
-                     )
+      expect(members).to include(
+        :period_start_date,
+        :period_end_date,
+        :first_name,
+        :last_name,
+        :date_of_birth,
+        :nino
+      )
     end
   end
 
@@ -47,7 +49,8 @@ RSpec.describe SubmissionRecord do
       let(:row) { { period_start_date: "2023-01-32" } }
 
       it "raises date error" do
-        expect { period_start_at }.to raise_error Date::Error, "invalid date for period_start_at"
+        expect { period_start_at }.to raise_error Date::Error,
+                    "invalid date for period_start_at"
       end
     end
   end
@@ -61,7 +64,8 @@ RSpec.describe SubmissionRecord do
       let(:row) { { period_end_date: "2023-01-32" } }
 
       it "raises date error" do
-        expect { period_end_at }.to raise_error Date::Error, "invalid date for period_end_at"
+        expect { period_end_at }.to raise_error Date::Error,
+                    "invalid date for period_end_at"
       end
     end
   end

@@ -9,7 +9,9 @@ RSpec.describe Users::MockAzureController, type: :request do
   describe "GET users/mock_azure" do
     before do
       allow(Rails.configuration.x).to receive(:mock_azure).and_return(true)
-      allow(Rails.configuration.x).to receive(:mock_azure_password).and_return("mockazurepassword")
+      allow(Rails.configuration.x).to receive(:mock_azure_password).and_return(
+        "mockazurepassword"
+      )
       Rails.application.reload_routes!
       get user_session_path
     end
@@ -26,8 +28,12 @@ RSpec.describe Users::MockAzureController, type: :request do
     before do
       user
       allow(Rails.configuration.x).to receive(:mock_azure).and_return(true)
-      allow(Rails.configuration.x).to receive(:mock_azure_username).and_return(username)
-      allow(Rails.configuration.x).to receive(:mock_azure_password).and_return("mockazurepassword")
+      allow(Rails.configuration.x).to receive(:mock_azure_username).and_return(
+        username
+      )
+      allow(Rails.configuration.x).to receive(:mock_azure_password).and_return(
+        "mockazurepassword"
+      )
       Rails.application.reload_routes!
       post user_session_path, params:
     end
@@ -35,13 +41,17 @@ RSpec.describe Users::MockAzureController, type: :request do
     let(:username) { "mock.azure@example.com" }
 
     let(:user) do
-      User.create!(email: "mock.azure@example.com",
-                   first_name: "Mock",
-                   last_name: "Azure")
+      User.create!(
+        email: "mock.azure@example.com",
+        first_name: "Mock",
+        last_name: "Azure"
+      )
     end
 
     context "when username and password are correct" do
-      let(:params) { { user: { email: username, password: 'mockazurepassword' } } }
+      let(:params) do
+        { user: { email: username, password: "mockazurepassword" } }
+      end
 
       it "redirects to authenticated users root path" do
         expect(flash[:notice]).to match(/Signed in successfully./)
@@ -50,7 +60,9 @@ RSpec.describe Users::MockAzureController, type: :request do
     end
 
     context "when user doesn't exist" do
-      let(:params) { { user: { email: 'no.user@example.com', password: 'irrelevant' } } }
+      let(:params) do
+        { user: { email: "no.user@example.com", password: "irrelevant" } }
+      end
 
       it "redirects to fallback location and sets flash" do
         expect(flash[:notice]).to match(/User not found or authorised!/)
@@ -59,11 +71,16 @@ RSpec.describe Users::MockAzureController, type: :request do
     end
 
     context "when user exists and password is valid mock password but is not the mock user" do
-      let(:params) { { user: { email: 'jim.bob@example.com', password: 'mockazurepassword' } } }
-
-      let(:user) do
-        User.create!(email: "jim.bob@example.com")
+      let(:params) do
+        {
+          user: {
+            email: "jim.bob@example.com",
+            password: "mockazurepassword"
+          }
+        }
       end
+
+      let(:user) { User.create!(email: "jim.bob@example.com") }
 
       it "redirects to fallback location and sets flash" do
         expect(flash[:notice]).to match(/User not found or authorised!/)
@@ -72,7 +89,7 @@ RSpec.describe Users::MockAzureController, type: :request do
     end
 
     context "when password is incorrect" do
-      let(:params) { { user: { email: username, password: 'awrongpassword' } } }
+      let(:params) { { user: { email: username, password: "awrongpassword" } } }
 
       it "redirects to fallback location and sets flash" do
         expect(flash[:notice]).to match(/User not found or authorised!/)

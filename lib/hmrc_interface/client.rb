@@ -1,4 +1,4 @@
-require 'forwardable'
+require "forwardable"
 
 module HmrcInterface
   class Client
@@ -12,12 +12,12 @@ module HmrcInterface
       @connection = Connection.new(self)
     end
 
-     def headers
+    def headers
       configuration.headers.merge(
         {
           "Content-Type" => "application/json",
           "Accept" => "application/json",
-          "Authorization" => "Bearer #{bearer_token}",
+          "Authorization" => "Bearer #{bearer_token}"
         }
       )
     end
@@ -27,18 +27,20 @@ module HmrcInterface
     end
 
     def access_token
-      @access_token = new_access_token if @access_token.nil? || @access_token.expired?
+      @access_token = new_access_token if @access_token.nil? ||
+        @access_token.expired?
       @access_token
     end
 
-private
+    private
 
     def oauth_client
-      @oauth_client ||= ::OAuth2::Client.new(
-        configuration.client_id,
-        configuration.client_secret,
-        site: configuration.host,
-      )
+      @oauth_client ||=
+        ::OAuth2::Client.new(
+          configuration.client_id,
+          configuration.client_secret,
+          site: configuration.host
+        )
     end
 
     def new_access_token

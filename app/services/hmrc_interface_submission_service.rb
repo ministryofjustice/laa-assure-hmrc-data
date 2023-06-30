@@ -5,7 +5,11 @@ class HmrcInterfaceSubmissionService
     new(*args).call
   end
 
-  def initialize(submission_id, number_in_queue = 0, requestor = HmrcInterface::Request::Submission)
+  def initialize(
+    submission_id,
+    number_in_queue = 0,
+    requestor = HmrcInterface::Request::Submission
+  )
     @submission = Submission.find(submission_id)
     @number_in_queue = number_in_queue
     @requestor = requestor
@@ -18,7 +22,10 @@ class HmrcInterfaceSubmissionService
 
     if response[:id].present?
       submission.update!(hmrc_interface_id: response[:id], status: "submitted")
-      HmrcInterfaceResultWorker.set(queue:).perform_in(delay.seconds, submission.id)
+      HmrcInterfaceResultWorker.set(queue:).perform_in(
+        delay.seconds,
+        submission.id
+      )
     end
   end
 
@@ -39,7 +46,7 @@ class HmrcInterfaceSubmissionService
       end_date: submission.period_end_at,
       first_name: submission.first_name,
       last_name: submission.last_name,
-      dob: submission.dob,
+      dob: submission.dob
     }
   end
 

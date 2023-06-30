@@ -17,14 +17,16 @@ RSpec.describe HmrcInterface::Request::Result do
         call
 
         expect(
-          a_request(
-            :post,
-            "#{fake_host}/oauth/token"
-          ).with(body: "grant_type=client_credentials&scopes=use_case_one%2Cuse_case_two",
-                 headers: { 'Accept'=>'*/*',
-                            'Content-Type'=>'application/x-www-form-urlencoded',
-                            'Accept-Encoding'=>/.*/,
-                            'Authorization'=>/Basic .*/ })
+          a_request(:post, "#{fake_host}/oauth/token").with(
+            body:
+              "grant_type=client_credentials&scopes=use_case_one%2Cuse_case_two",
+            headers: {
+              "Accept" => "*/*",
+              "Content-Type" => "application/x-www-form-urlencoded",
+              "Accept-Encoding" => /.*/,
+              "Authorization" => /Basic .*/
+            }
+          )
         ).to have_been_made.at_least_once
       end
 
@@ -35,16 +37,23 @@ RSpec.describe HmrcInterface::Request::Result do
           a_request(
             :get,
             "#{fake_host}/api/v1/submission/result/#{submission_id}"
-          ).with(headers: { 'Accept'=>'application/json',
-                            'Content-Type'=>'application/json',
-                            'Accept-Encoding'=>/.*/,
-                            'Authorization'=>'Bearer test-bearer-token',
-                            'User-Agent'=>'laa-hmrc-interface-client/0.0.1'})
+          ).with(
+            headers: {
+              "Accept" => "application/json",
+              "Content-Type" => "application/json",
+              "Accept-Encoding" => /.*/,
+              "Authorization" => "Bearer test-bearer-token",
+              "User-Agent" => "laa-hmrc-interface-client/0.0.1"
+            }
+          )
         ).to have_been_made.once
       end
 
       it "returns expected parsed JSON response" do
-        file = file_fixture("results/hmrc_interface_successful_result_response_body.json")
+        file =
+          file_fixture(
+            "results/hmrc_interface_successful_result_response_body.json"
+          )
         json = file.read
         parsed_json = JSON.parse(json, symbolize_names: true)
 
@@ -56,19 +65,25 @@ RSpec.describe HmrcInterface::Request::Result do
       include_context "with stubbed host and bearer token"
 
       before do
-        stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
-          .to_return(
-            status: 202,
-            body: expected_body.to_json,
-            headers: { "Content-Type" => "application/json; charset=utf-8" },
-          )
+        stub_request(
+          :get,
+          %r{#{fake_host}/api/v1/submission/result/.*}
+        ).to_return(
+          status: 202,
+          body: expected_body.to_json,
+          headers: {
+            "Content-Type" => "application/json; charset=utf-8"
+          }
+        )
       end
 
       let(:expected_body) do
         {
           submission: "fake-hmrc-interface-submission-id",
           status: "processing",
-          _links: [href: "#{fake_host}/api/v1/submission/status/#{submission_id}"]
+          _links: [
+            href: "#{fake_host}/api/v1/submission/status/#{submission_id}"
+          ]
         }
       end
 
@@ -81,12 +96,16 @@ RSpec.describe HmrcInterface::Request::Result do
       include_context "with stubbed host and bearer token"
 
       before do
-        stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
-          .to_return(
-            status: 200,
-            body: expected_body.to_json,
-            headers: { "Content-Type" => "application/json; charset=utf-8" },
-          )
+        stub_request(
+          :get,
+          %r{#{fake_host}/api/v1/submission/result/.*}
+        ).to_return(
+          status: 200,
+          body: expected_body.to_json,
+          headers: {
+            "Content-Type" => "application/json; charset=utf-8"
+          }
+        )
       end
 
       let(:expected_body) do
@@ -95,7 +114,10 @@ RSpec.describe HmrcInterface::Request::Result do
           status: "processing",
           data: [
             { correlation_id: submission_id, use_case: "use_case_one" },
-            { error: "submitted client details could not be found in HMRC service" },
+            {
+              error:
+                "submitted client details could not be found in HMRC service"
+            }
           ]
         }
       end
@@ -110,12 +132,16 @@ RSpec.describe HmrcInterface::Request::Result do
       include_context "with stubbed host and bearer token"
 
       before do
-        stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
-          .to_return(
-            status: 500,
-            body: expected_body.to_json,
-            headers: { "Content-Type" => "application/json; charset=utf-8" },
-          )
+        stub_request(
+          :get,
+          %r{#{fake_host}/api/v1/submission/result/.*}
+        ).to_return(
+          status: 500,
+          body: expected_body.to_json,
+          headers: {
+            "Content-Type" => "application/json; charset=utf-8"
+          }
+        )
       end
 
       let(:expected_body) do
@@ -128,10 +154,11 @@ RSpec.describe HmrcInterface::Request::Result do
       end
 
       it "raises HmrcInterface::RequestUnacceptable error with expected message" do
-          expect { call }
-            .to raise_error(HmrcInterface::IncompleteResult,
-                            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 500, details: #{expected_body}")
-        end
+        expect { call }.to raise_error(
+          HmrcInterface::IncompleteResult,
+          "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 500, details: #{expected_body}"
+        )
+      end
     end
 
     context "when an error occurs in authentication" do
@@ -140,23 +167,24 @@ RSpec.describe HmrcInterface::Request::Result do
 
       context "with invalid credentials" do
         before do
-          stub_request(:post, %r{#{fake_host}/oauth/token})
-            .to_raise(OAuth2::Error)
+          stub_request(:post, %r{#{fake_host}/oauth/token}).to_raise(
+            OAuth2::Error
+          )
         end
 
         it "logs the exception as information and raises HmrcInterface::RequestError error" do
           allow(Rails.logger).to receive(:info).and_call_original
 
-          expect { call }.to raise_error HmrcInterface::RequestError, /#{described_class} received OAuth2::Error/
+          expect { call }.to raise_error HmrcInterface::RequestError,
+                      /#{described_class} received OAuth2::Error/
 
-          expect(Rails.logger)
-            .to have_received(:info) do |&block|
-                  expect(block.call)
-                    .to include(message:/#{described_class} received OAuth2::Error/)
-                    .and include(backtrace: /.*/)
-                    .and include(http_method: "GET")
-                    .and include(http_status: nil)
-                end
+          expect(Rails.logger).to have_received(:info) do |&block|
+            expect(block.call).to include(
+              message: /#{described_class} received OAuth2::Error/
+            ).and include(backtrace: /.*/).and include(
+                          http_method: "GET"
+                        ).and include(http_status: nil)
+          end
         end
       end
     end
@@ -168,16 +196,16 @@ RSpec.describe HmrcInterface::Request::Result do
         it "logs the exception as information and raises HmrcInterface::RequestError error" do
           allow(Rails.logger).to receive(:info).and_call_original
 
-          expect { call }.to raise_error HmrcInterface::RequestError, /#{described_class} received StandardError/
+          expect { call }.to raise_error HmrcInterface::RequestError,
+                      /#{described_class} received StandardError/
 
-          expect(Rails.logger)
-            .to have_received(:info) do |&block|
-                  expect(block.call)
-                    .to include(message:/#{described_class} received StandardError/)
-                    .and include(backtrace: /.*/)
-                    .and include(http_method: "GET")
-                    .and include(http_status: nil)
-                end
+          expect(Rails.logger).to have_received(:info) do |&block|
+            expect(block.call).to include(
+              message: /#{described_class} received StandardError/
+            ).and include(backtrace: /.*/).and include(
+                          http_method: "GET"
+                        ).and include(http_status: nil)
+          end
         end
       end
 
@@ -189,22 +217,22 @@ RSpec.describe HmrcInterface::Request::Result do
             success: false,
             error_class: "FakeHmrcInterface::BadRequest",
             message: "fake error message",
-            backtrace: ["fake error backtrace"],
+            backtrace: ["fake error backtrace"]
           }
         end
 
         before do
-           stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
-            .to_return(
-              status: 400,
-              body: fake_error_body.to_json
-            )
+          stub_request(
+            :get,
+            %r{#{fake_host}/api/v1/submission/result/.*}
+          ).to_return(status: 400, body: fake_error_body.to_json)
         end
 
         it "raises HmrcInterface::RequestUnacceptable error with expected message" do
-          expect { call }
-            .to raise_error(HmrcInterface::RequestUnacceptable,
-                            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 400, details: #{fake_error_body}")
+          expect { call }.to raise_error(
+            HmrcInterface::RequestUnacceptable,
+            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 400, details: #{fake_error_body}"
+          )
         end
       end
 
@@ -216,22 +244,22 @@ RSpec.describe HmrcInterface::Request::Result do
             success: false,
             error_class: "FakeHmrcInterface::InternalServerError",
             message: "fake error message",
-            backtrace: ["fake error backtrace"],
+            backtrace: ["fake error backtrace"]
           }
         end
 
         before do
-          stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
-            .to_return(
-              status: 503,
-              body: fake_error_body.to_json
-            )
+          stub_request(
+            :get,
+            %r{#{fake_host}/api/v1/submission/result/.*}
+          ).to_return(status: 503, body: fake_error_body.to_json)
         end
 
         it "raises HmrcInterface::RequestUnacceptable error with expected message" do
-          expect { call }
-            .to raise_error(HmrcInterface::RequestUnacceptable,
-                            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{fake_error_body}")
+          expect { call }.to raise_error(
+            HmrcInterface::RequestUnacceptable,
+            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{fake_error_body}"
+          )
         end
       end
 
@@ -241,17 +269,17 @@ RSpec.describe HmrcInterface::Request::Result do
         let(:malformed_json_error_body) { "something went wrong!!" }
 
         before do
-          stub_request(:get, %r{#{fake_host}/api/v1/submission/result/.*})
-            .to_return(
-              status: 503,
-              body: malformed_json_error_body
-            )
+          stub_request(
+            :get,
+            %r{#{fake_host}/api/v1/submission/result/.*}
+          ).to_return(status: 503, body: malformed_json_error_body)
         end
 
         it "raises HmrcInterface::RequestUnacceptable error with expected message" do
-          expect { call }
-            .to raise_error(HmrcInterface::RequestUnacceptable,
-                            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{malformed_json_error_body}")
+          expect { call }.to raise_error(
+            HmrcInterface::RequestUnacceptable,
+            "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{malformed_json_error_body}"
+          )
         end
       end
     end
@@ -263,7 +291,10 @@ RSpec.describe HmrcInterface::Request::Result do
     include_context "with stubbed hmrc-interface result completed"
 
     it "returns expected parsed JSON response" do
-      file = file_fixture("results/hmrc_interface_successful_result_response_body.json")
+      file =
+        file_fixture(
+          "results/hmrc_interface_successful_result_response_body.json"
+        )
       json = file.read
       parsed_json = JSON.parse(json, symbolize_names: true)
 

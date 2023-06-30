@@ -1,7 +1,7 @@
 require "rails_helper"
 
 RSpec.describe SubmissionQueueNameService do
-  let(:use_case) { 'one' }
+  let(:use_case) { "one" }
 
   describe ".call" do
     subject(:call) { described_class.call(use_case) }
@@ -9,7 +9,9 @@ RSpec.describe SubmissionQueueNameService do
     context "when the service is called in UAT for use case one" do
       before do
         allow(Rails.configuration.x).to receive(:host_env).and_return("uat")
-        allow(Rails.configuration.x.status).to receive(:app_branch).and_return("this-is/a.test-branch")
+        allow(Rails.configuration.x.status).to receive(:app_branch).and_return(
+          "this-is/a.test-branch"
+        )
       end
 
       it "suffixes the submission queue name with the branch name" do
@@ -18,7 +20,7 @@ RSpec.describe SubmissionQueueNameService do
     end
 
     context "when the service is called anywhere other than UAT for use case two" do
-      let(:use_case) { 'two' }
+      let(:use_case) { "two" }
 
       before do
         allow(Rails.configuration.x).to receive(:host_env).and_return("test")

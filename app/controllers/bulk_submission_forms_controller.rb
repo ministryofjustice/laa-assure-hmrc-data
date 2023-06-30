@@ -4,7 +4,13 @@ class BulkSubmissionFormsController < ApplicationController
   end
 
   def create
-    @form = BulkSubmissionForm.new(bulk_submission_form_params.merge(user_id: current_user.id, status: "pending"))
+    @form =
+      BulkSubmissionForm.new(
+        bulk_submission_form_params.merge(
+          user_id: current_user.id,
+          status: "pending"
+        )
+      )
 
     respond_to do |format|
       format.html { respond_to_create_with_html }
@@ -17,10 +23,13 @@ class BulkSubmissionFormsController < ApplicationController
   end
 
   def update
-    @form = BulkSubmissionForm.new(bulk_submission_form_params
-                                     .except(:id)
-                                     .merge(bulk_submission: bulk_submission_from_params,
-                                            user_id: current_user.id))
+    @form =
+      BulkSubmissionForm.new(
+        bulk_submission_form_params.except(:id).merge(
+          bulk_submission: bulk_submission_from_params,
+          user_id: current_user.id
+        )
+      )
 
     respond_to do |format|
       format.html { respond_to_update_with_html }
@@ -36,7 +45,7 @@ class BulkSubmissionFormsController < ApplicationController
     redirect_to new_bulk_submission_form_path
   end
 
-private
+  private
 
   def bulk_submission_from_params
     BulkSubmission.find(bulk_submission_form_params[:id])
@@ -68,7 +77,8 @@ private
 
   def respond_to_create_with_json
     if @form.save
-      head :created, location: edit_bulk_submission_form_url(@form.bulk_submission.id)
+      head :created,
+           location: edit_bulk_submission_form_url(@form.bulk_submission.id)
     else
       render json: { errors: @form.errors }, status: :unprocessable_entity
     end
@@ -81,11 +91,9 @@ private
       else
         render :edit, id: bulk_submission_form_params[:id]
       end
-
     elsif params[:uploaded_file].nil? && upload_button_pressed?
       @form.errors.add(:uploaded_file, :blank)
       render :edit, id: bulk_submission_form_params[:id]
-
     elsif @form.update
       if upload_button_pressed?
         redirect_to edit_bulk_submission_form_path(@form.bulk_submission.id)
@@ -99,7 +107,8 @@ private
 
   def response_to_update_with_json
     if @form.update
-      head :accepted, location: edit_bulk_submission_form_url(@form.bulk_submission.id)
+      head :accepted,
+           location: edit_bulk_submission_form_url(@form.bulk_submission.id)
     else
       render json: { errors: @form.errors }, status: :unprocessable_entity
     end

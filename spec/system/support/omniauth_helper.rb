@@ -12,7 +12,9 @@ end
 RSpec.configure do |config|
   config.before(:each, type: :system) do
     Rails.application.env_config["devise.mapping"] = Devise.mappings[:user] # If using Devise
-    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[:azure_ad]
+    Rails.application.env_config["omniauth.auth"] = OmniAuth.config.mock_auth[
+      :azure_ad
+    ]
   end
 end
 
@@ -21,11 +23,7 @@ end
 # nameley: "ERROR -- omniauth: (azure_ad) Authentication failure! invalid_credentials encountered"
 RSpec.configure do |config|
   config.around(:each, omniauth_failure: true) do |example|
-    mock_azure_ad_invalid_credentials do
-      silence_stdout do
-        example.run
-      end
-    end
+    mock_azure_ad_invalid_credentials { silence_stdout { example.run } }
   end
 end
 

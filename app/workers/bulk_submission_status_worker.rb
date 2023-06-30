@@ -3,11 +3,11 @@ class BulkSubmissionStatusWorker < ApplicationWorker
   sidekiq_options queue: DefaultQueueNameService.call
 
   sidekiq_retries_exhausted do |job, _ex|
-    bulk_submission = BulkSubmission.find(job['args']&.first)
+    bulk_submission = BulkSubmission.find(job["args"]&.first)
     bulk_submission.exhausted!
 
     Sentry.capture_message <<~ERROR
-      "Failed #{job['class']} for bulk_submission #{job['args']}: #{job['error_message']} - status marked as \"exhausted\""
+      "Failed #{job["class"]} for bulk_submission #{job["args"]}: #{job["error_message"]} - status marked as \"exhausted\""
     ERROR
   end
 
@@ -18,7 +18,8 @@ class BulkSubmissionStatusWorker < ApplicationWorker
       bulk_submission.completed!
       BulkSubmissionResultWriterWorker.perform_async(bulk_submission.id)
     else
-      raise WorkerErrors::TryAgain, "waiting for bulk_submission with id #{bulk_submission.id} to complete..."
+      raise WorkerErrors::TryAgain,
+            "waiting for bulk_submission with id #{bulk_submission.id} to complete..."
     end
 
     super

@@ -13,15 +13,14 @@
 //
 import Dropzone from 'dropzone'
 
-import {
-  addErrorMessage,
-  removeErrorMessages
-} from './govuk_errors_helper'
+import { addErrorMessage, removeErrorMessages } from './govuk_errors_helper'
 
-document.addEventListener('DOMContentLoaded', event => {
+document.addEventListener('DOMContentLoaded', (event) => {
   const uploadForm = document.querySelector('.upload-file-form')
   const dropzoneElem = document.querySelector('#dropzone-form')
-  const statusMessage = document.querySelector('#dropzone-upload-status-message')
+  const statusMessage = document.querySelector(
+    '#dropzone-upload-status-message'
+  )
 
   if (dropzoneElem) {
     const url = uploadForm.action
@@ -38,7 +37,9 @@ document.addEventListener('DOMContentLoaded', event => {
       url,
       method,
       headers: {
-        'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]')?.getAttribute('content')
+        'X-CSRF-TOKEN': document
+          .querySelector('meta[name="csrf-token"]')
+          ?.getAttribute('content')
       },
       paramName,
       disablePreviews: true,
@@ -48,12 +49,11 @@ document.addEventListener('DOMContentLoaded', event => {
     dropzone.on('drop', (e) => {
       removeErrorMessages()
     })
-    dropzone.on('addedfile', file => {
+    dropzone.on('addedfile', (file) => {
       statusMessage.innerHTML = 'Your file is being uploaded.'
       removeErrorMessages()
     })
-    dropzone.on('sending', (file, xhr, formData) => {
-    })
+    dropzone.on('sending', (file, xhr, formData) => {})
     dropzone.on('success', (file) => {
       dropzone.removeFile(file.name)
 

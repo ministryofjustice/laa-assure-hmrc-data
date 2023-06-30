@@ -22,10 +22,10 @@ it "does something depending on javascript", type: :system, js: true do
   visit "/"
   expect(page).to have...
 end
-
 ```
 
 To test with non-headless custom registered `:chrome` driver you can use
+
 ```sh
 # test using :chrome driver
 BROWSER=true bundle exec rspec
@@ -38,7 +38,9 @@ see `spec/system/support/*_helper.rb` for more details
 System tests use Omniauth config to stub a single user auth hash. As long as tests create a user that matches the `auth_subject_id` or `email` address and `auth_provider` for that user then you can sign in.
 
 ```ruby
-before { User.create!(email: "Jim.Bob@example.co.uk", auth_provider: "azure_ad") }
+before do
+  User.create!(email: "Jim.Bob@example.co.uk", auth_provider: "azure_ad")
+end
 
 it "signs in" do
   visit "/"
