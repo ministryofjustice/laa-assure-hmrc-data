@@ -21,8 +21,10 @@ Layout/LineLength:
     - db/**/*.rb
     - spec/lib/hmrc_interface/request/submission_spec.rb
     - spec/lib/hmrc_interface/request/result_spec.rb
+    - spec/models/concerns/hmrc_interface_resultable_spec.rb
     - spec/support/shared_contexts/hmrc_interface_stubs.rb
     - spec/system/bulk_submission_form_dropzone_spec.rb
+    - spec/models/concerns/hmrc_interface_resultable_spec.rb
 
 Style/NumericLiterals:
   Exclude:
