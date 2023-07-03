@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Submission, type: :model do
+RSpec.describe Submission do
   let(:instance) { create(:submission) }
 
   it_behaves_like "discardable model"

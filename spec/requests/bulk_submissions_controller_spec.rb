@@ -1,6 +1,6 @@
 require 'system_helper'
 
-RSpec.describe BulkSubmissionsController, type: :request do
+RSpec.describe BulkSubmissionsController do
   before { sign_in user }
 
   let(:user) { create(:user) }

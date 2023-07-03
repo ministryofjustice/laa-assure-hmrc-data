@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe BulkSubmission, type: :model do
+RSpec.describe BulkSubmission do
   let(:instance) { create(:bulk_submission, user:) }
   let(:user) { create(:user) }
 

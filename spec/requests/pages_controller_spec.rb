@@ -1,6 +1,6 @@
 require "system_helper"
 
-RSpec.describe PagesController, type: :request do
+RSpec.describe PagesController do
   describe "#landing" do
     it "returns http success" do
       get "/"

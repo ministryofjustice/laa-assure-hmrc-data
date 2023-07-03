@@ -1,6 +1,6 @@
 require "rails_helper"
 
-RSpec.describe User, type: :model do
+RSpec.describe User do
   describe "#email" do
     let(:email) { "Jo.Example@example.com" }
     let(:auth_provider) { "azure_ad" }

@@ -1,6 +1,6 @@
 require "system_helper"
 
-RSpec.describe Users::OmniauthCallbacksController, type: :request do
+RSpec.describe Users::OmniauthCallbacksController do
   describe "POST users/auth/azure_ad/callback" do
     before do
       user

@@ -3,7 +3,7 @@ require 'system_helper'
 # Request specs do not excercise JS, only the
 # non-JS controller actions
 #
-RSpec.describe BulkSubmissionFormsController, type: :request do
+RSpec.describe BulkSubmissionFormsController do
   before { sign_in user }
 
   let(:user) { create(:user) }
