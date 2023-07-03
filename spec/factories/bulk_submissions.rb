@@ -16,7 +16,7 @@ FactoryBot.define do
     end
 
     trait :discarded do
-      discarded_at { Time.current - 1.second }
+      discarded_at { 1.second.ago }
     end
 
     trait :undiscarded do
