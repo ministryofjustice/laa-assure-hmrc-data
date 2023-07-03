@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :bulk_submission do
-    association :user
+    user
     status { 'pending' }
 
     trait :pending do
