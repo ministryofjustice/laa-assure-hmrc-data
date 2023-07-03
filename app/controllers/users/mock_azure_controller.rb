@@ -2,12 +2,9 @@ class Users::MockAzureController < Devise::SessionsController
   def create
     user = User.find_by(email: mock_azure_params[:email])
 
-    if (
-         mock_azure_params[:email] ==
-           Rails.configuration.x.mock_azure_username &&
-           mock_azure_params[:password] ==
-             Rails.configuration.x.mock_azure_password && user
-       )
+    if user &&
+        mock_azure_params[:email] == Rails.configuration.x.mock_azure_username &&
+        mock_azure_params[:password] == Rails.configuration.x.mock_azure_password
       flash[:notice] = I18n.t "devise.sessions.signed_in"
       sign_in_and_redirect user, event: :authentication
     else

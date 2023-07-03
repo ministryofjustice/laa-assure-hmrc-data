@@ -20,9 +20,9 @@ RSpec.describe User, type: :model do
     end
 
     it "has case insensitive uniqueness enforced by the db" do
-      expect do
+      expect {
         described_class.create!(email: email.downcase, auth_provider:)
-      end.to(
+      }.to(
         raise_error(
           ActiveRecord::RecordNotUnique,
           /Key \(email\)=\(jo.example@example.com\) already exists/

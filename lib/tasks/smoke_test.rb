@@ -35,7 +35,7 @@ module HmrcInterface
     private
 
     def time_iterate(duration:, interval:)
-      while (Time.current <= duration.from_now)
+      while Time.current <= duration.from_now
         yield(Time.current)
         sleep(interval)
       end

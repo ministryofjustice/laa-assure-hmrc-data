@@ -172,66 +172,66 @@ class BulkSubmissionForm
 
   def validate_first_names
     csv.by_col["first_name"].each_with_index do |first_name, index|
-      if first_name.blank?
-        errors.add(
-          :uploaded_file,
-          :missing_first_name,
-          filename: uploaded_file.original_filename,
-          row_num: index + 2
-        )
-      end
+      next if first_name.present?
+
+      errors.add(
+        :uploaded_file,
+        :missing_first_name,
+        filename: uploaded_file.original_filename,
+        row_num: index + 2
+      )
     end
   end
 
   def validate_last_names
     csv.by_col["last_name"].each_with_index do |last_name, index|
-      if last_name.blank?
-        errors.add(
-          :uploaded_file,
-          :missing_last_name,
-          filename: uploaded_file.original_filename,
-          row_num: index + 2
-        )
-      end
+      next if last_name.present?
+
+      errors.add(
+        :uploaded_file,
+        :missing_last_name,
+        filename: uploaded_file.original_filename,
+        row_num: index + 2
+      )
     end
   end
 
   def validate_ninos
     csv.by_col["nino"].each_with_index do |nino, index|
-      unless Submission::NINO_REGEXP.match? nino
-        errors.add(
-          :uploaded_file,
-          :invalid_nino,
-          filename: uploaded_file.original_filename,
-          row_num: index + 2
-        )
-      end
+      next if Submission::NINO_REGEXP.match?(nino)
+
+      errors.add(
+        :uploaded_file,
+        :invalid_nino,
+        filename: uploaded_file.original_filename,
+        row_num: index + 2
+      )
     end
   end
 
   def validate_dobs
     csv.by_col["date_of_birth"].each_with_index do |dob, index|
-      unless valid_date?(parse_date(dob))
-        errors.add(
-          :uploaded_file,
-          :invalid_dob,
-          filename: uploaded_file.original_filename,
-          row_num: index + 2
-        )
-      end
+      next if valid_date?(parse_date(dob))
+
+      errors.add(
+        :uploaded_file,
+        :invalid_dob,
+        filename: uploaded_file.original_filename,
+        row_num: index + 2
+      )
     end
   end
 
   def validate_period_start_dates
     csv.by_col["period_start_date"].each_with_index do |start_date, index|
-      unless valid_date?(parse_date(start_date))
-        errors.add(
-          :uploaded_file,
-          :invalid_period_start_date,
-          filename: uploaded_file.original_filename,
-          row_num: index + 2
-        )
-      end
+      next if valid_date?(parse_date(start_date))
+
+      errors.add(
+        :uploaded_file,
+        :invalid_period_start_date,
+        filename: uploaded_file.original_filename,
+        row_num: index + 2
+      )
     end
   end
 
@@ -247,6 +247,7 @@ class BulkSubmissionForm
           filename: uploaded_file.original_filename,
           row_num: index + 2
         )
+
       elsif valid_date?(parsed_start_date) &&
             (parsed_end_date < parsed_start_date)
         errors.add(
