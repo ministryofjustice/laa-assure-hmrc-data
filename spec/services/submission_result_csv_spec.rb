@@ -276,5 +276,25 @@ RSpec.describe SubmissionResultCsv do
         expect(row).to match(expected_values)
       end
     end
+
+    # should never occur except when amending code to add or remove headers/row-items
+    context "with a mismatched number of headers and row items" do
+      before do
+        allow(described_class).to receive(:headers).and_return([:period_start_date])
+      end
+
+      let(:submission) do
+        create(
+          :submission,
+          :for_john_doe,
+          :with_failed_use_case_one_hmrc_interface_result,
+          bulk_submission:
+        )
+      end
+
+      it "raises StandardError with custom message" do
+        expect { row }.to raise_error(StandardError, "mismatched header and row element size")
+      end
+    end
   end
 end
