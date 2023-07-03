@@ -79,7 +79,7 @@ RSpec.describe BulkSubmission do
   describe "#original_file" do
     subject { instance.original_file }
 
-    let(:file_io) { File.open(Rails.root.join('spec/fixtures/files/basic_bulk_submission.csv')) }
+    let(:file_io) { Rails.root.join('spec/fixtures/files/basic_bulk_submission.csv').open }
 
     it { is_expected.to be_an_instance_of(ActiveStorage::Attached::One) }
 
