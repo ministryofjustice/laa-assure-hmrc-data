@@ -2,7 +2,9 @@
 
 # Add to patch a zietwerk loading error due to not using ActionMailer with devise
 if Rails.autoloaders.zeitwerk_enabled?
+  # rubocop: disable Lint/EmptyClass
   class Devise::Mailer; end
+  # rubocop: enable Lint/EmptyClass
 end
 
 # Assuming you have not yet modified this file, each configuration option below
