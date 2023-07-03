@@ -55,7 +55,7 @@ RSpec.describe BulkSubmissionResultWriterService do
 
         expected_content = <<~CSV
           "period_start_date","period_end_date","first_name","last_name","date_of_birth","nino","status","comment","tax_credit_annual_award_amount","clients_income_from_employment","clients_ni_contributions_from_employment","start_and_end_dates_for_employments","most_recent_payment_from_employment","clients_income_from_self_employment","clients_income_from_other_sources","most_recent_payment_from_other_sources","uc_one_data","uc_two_data"
-          "2020-10-01","2020-12-31","John","Doe","2001-07-21","JA123456D","completed","","","0","0","","","","0","","[\n  {\n    "\"use_case\"": "\"use_case_one"\"\n  }\n]","[\n  {\n    "\"use_case\"": "\"use_case_two"\"\n  }\n]"
+          "2020-10-01","2020-12-31","John","Doe","2001-07-21","JA123456D","completed","","","0","0","","","","0","","[\n  {\n    ""use_case"": ""use_case_one""\n  }\n]","[\n  {\n    ""use_case"": ""use_case_two""\n  }\n]"
         CSV
 
         expect(bulk_submission.result_file.download).to eql(expected_content)

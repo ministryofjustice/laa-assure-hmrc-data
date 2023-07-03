@@ -7,7 +7,7 @@ class BulkSubmissionStatusWorker < ApplicationWorker
     bulk_submission.exhausted!
 
     Sentry.capture_message <<~ERROR
-      "Failed #{job['class']} for bulk_submission #{job['args']}: #{job['error_message']} - status marked as \"exhausted\""
+      "Failed #{job['class']} for bulk_submission #{job['args']}: #{job['error_message']} - status marked as "exhausted""
     ERROR
   end
 
