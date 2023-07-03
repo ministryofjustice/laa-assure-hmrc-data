@@ -36,6 +36,10 @@ Style/NumericLiterals:
 Lint/AmbiguousBlockAssociation:
   AllowedMethods: [change]
 
+Lint/RedundantDirGlobSort:
+  Exclude:
+    - spec/system_helper.rb
+
 Rails/SaveBang:
   Exclude:
     - spec/forms/bulk_submission_form_spec.rb
