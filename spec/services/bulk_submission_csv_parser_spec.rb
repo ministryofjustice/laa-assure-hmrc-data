@@ -135,7 +135,7 @@ RSpec.describe BulkSubmissionCsvParser do
                date_of_birth: '', nino: '' }
 
       instance = record_struct.new(**args)
-      expect(instance).to be_kind_of(Struct)
+      expect(instance).to be_a(Struct)
       expect(instance).to respond_to(*args.keys)
       expect(instance).to respond_to(:period_start_at, :period_end_at, :dob)
     end

@@ -18,7 +18,7 @@ RSpec.describe Submission do
   describe "#bulk_submission" do
     subject(:bulk_submission) { instance.bulk_submission }
 
-    it { is_expected.to be_kind_of(BulkSubmission) }
+    it { is_expected.to be_a(BulkSubmission) }
   end
 
   context "when validating" do
