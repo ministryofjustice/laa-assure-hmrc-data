@@ -3,6 +3,10 @@ class BulkSubmissionFormsController < ApplicationController
     @form = BulkSubmissionForm.new
   end
 
+  def edit
+    @form = BulkSubmissionForm.new(bulk_submission: bulk_submission_from_params)
+  end
+
   def create
     @form = BulkSubmissionForm.new(bulk_submission_form_params.merge(user_id: current_user.id, status: "pending"))
 
@@ -10,10 +14,6 @@ class BulkSubmissionFormsController < ApplicationController
       format.html { respond_to_create_with_html }
       format.json { respond_to_create_with_json }
     end
-  end
-
-  def edit
-    @form = BulkSubmissionForm.new(bulk_submission: bulk_submission_from_params)
   end
 
   def update
