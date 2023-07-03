@@ -35,8 +35,10 @@ RSpec.describe "Generation of a result file", type: :worker do
        clients_income_from_employment
        clients_ni_contributions_from_employment
        start_and_end_dates_for_employments
-       most_recent_payment
+       most_recent_payment_from_employment
        clients_income_from_self_employment
+       clients_income_from_other_sources
+       most_recent_payment_from_other_sources
        uc_one_data
        uc_two_data]
   end
@@ -81,8 +83,10 @@ RSpec.describe "Generation of a result file", type: :worker do
         clients_income_from_employment: "3867.26",
         clients_ni_contributions_from_employment: "165.20999999999998",
         start_and_end_dates_for_employments: "2023-01-26 to 2099-12-31\n2022-09-11 to 2022-11-11",
-        most_recent_payment: "2022-04-05: 1431.07",
-        clients_income_from_self_employment: ""
+        most_recent_payment_from_employment: "2022-04-05: 1431.07",
+        clients_income_from_self_employment: "",
+        clients_income_from_other_sources: "0.0",
+        most_recent_payment_from_other_sources: "2022-04-05: 0.0"
       }
     end
 
@@ -103,8 +107,10 @@ RSpec.describe "Generation of a result file", type: :worker do
         clients_income_from_employment: "0",
         clients_ni_contributions_from_employment: "0",
         start_and_end_dates_for_employments: "",
-        most_recent_payment: "",
-        clients_income_from_self_employment: "2019-20: 6487\n2020-21: 7995\n2021-22: 6824"
+        most_recent_payment_from_employment: "",
+        clients_income_from_self_employment: "2019-20: 6487\n2020-21: 7995\n2021-22: 6824",
+        clients_income_from_other_sources: "0",
+        most_recent_payment_from_other_sources: ""
       }
     end
 
@@ -125,8 +131,10 @@ RSpec.describe "Generation of a result file", type: :worker do
         clients_income_from_employment: "0",
         clients_ni_contributions_from_employment: "0",
         start_and_end_dates_for_employments: "",
-        most_recent_payment: "",
-        clients_income_from_self_employment: ""
+        most_recent_payment_from_employment: "",
+        clients_income_from_self_employment: "",
+        clients_income_from_other_sources: "0",
+        most_recent_payment_from_other_sources: ""
       }
     end
 

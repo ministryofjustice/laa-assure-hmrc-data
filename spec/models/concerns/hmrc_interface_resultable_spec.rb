@@ -261,7 +261,7 @@ RSpec.describe HmrcInterfaceResultable do
     context "with no data key" do
       let(:result) { { foo: [ { bar: "baz" } ] } }
 
-      it { expect(clients_income_from_employment).to be_nil }
+      it { expect(clients_income_from_employment).to be_zero }
     end
   end
 
@@ -362,7 +362,7 @@ RSpec.describe HmrcInterfaceResultable do
     context "with no data key" do
       let(:result) { { foo: [ { bar: "baz" } ] } }
 
-      it { expect(clients_ni_contributions_from_employment).to be_nil }
+      it { expect(clients_ni_contributions_from_employment).to be_zero }
     end
   end
 
@@ -479,8 +479,8 @@ RSpec.describe HmrcInterfaceResultable do
     end
   end
 
-  describe "#most_recent_payment" do
-    subject(:most_recent_payment) { instance.most_recent_payment }
+  describe "#most_recent_payment_from_employment" do
+    subject(:most_recent_payment_from_employment) { instance.most_recent_payment_from_employment }
 
     context "when multiple income exists" do
       let(:result) do
@@ -510,7 +510,7 @@ RSpec.describe HmrcInterfaceResultable do
       end
 
       it "returns the most recent/top income entry's #paymentDate and grossEarningsForNics#inPayPeriod1 value" do
-        expect(most_recent_payment).to eql("2022-03-17: 111.11")
+        expect(most_recent_payment_from_employment).to eql("2022-03-17: 111.11")
       end
     end
 
@@ -534,7 +534,7 @@ RSpec.describe HmrcInterfaceResultable do
       end
 
       it "returns the most recent/top income entry's #paymentDate and grossEarningsForNics#inPayPeriod1 value" do
-        expect(most_recent_payment).to eql("2022-03-17: 222.22")
+        expect(most_recent_payment_from_employment).to eql("2022-03-17: 222.22")
       end
     end
 
@@ -551,7 +551,7 @@ RSpec.describe HmrcInterfaceResultable do
         }
       end
 
-      it { expect(most_recent_payment).to be_nil }
+      it { expect(most_recent_payment_from_employment).to be_nil }
     end
 
     # NOTE: have not seen real data that reflect's it but is useful safeguard
@@ -579,14 +579,14 @@ RSpec.describe HmrcInterfaceResultable do
       end
 
       it "ignores payments where the #paymentDate and grossEarningsForNics#inPayPeriod1 are not available" do
-        expect(most_recent_payment).to eql("2022-03-17: 555.55")
+        expect(most_recent_payment_from_employment).to eql("2022-03-17: 555.55")
       end
     end
 
     context "with no data key" do
       let(:result) { { foo: [ { bar: "baz" } ] } }
 
-      it { expect(most_recent_payment).to be_nil }
+      it { expect(most_recent_payment_from_employment).to be_nil }
     end
   end
 
@@ -743,6 +743,205 @@ RSpec.describe HmrcInterfaceResultable do
       let(:result) { { foo: [ { bar: "baz" } ] } }
 
       it { expect(clients_income_from_self_employment).to be_nil }
+    end
+  end
+
+  describe "#clients_income_from_other_sources" do
+    subject(:clients_income_from_other_sources) { instance.clients_income_from_other_sources }
+
+    context "when multiple income exists" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "taxablePay" => 222.22
+                  },
+                  { 
+                    "taxablePay" => 444.44
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the sum of all taxablePay values" do
+        expect(clients_income_from_other_sources).to be 666.66
+      end
+    end
+
+    context "when multiple income exists with employee income too" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "taxablePay" => 222.22,
+                    "grossEarningsForNics": {
+                      "inPayPeriod1": 111.11
+                    },
+                  },
+                  {
+                    "taxablePay" => 444.44,
+                    "grossEarningsForNics": {
+                      "inPayPeriod1": 222.22
+                    },
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the sum of all taxablePay values - sum of all grossEarningsForNics#inPayPeriod1" do
+        expect(clients_income_from_other_sources).to be 333.33
+      end
+    end
+
+    context "when single income exists" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "taxablePay" => 222.22
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the single taxablePay value" do
+        expect(clients_income_from_other_sources).to be 222.22
+      end
+    end
+
+    context "when no income exists" do
+      let(:result) do
+        {
+          "data" => [
+            {
+              "income/paye/paye" => {
+                "income" => []
+              }
+            }
+          ]
+        }
+      end
+
+      it { expect(clients_income_from_other_sources).to be_zero }
+    end
+  end
+
+  describe "#most_recent_payment_from_other_sources" do
+    subject(:most_recent_payment_from_other_sources) { instance.most_recent_payment_from_other_sources }
+
+    context "when multiple income exists" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/paye/paye" => {
+                "income" => [
+                  {
+                    "paymentDate" => "2022-03-17",
+                    "taxablePay" => 111.11
+                  },
+                  {
+                    "paymentDate" => "2022-02-20",
+                    "taxablePay" => 222.22
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the most recent/top income entry's #paymentDate and taxablePay value" do
+        expect(most_recent_payment_from_other_sources).to eql("2022-03-17: 111.11")
+      end
+    end
+
+    context "when multiple income exists with employment income too" do
+      let(:result) do
+        {
+          "data" => [
+            { "use_case" => "use_case_one" },
+            {
+              "income/paye/paye" => {
+                "income" => [
+                  {
+                    "paymentDate" => "2022-03-17",
+                    "taxablePay" => 111.11,
+                    "grossEarningsForNics": {
+                      "inPayPeriod1": 50.00
+                    },
+                  },
+                  {
+                    "paymentDate" => "2022-02-20",
+                    "taxablePay" => 222.22,
+                    "grossEarningsForNics": {
+                      "inPayPeriod1": 100.00
+                    },
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the most recent/top income entry's #paymentDate with taxablePay (excluding grossEarningsForNics#inPayPeriod1)" do
+        expect(most_recent_payment_from_other_sources).to eql("2022-03-17: 61.11")
+      end
+    end
+
+    context "when single income exists" do
+      let(:result) do
+        {
+          "data" => [
+           { "income/paye/paye" => {
+                "income" => [
+                  {
+                    "paymentDate" => "2022-03-17",
+                    "taxablePay" => 222.22
+                  },
+                ]
+              }
+            }
+          ]
+        }
+      end
+
+      it "returns the most recent/top income entry's #paymentDate and taxablePay value" do
+        expect(most_recent_payment_from_other_sources).to eql("2022-03-17: 222.22")
+      end
+    end
+
+    context "when no income exists" do
+      let(:result) do
+        {
+          "data" => [
+            {
+              "income/paye/paye" => {
+                "income" => []
+              }
+            }
+          ]
+        }
+      end
+
+      it { expect(most_recent_payment_from_other_sources).to be_nil }
     end
   end
 end

@@ -21,8 +21,10 @@ RSpec.describe SubmissionResultCsv do
          clients_income_from_employment
          clients_ni_contributions_from_employment
          start_and_end_dates_for_employments
-         most_recent_payment
+         most_recent_payment_from_employment
          clients_income_from_self_employment
+         clients_income_from_other_sources
+         most_recent_payment_from_other_sources
          uc_one_data
          uc_two_data]
     end
@@ -60,10 +62,12 @@ RSpec.describe SubmissionResultCsv do
           "completed",
           nil,
           nil,
+          0,
+          0,
           nil,
           nil,
           nil,
-          nil,
+          0,
           nil,
           %([\n  {\n    "use_case": "use_case_one"\n  }\n]),
           %([\n  {\n    "use_case": "use_case_two"\n  }\n]),
@@ -179,10 +183,12 @@ RSpec.describe SubmissionResultCsv do
           "failed",
           "submitted client details could not be found in HMRC service",
           nil,
+          0,
+          0,
           nil,
           nil,
           nil,
-          nil,
+          0,
           nil,
           %([\n  {\n    "use_case": "use_case_one",\n    "correlation_id": "an-hmrc-interface-submission-uuid"\n  },\n  {\n    "error": "submitted client details could not be found in HMRC service"\n  }\n]),
           %([\n  {\n    "use_case": "use_case_two",\n    "correlation_id": "an-hmrc-interface-submission-uuid"\n  },\n  {\n    "error": "submitted client details could not be found in HMRC service"\n  }\n]),
@@ -221,10 +227,12 @@ RSpec.describe SubmissionResultCsv do
           "exhausted",
           "attempts to retrieve details for the individual were unsuccessful",
           nil,
+          0,
+          0,
           nil,
           nil,
           nil,
-          nil,
+          0,
           nil,
           %({\n  "submission": "uc-one-hmrc-interface-submission-uuid",\n  "status": "processing",\n  "_links": [\n    {\n      "href": "http://www.example.com/api/v1/submission/result/uc-one-hmrc-interface-submission-uuid"\n    }\n  ]\n}),
           # TODO: handle failing test in which the keys are not coming back in order inserted
