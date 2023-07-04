@@ -13,6 +13,9 @@ image:
   repository: null
   tag: null
 
+service_account:
+  name: laa-assure-hmrc-data-production-irsa
+
 service:
   type: ClusterIP
   port: 80
