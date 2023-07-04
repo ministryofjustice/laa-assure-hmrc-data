@@ -1,3 +1,6 @@
+AllCops:
+  NewCops: enable
+
 require:
   - rubocop-performance
 
@@ -32,6 +35,10 @@ Style/NumericLiterals:
 
 Lint/AmbiguousBlockAssociation:
   AllowedMethods: [change]
+
+Lint/RedundantDirGlobSort:
+  Exclude:
+    - spec/system_helper.rb
 
 Rails/SaveBang:
   Exclude:

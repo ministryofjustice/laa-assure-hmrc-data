@@ -375,14 +375,14 @@ RSpec.describe HmrcInterfaceResultable do
           "data" => [
             { "use_case" => "use_case_one" },
             {
-              "employments/paye/employments": [
+              "employments/paye/employments" => [
                 {
-                  "endDate": "2099-12-31",
-                  "startDate": "2023-01-26"
+                  "endDate" => "2099-12-31",
+                  "startDate" => "2023-01-26"
                 },
                 {
-                  "endDate": "2022-11-11",
-                  "startDate": "2022-09-11"
+                  "endDate" => "2022-11-11",
+                  "startDate" => "2022-09-11"
                 }
               ]
             },
@@ -401,14 +401,14 @@ RSpec.describe HmrcInterfaceResultable do
           "data" => [
             { "use_case" => "use_case_one" },
             {
-              "employments/paye/employments": [
+              "employments/paye/employments" => [
                 {
-                  "endDate": "2099-12-31",
-                  "startDate": "2023-01-26"
+                  "endDate" => "2099-12-31",
+                  "startDate" => "2023-01-26"
                 },
                 {
-                  "startDate": "2022-09-11",
-                  "endDate": "2022-11-11"
+                  "startDate" => "2022-09-11",
+                  "endDate" => "2022-11-11"
                 }
               ]
             },
@@ -427,10 +427,10 @@ RSpec.describe HmrcInterfaceResultable do
           "data" => [
             { "use_case" => "use_case_one" },
             {
-              "employments/paye/employments": [
+              "employments/paye/employments" => [
                 {
-                  "endDate": "2099-12-31",
-                  "startDate": "2023-01-26"
+                  "endDate" => "2099-12-31",
+                  "startDate" => "2023-01-26"
                 },
               ]
             },
@@ -781,14 +781,14 @@ RSpec.describe HmrcInterfaceResultable do
                 "income" => [
                   {
                     "taxablePay" => 222.22,
-                    "grossEarningsForNics": {
-                      "inPayPeriod1": 111.11
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 111.11
                     },
                   },
                   {
                     "taxablePay" => 444.44,
-                    "grossEarningsForNics": {
-                      "inPayPeriod1": 222.22
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 222.22
                     },
                   },
                 ]
@@ -883,15 +883,15 @@ RSpec.describe HmrcInterfaceResultable do
                   {
                     "paymentDate" => "2022-03-17",
                     "taxablePay" => 111.11,
-                    "grossEarningsForNics": {
-                      "inPayPeriod1": 50.00
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 50.00
                     },
                   },
                   {
                     "paymentDate" => "2022-02-20",
                     "taxablePay" => 222.22,
-                    "grossEarningsForNics": {
-                      "inPayPeriod1": 100.00
+                    "grossEarningsForNics" => {
+                      "inPayPeriod1" => 100.00
                     },
                   }
                 ]

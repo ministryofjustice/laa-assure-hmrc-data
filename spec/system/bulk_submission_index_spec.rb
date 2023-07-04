@@ -1,6 +1,6 @@
 require "system_helper"
 
-RSpec.describe "View bulk submission index page", type: :system do
+RSpec.describe "View bulk submission index page" do
   context "with unauthorised user" do
     it "redirects user back to landing page" do
       visit "/bulk_submissions"

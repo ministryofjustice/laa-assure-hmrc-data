@@ -1,6 +1,6 @@
 FactoryBot.define do
   factory :submission do
-    association :bulk_submission
+    bulk_submission
 
     period_start_at { 4.months.ago }
     period_end_at { 1.month.ago }

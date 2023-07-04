@@ -46,8 +46,7 @@ RSpec.describe BulkSubmissionService do
 
         submissions = Submission.all.map {|e| e.attributes.with_indifferent_access }
 
-        expect(submissions).to match_array([
-          hash_including(
+        expect(submissions).to contain_exactly(hash_including(
             use_case: "one",
             period_start_at: Date.parse("2023-01-01"),
             period_end_at: Date.parse("2023-03-31"),
@@ -55,8 +54,7 @@ RSpec.describe BulkSubmissionService do
             last_name: "Bob",
             dob: Date.parse("2001-01-01"),
             nino: "JA123456D",
-          ),
-          hash_including(
+          ), hash_including(
             use_case: "two",
             period_start_at: Date.parse("2023-01-01"),
             period_end_at: Date.parse("2023-03-31"),
@@ -64,8 +62,7 @@ RSpec.describe BulkSubmissionService do
             last_name: "Bob",
             dob: Date.parse("2001-01-01"),
             nino: "JA123456D",
-          ),
-          hash_including(
+          ), hash_including(
             use_case: "one",
             period_start_at: Date.parse("2022-01-01"),
             period_end_at: Date.parse("2022-03-31"),
@@ -73,8 +70,7 @@ RSpec.describe BulkSubmissionService do
             last_name: "Boy",
             dob: Date.parse("2002-01-01"),
             nino: "JA654321D",
-          ),
-          hash_including(
+          ), hash_including(
             use_case: "two",
             period_start_at: Date.parse("2022-01-01"),
             period_end_at: Date.parse("2022-03-31"),
@@ -82,8 +78,7 @@ RSpec.describe BulkSubmissionService do
             last_name: "Boy",
             dob: Date.parse("2002-01-01"),
             nino: "JA654321D",
-          ),
-        ])
+          ))
       end
 
       it "updates bulk_submission status to \"prepared\"" do
@@ -153,8 +148,7 @@ RSpec.describe BulkSubmissionService do
 
         submissions = Submission.all.map {|e| e.attributes.with_indifferent_access }
 
-        expect(submissions).to match_array([
-          hash_including(
+        expect(submissions).to contain_exactly(hash_including(
             use_case: "one",
             period_start_at: Date.parse("2023-01-01"),
             period_end_at: Date.parse("2023-03-31"),
@@ -162,8 +156,7 @@ RSpec.describe BulkSubmissionService do
             last_name: "Bob",
             dob: Date.parse("2001-01-01"),
             nino: "JA123456D",
-          ),
-          hash_including(
+          ), hash_including(
             use_case: "two",
             period_start_at: Date.parse("2023-01-01"),
             period_end_at: Date.parse("2023-03-31"),
@@ -171,8 +164,7 @@ RSpec.describe BulkSubmissionService do
             last_name: "Bob",
             dob: Date.parse("2001-01-01"),
             nino: "JA123456D",
-          ),
-        ])
+          ))
       end
     end
 

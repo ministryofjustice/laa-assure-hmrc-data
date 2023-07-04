@@ -3,7 +3,7 @@ require 'system_helper'
 # Request specs do not excercise JS, only the
 # non-JS controller actions
 #
-RSpec.describe BulkSubmissionFormsController, type: :request do
+RSpec.describe BulkSubmissionFormsController do
   before { sign_in user }
 
   let(:user) { create(:user) }
@@ -66,7 +66,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       it "does not create bulk_submission" do
         expect {
           post bulk_submission_forms_path, params: bulk_submission_form_params
-        }.to change(BulkSubmission, :count).by(0)
+        }.not_to change(BulkSubmission, :count)
       end
     end
 
@@ -85,7 +85,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       it "does not create bulk_submission" do
         expect {
           post bulk_submission_forms_path, params: bulk_submission_form_params
-        }.to change(BulkSubmission, :count).by(0)
+        }.not_to change(BulkSubmission, :count)
       end
     end
 
@@ -104,7 +104,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       it "does not create bulk_submission" do
         expect {
           post bulk_submission_forms_path, params: bulk_submission_form_params
-        }.to change(BulkSubmission, :count).by(0)
+        }.not_to change(BulkSubmission, :count)
       end
     end
 
@@ -123,7 +123,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       it "does not create bulk_submission" do
         expect {
           post bulk_submission_forms_path, params: bulk_submission_form_params
-        }.to change(BulkSubmission, :count).by(0)
+        }.not_to change(BulkSubmission, :count)
       end
     end
 
@@ -142,7 +142,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       it "does not create bulk_submission" do
         expect {
           post bulk_submission_forms_path, params: bulk_submission_form_params
-        }.to change(BulkSubmission, :count).by(0)
+        }.not_to change(BulkSubmission, :count)
       end
     end
 
@@ -161,7 +161,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       it "does not create bulk_submission" do
         expect {
           post bulk_submission_forms_path, params: bulk_submission_form_params
-        }.to change(BulkSubmission, :count).by(0)
+        }.not_to change(BulkSubmission, :count)
       end
     end
   end
@@ -215,7 +215,7 @@ RSpec.describe BulkSubmissionFormsController, type: :request do
       it "does not create a new bulk_submission" do
         expect {
           patch bulk_submission_form_path(bulk_submission.id), params: bulk_submission_form_params
-        }.to change(BulkSubmission, :count).by(0)
+        }.not_to change(BulkSubmission, :count)
       end
 
       it "records the attempt to upload a file" do

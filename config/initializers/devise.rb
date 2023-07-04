@@ -2,7 +2,9 @@
 
 # Add to patch a zietwerk loading error due to not using ActionMailer with devise
 if Rails.autoloaders.zeitwerk_enabled?
+  # rubocop: disable Lint/EmptyClass
   class Devise::Mailer; end
+  # rubocop: enable Lint/EmptyClass
 end
 
 # Assuming you have not yet modified this file, each configuration option below
@@ -282,14 +284,14 @@ Devise.setup do |config|
                   scope: [:openid, :email, :profile],
                   response_type: :code,
                   client_options: {
-                    identifier: ENV["OMNIAUTH_AZURE_CLIENT_ID"],
-                    secret: ENV["OMNIAUTH_AZURE_CLIENT_SECRET"],
-                    redirect_uri: ENV["OMNIAUTH_AZURE_REDIRECT_URI"],
+                    identifier: ENV.fetch("OMNIAUTH_AZURE_CLIENT_ID", nil),
+                    secret: ENV.fetch("OMNIAUTH_AZURE_CLIENT_SECRET", nil),
+                    redirect_uri: ENV.fetch("OMNIAUTH_AZURE_REDIRECT_URI", nil),
                   },
                   discovery: true,
-                  issuer: "https://login.microsoftonline.com/#{ENV["OMNIAUTH_AZURE_TENANT_ID"]}/v2.0",
+                  issuer: "https://login.microsoftonline.com/#{ENV.fetch("OMNIAUTH_AZURE_TENANT_ID", nil)}/v2.0",
                   pkce: true,
-                  extra_authorise_params: { tenant: ENV["OMNIAUTH_AZURE_TENANT_ID"] },
+                  extra_authorise_params: { tenant: ENV.fetch("OMNIAUTH_AZURE_TENANT_ID", nil) },
                   name: 'azure_ad'
 
   # ==> Warden configuration

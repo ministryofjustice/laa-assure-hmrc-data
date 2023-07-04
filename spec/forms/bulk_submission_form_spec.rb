@@ -148,7 +148,7 @@ RSpec.describe BulkSubmissionForm, type: :model do
       end
 
       it "does not persist the bulk_submission" do
-        expect { save }.to change(BulkSubmission, :count).by(0)
+        expect { save }.not_to change(BulkSubmission, :count)
       end
 
       it "record upload attempt in database" do

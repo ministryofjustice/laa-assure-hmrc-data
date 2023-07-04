@@ -51,7 +51,7 @@ RSpec.describe HmrcInterface::Client do
   describe "#access_token" do
     subject(:access_token) { client.access_token }
 
-    it { is_expected.to be_an ::OAuth2::AccessToken }
+    it { is_expected.to be_an OAuth2::AccessToken }
     it { is_expected.to respond_to :token }
     it { is_expected.to respond_to :expired? }
     it { expect(access_token.token).to eql "test-bearer-token" }
@@ -64,9 +64,9 @@ RSpec.describe HmrcInterface::Client do
     end
 
     context "when retrieving a new token" do
-      let(:oauth_client) { instance_double(::OAuth2::Client, client_credentials:) }
-      let(:client_credentials) { instance_double(::OAuth2::Strategy::ClientCredentials, get_token: new_token) }
-      let(:new_token) { instance_double(::OAuth2::AccessToken, token: 'new-fake-token') }
+      let(:oauth_client) { instance_double(OAuth2::Client, client_credentials:) }
+      let(:client_credentials) { instance_double(OAuth2::Strategy::ClientCredentials, get_token: new_token) }
+      let(:new_token) { instance_double(OAuth2::AccessToken, token: 'new-fake-token') }
 
       before do
         client.instance_variable_set(:@oauth_client, oauth_client)
@@ -86,7 +86,7 @@ RSpec.describe HmrcInterface::Client do
       end
 
       context "when token expired?" do
-        let(:old_token) { instance_double(::OAuth2::AccessToken, token: 'old-fake-token', expired?: true) }
+        let(:old_token) { instance_double(OAuth2::AccessToken, token: 'old-fake-token', expired?: true) }
 
         before do
           client.instance_variable_set(:@access_token, old_token)

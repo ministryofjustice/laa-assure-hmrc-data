@@ -22,8 +22,7 @@ RSpec.describe BulkSubmissionCsvParser do
       end
 
       it "returns array of objects with expected attributes values" do
-        expect(call).to match_array([
-          have_attributes(
+        expect(call).to contain_exactly(have_attributes(
             period_start_date: "2023-01-01",
             period_start_at: Date.parse("2023-01-01"),
             period_end_date: "2023-03-31",
@@ -33,8 +32,7 @@ RSpec.describe BulkSubmissionCsvParser do
             date_of_birth: "2001-01-01",
             dob: Date.parse("2001-01-01"),
             nino: "JA123456D"
-          ),
-          have_attributes(
+          ), have_attributes(
             period_start_date: "2022-01-01",
             period_start_at: Date.parse("2022-01-01"),
             period_end_date: "2022-03-31",
@@ -44,8 +42,7 @@ RSpec.describe BulkSubmissionCsvParser do
             date_of_birth: "2002-01-01",
             dob: Date.parse("2002-01-01"),
             nino: "JA654321D"
-          ),
-        ])
+          ))
       end
     end
 
@@ -135,7 +132,7 @@ RSpec.describe BulkSubmissionCsvParser do
                date_of_birth: '', nino: '' }
 
       instance = record_struct.new(**args)
-      expect(instance).to be_kind_of(Struct)
+      expect(instance).to be_a(Struct)
       expect(instance).to respond_to(*args.keys)
       expect(instance).to respond_to(:period_start_at, :period_end_at, :dob)
     end

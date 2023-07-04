@@ -7,7 +7,7 @@ RSpec.describe StatusController do
       allow(Sidekiq::ProcessSet).to receive(:new).and_return(instance_double(Sidekiq::ProcessSet, size: 1))
       allow(Sidekiq::RetrySet).to receive(:new).and_return(instance_double(Sidekiq::RetrySet, size: 0))
       allow(Sidekiq::DeadSet).to receive(:new).and_return(instance_double(Sidekiq::DeadSet, size: 0))
-      connection = instance_double("connection", info: {})
+      connection = instance_double(Sidekiq::RedisClientAdapter::CompatClient, info: {})
       allow(Sidekiq).to receive(:redis).and_yield(connection)
     end
 
@@ -150,7 +150,7 @@ RSpec.describe StatusController do
       end
 
       it "returns JSON with app information" do
-        expect(JSON.parse(response.body)).to eq(expected_json)
+        expect(response.parsed_body).to eq(expected_json)
       end
     end
 
@@ -164,7 +164,7 @@ RSpec.describe StatusController do
       end
 
       it 'returns "Not Available"' do
-        expect(JSON.parse(response.body).values).to be_all("Not Available")
+        expect(response.parsed_body.values).to be_all("Not Available")
       end
     end
   end

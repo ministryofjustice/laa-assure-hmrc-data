@@ -130,7 +130,7 @@ RSpec.describe HmrcInterface::Configuration do
         allow(rails).to receive(:logger).and_return(rails_logger)
       end
 
-      let(:rails) { class_double("Rails") }
+      let(:rails) { class_double(Rails) }
       let(:rails_logger) { Class.new }
 
       it "defaults to using Rails.logger" do

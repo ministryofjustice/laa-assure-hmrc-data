@@ -1,6 +1,6 @@
 require "system_helper"
 
-RSpec.describe "View bulk submission show page", type: :system do
+RSpec.describe "View bulk submission show page" do
   context "with unauthorised user" do
     before { bulk_submission }
 

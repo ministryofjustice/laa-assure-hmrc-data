@@ -8,19 +8,14 @@ class HmrcInterfaceBaseWorker < ApplicationWorker
   # so we have control of it and can kill Fatal errors immediately.
   # A nil return will use sidekiq default interval algorithm.
   #
-  # rubocop:disable Style/CaseLikeIf
   sidekiq_retry_in do |_count, exception, _jobhash|
     if exception.is_a?(WorkerErrors::TryAgain)
       nil
-    elsif exception.is_a?(HmrcInterface::IncompleteResult)
-      Rails.logger.error(exception.message)
-      :kill
-    elsif exception.is_a?(HmrcInterface::RequestUnacceptable)
+    elsif exception.is_a?(HmrcInterface::IncompleteResult) || exception.is_a?(HmrcInterface::RequestUnacceptable)
       Rails.logger.error(exception.message)
       :kill
     end
   end
-  # rubocop:enable Style/CaseLikeIf
 
   sidekiq_retries_exhausted do |job, _ex|
     Sentry.capture_message("Failed #{job['class']} for submission #{job['args']}: #{job['error_message']}")

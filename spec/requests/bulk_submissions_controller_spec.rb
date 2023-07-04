@@ -1,6 +1,6 @@
 require 'system_helper'
 
-RSpec.describe BulkSubmissionsController, type: :request do
+RSpec.describe BulkSubmissionsController do
   before { sign_in user }
 
   let(:user) { create(:user) }
@@ -95,13 +95,13 @@ RSpec.describe BulkSubmissionsController, type: :request do
     it "does not destroy any bulk_submission" do
       expect {
         delete bulk_submission_path(bulk_submission.id)
-      }.to change(BulkSubmission, :count).by(0)
+      }.not_to change(BulkSubmission, :count)
     end
 
     it "does not destroy any bulk_submissions attachments" do
       expect {
         delete bulk_submission_path(bulk_submission.id)
-      }.to change(ActiveStorage::Attachment, :count).by(0)
+      }.not_to change(ActiveStorage::Attachment, :count)
     end
 
     it "discards the requested bulk_submission" do

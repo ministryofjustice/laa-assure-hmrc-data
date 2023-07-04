@@ -1,6 +1,6 @@
 require "system_helper"
 
-RSpec.describe Users::MockAzureController, type: :request do
+RSpec.describe Users::MockAzureController do
   after do
     allow(Rails.configuration.x).to receive(:mock_azure).and_return(false)
     Rails.application.reload_routes!

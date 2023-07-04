@@ -1,11 +1,11 @@
 class BulkSubmissionsController < ApplicationController
+  def index
+    @bulk_submissions = BulkSubmission.undiscarded.order(created_at: :desc)
+  end
+
   def show
     @bulk_submission = BulkSubmission.find(bulk_submission_params[:id])
     @context = bulk_submission_params[:context]
-  end
-
-  def index
-    @bulk_submissions = BulkSubmission.undiscarded.order(created_at: :desc)
   end
 
   def destroy

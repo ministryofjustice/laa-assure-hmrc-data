@@ -1,6 +1,6 @@
 require "system_helper"
 
-RSpec.describe "sign in", type: :system, js: true do
+RSpec.describe "sign in", js: true do
   context "with unauthorised user" do
     it "redirects user back to landing page" do
       visit "/bulk_submission_forms/new"

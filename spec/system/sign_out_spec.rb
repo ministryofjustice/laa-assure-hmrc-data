@@ -1,6 +1,6 @@
 require "system_helper"
 
-RSpec.describe "sign out", type: :system do
+RSpec.describe "sign out" do
   let(:user) do
     User.create!(email: "Jim.Bob@example.co.uk",
                  first_name: "Jim",

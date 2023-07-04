@@ -1,6 +1,6 @@
 require 'rails_helper'
 
-RSpec.describe Submission, type: :model do
+RSpec.describe Submission do
   let(:instance) { create(:submission) }
 
   it_behaves_like "discardable model"
@@ -18,7 +18,7 @@ RSpec.describe Submission, type: :model do
   describe "#bulk_submission" do
     subject(:bulk_submission) { instance.bulk_submission }
 
-    it { is_expected.to be_kind_of(BulkSubmission) }
+    it { is_expected.to be_a(BulkSubmission) }
   end
 
   context "when validating" do

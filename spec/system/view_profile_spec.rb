@@ -1,6 +1,6 @@
 require "system_helper"
 
-RSpec.describe "view profile", type: :system do
+RSpec.describe "view profile" do
   let(:user) do
     User.create!(email: "Jim.Bob@example.co.uk",
                  first_name: "Jim",
