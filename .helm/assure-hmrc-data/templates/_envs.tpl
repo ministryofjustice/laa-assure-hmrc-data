@@ -97,16 +97,6 @@ env:
       secretKeyRef:
         name: assure-hmrc-data-application-output
         key: hmrc_interface_secret
-  - name: S3_AWS_ACCESS_KEY_ID
-    valueFrom:
-      secretKeyRef:
-        name: s3-bucket-output
-        key: access_key_id
-  - name: S3_AWS_SECRET_ACCESS_KEY
-    valueFrom:
-      secretKeyRef:
-        name: s3-bucket-output
-        key: secret_access_key
   - name: S3_AWS_BUCKET_NAME
     valueFrom:
       secretKeyRef:
