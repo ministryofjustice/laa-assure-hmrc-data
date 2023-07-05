@@ -20,6 +20,7 @@ spec:
       labels:
         {{- include "assure-hmrc-data.selectorLabels" . | nindent 8 }}
     spec:
+      serviceAccountName: "{{ .Values.service_account.name }}"
       containers:
         - name: sidekiq-uc1
           image: '{{ .Values.image.repository }}:{{ .Values.image.tag }}'
