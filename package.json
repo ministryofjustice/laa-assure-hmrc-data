@@ -14,7 +14,7 @@
     "stylelint": "stylelint app/assets/stylesheets"
   },
   "devDependencies": {
-    "@prettier/plugin-ruby": "^3.2.2",
+    "@prettier/plugin-ruby": "^4.0.0",
     "postcss": "^8.4.24",
     "prettier": "^2.8.8",
     "standard": "^17.1.0",
