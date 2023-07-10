@@ -4,7 +4,7 @@
   "dependencies": {
     "dropzone": "^6.0.0-beta.2",
     "esbuild": "^0.18.11",
-    "govuk-frontend": "4.6.0",
+    "govuk-frontend": "4.7.0",
     "sass": "^1.63.6"
   },
   "scripts": {
