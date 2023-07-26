@@ -1,5 +1,8 @@
 # Install/update chrome drivers need by selenium
-#
+
+# Afix version for CI and development to latest available working versions (115... has breaking changes)
+Webdrivers::Chromedriver.required_version = ENV["CI"] ? "112.0.5615.49" : "114.0.5735.90"
+
 # rubocop:disable Rails/SaveBang
 Webdrivers::Chromedriver.update
 # rubocop:enable Rails/SaveBang
