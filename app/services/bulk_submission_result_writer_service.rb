@@ -3,8 +3,8 @@ require 'csv'
 class BulkSubmissionResultWriterService
   attr_reader :bulk_submission, :original_headers, :result_parser
 
-  def self.call(*args)
-    new(*args).call
+  def self.call(*)
+    new(*).call
   end
 
   def initialize(bulk_submission_id, result_parser = SubmissionResultCsv)

@@ -1,8 +1,8 @@
 class HmrcInterfaceSubmissionService
   attr_reader :submission, :number_in_queue, :requestor
 
-  def self.call(*args)
-    new(*args).call
+  def self.call(*)
+    new(*).call
   end
 
   def initialize(submission_id, number_in_queue = 0, requestor = HmrcInterface::Request::Submission)

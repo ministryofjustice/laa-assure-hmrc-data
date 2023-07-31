@@ -2,8 +2,8 @@ class HmrcInterfaceResultService
   extend WorkerErrors
   attr_reader :submission, :requestor
 
-  def self.call(*args)
-    new(*args).call
+  def self.call(*)
+    new(*).call
   end
 
   def initialize(submission_id, requestor = HmrcInterface::Request::Result)

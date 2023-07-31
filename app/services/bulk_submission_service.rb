@@ -1,8 +1,8 @@
 class BulkSubmissionService
   attr_reader :bulk_submission, :parser
 
-  def self.call(*args)
-    new(*args).call
+  def self.call(*)
+    new(*).call
   end
 
   def initialize(bulk_submission, parser = BulkSubmissionCsvParser)
