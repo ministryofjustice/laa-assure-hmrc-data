@@ -49,7 +49,6 @@ group :test do
   gem 'rspec-html-matchers'
   gem "selenium-webdriver"
   gem "simplecov", require: false
-  gem "webdrivers"
 end
 
 group :test, :development do
