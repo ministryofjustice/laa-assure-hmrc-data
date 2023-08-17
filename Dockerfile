@@ -7,7 +7,7 @@
 ###############################################################
 # base - dependencies required both at runtime and build time #
 ###############################################################
-FROM ruby:3.2.2-alpine3.17 as base
+FROM ruby:3.2.2-alpine3.18 AS base
 MAINTAINER LAA Apply for civil legal aid team
 
 # postgresql-dev: postgres driver and libraries
@@ -26,7 +26,7 @@ RUN apk add --update --no-cache tzdata && \
 ######################################################################
 # dependencies - build dependencies using build-time os dependencies #
 ######################################################################
-FROM base as dependencies
+FROM base AS dependencies
 
 # system dependencies required to build some gems
 # build-base: dependencies for bundle
@@ -62,7 +62,7 @@ RUN rm -rf log/* tmp/* /tmp && \
 ############################################
 # production - build and use runtime image #
 ############################################
-FROM base as production
+FROM base AS production
 
 # add non-root user and group with alpine first available uid, 1000
 ENV APPUID 1000
