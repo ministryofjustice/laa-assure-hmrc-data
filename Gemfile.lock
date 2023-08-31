@@ -194,7 +194,8 @@ GEM
       terminal-table (>= 1.5.1)
     iniparse (1.5.0)
     io-console (0.6.0)
-    irb (1.7.4)
+    irb (1.8.0)
+      rdoc (~> 6.5)
       reline (>= 0.3.6)
     jmespath (1.6.2)
     jsbundling-rails (1.1.2)
@@ -287,6 +288,8 @@ GEM
       activesupport (>= 7.0.0)
       rack
       railties (>= 7.0.0)
+    psych (5.1.0)
+      stringio
     public_suffix (5.0.3)
     puma (6.3.1)
       nio4r (~> 2.0)
@@ -342,6 +345,8 @@ GEM
     rainbow (3.1.1)
     rake (13.0.6)
     rbs (3.2.1)
+    rdoc (6.5.0)
+      psych (>= 4.0.0)
     redis-client (0.16.0)
       connection_pool
     regexp_parser (2.8.1)
@@ -444,6 +449,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
+    stringio (3.0.8)
     swd (2.0.2)
       activesupport (>= 3)
       attr_required (>= 0.0.5)
