@@ -159,7 +159,7 @@ GEM
     fugit (1.8.1)
       et-orbi (~> 1, >= 1.2.7)
       raabro (~> 1.4)
-    globalid (1.2.0)
+    globalid (1.2.1)
       activesupport (>= 6.1)
     govuk-components (4.1.0)
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
