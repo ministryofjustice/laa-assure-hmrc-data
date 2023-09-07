@@ -347,7 +347,7 @@ GEM
     rbs (3.2.1)
     rdoc (6.5.0)
       psych (>= 4.0.0)
-    redis-client (0.16.0)
+    redis-client (0.17.0)
       connection_pool
     regexp_parser (2.8.1)
     reline (0.3.8)
