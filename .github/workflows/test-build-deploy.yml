@@ -1,6 +1,7 @@
 name: CI and CD
 
 on:
+  workflow_dispatch:
   pull_request:
   push:
     branches:
