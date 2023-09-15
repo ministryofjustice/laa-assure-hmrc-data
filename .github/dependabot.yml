@@ -13,6 +13,10 @@ updates:
       interval: daily
       time: "03:00"
       timezone: Europe/London
+    groups:
+      aws-gems:
+        patterns:
+          - "aws-*"
     open-pull-requests-limit: 10
     reviewers:
       - "ministryofjustice/laa-apply-for-legal-aid"
