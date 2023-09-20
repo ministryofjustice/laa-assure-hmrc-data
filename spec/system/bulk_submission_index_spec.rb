@@ -27,17 +27,17 @@ RSpec.describe "View bulk submission index page" do
 
       within(".govuk-table") do
         expect(page)
-          .to have_selector(".govuk-table__header", text: "Date requested")
-          .and have_selector(".govuk-table__header", text: "Expiry date")
-          .and have_selector(".govuk-table__header", text: "File name")
-          .and have_selector(".govuk-table__header", text: "Status")
-          .and have_selector(".govuk-table__header", text: "Action")
+          .to have_css(".govuk-table__header", text: "Date requested")
+          .and have_css(".govuk-table__header", text: "Expiry date")
+          .and have_css(".govuk-table__header", text: "File name")
+          .and have_css(".govuk-table__header", text: "Status")
+          .and have_css(".govuk-table__header", text: "Action")
 
         expect(page)
-          .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
-          .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
-          .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--yellow", text: /Pending/i)
-          .and have_selector(".govuk-table__cell", text: "Cancel")
+          .to have_css(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+          .and have_css(".govuk-table__cell", text: "basic_bulk_submission.csv")
+          .and have_css(".govuk-table__cell .govuk-tag.govuk-tag--yellow", text: /Pending/i)
+          .and have_css(".govuk-table__cell", text: "Cancel")
       end
     end
 
@@ -51,20 +51,20 @@ RSpec.describe "View bulk submission index page" do
 
         within(".govuk-table") do
           expect(page)
-            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
-            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
-            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--yellow", text: /Pending/i)
-            .and have_selector(".govuk-table__cell", text: "Cancel")
+            .to have_css(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_css(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_css(".govuk-table__cell .govuk-tag.govuk-tag--yellow", text: /Pending/i)
+            .and have_css(".govuk-table__cell", text: "Cancel")
 
-          expect(page).to have_selector(".govuk-table__body tr")
+          expect(page).to have_css(".govuk-table__body tr")
           click_link("basic_bulk_submission.csv", match: :first)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
+        expect(page).to have_css(".govuk-heading-xl", text: "About this file")
         expect(page).not_to have_button("cancel")
 
         click_link("Back")
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
+        expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
       end
 
       it "user can go to the cancel confirmation page" do
@@ -72,16 +72,16 @@ RSpec.describe "View bulk submission index page" do
 
         within(".govuk-table") do
           expect(page)
-            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
-            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
-            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--yellow", text: /Pending/i)
-            .and have_selector(".govuk-table__cell", text: "Cancel")
+            .to have_css(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_css(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .and have_css(".govuk-table__cell .govuk-tag.govuk-tag--yellow", text: /Pending/i)
+            .and have_css(".govuk-table__cell", text: "Cancel")
 
-          expect(page).to have_selector(".govuk-table__body tr")
+          expect(page).to have_css(".govuk-table__body tr")
           click_link("Cancel", match: :one)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to cancel this check?")
+        expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to cancel this check?")
         expect(page).to have_button("Yes, cancel check on basic_bulk_submission.csv")
       end
     end
@@ -96,21 +96,21 @@ RSpec.describe "View bulk submission index page" do
 
         within(".govuk-table") do
           expect(page)
-            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
-            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .to have_css(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_css(".govuk-table__cell", text: "basic_bulk_submission.csv")
             .and have_link("basic_bulk_submission.csv")
-            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
-            .and have_selector(".govuk-table__cell", text: "Remove")
+            .and have_css(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
+            .and have_css(".govuk-table__cell", text: "Remove")
 
-          expect(page).to have_selector(".govuk-table__body tr")
+          expect(page).to have_css(".govuk-table__body tr")
           click_link("basic_bulk_submission.csv", match: :first)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
+        expect(page).to have_css(".govuk-heading-xl", text: "About this file")
         expect(page).not_to have_button("basic_bulk_submission")
 
         click_link("Back")
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
+        expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
       end
 
       it "user can go to the remove confirmation page" do
@@ -118,20 +118,20 @@ RSpec.describe "View bulk submission index page" do
 
         within(".govuk-table") do
           expect(page)
-            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
-            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .to have_css(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_css(".govuk-table__cell", text: "basic_bulk_submission.csv")
             .and have_link("basic_bulk_submission.csv")
-            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
-            .and have_selector(".govuk-table__cell", text: "Download results file for basic_bulk_submission.csv")
-            .and have_selector(".govuk-table__cell", text: "Remove")
+            .and have_css(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
+            .and have_css(".govuk-table__cell", text: "Download results file for basic_bulk_submission.csv")
+            .and have_css(".govuk-table__cell", text: "Remove")
 
-          expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
+          expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
 
-          expect(page).to have_selector(".govuk-table__body tr")
+          expect(page).to have_css(".govuk-table__body tr")
           click_link("Remove", match: :one)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
+        expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
         expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
       end
 
@@ -140,16 +140,16 @@ RSpec.describe "View bulk submission index page" do
 
         within(".govuk-table") do
             expect(page)
-            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
-            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .to have_css(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_css(".govuk-table__cell", text: "basic_bulk_submission.csv")
             .and have_link("basic_bulk_submission.csv")
-            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
-            .and have_selector(".govuk-table__cell", text: "Download results file for basic_bulk_submission.csv")
-            .and have_selector(".govuk-table__cell", text: "Remove")
+            .and have_css(".govuk-table__cell .govuk-tag.govuk-tag--green", text: /Ready/i)
+            .and have_css(".govuk-table__cell", text: "Download results file for basic_bulk_submission.csv")
+            .and have_css(".govuk-table__cell", text: "Remove")
 
-          expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
+          expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
 
-          expect(page).to have_selector(".govuk-table__body tr")
+          expect(page).to have_css(".govuk-table__body tr")
           click_link("Download results file for basic_bulk_submission.csv", match: :one)
 
           wait_for_download
@@ -169,14 +169,14 @@ RSpec.describe "View bulk submission index page" do
 
         within(".govuk-table") do
           expect(page)
-            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
-            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .to have_css(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_css(".govuk-table__cell", text: "basic_bulk_submission.csv")
             .and have_link("basic_bulk_submission.csv")
-            .and have_selector(".govuk-table__cell", text: /Processing/i)
+            .and have_css(".govuk-table__cell", text: /Processing/i)
 
-          expect(page).not_to have_selector(".govuk-table__cell", text: "Download")
-          expect(page).not_to have_selector(".govuk-table__cell", text: "Remove")
-          expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
+          expect(page).not_to have_css(".govuk-table__cell", text: "Download")
+          expect(page).not_to have_css(".govuk-table__cell", text: "Remove")
+          expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
         end
       end
     end
@@ -191,20 +191,20 @@ RSpec.describe "View bulk submission index page" do
 
         within(".govuk-table") do
           expect(page)
-            .to have_selector(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
-            .and have_selector(".govuk-table__cell", text: "basic_bulk_submission.csv")
+            .to have_css(".govuk-table__cell", text: Date.current.strftime("%d %b %Y"))
+            .and have_css(".govuk-table__cell", text: "basic_bulk_submission.csv")
             .and have_link("basic_bulk_submission.csv")
-            .and have_selector(".govuk-table__cell .govuk-tag.govuk-tag--red", text: /Exhausted/i)
-            .and have_selector(".govuk-table__cell", text: "Remove")
+            .and have_css(".govuk-table__cell .govuk-tag.govuk-tag--red", text: /Exhausted/i)
+            .and have_css(".govuk-table__cell", text: "Remove")
 
-          expect(page).not_to have_selector(".govuk-table__cell", text: "Cancel")
-          expect(page).not_to have_selector(".govuk-table__cell", text: "Download")
+          expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
+          expect(page).not_to have_css(".govuk-table__cell", text: "Download")
 
-          expect(page).to have_selector(".govuk-table__body tr")
+          expect(page).to have_css(".govuk-table__body tr")
           click_link("Remove", match: :one)
         end
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
+        expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
         expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
       end
     end

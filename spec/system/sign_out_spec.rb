@@ -16,7 +16,7 @@ RSpec.describe "sign out" do
     visit "/"
     click_link "Sign out"
     expect(page).to have_button("Start now")
-    expect(page).to have_selector(".govuk-notification-banner__header", text: "Important")
-    expect(page).to have_selector(".govuk-notification-banner__content", text: "Signed out successfully")
+    expect(page).to have_css(".govuk-notification-banner__header", text: "Important")
+    expect(page).to have_css(".govuk-notification-banner__content", text: "Signed out successfully")
   end
 end

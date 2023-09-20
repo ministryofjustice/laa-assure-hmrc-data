@@ -15,12 +15,12 @@ RSpec.describe "view profile" do
   it "takes user to home page" do
     visit "/"
     click_link "Jim Bob"
-    expect(page).to have_selector("h1", text: "Jim Bob")
-    expect(page).to have_selector(".govuk-summary-list__key", text: "First name")
-    expect(page).to have_selector(".govuk-summary-list__value", text: "Jim")
-    expect(page).to have_selector(".govuk-summary-list__key", text: "Last name")
-    expect(page).to have_selector(".govuk-summary-list__value", text: "Bob")
-    expect(page).to have_selector(".govuk-summary-list__key", text: "Email")
-    expect(page).to have_selector(".govuk-summary-list__value", text: "jim.bob@example.co.uk")
+    expect(page).to have_css("h1", text: "Jim Bob")
+    expect(page).to have_css(".govuk-summary-list__key", text: "First name")
+    expect(page).to have_css(".govuk-summary-list__value", text: "Jim")
+    expect(page).to have_css(".govuk-summary-list__key", text: "Last name")
+    expect(page).to have_css(".govuk-summary-list__value", text: "Bob")
+    expect(page).to have_css(".govuk-summary-list__key", text: "Email")
+    expect(page).to have_css(".govuk-summary-list__value", text: "jim.bob@example.co.uk")
   end
 end
