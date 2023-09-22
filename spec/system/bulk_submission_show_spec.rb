@@ -26,15 +26,15 @@ RSpec.describe "View bulk submission show page" do
       it "user can view it" do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
+        expect(page).to have_css(".govuk-heading-xl", text: "About this file")
         expect(page).to have_link("Back")
 
         within(".govuk-summary-list") do
           expect(page)
-            .to have_selector(".govuk-summary-list__value", text: bulk_submission.user.full_name)
-            .and have_selector(".govuk-summary-list__value", text: bulk_submission.created_at.strftime("%d %b %Y"))
-            .and have_selector(".govuk-summary-list__value", text: "basic_bulk_submission.csv")
-            .and have_selector(".govuk-summary-list__value .govuk-tag.govuk-tag--yellow", text: /Pending/i)
+            .to have_css(".govuk-summary-list__value", text: bulk_submission.user.full_name)
+            .and have_css(".govuk-summary-list__value", text: bulk_submission.created_at.strftime("%d %b %Y"))
+            .and have_css(".govuk-summary-list__value", text: "basic_bulk_submission.csv")
+            .and have_css(".govuk-summary-list__value .govuk-tag.govuk-tag--yellow", text: /Pending/i)
         end
 
         expect(page).not_to have_button("Confirm")
@@ -45,17 +45,17 @@ RSpec.describe "View bulk submission show page" do
         visit "/bulk_submissions"
 
         click_link("Cancel", match: :one)
-        expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to cancel this check?")
+        expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to cancel this check?")
 
         expect(page).to have_button("Yes, cancel check on basic_bulk_submission.csv")
         expect(page).not_to have_link("Download")
 
         click_button("Yes, cancel check on basic_bulk_submission.csv")
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
-        expect(page).to have_selector(".govuk-notification-banner__content",
+        expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
+        expect(page).to have_css(".govuk-notification-banner__content",
                                       text: "You've cancelled the check on basic_bulk_submission.csv")
-        expect(page).not_to have_selector(".govuk-table__body tr")
+        expect(page).not_to have_css(".govuk-table__body tr")
       end
     end
 
@@ -71,16 +71,16 @@ RSpec.describe "View bulk submission show page" do
       it "user can view it" do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
+        expect(page).to have_css(".govuk-heading-xl", text: "About this file")
         expect(page).to have_link("Back")
 
         within(".govuk-summary-list") do
           expect(page)
-            .to have_selector(".govuk-summary-list__value", text: bulk_submission.user.full_name)
-            .and have_selector(".govuk-summary-list__value", text: bulk_submission.created_at.strftime("%d %b %Y"))
-            .and have_selector(".govuk-summary-list__value", text: bulk_submission.expires_at.strftime("%d %b %Y"))
-            .and have_selector(".govuk-summary-list__value", text: "basic_bulk_submission.csv")
-            .and have_selector(".govuk-summary-list__value .govuk-tag.govuk-tag--green", text: /Ready/i)
+            .to have_css(".govuk-summary-list__value", text: bulk_submission.user.full_name)
+            .and have_css(".govuk-summary-list__value", text: bulk_submission.created_at.strftime("%d %b %Y"))
+            .and have_css(".govuk-summary-list__value", text: bulk_submission.expires_at.strftime("%d %b %Y"))
+            .and have_css(".govuk-summary-list__value", text: "basic_bulk_submission.csv")
+            .and have_css(".govuk-summary-list__value .govuk-tag.govuk-tag--green", text: /Ready/i)
         end
 
         expect(page).not_to have_button("Confirm")
@@ -91,23 +91,23 @@ RSpec.describe "View bulk submission show page" do
         visit "/bulk_submissions"
 
         click_link("Remove", match: :one)
-        expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
+        expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
 
         expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
         expect(page).to have_link("Download results file for basic_bulk_submission.csv")
 
         click_button("Yes, remove file basic_bulk_submission.csv")
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
-        expect(page).to have_selector(".govuk-notification-banner__content",
+        expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
+        expect(page).to have_css(".govuk-notification-banner__content",
                                       text: "You've removed basic_bulk_submission.csv")
-        expect(page).not_to have_selector(".govuk-table__body tr")
+        expect(page).not_to have_css(".govuk-table__body tr")
       end
 
       it "user can download it", js: true do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
+        expect(page).to have_css(".govuk-heading-xl", text: "About this file")
         expect(page).to have_link("Download results file for basic_bulk_submission.csv")
 
         click_link("Download results file for basic_bulk_submission.csv", match: :one)
@@ -124,14 +124,14 @@ RSpec.describe "View bulk submission show page" do
       it "user can view it" do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
+        expect(page).to have_css(".govuk-heading-xl", text: "About this file")
 
         within(".govuk-summary-list") do
           expect(page)
-            .to have_selector(".govuk-summary-list__value", text: bulk_submission.user.full_name)
-            .and have_selector(".govuk-summary-list__value", text: bulk_submission.created_at.strftime("%d %b %Y"))
-            .and have_selector(".govuk-summary-list__value", text: "basic_bulk_submission.csv")
-            .and have_selector(".govuk-summary-list__value .govuk-tag.govuk-tag--blue", text: /Processing/i)
+            .to have_css(".govuk-summary-list__value", text: bulk_submission.user.full_name)
+            .and have_css(".govuk-summary-list__value", text: bulk_submission.created_at.strftime("%d %b %Y"))
+            .and have_css(".govuk-summary-list__value", text: "basic_bulk_submission.csv")
+            .and have_css(".govuk-summary-list__value .govuk-tag.govuk-tag--blue", text: /Processing/i)
         end
 
         expect(page).not_to have_button("Confirm")
@@ -141,7 +141,7 @@ RSpec.describe "View bulk submission show page" do
       it "user can NOT remove it" do
         visit "/bulk_submissions/#{bulk_submission.id}?context=remove"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
+        expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
         expect(page).not_to have_button("Confirm")
         expect(page).not_to have_link("Download")
       end
@@ -153,14 +153,14 @@ RSpec.describe "View bulk submission show page" do
       it "user can view it" do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "About this file")
+        expect(page).to have_css(".govuk-heading-xl", text: "About this file")
 
         within(".govuk-summary-list") do
           expect(page)
-            .to have_selector(".govuk-summary-list__value", text: bulk_submission.user.full_name)
-            .and have_selector(".govuk-summary-list__value", text: bulk_submission.created_at.strftime("%d %b %Y"))
-            .and have_selector(".govuk-summary-list__value", text: "basic_bulk_submission.csv")
-            .and have_selector(".govuk-summary-list__value .govuk-tag.govuk-tag--red", text: /Exhausted/i)
+            .to have_css(".govuk-summary-list__value", text: bulk_submission.user.full_name)
+            .and have_css(".govuk-summary-list__value", text: bulk_submission.created_at.strftime("%d %b %Y"))
+            .and have_css(".govuk-summary-list__value", text: "basic_bulk_submission.csv")
+            .and have_css(".govuk-summary-list__value .govuk-tag.govuk-tag--red", text: /Exhausted/i)
         end
 
         expect(page).not_to have_button("Confirm")
@@ -170,16 +170,16 @@ RSpec.describe "View bulk submission show page" do
       it "user can remove it" do
         visit "/bulk_submissions/#{bulk_submission.id}?context=remove"
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
+        expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
         expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
         expect(page).not_to have_link("Download")
 
        click_button("Yes, remove file basic_bulk_submission.csv")
 
-        expect(page).to have_selector(".govuk-heading-xl", text: "Checked details")
-        expect(page).to have_selector(".govuk-notification-banner__content",
+        expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
+        expect(page).to have_css(".govuk-notification-banner__content",
                                       text: "You've removed basic_bulk_submission.csv")
-        expect(page).not_to have_selector(".govuk-table__body tr")
+        expect(page).not_to have_css(".govuk-table__body tr")
       end
     end
   end
