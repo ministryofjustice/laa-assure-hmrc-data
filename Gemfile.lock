@@ -346,7 +346,7 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.0.6)
-    rbs (3.2.1)
+    rbs (3.2.2)
     rdoc (6.5.0)
       psych (>= 4.0.0)
     redis-client (0.17.0)
