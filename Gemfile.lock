@@ -172,7 +172,7 @@ GEM
       activemodel (>= 6.1)
       activesupport (>= 6.1)
       html-attributes-utils (~> 1)
-    haml (6.1.2)
+    haml (6.2.0)
       temple (>= 0.8.2)
       thor
       tilt
