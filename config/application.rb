@@ -22,8 +22,8 @@ require_relative '../lib/govuk_component'
 
 module LaaAssureHmrcData
   class Application < Rails::Application
-    # Initialize configuration defaults for originally generated Rails version.
-    config.load_defaults 7.0
+    # Initialize configuration defaults for Rails version.
+    config.load_defaults 7.1
 
     # Configuration for the application, engines, and railties goes here.
     #
