@@ -2,7 +2,8 @@
 require "spec_helper"
 
 ENV["RAILS_ENV"] ||= "test"
-require_relative "../config/environment"
+
+require File.expand_path("../config/environment", __dir__)
 
 # Prevent database truncation if the environment is production
 if Rails.env.production?
