@@ -561,7 +561,7 @@ DEPENDENCIES
   prettier_print
   propshaft
   puma (~> 6.4)
-  rails (~> 7.1.0)
+  rails (~> 7.1.1)
   rails-controller-testing
   rspec
   rspec-html-matchers
