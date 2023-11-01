@@ -24,7 +24,7 @@ module HmrcInterface
     end
 
     def scopes=(scopes)
-      raise ConfigurationError, "scopes must be provider as an array" unless scopes.is_a?(Array)
+      raise Error::ConfigurationError, "scopes must be provider as an array" unless scopes.is_a?(Array)
       @scopes = scopes
     end
 
@@ -36,7 +36,7 @@ module HmrcInterface
       if has_required_logger_methods?(logger)
         @logger = logger
       else
-        raise ConfigurationError, "configured logger must respond to #{required_logger_methods.join(', ')}"
+        raise Error::ConfigurationError, "configured logger must respond to #{required_logger_methods.join(', ')}"
       end
     end
 

@@ -11,7 +11,8 @@ class HmrcInterfaceBaseWorker < ApplicationWorker
   sidekiq_retry_in do |_count, exception, _jobhash|
     if exception.is_a?(WorkerErrors::TryAgain)
       nil
-    elsif exception.is_a?(HmrcInterface::IncompleteResult) || exception.is_a?(HmrcInterface::RequestUnacceptable)
+    elsif exception.is_a?(HmrcInterface::Error::IncompleteResult) ||
+          exception.is_a?(HmrcInterface::Error::RequestUnacceptable)
       Rails.logger.error(exception.message)
       :kill
     end

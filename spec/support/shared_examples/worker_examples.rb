@@ -30,7 +30,7 @@ RSpec.shared_examples "hmrc interface worker" do
     end
 
     context "when incomplete result error raised" do
-      let(:exc) { HmrcInterface::IncompleteResult.new('only me') }
+      let(:exc) { HmrcInterface::Error::IncompleteResult.new('only me') }
 
       before do
         allow(Rails.logger).to receive(:error)
@@ -43,7 +43,7 @@ RSpec.shared_examples "hmrc interface worker" do
     end
 
     context "when request unacceptable result error raised" do
-      let(:exc) { HmrcInterface::RequestUnacceptable.new('only me') }
+      let(:exc) { HmrcInterface::Error::RequestUnacceptable.new('only me') }
 
       before do
         allow(Rails.logger).to receive(:error)
