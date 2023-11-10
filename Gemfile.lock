@@ -1,6 +1,7 @@
 GEM
   remote: https://rubygems.org/
   specs:
+    abbrev (0.1.1)
     actioncable (7.0.8)
       actionpack (= 7.0.8)
       activesupport (= 7.0.8)
@@ -346,7 +347,8 @@ GEM
       zeitwerk (~> 2.5)
     rainbow (3.1.1)
     rake (13.1.0)
-    rbs (3.2.2)
+    rbs (3.3.0)
+      abbrev
     rdoc (6.6.0)
       psych (>= 4.0.0)
     redis-client (0.18.0)
