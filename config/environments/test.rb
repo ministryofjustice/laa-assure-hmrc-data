@@ -53,4 +53,8 @@ Rails.application.configure do
 
   # Raise error when a before_action's only/except options reference missing actions
   config.action_controller.raise_on_missing_callback_actions = true
+
+  # This needs adding due to a rails 7.1.1 bug(?!) related to Unsafe threading and AR connection pool issues
+  # see https://github.com/rails/rails/issues/46797 for a good description
+  config.active_job.queue_adapter = :test
 end
