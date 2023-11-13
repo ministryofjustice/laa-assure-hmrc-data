@@ -127,9 +127,9 @@ RSpec.describe HmrcInterface::Request::Result do
         }
       end
 
-      it "raises HmrcInterface::RequestUnacceptable error with expected message" do
+      it "raises HmrcInterface::Error::RequestUnacceptable error with expected message" do
           expect { call }
-            .to raise_error(HmrcInterface::IncompleteResult,
+            .to raise_error(HmrcInterface::Error::IncompleteResult,
                             "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 500, details: #{expected_body}")
         end
     end
@@ -144,10 +144,10 @@ RSpec.describe HmrcInterface::Request::Result do
             .to_raise(OAuth2::Error)
         end
 
-        it "logs the exception as information and raises HmrcInterface::RequestError error" do
+        it "logs the exception as information and raises HmrcInterface::Error::RequestError error" do
           allow(Rails.logger).to receive(:info).and_call_original
 
-          expect { call }.to raise_error HmrcInterface::RequestError, /#{described_class} received OAuth2::Error/
+          expect { call }.to raise_error HmrcInterface::Error::RequestError, /#{described_class} received OAuth2::Error/
 
           expect(Rails.logger)
             .to have_received(:info) do |&block|
@@ -165,10 +165,10 @@ RSpec.describe HmrcInterface::Request::Result do
       context "with unexpected error StandardError" do
         include_context "with stubbed hmrc-interface submission result StandardError"
 
-        it "logs the exception as information and raises HmrcInterface::RequestError error" do
+        it "logs the exception as information and raises HmrcInterface::Error::RequestError error" do
           allow(Rails.logger).to receive(:info).and_call_original
 
-          expect { call }.to raise_error HmrcInterface::RequestError, /#{described_class} received StandardError/
+          expect { call }.to raise_error HmrcInterface::Error::RequestError, /#{described_class} received StandardError/
 
           expect(Rails.logger)
             .to have_received(:info) do |&block|
@@ -201,9 +201,9 @@ RSpec.describe HmrcInterface::Request::Result do
             )
         end
 
-        it "raises HmrcInterface::RequestUnacceptable error with expected message" do
+        it "raises HmrcInterface::Error::RequestUnacceptable error with expected message" do
           expect { call }
-            .to raise_error(HmrcInterface::RequestUnacceptable,
+            .to raise_error(HmrcInterface::Error::RequestUnacceptable,
                             "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 400, details: #{fake_error_body}")
         end
       end
@@ -228,9 +228,9 @@ RSpec.describe HmrcInterface::Request::Result do
             )
         end
 
-        it "raises HmrcInterface::RequestUnacceptable error with expected message" do
+        it "raises HmrcInterface::Error::RequestUnacceptable error with expected message" do
           expect { call }
-            .to raise_error(HmrcInterface::RequestUnacceptable,
+            .to raise_error(HmrcInterface::Error::RequestUnacceptable,
                             "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{fake_error_body}")
         end
       end
@@ -248,9 +248,9 @@ RSpec.describe HmrcInterface::Request::Result do
             )
         end
 
-        it "raises HmrcInterface::RequestUnacceptable error with expected message" do
+        it "raises HmrcInterface::Error::RequestUnacceptable error with expected message" do
           expect { call }
-            .to raise_error(HmrcInterface::RequestUnacceptable,
+            .to raise_error(HmrcInterface::Error::RequestUnacceptable,
                             "URL: #{fake_host}/api/v1/submission/result/fake-hmrc-interface-submission-id, status: 503, details: #{malformed_json_error_body}")
         end
       end

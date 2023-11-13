@@ -57,9 +57,9 @@ RSpec.describe HmrcInterface::Configuration do
     context "when string supplied" do
       let(:scopes) { "use_case_one,use_case_two" }
 
-      it 'raises ConfigurationError' do
+      it 'raises Error::ConfigurationError' do
         expect { instance.scopes = scopes }
-          .to raise_error(HmrcInterface::ConfigurationError, "scopes must be provider as an array")
+          .to raise_error(HmrcInterface::Error::ConfigurationError, "scopes must be provider as an array")
       end
     end
   end
@@ -181,9 +181,9 @@ RSpec.describe HmrcInterface::Configuration do
         end
       end
 
-      it "raises HmrcInterface::ConfigurationError with expected message" do
+      it "raises HmrcInterface::Error::ConfigurationError with expected message" do
         expect { instance.logger = logger }
-          .to raise_error HmrcInterface::ConfigurationError,
+          .to raise_error HmrcInterface::Error::ConfigurationError,
                             "configured logger must respond to info, warn, error, fatal, debug"
       end
     end

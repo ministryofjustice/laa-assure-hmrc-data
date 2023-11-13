@@ -24,7 +24,7 @@ module HmrcInterface
         if response.status == 202
           parsed_response
         else
-          raise RequestUnacceptable, detailed_error(response.env.url,
+          raise Error::RequestUnacceptable, detailed_error(response.env.url,
                                                     response.status,
                                                     parsed_response)
         end

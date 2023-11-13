@@ -13,7 +13,7 @@ module HmrcInterface
 
     def log_and_raise_request_error(message:, backtrace: nil, http_method: "POST", http_status: nil)
       config.logger.info { { message:, backtrace:, http_method:, http_status: } }
-      raise HmrcInterface::RequestError.new(message, http_status)
+      raise HmrcInterface::Error::RequestError.new(message, http_status)
     end
 
     def formatted_error_message(err)

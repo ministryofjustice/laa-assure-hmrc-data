@@ -1,9 +1,9 @@
-Dir[Rails.root.join('lib/extensions/*.rb')].each { |file| require file }
+Dir[File.expand_path("../../lib/extensions/*.rb", __dir__)].each { |file| require file }
 
 module Rails
-  extend RailsModuleExtension
+  extend Extensions::RailsModuleExtension
 end
 
 class Array
-  include ArrayExtension
+  include Extensions::ArrayExtension
 end

@@ -1,27 +1,29 @@
 module HmrcInterface
-  class RequestError < StandardError
-    include Nesty::NestedError
+  module Error
+    class RequestError < StandardError
+      include Nesty::NestedError
 
-    attr_reader :http_status
+      attr_reader :http_status
 
-    def initialize(message, http_status = nil)
-      @http_status = http_status
-      super(message)
+      def initialize(message, http_status = nil)
+        @http_status = http_status
+        super(message)
+      end
     end
-  end
 
-  class RequestUnacceptable < StandardError
-    def initialize(message = "unacceptable request")
-      super(message)
+    class RequestUnacceptable < StandardError
+      def initialize(message = "unacceptable request")
+        super(message)
+      end
     end
-  end
 
-  class IncompleteResult < StandardError
-    def initialize(message = "incomplete result")
-      super(message)
+    class IncompleteResult < StandardError
+      def initialize(message = "incomplete result")
+        super(message)
+      end
     end
-  end
 
-  class ConfigurationError < StandardError
+    class ConfigurationError < StandardError
+    end
   end
 end

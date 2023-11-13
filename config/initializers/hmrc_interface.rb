@@ -1,4 +1,4 @@
-require 'hmrc_interface'
+require "hmrc_interface"
 
 HmrcInterface.configure do |config|
   config.client_id = ENV.fetch("HMRC_INTERFACE_UID", nil)
