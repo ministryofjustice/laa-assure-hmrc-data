@@ -239,7 +239,7 @@ GEM
     minitest (5.20.0)
     msgpack (1.7.2)
     multi_xml (0.6.0)
-    mutex_m (0.1.2)
+    mutex_m (0.2.0)
     nesty (1.0.2)
     net-imap (0.4.5)
       date
