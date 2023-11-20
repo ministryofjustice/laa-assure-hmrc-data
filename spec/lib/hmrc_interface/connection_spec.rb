@@ -5,10 +5,10 @@ RSpec.describe HmrcInterface::Connection do
 
   let(:client) { HmrcInterface.client }
 
+  include_context "with stubbed host and bearer token"
+
   describe '#configuration' do
     subject(:configuration) { client.configuration }
-
-    include_context "with stubbed host and bearer token"
 
     it "is delegated to memoized HmrcInterface.configuration" do
       expect(configuration).to eql(HmrcInterface.configuration)
@@ -17,8 +17,6 @@ RSpec.describe HmrcInterface::Connection do
 
   describe '#connection' do
     subject(:connection) { instance.connection }
-
-    include_context "with stubbed host and bearer token"
 
     it 'is a faraday connection instance' do
       expect(connection).to be_instance_of(Faraday::Connection)

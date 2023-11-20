@@ -1,16 +1,26 @@
 RSpec.shared_context "with stubbed host" do
   let(:fake_host) { "https://fake-laa-hmrc-interface.service.justice.gov.uk" }
 
-  before { allow(HmrcInterface.configuration).to receive(:host).and_return(fake_host) }
+  before do
+    allow(HmrcInterface.configuration).to receive(:host).and_return(fake_host)
+    allow(HmrcInterface.configuration).to receive(:scopes).and_return("use_case_one,use_case_two")
+  end
 end
 
 RSpec.shared_context "with nil access token" do
+  let(:previous_access_token) { client.instance_variable_get(:@access_token) }
+
   before do
     # remove @access_token to ensure a new oauth token request is made, otherwise previous
     # calls in tests could mean the token exists already and has not expired, causing
     # the oauth/token endpoint to not be hit, resulting in test failure or flickers if oauth/token
     # end point hitting is expected by the test :(
+    previous_access_token
     client.instance_variable_set(:@access_token, nil)
+  end
+
+  after do
+    client.instance_variable_set(:@access_token, previous_access_token)
   end
 end
 

@@ -66,7 +66,7 @@ RSpec.describe HmrcInterface::Request::Submission do
     end
 
     context "when an error occurs in authentication" do
-      include_context "with stubbed host"
+      include_context "with stubbed host and bearer token"
       include_context "with nil access token"
 
       context "with invalid credentials" do
