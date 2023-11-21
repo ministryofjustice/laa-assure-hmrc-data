@@ -8,6 +8,10 @@ RSpec.describe User do
 
     before { user }
 
+    it_behaves_like "discardable model" do
+      let(:instance) { user }
+    end
+
     it "downcases the email automatically" do
       expect(user.email).to eq email.downcase
     end
