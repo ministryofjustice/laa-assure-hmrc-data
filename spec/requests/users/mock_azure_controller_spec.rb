@@ -25,6 +25,7 @@ RSpec.describe Users::MockAzureController do
   describe "POST users/mock_azure#create" do
     before do
       user
+      before_sign_in
       allow(Rails.configuration.x).to receive(:mock_azure).and_return(true)
       allow(Rails.configuration.x).to receive(:mock_azure_username).and_return(username)
       allow(Rails.configuration.x).to receive(:mock_azure_password).and_return("mockazurepassword")
@@ -32,6 +33,7 @@ RSpec.describe Users::MockAzureController do
       post user_session_path, params:
     end
 
+    let(:before_sign_in) { nil }
     let(:username) { "mock.azure@example.com" }
 
     let(:user) do
@@ -51,6 +53,17 @@ RSpec.describe Users::MockAzureController do
 
     context "when user doesn't exist" do
       let(:params) { { user: { email: 'no.user@example.com', password: 'irrelevant' } } }
+
+      it "redirects to fallback location and sets flash" do
+        expect(flash[:notice]).to match(/User not found or authorised!/)
+        expect(response).to redirect_to(unauthenticated_root_path)
+      end
+    end
+
+    context "when user has been discarded" do
+      let(:before_sign_in) { user.discard! }
+
+      let(:params) { { user: { email: username, password: 'mockazurepassword' } } }
 
       it "redirects to fallback location and sets flash" do
         expect(flash[:notice]).to match(/User not found or authorised!/)

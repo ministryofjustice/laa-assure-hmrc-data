@@ -1,4 +1,6 @@
 class User < ApplicationRecord
+  include Discard::Model
+
   encrypts :auth_subject_uid, deterministic: true
 
   devise :timeoutable,

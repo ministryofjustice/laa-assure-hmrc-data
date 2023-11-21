@@ -23,7 +23,7 @@ RSpec.describe BulkSubmission do
     end
   end
 
-  describe "#undicard" do
+  describe "#undiscard" do
     subject(:undiscard) { instance.undiscard }
 
     before do
