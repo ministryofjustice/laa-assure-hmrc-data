@@ -4,9 +4,12 @@ RSpec.describe Users::OmniauthCallbacksController do
   describe "POST users/auth/azure_ad/callback" do
     before do
       user
+      before_sign_in
       allow(Rails.logger).to receive(:error).and_call_original
       post user_azure_ad_omniauth_callback_path
     end
+
+    let(:before_sign_in) { nil }
 
     context "when applicable user exists" do
       let(:user) do
@@ -24,6 +27,23 @@ RSpec.describe Users::OmniauthCallbacksController do
 
     context "when no applicable user exists" do
       let(:user) { nil }
+
+      it "redirects to fallback location, logs and sets flash" do
+        expect(flash[:notice]).to match(/User not found or authorised!/)
+        expect(Rails.logger).to have_received(:error).with("Couldn't login user")
+        expect(response).to redirect_to(unauthenticated_root_path)
+      end
+    end
+
+    context "when user exists but has been discarded" do
+      let(:before_sign_in) { user.discard! }
+
+      let(:user) do
+        User.create!(email: "Jim.Bob@example.co.uk",
+                     first_name: "Jim",
+                     last_name: "Bob",
+                     auth_provider: "azure_ad")
+      end
 
       it "redirects to fallback location, logs and sets flash" do
         expect(flash[:notice]).to match(/User not found or authorised!/)
