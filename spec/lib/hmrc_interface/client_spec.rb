@@ -3,23 +3,10 @@ require "rails_helper"
 RSpec.describe HmrcInterface::Client do
   subject(:client) { described_class.new }
 
-  before do
-    allow(HmrcInterface.configuration)
-      .to receive(:host)
-      .and_return("https://fake-laa-hmrc-interface.service.justice.gov.uk")
-
-    stub_request(:post, %r{(http|https).*laa-hmrc-interface.*/oauth/token})
-      .to_return(
-        status: 200,
-        body: '{"access_token":"test-bearer-token","token_type":"Bearer","expires_in":7200,"created_at":1582809000}',
-        headers: { "Content-Type" => "application/json; charset=utf-8" },
-      )
-  end
+  include_context "with stubbed host and bearer token"
 
   describe "#configuration" do
     subject(:configuration) { client.configuration }
-
-    include_context "with stubbed host"
 
     it "is delegated to memoized HmrcInterface.configuration" do
       expect(configuration).to eql(HmrcInterface.configuration)
@@ -28,8 +15,6 @@ RSpec.describe HmrcInterface::Client do
 
   describe "#host" do
     subject(:host) { client.host }
-
-    include_context "with stubbed host"
 
     it "is delegated to configuration#host" do
       expect(host).to eql("https://fake-laa-hmrc-interface.service.justice.gov.uk")
@@ -74,9 +59,7 @@ RSpec.describe HmrcInterface::Client do
       end
 
       context "when token nil?" do
-        before do
-          client.instance_variable_set(:@access_token, nil)
-        end
+        include_context "with nil access token"
 
         it "retrieves new access_token using client_credentials grant type" do
           expect(access_token).to eq(new_token)
