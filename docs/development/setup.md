@@ -43,10 +43,11 @@ redis-server
 Retrieve/create local Azure AD secrets for yourself:
 
 - copy `.env.sample` to `.env.development`
+- set `MOCK_AZURE` to `false` in your `env.development` file
 - login to [portal.azure.com](https://portal.azure.com/) using your `justice.gov.uk` account
 - find the "App registration" called `laa-assure-hmrc-data [local]`
 - copy the "Application (client) ID" and set its value as `OMNIAUTH_AZURE_CLIENT_ID` env var
-- copy the "Application (tenant) ID" and set its value as `OMNIAUTH_AZURE_TENANT_ID` env var
+- copy the "Directory (tenant) ID" and set its value as `OMNIAUTH_AZURE_TENANT_ID` env var
 - select "Certificates & secrets" from the sidebar
 - click the "+ New client secret" (you will need to be made an owner of the registration)
 - name it `laa-assure-hmrc-data [my-name]`
