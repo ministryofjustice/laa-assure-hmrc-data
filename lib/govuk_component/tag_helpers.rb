@@ -1,7 +1,7 @@
 module GovukComponent
   module TagHelpers
     def govuk_status_tag(status = nil)
-      govuk_tag(text: status, colour: status_colour[status])
+      govuk_tag(text: status.titlecase, colour: status_colour[status])
     end
 
   private

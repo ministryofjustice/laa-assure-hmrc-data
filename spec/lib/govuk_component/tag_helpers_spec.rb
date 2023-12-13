@@ -11,7 +11,7 @@ RSpec.describe GovukComponent::TagHelpers, type: :helper do
     end
 
     it 'yields status text to strong tag' do
-      expect(markup).to have_tag(:strong, text: 'pending')
+      expect(markup).to have_tag(:strong, text: 'Pending')
     end
 
     context 'with known status' do
