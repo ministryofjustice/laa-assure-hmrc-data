@@ -39,7 +39,7 @@ module LaaAssureHmrcData
     # config.eager_load_paths << Rails.root.join("extras")
 
     config.assets.paths << Rails.root.join(
-      "node_modules/govuk-frontend/govuk/assets"
+      "node_modules/govuk-frontend/dist/govuk/assets"
     )
 
     # https://edgeguides.rubyonrails.org/active_storage_overview.html#authenticated-controllers
