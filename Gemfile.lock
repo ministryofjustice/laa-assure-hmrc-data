@@ -189,7 +189,7 @@ GEM
       temple (>= 0.8.2)
       thor
       tilt
-    hashdiff (1.0.1)
+    hashdiff (1.1.0)
     hashie (5.0.0)
     highline (2.1.0)
     html-attributes-utils (1.0.2)
