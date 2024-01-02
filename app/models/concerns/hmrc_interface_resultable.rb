@@ -78,7 +78,7 @@ module HmrcInterfaceResultable
     # returns array of decimals
     def child_tax_credit_award_total_entitlements
       @child_tax_credit_award_total_entitlements ||=
-        child_tax_credit_awards&.map { |el| el["totalEntitlement"] }
+        child_tax_credit_awards&.pluck("totalEntitlement")
     end
 
     # returns array of hashes
@@ -95,7 +95,7 @@ module HmrcInterfaceResultable
     # returns array of decimals
     def working_tax_credit_award_total_entitlements
       @working_tax_credit_award_total_entitlements ||=
-        working_tax_credit_awards&.map { |el| el["totalEntitlement"] }
+        working_tax_credit_awards&.pluck("totalEntitlement")
     end
 
     # returns hash
