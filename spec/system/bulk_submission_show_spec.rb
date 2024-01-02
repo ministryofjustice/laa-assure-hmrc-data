@@ -104,7 +104,7 @@ RSpec.describe "View bulk submission show page" do
         expect(page).not_to have_css(".govuk-table__body tr")
       end
 
-      it "user can download it", js: true do
+      it "user can download it", :js do
         visit "/bulk_submissions/#{bulk_submission.id}"
 
         expect(page).to have_css(".govuk-heading-xl", text: "About this file")

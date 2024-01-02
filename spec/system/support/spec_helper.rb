@@ -37,12 +37,12 @@ RSpec.configure do |config|
     end
   end
 
-  config.before(:each, js: true, type: :system) do
+  config.before(:each, :js, type: :system) do
     clear_downloads
     driven_by :headless_chrome
   end
 
-  config.after(:each, js: true, type: :system) do
+  config.after(:each, :js, type: :system) do
     clear_downloads
   end
 

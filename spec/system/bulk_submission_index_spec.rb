@@ -135,7 +135,7 @@ RSpec.describe "View bulk submission index page" do
         expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
       end
 
-      it "user can download them", js: true do
+      it "user can download them", :js do
         visit "/bulk_submissions"
 
         within(".govuk-table") do

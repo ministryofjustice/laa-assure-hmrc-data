@@ -39,7 +39,7 @@ Rails.application.routes.draw do
 
   resources :users, only: :show
   resources :bulk_submissions, only: [:show, :index, :destroy] do
-    if Rails.env.development? || Rails.env.test? || Rails.host.uat?
+    if Rails.env.local? || Rails.host.uat?
       get :process_all, on: :collection
     end
     get :download, on: :member
