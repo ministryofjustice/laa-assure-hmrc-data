@@ -34,7 +34,7 @@ private
     CSV.generate(headers: :first_row, force_quotes: true) do |csv|
       csv << result_parser.headers
 
-      bulk_submission.submissions.where(use_case: :one).each do |submission|
+      bulk_submission.submissions.where(use_case: :one).find_each do |submission|
         csv << result_parser.new(submission).row
       end
     end
