@@ -8,8 +8,7 @@ RSpec.describe Users::MockAzureController do
 
   describe "GET users/mock_azure" do
     before do
-      allow(Rails.configuration.x).to receive(:mock_azure).and_return(true)
-      allow(Rails.configuration.x).to receive(:mock_azure_password).and_return("mockazurepassword")
+      allow(Rails.configuration.x).to receive_messages(mock_azure: true, mock_azure_password: "mockazurepassword")
       Rails.application.reload_routes!
       get user_session_path
     end
@@ -26,9 +25,8 @@ RSpec.describe Users::MockAzureController do
     before do
       user
       before_sign_in
-      allow(Rails.configuration.x).to receive(:mock_azure).and_return(true)
-      allow(Rails.configuration.x).to receive(:mock_azure_username).and_return(username)
-      allow(Rails.configuration.x).to receive(:mock_azure_password).and_return("mockazurepassword")
+      allow(Rails.configuration.x).to receive_messages(mock_azure: true, mock_azure_username: username, 
+mock_azure_password: "mockazurepassword")
       Rails.application.reload_routes!
       post user_session_path, params:
     end

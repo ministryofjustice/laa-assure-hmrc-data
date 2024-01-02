@@ -2,8 +2,7 @@ RSpec.shared_context "with stubbed host" do
   let(:fake_host) { "https://fake-laa-hmrc-interface.service.justice.gov.uk" }
 
   before do
-    allow(HmrcInterface.configuration).to receive(:host).and_return(fake_host)
-    allow(HmrcInterface.configuration).to receive(:scopes).and_return("use_case_one,use_case_two")
+    allow(HmrcInterface.configuration).to receive_messages(host: fake_host, scopes: "use_case_one,use_case_two")
   end
 end
 
