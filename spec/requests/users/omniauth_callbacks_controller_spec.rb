@@ -52,7 +52,7 @@ RSpec.describe Users::OmniauthCallbacksController do
       end
     end
 
-    context "when omniauth fails", omniauth_failure: true do
+    context "when omniauth fails", :omniauth_failure do
       let(:user) { nil }
 
       it "redirects to unauthenticated root" do

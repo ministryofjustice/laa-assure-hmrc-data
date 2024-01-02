@@ -250,7 +250,7 @@ RSpec.describe BulkSubmissionFormsController do
       end
     end
 
-    context "with malware file added and upload pressed", scan_with_clamav: true do
+    context "with malware file added and upload pressed", :scan_with_clamav do
       let(:commit) { "upload" }
 
       let(:bulk_submission_form_params) { { commit:, uploaded_file: fixture_file_upload('malware.csv') } }

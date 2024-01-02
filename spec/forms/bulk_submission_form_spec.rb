@@ -138,7 +138,7 @@ RSpec.describe BulkSubmissionForm, type: :model do
       end
     end
 
-    context "with a file containing a virus", scan_with_clamav: true do
+    context "with a file containing a virus", :scan_with_clamav do
       let(:a_file) { fixture_file_upload('malware.csv', 'text/csv') }
 
       it "adds error to object" do

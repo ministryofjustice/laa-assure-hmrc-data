@@ -20,7 +20,7 @@ end
 # Also, swallow stdout message from devise
 # nameley: "ERROR -- omniauth: (azure_ad) Authentication failure! invalid_credentials encountered"
 RSpec.configure do |config|
-  config.around(:each, omniauth_failure: true) do |example|
+  config.around(:each, :omniauth_failure) do |example|
     mock_azure_ad_invalid_credentials do
       silence_stdout do
         example.run
