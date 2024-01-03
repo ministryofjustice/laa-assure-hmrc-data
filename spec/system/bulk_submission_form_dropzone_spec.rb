@@ -17,8 +17,8 @@ RSpec.describe "sign in", :js do
       it "user sees dropzone fields, not upload fields" do
         visit "/bulk_submission_forms/new"
 
-        expect(page).not_to have_field("uploaded_file")
-        expect(page).not_to have_button("Upload")
+        expect(page).to have_no_field("uploaded_file")
+        expect(page).to have_no_button("Upload")
 
         expect(page)
           .to have_css("#dropzone-form-group", visible: :visible)

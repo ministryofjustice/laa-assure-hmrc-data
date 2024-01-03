@@ -61,7 +61,7 @@ RSpec.describe "View bulk submission index page" do
         end
 
         expect(page).to have_css(".govuk-heading-xl", text: "About this file")
-        expect(page).not_to have_button("cancel")
+        expect(page).to have_no_button("cancel")
 
         click_on("Back")
         expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
@@ -107,7 +107,7 @@ RSpec.describe "View bulk submission index page" do
         end
 
         expect(page).to have_css(".govuk-heading-xl", text: "About this file")
-        expect(page).not_to have_button("basic_bulk_submission")
+        expect(page).to have_no_button("basic_bulk_submission")
 
         click_on("Back")
         expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
@@ -125,7 +125,7 @@ RSpec.describe "View bulk submission index page" do
             .and have_css(".govuk-table__cell", text: "Download results file for basic_bulk_submission.csv")
             .and have_css(".govuk-table__cell", text: "Remove")
 
-          expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
+          expect(page).to have_no_css(".govuk-table__cell", text: "Cancel")
 
           expect(page).to have_css(".govuk-table__body tr")
           click_on("Remove", match: :one)
@@ -147,7 +147,7 @@ RSpec.describe "View bulk submission index page" do
             .and have_css(".govuk-table__cell", text: "Download results file for basic_bulk_submission.csv")
             .and have_css(".govuk-table__cell", text: "Remove")
 
-          expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
+          expect(page).to have_no_css(".govuk-table__cell", text: "Cancel")
 
           expect(page).to have_css(".govuk-table__body tr")
           click_on("Download results file for basic_bulk_submission.csv", match: :one)
@@ -174,9 +174,9 @@ RSpec.describe "View bulk submission index page" do
             .and have_link("basic_bulk_submission.csv")
             .and have_css(".govuk-table__cell", text: /Processing/i)
 
-          expect(page).not_to have_css(".govuk-table__cell", text: "Download")
-          expect(page).not_to have_css(".govuk-table__cell", text: "Remove")
-          expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
+          expect(page).to have_no_css(".govuk-table__cell", text: "Download")
+          expect(page).to have_no_css(".govuk-table__cell", text: "Remove")
+          expect(page).to have_no_css(".govuk-table__cell", text: "Cancel")
         end
       end
     end
@@ -197,8 +197,8 @@ RSpec.describe "View bulk submission index page" do
             .and have_css(".govuk-table__cell .govuk-tag.govuk-tag--red", text: /Exhausted/i)
             .and have_css(".govuk-table__cell", text: "Remove")
 
-          expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
-          expect(page).not_to have_css(".govuk-table__cell", text: "Download")
+          expect(page).to have_no_css(".govuk-table__cell", text: "Cancel")
+          expect(page).to have_no_css(".govuk-table__cell", text: "Download")
 
           expect(page).to have_css(".govuk-table__body tr")
           click_on("Remove", match: :one)

@@ -20,8 +20,8 @@ RSpec.describe "sign in" do
       expect(page).to have_button("Upload")
 
       expect(page).to have_css("#dropzone-form-group.hidden")
-      expect(page).not_to have_css(".dz-clickable", visible: :all)
-      expect(page).not_to have_css(".dz-hidden-input", visible: :all)
+      expect(page).to have_no_css(".dz-clickable", visible: :all)
+      expect(page).to have_no_css(".dz-hidden-input", visible: :all)
     end
 
     it "user can upload and delete a CSV from a bulk submission" do
