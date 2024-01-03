@@ -14,7 +14,7 @@ RSpec.describe "view profile" do
 
   it "takes user to home page" do
     visit "/"
-    click_link "Jim Bob"
+    click_on "Jim Bob"
     expect(page).to have_css("h1", text: "Jim Bob")
     expect(page).to have_css(".govuk-summary-list__key", text: "First name")
     expect(page).to have_css(".govuk-summary-list__value", text: "Jim")

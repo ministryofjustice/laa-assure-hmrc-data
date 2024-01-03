@@ -42,7 +42,7 @@ before { User.create!(email: "Jim.Bob@example.co.uk", auth_provider: "azure_ad")
 
 it "signs in" do
   visit "/"
-  click_button "Start now"
+  click_on "Start now"
 end
 ```
 

@@ -20,8 +20,8 @@ RSpec.describe "sign in" do
       expect(page).to have_button("Upload")
 
       expect(page).to have_css("#dropzone-form-group.hidden")
-      expect(page).not_to have_css(".dz-clickable", visible: :all)
-      expect(page).not_to have_css(".dz-hidden-input", visible: :all)
+      expect(page).to have_no_css(".dz-clickable", visible: :all)
+      expect(page).to have_no_css(".dz-hidden-input", visible: :all)
     end
 
     it "user can upload and delete a CSV from a bulk submission" do
@@ -33,7 +33,7 @@ RSpec.describe "sign in" do
       end
 
       attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))
-      click_button "Upload"
+      click_on "Upload"
 
       within("#uploaded-files-table-container") do
         expect(page)
@@ -41,7 +41,7 @@ RSpec.describe "sign in" do
           .and have_css(".govuk-table__cell .govuk-tag", text: /Uploaded/i)
           .and have_button("Delete")
 
-        click_button "Delete"
+        click_on "Delete"
 
         expect(page).to have_css(".govuk-body", text: "Files uploaded will appear here")
       end
@@ -56,14 +56,14 @@ RSpec.describe "sign in" do
       end
 
       attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))
-      click_button "Upload"
+      click_on "Upload"
 
       within("#uploaded-files-table-container") do
         expect(page).to have_css(".govuk-table__cell", text: "basic_bulk_submission.csv")
       end
 
       attach_file('uploaded_file', file_fixture("basic_bulk_submission_copy.csv"))
-      click_button "Upload"
+      click_on "Upload"
 
       within("#uploaded-files-table-container") do
         expect(page).to have_css(".govuk-table__cell", text: "basic_bulk_submission_copy.csv")
