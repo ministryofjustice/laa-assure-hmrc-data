@@ -216,9 +216,10 @@ GEM
     jsbundling-rails (1.2.1)
       railties (>= 6.0.0)
     json (2.7.1)
-    json-jwt (1.16.4)
+    json-jwt (1.16.5)
       activesupport (>= 4.2)
       aes_key_wrap
+      base64
       bindata
       faraday (~> 2.0)
       faraday-follow_redirects
