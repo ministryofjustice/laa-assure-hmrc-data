@@ -17,12 +17,12 @@ RSpec.describe "View bulk submission index page" do
       visit "/bulk_submissions"
       expect(page).to have_content("Checked details")
 
-      click_link "Check new details"
+      click_on "Check new details"
       expect(page).to have_content("Upload a file")
 
       attach_file('uploaded_file', file_fixture("basic_bulk_submission.csv"))
-      click_button "Upload"
-      click_button "Save and continue"
+      click_on "Upload"
+      click_on "Save and continue"
       expect(page).to have_content("Checked details")
 
       within(".govuk-table") do
@@ -57,13 +57,13 @@ RSpec.describe "View bulk submission index page" do
             .and have_css(".govuk-table__cell", text: "Cancel")
 
           expect(page).to have_css(".govuk-table__body tr")
-          click_link("basic_bulk_submission.csv", match: :first)
+          click_on("basic_bulk_submission.csv", match: :first)
         end
 
         expect(page).to have_css(".govuk-heading-xl", text: "About this file")
         expect(page).not_to have_button("cancel")
 
-        click_link("Back")
+        click_on("Back")
         expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
       end
 
@@ -78,7 +78,7 @@ RSpec.describe "View bulk submission index page" do
             .and have_css(".govuk-table__cell", text: "Cancel")
 
           expect(page).to have_css(".govuk-table__body tr")
-          click_link("Cancel", match: :one)
+          click_on("Cancel", match: :one)
         end
 
         expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to cancel this check?")
@@ -103,13 +103,13 @@ RSpec.describe "View bulk submission index page" do
             .and have_css(".govuk-table__cell", text: "Remove")
 
           expect(page).to have_css(".govuk-table__body tr")
-          click_link("basic_bulk_submission.csv", match: :first)
+          click_on("basic_bulk_submission.csv", match: :first)
         end
 
         expect(page).to have_css(".govuk-heading-xl", text: "About this file")
         expect(page).not_to have_button("basic_bulk_submission")
 
-        click_link("Back")
+        click_on("Back")
         expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
       end
 
@@ -128,7 +128,7 @@ RSpec.describe "View bulk submission index page" do
           expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
 
           expect(page).to have_css(".govuk-table__body tr")
-          click_link("Remove", match: :one)
+          click_on("Remove", match: :one)
         end
 
         expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
@@ -150,7 +150,7 @@ RSpec.describe "View bulk submission index page" do
           expect(page).not_to have_css(".govuk-table__cell", text: "Cancel")
 
           expect(page).to have_css(".govuk-table__body tr")
-          click_link("Download results file for basic_bulk_submission.csv", match: :one)
+          click_on("Download results file for basic_bulk_submission.csv", match: :one)
 
           wait_for_download
           expect(downloads.length).to eq(1)
@@ -201,7 +201,7 @@ RSpec.describe "View bulk submission index page" do
           expect(page).not_to have_css(".govuk-table__cell", text: "Download")
 
           expect(page).to have_css(".govuk-table__body tr")
-          click_link("Remove", match: :one)
+          click_on("Remove", match: :one)
         end
 
         expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to remove this file?")

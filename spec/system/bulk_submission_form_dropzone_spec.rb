@@ -49,7 +49,7 @@ RSpec.describe "sign in", :js do
             .and have_css(".govuk-table__cell .govuk-tag", text: /Uploaded/i)
             .and have_button("Delete")
 
-          click_button "Delete"
+          click_on "Delete"
 
           expect(page).to have_css(".govuk-body", text: "Files uploaded will appear here")
         end
@@ -97,7 +97,7 @@ RSpec.describe "sign in", :js do
         visit "/bulk_submission_forms/new"
         expect(page).to have_content("Upload a file")
 
-        click_button "Save and continue"
+        click_on "Save and continue"
         expect(page)
           .to have_css(".govuk-error-summary__title", text: "There is a problem")
           .and have_css(".govuk-error-summary__body", text: "You must select a file to upload")

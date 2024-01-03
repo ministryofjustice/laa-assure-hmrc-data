@@ -44,13 +44,13 @@ RSpec.describe "View bulk submission show page" do
       it "user can cancel it" do
         visit "/bulk_submissions"
 
-        click_link("Cancel", match: :one)
+        click_on("Cancel", match: :one)
         expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to cancel this check?")
 
         expect(page).to have_button("Yes, cancel check on basic_bulk_submission.csv")
         expect(page).not_to have_link("Download")
 
-        click_button("Yes, cancel check on basic_bulk_submission.csv")
+        click_on("Yes, cancel check on basic_bulk_submission.csv")
 
         expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
         expect(page).to have_css(".govuk-notification-banner__content",
@@ -90,13 +90,13 @@ RSpec.describe "View bulk submission show page" do
       it "user can remove it" do
         visit "/bulk_submissions"
 
-        click_link("Remove", match: :one)
+        click_on("Remove", match: :one)
         expect(page).to have_css(".govuk-heading-xl", text: "Are you sure you want to remove this file?")
 
         expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
         expect(page).to have_link("Download results file for basic_bulk_submission.csv")
 
-        click_button("Yes, remove file basic_bulk_submission.csv")
+        click_on("Yes, remove file basic_bulk_submission.csv")
 
         expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
         expect(page).to have_css(".govuk-notification-banner__content",
@@ -110,7 +110,7 @@ RSpec.describe "View bulk submission show page" do
         expect(page).to have_css(".govuk-heading-xl", text: "About this file")
         expect(page).to have_link("Download results file for basic_bulk_submission.csv")
 
-        click_link("Download results file for basic_bulk_submission.csv", match: :one)
+        click_on("Download results file for basic_bulk_submission.csv", match: :one)
         wait_for_download
 
         expect(downloads.length).to eq(1)
@@ -174,7 +174,7 @@ RSpec.describe "View bulk submission show page" do
         expect(page).to have_button("Yes, remove file basic_bulk_submission.csv")
         expect(page).not_to have_link("Download")
 
-       click_button("Yes, remove file basic_bulk_submission.csv")
+       click_on("Yes, remove file basic_bulk_submission.csv")
 
         expect(page).to have_css(".govuk-heading-xl", text: "Checked details")
         expect(page).to have_css(".govuk-notification-banner__content",

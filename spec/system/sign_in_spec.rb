@@ -4,7 +4,7 @@ RSpec.describe "sign in" do
   context "with unauthorised user" do
     it "redirects user back to landing page" do
       visit "/"
-      click_button "Start now"
+      click_on "Start now"
       expect(page).to have_content("Start now")
     end
   end
@@ -16,8 +16,8 @@ RSpec.describe "sign in" do
 
     it "takes user to home page" do
       visit "/"
-      click_button "Start now"
-      
+      click_on "Start now"
+
       expect(page)
         .to have_css("h1", text: "Checked details")
         .and have_css(".govuk-header__navigation-item--active", text: "Checked details")
@@ -33,7 +33,7 @@ RSpec.describe "sign in" do
 
     it "takes user to home page" do
       visit "/"
-      click_button "Start now"
+      click_on "Start now"
 
       expect(page)
         .to have_css("h1", text: "Checked details")
