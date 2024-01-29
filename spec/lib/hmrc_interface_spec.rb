@@ -17,7 +17,7 @@ RSpec.describe HmrcInterface do
     it { is_expected.to be_instance_of(described_class::Configuration) }
 
     it 'memoizes the configuration' do
-      expect(configuration).to be_equal(described_class.configuration)
+      expect(configuration).to eql(described_class.configuration)
     end
 
     it "aliased to config" do
