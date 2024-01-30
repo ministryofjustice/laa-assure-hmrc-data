@@ -146,6 +146,7 @@ RSpec.describe HmrcInterface::Configuration do
       let(:ruby_logger) { instance_double(Logger)}
 
       # rubocop:disable RSpec/LeakyConstantDeclaration
+      # rubocop:disable RSpec/RemoveConst
       around do |example|
         TempRails = Object.send(:remove_const, :Rails)
         example.run
@@ -154,6 +155,7 @@ RSpec.describe HmrcInterface::Configuration do
         Object.send(:remove_const, :TempRails)
       end
       # rubocop:enable RSpec/LeakyConstantDeclaration
+      # rubocop:enable RSpec/RemoveConst
 
       it "defaults to using ruby standard library Logger" do
         expect(logger).to be ruby_logger
