@@ -38,7 +38,7 @@ runs:
   using: "composite"
   steps:
     - name: Checkout
-      uses: actions/checkout@v3
+      uses: actions/checkout@v4
 
     - name: Extract release name
       id: extract_release_name
@@ -53,14 +53,14 @@ runs:
         kube-namespace: ${{ inputs.kube-namespace }}
 
     - name: Assume role in Cloud Platform
-      uses: aws-actions/configure-aws-credentials@v2
+      uses: aws-actions/configure-aws-credentials@v4
       with:
         role-to-assume: ${{ inputs.ecr-role-to-assume }}
         aws-region: ${{ inputs.ecr-region }}
 
     - name: Docker login to ECR
       id: login-ecr
-      uses: aws-actions/amazon-ecr-login@v1
+      uses: aws-actions/amazon-ecr-login@v2
       with:
         mask-password: 'true'
 
