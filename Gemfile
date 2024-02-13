@@ -8,7 +8,7 @@ gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem 'devise'
 gem "discard", "~> 1.3"
-gem 'dotenv-rails'
+gem 'dotenv'
 gem "govuk-components"
 gem "govuk_design_system_formbuilder"
 gem "jsbundling-rails"
