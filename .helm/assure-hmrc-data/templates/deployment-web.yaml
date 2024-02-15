@@ -55,5 +55,12 @@ spec:
               path: /status
               port: http
             initialDelaySeconds: 30
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop: [ "ALL" ]
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
