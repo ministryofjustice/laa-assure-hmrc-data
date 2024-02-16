@@ -70,6 +70,13 @@ spec:
             requests:
               cpu: 10m
               memory: 512Mi
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop: [ "ALL" ]
           ports:
             - containerPort: 7433
           livenessProbe:
@@ -99,6 +106,13 @@ spec:
             requests:
               cpu: 10m
               memory: 512Mi
+          securityContext:
+            runAsNonRoot: true
+            allowPrivilegeEscalation: false
+            seccompProfile:
+              type: RuntimeDefault
+            capabilities:
+              drop: [ "ALL" ]
           ports:
             - containerPort: 7433
           livenessProbe:
