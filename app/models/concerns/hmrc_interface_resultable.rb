@@ -6,8 +6,8 @@ module HmrcInterfaceResultable
  included do
     # returns integer or nil
     def tax_credit_annual_award_amount
-      @tax_credit_annual_award_amount ||= child_tax_credit_award_total_entitlements&.first \
-                                            || working_tax_credit_award_total_entitlements&.first
+      @tax_credit_annual_award_amount ||= child_tax_credit_award_total_entitlements&.first ||
+        working_tax_credit_award_total_entitlements&.first
     end
 
     # returns integer or zero
