@@ -15,7 +15,7 @@
   },
   "devDependencies": {
     "@prettier/plugin-ruby": "^4.0.4",
-    "postcss": "^8.4.37",
+    "postcss": "^8.4.38",
     "prettier": "^3.2.5",
     "standard": "^17.1.0",
     "stylelint": "^16.2.1",
