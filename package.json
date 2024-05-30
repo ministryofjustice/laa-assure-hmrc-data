@@ -11,7 +11,8 @@
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --minify --outdir=app/assets/builds --public-path=assets",
     "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --style=compressed --load-path=node_modules --quiet-deps",
     "standardjs": "standard",
-    "stylelint": "stylelint app/assets/stylesheets"
+    "stylelint": "stylelint app/assets/stylesheets",
+    "postinstall": "rm -rf node_modules/resolve/test/resolver/multirepo node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/multirepo"
   },
   "devDependencies": {
     "@prettier/plugin-ruby": "^4.0.4",
