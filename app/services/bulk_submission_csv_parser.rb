@@ -8,13 +8,13 @@ class BulkSubmissionCsvParser
 
   class InvalidHeader < ParserError
     def initialize(message="invalid or missing headers")
-      super(message)
+      super
     end
   end
 
   class NoDataFound < ParserError
     def initialize(message="no data found")
-      super(message)
+      super
     end
   end
 

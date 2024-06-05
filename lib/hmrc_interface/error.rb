@@ -13,13 +13,13 @@ module HmrcInterface
 
     class RequestUnacceptable < StandardError
       def initialize(message = "unacceptable request")
-        super(message)
+        super
       end
     end
 
     class IncompleteResult < StandardError
       def initialize(message = "incomplete result")
-        super(message)
+        super
       end
     end
 
