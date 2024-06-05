@@ -1,7 +1,7 @@
 module WorkerErrors
    class TryAgain < StandardError
     def initialize(message = "still processing...")
-      super(message)
+      super
     end
   end
 end
