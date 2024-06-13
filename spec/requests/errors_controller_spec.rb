@@ -20,7 +20,7 @@ RSpec.describe ErrorsController do
     before { get "/422" }
 
     it "returns status 422 and unprocessable entity content", :aggregate_failures do
-      expect(response).to have_http_status(:unprocessable_entity)
+      expect(response).to have_http_status(:unprocessable_content)
       expect(response.body).to include("Sorry, there’s a problem with the service")
       expect(response.body).to include("Try again later.")
       expect(response.body)
