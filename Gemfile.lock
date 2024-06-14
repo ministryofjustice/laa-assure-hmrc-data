@@ -481,7 +481,7 @@ GEM
     snaky_hash (2.0.1)
       hashie
       version_gem (~> 1.1, >= 1.1.1)
-    stringio (3.1.0)
+    stringio (3.1.1)
     strscan (3.1.0)
     swd (2.0.3)
       activesupport (>= 3)
