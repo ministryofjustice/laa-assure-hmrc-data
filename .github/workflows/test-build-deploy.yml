@@ -43,7 +43,6 @@ jobs:
         uses: ruby/setup-ruby@v1
         with:
           bundler-cache: true
-          ruby-version: '3.3.3'
 
       - name: Find yarn cache location
         id: yarn-cache
