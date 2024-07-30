@@ -19,7 +19,7 @@
     "postcss": "^8.4.40",
     "prettier": "^3.3.3",
     "standard": "^17.1.0",
-    "stylelint": "^16.7.0",
+    "stylelint": "^16.8.0",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-order": "^6.0.4"
   }
