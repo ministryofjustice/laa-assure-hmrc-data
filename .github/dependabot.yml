@@ -26,6 +26,9 @@ updates:
       govuk-gems:
         patterns:
           - "govuk*"
+      bundling-gems:
+        patterns:
+          - "*bundling-rails"
     open-pull-requests-limit: 10
     reviewers:
       - "ministryofjustice/laa-apply-for-legal-aid"
