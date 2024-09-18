@@ -24,7 +24,7 @@ spec:
       serviceAccountName: "{{ .Values.service_account.name }}"
       containers:
         - name: clamav
-          image: ghcr.io/ministryofjustice/hmpps-clamav:latest
+          image: ghcr.io/ministryofjustice/hmpps-clamav:sha-5cd6693
           imagePullPolicy: IfNotPresent
           ports:
             - name: clamav
