@@ -7,7 +7,7 @@
 ###############################################################
 # base - dependencies required both at runtime and build time #
 ###############################################################
-FROM ruby:3.3.4-alpine3.20 AS base
+FROM ruby:3.3.5-alpine3.20 AS base
 MAINTAINER LAA Apply for civil legal aid team
 
 # postgresql-dev: postgres driver and libraries
