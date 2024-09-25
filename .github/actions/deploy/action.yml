@@ -61,7 +61,7 @@ runs:
         KUBE_NAMESPACE: ${{ inputs.kube-namespace }}
         VALUES_FILE: .helm/assure-hmrc-data/values/${{ inputs.app-environment }}.yaml
       run: |
-        allow_list=$(kubectl --namespace ${KUBE_NAMESPACE} get secrets assure-hmrc-data-application-output -o=jsonpath='{.data.allow_list}' | base64 --decode | sed "s/,/\\\,/g")
+        allow_list=$(kubectl --namespace ${KUBE_NAMESPACE} get secrets laa-assure-hmrc-data-secrets -o=jsonpath='{.data.allow_list}' | base64 --decode | sed "s/,/\\\,/g")
 
         helm upgrade assure-hmrc-data .helm/assure-hmrc-data \
           --namespace ${KUBE_NAMESPACE} \
