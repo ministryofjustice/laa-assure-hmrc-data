@@ -38,27 +38,27 @@ env:
   - name: SECRET_KEY_BASE
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: secret_key_base
   - name: SENTRY_DSN
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: sentry_dsn
   - name: OMNIAUTH_AZURE_CLIENT_ID
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: omniauth_azure_client_id
   - name: OMNIAUTH_AZURE_CLIENT_SECRET
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: omniauth_azure_client_secret
   - name: OMNIAUTH_AZURE_TENANT_ID
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: omniauth_azure_tenant_id
   {{ if .Values.branch_builder.enabled }}
   - name: OMNIAUTH_AZURE_REDIRECT_URI
@@ -70,32 +70,32 @@ env:
   - name: AR_ENCRYPTION_PRIMARY_KEY
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: ar_encryption_primary_key
   - name: AR_ENCRYPTION_DETERMINISTIC_KEY
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: ar_encryption_deterministic_key
   - name: AR_ENCRYPTION_KEY_DERIVATION_SALT
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: ar_encryption_key_derivation_salt
   - name: HMRC_INTERFACE_HOST
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: hmrc_interface_host
   - name: HMRC_INTERFACE_UID
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: hmrc_interface_uid
   - name: HMRC_INTERFACE_SECRET
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: hmrc_interface_secret
   - name: S3_AWS_BUCKET_NAME
     valueFrom:
@@ -108,12 +108,12 @@ env:
   - name: MOCK_AZURE_USERNAME
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: mock_azure_username
   - name: MOCK_AZURE_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: mock_azure_password
   {{ end }}
   - name: REDIS_URL
@@ -124,12 +124,12 @@ env:
   - name: SIDEKIQ_WEB_UI_USERNAME
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: sidekiq_web_ui_username
   - name: SIDEKIQ_WEB_UI_PASSWORD
     valueFrom:
       secretKeyRef:
-        name: assure-hmrc-data-application-output
+        name: laa-assure-hmrc-data-secrets
         key: sidekiq_web_ui_password
   - name: HOST_ENV
     value: {{ .Values.host_env | quote }}
