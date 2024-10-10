@@ -10,7 +10,8 @@ updates:
     allow:
       - dependency-type: "all"
     schedule:
-      interval: daily
+      interval: weekly
+      day: wednesday
       time: "03:00"
       timezone: Europe/London
     groups:
@@ -35,7 +36,8 @@ updates:
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: daily
+      interval: weekly
+      day: wednesday
       time: "03:00"
       timezone: Europe/London
     groups:
