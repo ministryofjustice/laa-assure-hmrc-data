@@ -10,38 +10,28 @@ updates:
     allow:
       - dependency-type: "all"
     schedule:
-      interval: daily
+      interval: weekly
+      day: thursday
       time: "03:00"
       timezone: Europe/London
     groups:
-      aws-gems:
+      bundler:
         patterns:
-          - "aws-*"
-      rswag-gems:
-        patterns:
-          - "rswag-*"
-      rubocop-gems:
-        patterns:
-          - "rubocop-*"
-      govuk-gems:
-        patterns:
-          - "govuk*"
-      bundling-gems:
-        patterns:
-          - "*bundling-rails"
+          - "*"
     open-pull-requests-limit: 10
     reviewers:
       - "ministryofjustice/laa-apply-for-legal-aid"
   - package-ecosystem: "npm"
     directory: "/"
     schedule:
-      interval: daily
-      time: "03:00"
+      interval: weekly
+      day: thursday
+      time: "03:15"
       timezone: Europe/London
     groups:
-      npm-stylelint:
+      npm:
         patterns:
-          - "stylelint*"
+          - "*"
     open-pull-requests-limit: 10
     reviewers:
       - "ministryofjustice/laa-apply-for-legal-aid"
