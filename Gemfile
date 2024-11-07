@@ -7,7 +7,7 @@ gem 'aws-sdk-s3', require: false
 gem "bootsnap", require: false
 gem "cssbundling-rails"
 gem 'devise'
-gem "discard", "~> 1.3"
+gem "discard", "~> 1.4"
 gem 'dotenv'
 gem "govuk-components"
 gem "govuk_design_system_formbuilder"
