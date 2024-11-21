@@ -5,3 +5,9 @@
 # one by one as the offenses are removed from the code base.
 # Note that changes in the inspected code, or installation of new
 # versions of RuboCop, may require this file to be generated again.
+
+# TODO: Colin 21 Nov 24 Try removing this in the future
+# when implemented, this triggered a false positive as arrays
+# do not support the allbits? method that is recommended
+Style/BitwisePredicate:
+  Enabled: false
