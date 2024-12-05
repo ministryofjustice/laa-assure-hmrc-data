@@ -38,7 +38,7 @@ end
 
 def silence_stdout
   original_stdout = $stderr.dup
-  $stdout.reopen("/dev/null", "w")
+  $stdout.reopen(File::NULL, "w")
   yield
 ensure
   $stdout.reopen(original_stdout)
