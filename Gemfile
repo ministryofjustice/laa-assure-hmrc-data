@@ -6,6 +6,7 @@ ruby file: ".ruby-version"
 gem 'aws-sdk-s3', require: false
 gem "bootsnap", require: false
 gem "cssbundling-rails"
+gem "csv", require: false
 gem 'devise'
 gem "discard", "~> 1.4"
 gem 'dotenv'
