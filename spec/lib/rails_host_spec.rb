@@ -109,7 +109,8 @@ RSpec.describe RailsHost do
     let(:environment) { 'staging' }
 
     it 'raises error when missing method called using `method`' do
-        expect { Rails.host.method(:my_missing_method) }.to raise_error NameError, /undefined method `my_missing_method/
+        expect { Rails.host.method(:my_missing_method) }
+          .to raise_error(NameError, /undefined method 'my_missing_method'/)
     end
   end
 end

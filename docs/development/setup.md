@@ -28,6 +28,8 @@ bin/setup
 
 - run the application
 ```shell
+yarn install --frozen-lockfile
+# THEN
 bin/dev
 # OR
 yarn build && yarn build:css # first time or when asset changes applied
