@@ -15,6 +15,8 @@ Rails.application.config.filter_parameters += %i[
   otp
   ssn
   oid
+  cvv
+  cvc
   tenant_id
   client_id
   client_secret
