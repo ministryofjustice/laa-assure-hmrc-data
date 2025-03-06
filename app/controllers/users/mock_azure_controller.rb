@@ -15,6 +15,6 @@ class Users::MockAzureController < Devise::SessionsController
 
 private
   def mock_azure_params
-    params.require(:user).permit(:email, :password)
+    params.expect(user: [:email, :password])
   end
 end
