@@ -17,13 +17,13 @@ RSpec.describe "sign in", :js do
       it "user sees dropzone fields, not upload fields" do
         visit "/bulk_submission_forms/new"
 
-        expect(page).to have_no_field("uploaded_file")
-        expect(page).to have_no_button("Upload")
-
         expect(page)
           .to have_css("#dropzone-form-group", visible: :visible)
           .and have_css(".dz-clickable", visible: :visible)
           .and have_css(".dz-hidden-input", visible: :hidden)
+
+        expect(page).to have_no_field("uploaded_file")
+        expect(page).to have_no_button("Upload")
       end
 
       it "user can upload and delete a CSV from a bulk submission" do
