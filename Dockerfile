@@ -20,6 +20,7 @@ LABEL org.opencontainers.image.vendor="Ministry of Justice" \
 RUN apk add --update --no-cache \
   postgresql-dev \
   yarn \
+  yaml-dev \
   clamav-daemon
 
 # tzdata: timezone builder
