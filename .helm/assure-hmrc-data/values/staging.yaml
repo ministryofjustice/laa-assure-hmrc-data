@@ -21,7 +21,7 @@ service:
   port: 80
 
 ingress:
-  className: modsec
+  className: modsec-non-prod
   annotations:
     external-dns.alpha.kubernetes.io/set-identifier: "assure-hmrc-data-laa-assure-hmrc-data-staging-green"
     external-dns.alpha.kubernetes.io/aws-weight: "100"
