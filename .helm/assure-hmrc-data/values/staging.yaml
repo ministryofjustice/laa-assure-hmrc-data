@@ -30,8 +30,6 @@ ingress:
       SecRuleEngine On
       SecAction "id:900110,phase:1,nolog,pass,t:none,setvar:tx.inbound_anomaly_score_threshold=6,setvar:tx.outbound_anomaly_score_threshold=4"
       SecRuleUpdateActionById 949110 "t:none,deny,status:423,logdata:%{SERVER_NAME}"
-      SecPcreMatchLimit 500000
-      SecPcreMatchLimitRecursion 500000
   hosts:
     - laa-assure-hmrc-data-staging.cloud-platform.service.justice.gov.uk
     - laa-assure-hmrc-data-staging.apps.live.cloud-platform.service.justice.gov.uk
