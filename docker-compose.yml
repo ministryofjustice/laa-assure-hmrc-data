@@ -40,8 +40,6 @@ services:
       - clamav
     ports:
       - "3000:3000"
-    depends_on:
-      - database
     stdin_open: true
     tty: true
 
