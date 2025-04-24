@@ -92,8 +92,8 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
     context "when the bulk submission expires now" do
       let(:expires_at) { Time.current }
 
-      include_examples "purges sensitive data"
-      include_examples "discards bulk submission and associated submissions"
+      it_behaves_like "purges sensitive data"
+      it_behaves_like "discards bulk submission and associated submissions"
     end
 
     context "when the bulk submission expires 1 second from now" do
@@ -134,8 +134,8 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
                created_at: 1.month.ago)
       end
 
-      include_examples "purges sensitive data"
-      include_examples "discards bulk submission and associated submissions"
+      it_behaves_like "purges sensitive data"
+      it_behaves_like "discards bulk submission and associated submissions"
     end
 
     context "when the bulk submission is ready but discarded and expires now" do
@@ -148,7 +148,7 @@ RSpec.describe PurgeSensitiveDataWorker, type: :worker do
                expires_at: Time.current)
       end
 
-      include_examples "purges sensitive data"
+      it_behaves_like "purges sensitive data"
 
       it "does not re discard the bulk submission" do
         expect { perform }.not_to change { bulk_submission.reload.discarded_at }
