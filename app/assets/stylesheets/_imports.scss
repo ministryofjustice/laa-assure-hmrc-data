@@ -1,0 +1,6 @@
+@forward "govuk-frontend/dist/govuk" with (
+  $govuk-new-organisation-colours: true,
+  $govuk-global-styles: true,
+  $govuk-new-typography-scale: true,
+  $govuk-assets-path: "/"
+);
