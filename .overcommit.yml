@@ -22,7 +22,7 @@ PreCommit:
     requires_files: true
   ErbLint:
     enabled: true
-    command: ['erblint']
+    command: ['erb_lint']
     requires_files: true
   StandardJS:
     enabled: true
