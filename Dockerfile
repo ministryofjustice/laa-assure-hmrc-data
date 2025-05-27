@@ -99,6 +99,10 @@ RUN RAILS_ENV=production \
     SECRET_KEY_BASE=required-to-run-but-not-used \
     bundle exec rails assets:precompile
 
+# Cleanup to save space in the production image
+RUN rm -rf node_modules
+RUN yarn cache clean
+
 # non-root user should own these directories
 # log: for log file writing
 # tmp: for pids and other things
