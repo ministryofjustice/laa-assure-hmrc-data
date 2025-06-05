@@ -133,4 +133,6 @@ env:
         key: sidekiq_web_ui_password
   - name: HOST_ENV
     value: {{ .Values.host_env | quote }}
+  - name: CLAMD_CONF_FILENAME
+    value: {{ .Values.clamav.configFile }}
 {{- end }}
