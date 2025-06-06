@@ -23,27 +23,6 @@ spec:
     spec:
       serviceAccountName: "{{ .Values.service_account.name }}"
       containers:
-        - name: clamav
-          image: ghcr.io/ministryofjustice/hmpps-clamav:sha-5cd6693
-          imagePullPolicy: IfNotPresent
-          ports:
-            - name: clamav
-              containerPort: 3310
-              protocol: TCP
-          resources:
-            limits:
-              cpu: 500m
-              memory: 3Gi
-            requests:
-              cpu: 10m
-              memory: 1Gi
-          securityContext:
-            runAsNonRoot: true
-            allowPrivilegeEscalation: false
-            seccompProfile:
-              type: RuntimeDefault
-            capabilities:
-              drop: [ "ALL" ]
         - name: web
           image: "{{ .Values.image.repository }}:{{ .Values.image.tag }}"
           imagePullPolicy: IfNotPresent
@@ -52,6 +31,9 @@ spec:
             - name: http
               containerPort: 3000
               protocol: TCP
+          volumeMounts:
+            - name: clamav-configuration-volume
+              mountPath: /etc/clamav
           livenessProbe:
             httpGet:
               path: /status
@@ -71,3 +53,7 @@ spec:
               drop: [ "ALL" ]
           resources:
             {{- toYaml .Values.resources | nindent 12 }}
+      volumes:
+      - name: clamav-configuration-volume
+        configMap:
+          name: {{ .Release.Name }}-clamav-configuration

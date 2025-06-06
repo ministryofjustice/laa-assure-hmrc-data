@@ -63,5 +63,8 @@ module LaaAssureHmrcData
     config.x.mock_azure_password = ENV.fetch("MOCK_AZURE_PASSWORD", nil)
 
     config.x.host_env = ENV.fetch("HOST_ENV", nil)
+
+    # Configures use of clamav service on hosted/production envs, otherwise use local clamav
+    config.x.clamd_conf_filename = ENV.fetch("CLAMD_CONF_FILENAME", "config/clamd.local.conf")
   end
 end
