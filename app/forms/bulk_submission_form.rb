@@ -120,7 +120,7 @@ private
   end
 
   def file_content
-    return unless uploaded_file && csv && row_count
+    return unless uploaded_file && csv && row_count_acceptable?
 
     validate_headers
     validate_first_names
@@ -131,7 +131,7 @@ private
     validate_period_end_dates
   end
 
-  def row_count
+  def row_count_acceptable?
     return true if csv.size < 36
 
     errors.add(:uploaded_file, :file_too_long, filename: uploaded_file.original_filename)
