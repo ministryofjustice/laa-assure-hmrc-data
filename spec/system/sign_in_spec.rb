@@ -20,7 +20,7 @@ RSpec.describe "sign in" do
 
       expect(page)
         .to have_css("h1", text: "Checked details")
-        .and have_css(".govuk-header__navigation-item--active", text: "Checked details")
+        .and have_css(".govuk-service-navigation__link", text: "Checked details")
         .and have_link("Jim Bob")
         .and have_link("Sign out")
     end

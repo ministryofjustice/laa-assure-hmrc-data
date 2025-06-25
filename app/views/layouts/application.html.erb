@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en" class="govuk-template">
+<html lang="en" class="govuk-template--rebranded">
   <head>
     <title><%= [yield(:page_title).presence, t('service.name')].compact.join(' - ') %></title>
 
@@ -25,22 +25,40 @@
 
     <%= govuk_skip_link %>
 
-    <%= govuk_header(service_name: t("service.name")) do |header| %>
+    <header class="moj-header" role="banner">
+      <div class="moj-header__container">
+        <div class="moj-header__logo">
+          <%= render(partial: "layouts/header_logo") %>
+          <a class="moj-header__link moj-header__link--organisation-name" href="/">Legal Aid Agency</a>
+        </div>
+        <div class="moj-header__content">
+          <nav class="moj-header__navigation" aria-label="Account navigation">
+            <ul class="moj-header__navigation-list">
+              <% if current_user %>
+                <%= tag.li(
+                      link_to(
+                        current_user.full_name, user_path(current_user.id),
+                        class: "moj-header__navigation-link",
+                        "aria-current": current_page?(user_path(current_user&.id))),
+                      class: "moj-header__navigation-item"
+                    ) %>
+                <%= tag.li(
+                      link_to(t("layouts.sign_out"), destroy_user_session_path, class: "moj-header__navigation-link"),
+                      class: "moj-header__navigation-item"
+                    ) %>
+              <% end %>
+            </ul>
+          </nav>
+        </div>
+      </div>
+    </header>
+
+    <%= govuk_service_navigation(service_name: t("service.name"), service_url: "/") do |header| %>
       <% if current_user %>
         <%= header.with_navigation_item(
           text: t("layouts.checked_details"),
           href: bulk_submissions_path,
           active: current_page?(bulk_submissions_path) || current_page?(authenticated_root_path)) %>
-
-        <%= header.with_navigation_item(
-          text: current_user.full_name,
-          href: user_path(current_user.id),
-          active: current_page?(user_path(current_user&.id))) %>
-
-        <%= header.with_navigation_item(
-          text: t("layouts.sign_out"),
-          href: destroy_user_session_path,
-          active: false) %>
       <% end %>
     <% end %>
 
