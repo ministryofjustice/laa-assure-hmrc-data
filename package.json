@@ -2,6 +2,7 @@
   "name": "app",
   "private": "true",
   "dependencies": {
+    "@ministryofjustice/frontend": "^5.1.4",
     "dropzone": "^6.0.0-beta.2",
     "esbuild": "^0.25.5",
     "govuk-frontend": "5.10.2",
@@ -9,7 +10,7 @@
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --minify --outdir=app/assets/builds --public-path=assets",
-    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --style=compressed --load-path=node_modules --quiet-deps",
+    "build:css": "sass ./app/assets/stylesheets/application.sass.scss:./app/assets/builds/application.css --style=compressed --load-path=. --load-path=node_modules --quiet-deps",
     "standardjs": "standard",
     "stylelint": "stylelint app/assets/stylesheets",
     "postinstall": "rm -rf node_modules/resolve/test/resolver/multirepo node_modules/eslint-plugin-react/node_modules/resolve/test/resolver/multirepo"
