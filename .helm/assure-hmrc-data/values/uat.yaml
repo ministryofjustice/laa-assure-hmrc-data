@@ -48,7 +48,7 @@ branch_builder:
   omniauth_azure_redirect_uri: null
 
 mock_azure:
-  enabled: true
+  enabled: false
 
 worker:
   replicaCount: 1
