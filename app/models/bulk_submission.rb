@@ -30,7 +30,7 @@ class BulkSubmission < ApplicationRecord
              :ready
 
   def finished?
-    submissions.count.positive? &&
-      unfinished_submissions.count.zero?
+    submissions.any? &&
+      unfinished_submissions.none?
   end
 end
