@@ -4,7 +4,7 @@
   "dependencies": {
     "@ministryofjustice/frontend": "^5.1.4",
     "dropzone": "^6.0.0-beta.2",
-    "esbuild": "^0.25.5",
+    "esbuild": "^0.25.6",
     "govuk-frontend": "5.11.0",
     "sass": "^1.89.2"
   },
