@@ -20,7 +20,7 @@ services:
     volumes:
       - laa-assure-hmrc-data-db:/var/lib/postgresql/data
   clamav:
-    image: ghcr.io/ministryofjustice/clamav-docker/laa-clamav:latest
+    image: clamav/clamav-debian:stable
     ports:
     - "3310:3310"
 
