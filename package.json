@@ -6,7 +6,7 @@
     "dropzone": "^6.0.0-beta.2",
     "esbuild": "^0.25.8",
     "govuk-frontend": "5.11.1",
-    "sass": "^1.89.2"
+    "sass": "^1.90.0"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --minify --outdir=app/assets/builds --public-path=assets",
