@@ -133,9 +133,6 @@ GEM
       railties (>= 6.0.0)
     csv (3.3.5)
     date (3.4.1)
-    debug (1.11.0)
-      irb (~> 1.10)
-      reline (>= 0.3.8)
     devise (4.9.4)
       bcrypt (~> 3.0)
       orm_adapter (~> 0.1)
@@ -552,7 +549,6 @@ DEPENDENCIES
   capybara
   cssbundling-rails
   csv
-  debug
   devise
   discard (~> 1.4)
   dotenv
@@ -589,7 +585,7 @@ DEPENDENCIES
   webmock
 
 RUBY VERSION
-   ruby 3.4.4p34
+   ruby 3.4.5p51
 
 BUNDLED WITH
-   2.6.9
+   2.7.1
