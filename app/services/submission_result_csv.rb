@@ -90,7 +90,9 @@ private
   end
 
   def matching_uc_two_submission
-    @matching_uc_two_submission ||= submission.class
+    return @matching_uc_two_submission if defined?(@matching_uc_two_submission)
+
+@matching_uc_two_submission = submission.class
                                       .find_by(bulk_submission_id:,
                                                use_case: "two",
                                                nino:,
