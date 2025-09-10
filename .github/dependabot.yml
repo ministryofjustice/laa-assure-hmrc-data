@@ -15,9 +15,20 @@ updates:
       time: "03:00"
       timezone: Europe/London
     groups:
+      rubocop:
+        patterns:
+          - "rubocop*"
+      components:
+        patterns:
+          - "govuk-components"
+          - "view_component"
       bundler:
         patterns:
           - "*"
+        exclude-patterns:
+          - "rubocop*"
+          - "govuk-components"
+          - "view_component"
     open-pull-requests-limit: 10
   - package-ecosystem: "npm"
     directory: "/"
