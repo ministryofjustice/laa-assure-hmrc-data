@@ -7,7 +7,7 @@
     <%= csp_meta_tag %>
 
     <meta name='viewport' content='width=device-width initial-scale=1'>
-    <meta property='og:image' content=asset_path('images/govuk-opengraph-image.png')>
+    <meta property='og:image' content="<%= asset_path('images/govuk-opengraph-image.png') %>">
     <meta name='theme-color' content='#0b0c0c'>
     <%= favicon_link_tag image_path('images/favicon.ico'), type: nil, sizes: "48x48" %>
     <%= favicon_link_tag image_path('images/favicon.svg'), type: 'image/svg+xml', sizes: "any" %>
