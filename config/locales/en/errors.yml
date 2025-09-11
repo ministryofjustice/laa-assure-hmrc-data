@@ -13,6 +13,15 @@ en:
       web_address_copied: If you pasted the web address, check you copied the entire address.
       web_address_correct_html: 'If the web address is correct or you selected a link or button and you need to speak to someone about this problem, contact the "%{service}" team: <a class="govuk-link" href="mailto:%{email}">%{email}</a>'
       web_address_incorrect: If you entered a web address, check it is correct.
+    out_of_hours:
+      contacts: 'If this is unexpected and within working hours then please contact our technical support team:'
+      contacts_bullets_html: |
+        <ul class="govuk-list govuk-list--bullet">
+          <li>email: <a class="govuk-link" href="mailto:%{email}">%{email}</a></li>
+          <li>9am to 5pm, Monday to Friday (excluding bank holidays)</li>
+        </ul>
+      page_blurb: Note that working hours are between 7am and 9pm on weekdays. This service will not be available outside those times.
+      page_title: System not available
     too_many_requests:
       error_continues_html: 'If you continue to see this error contact the "%{service}" team: <a class="govuk-link" href="mailto:%{email}">%{email}</a>.'
       page_title: Sorry, there’s a problem with the service

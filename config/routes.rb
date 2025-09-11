@@ -55,6 +55,7 @@ Rails.application.routes.draw do
     get "/422", to: "errors#unprocessable_content"
     get "/429", to: "errors#too_many_requests"
     get "/500", to: "errors#internal_server_error"
+    get "/out-of-hours", to: "errors#out_of_hours"
   end
 end
 

@@ -18,4 +18,8 @@ class ErrorsController < ApplicationController
   def internal_server_error
     render "internal_server_error", status: :internal_server_error
   end
+
+  def out_of_hours
+    render "out_of_hours", status: :internal_server_error
+  end
 end
