@@ -55,4 +55,18 @@ RSpec.describe ErrorsController do
       )
     end
   end
+
+  describe "#out_of_hours" do
+    before { get "/out-of-hours" }
+
+    # NOTE: using 500 as a 503 will trigger Cloud platform's fallback "Service unavailable" page
+    it "returns status 500 and out of hours error content", :aggregate_failures do
+      expect(response).to have_http_status(500)
+      expect(response.body).to include("Sorry, it’s out of hours")
+      expect(response.body).to include("Business hours are 7am to 9pm.")
+      expect(response.body).to match(
+        %r{If you have any questions, please email us at.*apply-for-civil-legal-aid@digital.justice.gov.uk}
+      )
+    end
+  end
 end
