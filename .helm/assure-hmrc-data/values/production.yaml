@@ -25,6 +25,11 @@ ingress:
   annotations:
     external-dns.alpha.kubernetes.io/set-identifier: "assure-hmrc-data-laa-assure-hmrc-data-production-green"
     external-dns.alpha.kubernetes.io/aws-weight: "100"
+    nginx.ingress.kubernetes.io/server-snippet: |
+      # Block requests between 22:00 and 07:59 UTC (21:00 and 06:59 BST)
+      if ($time_local ~ ":(2[2-3]|0[0-7]):") {
+        return 503;
+      }
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"
     nginx.ingress.kubernetes.io/modsecurity-snippet: |
       SecRuleEngine On
