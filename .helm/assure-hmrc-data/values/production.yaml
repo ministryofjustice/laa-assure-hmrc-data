@@ -26,6 +26,11 @@ ingress:
     external-dns.alpha.kubernetes.io/set-identifier: "assure-hmrc-data-laa-assure-hmrc-data-production-green"
     external-dns.alpha.kubernetes.io/aws-weight: "100"
     nginx.ingress.kubernetes.io/server-snippet: |
+      # Block requests on weekends
+      if ($date_gmt ~* "^(Sat|Sun)") {
+        return 503;
+      }
+
       # Block requests between 22:00 and 07:59 UTC (21:00 and 06:59 BST)
       if ($time_local ~ ":(2[2-3]|0[0-7]):") {
         return 503;
