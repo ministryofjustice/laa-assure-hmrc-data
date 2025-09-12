@@ -18,8 +18,8 @@ en:
       page_title: Sorry, there’s a problem with the service
       too_many_requests: Sorry, there’s a problem with the service
       try_again_later: Try again later.
-    unprocessable_entity:
+    unprocessable_content:
       error_continues_html: 'If you continue to see this error contact the "%{service}" team: <a class="govuk-link" href="mailto:%{email}">%{email}</a>.'
       page_title: Sorry, there’s a problem with the service
       try_again_later: Try again later.
-      unprocessable_entity: Sorry, there’s a problem with the service
+      unprocessable_content: Sorry, there’s a problem with the service

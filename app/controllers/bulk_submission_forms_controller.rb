@@ -70,7 +70,7 @@ private
     if @form.save
       head :created, location: edit_bulk_submission_form_url(@form.bulk_submission.id)
     else
-      render json: { errors: @form.errors }, status: :unprocessable_entity
+      render json: { errors: @form.errors }, status: :unprocessable_content
     end
   end
 
@@ -101,7 +101,7 @@ private
     if @form.update
       head :accepted, location: edit_bulk_submission_form_url(@form.bulk_submission.id)
     else
-      render json: { errors: @form.errors }, status: :unprocessable_entity
+      render json: { errors: @form.errors }, status: :unprocessable_content
     end
   end
 end
