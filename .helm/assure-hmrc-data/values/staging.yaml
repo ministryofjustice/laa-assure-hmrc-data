@@ -70,3 +70,6 @@ sidekiq:
   queue_name: null
 
 host_env: staging
+
+customErrorService:
+  enabled: true
