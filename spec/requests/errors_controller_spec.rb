@@ -16,7 +16,7 @@ RSpec.describe ErrorsController do
     end
   end
 
-  describe "#unprocessable_entity" do
+  describe "#unprocessable_content" do
     before { get "/422" }
 
     it "returns status 422 and unprocessable entity content", :aggregate_failures do
