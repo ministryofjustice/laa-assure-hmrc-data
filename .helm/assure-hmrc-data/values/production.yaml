@@ -63,3 +63,6 @@ sidekiq:
   queue_name: null
 
 host_env: production
+
+customErrorService:
+  enabled: true
