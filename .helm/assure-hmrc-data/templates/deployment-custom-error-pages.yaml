@@ -39,7 +39,7 @@ spec:
       volumes:
       - name: custom-error-pages
         configMap:
-          name: {{ .Release.Name }}-cep-config
+          name: custom-error-pages
           items:
           - key: "503"
             path: "503.html"
