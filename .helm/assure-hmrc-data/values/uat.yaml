@@ -31,6 +31,10 @@ ingress:
       SecRuleEngine On
       SecAction "id:900110,phase:1,nolog,pass,t:none,setvar:tx.inbound_anomaly_score_threshold=6,setvar:tx.outbound_anomaly_score_threshold=4"
       SecRuleUpdateActionById 949110 "t:none,deny,status:423,logdata:%{SERVER_NAME}"
+      SecRule TIME_HOUR "!@pm 06 07 08 09 10 11 12 13 14 15 16 17 18 19 20 21" \
+        "id:998,phase:1,deny,status:503,tag:github_team=laa-apply-for-legal-aid"
+      SecRule TIME_WDAY "^(6|7)$" \
+        "id:999,phase:1,deny,status:503,tag:github_team=laa-apply-for-legal-aid"
   hosts: []
 
 resources:
@@ -63,3 +67,6 @@ host_env: uat
 
 sidekiq:
   queue_name: null
+
+customErrorService:
+  enabled: true

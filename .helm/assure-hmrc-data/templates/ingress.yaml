@@ -16,6 +16,8 @@ metadata:
     heritage: {{ .Release.Service }}
   {{- with .Values.ingress.annotations }}
   annotations:
+    nginx.ingress.kubernetes.io/default-backend: nginx-errors
+    nginx.ingress.kubernetes.io/custom-http-errors: "503"
     {{- toYaml . | nindent 4 }}
   {{- end }}
 spec:

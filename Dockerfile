@@ -10,7 +10,7 @@
 FROM ruby:3.4.5-alpine3.22 AS base
 
 LABEL org.opencontainers.image.vendor="Ministry of Justice" \
-      org.opencontainers.image.authors="Apply for civil legal aid team (apply-for-civil-legal-aid@digital.justice.gov.uk)" \
+      org.opencontainers.image.authors="Apply for civil legal aid team (apply-for-civil-legal-aid@justice.gov.uk)" \
       org.opencontainers.image.title="Check client's details using HMRC data (a.k.a Assure HMRC data)" \
       org.opencontainers.image.description="Web service for LAA case workers to check the veracity of Legal Aid Applications against HMRC data" \
       org.opencontainers.image.url="https://github.com/ministryofjustice/laa-hmrc-interface-service-api"

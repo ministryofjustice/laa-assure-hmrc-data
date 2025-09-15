@@ -12,7 +12,7 @@ RSpec.describe ErrorsController do
       expect(response.body).to include("If you entered a web address, check it is correct.")
       expect(response.body)
         .to match(%r{contact the "Check client&#39;s details using HMRC data" team})
-        .and match(%r{.*apply-for-civil-legal-aid@digital.justice.gov.uk})
+        .and match(%r{.*apply-for-civil-legal-aid@justice.gov.uk})
     end
   end
 
@@ -25,7 +25,7 @@ RSpec.describe ErrorsController do
       expect(response.body).to include("Try again later.")
       expect(response.body)
         .to match(%r{contact the "Check client&#39;s details using HMRC data"})
-        .and match(%r{.*apply-for-civil-legal-aid@digital.justice.gov.uk})
+        .and match(%r{.*apply-for-civil-legal-aid@justice.gov.uk})
     end
   end
 
@@ -38,7 +38,7 @@ RSpec.describe ErrorsController do
       expect(response.body).to include("Try again later.")
       expect(response.body)
         .to match(%r{contact the "Check client&#39;s details using HMRC data"})
-        .and match(%r{.*apply-for-civil-legal-aid@digital.justice.gov.uk})
+        .and match(%r{.*apply-for-civil-legal-aid@justice.gov.uk})
     end
   end
 
@@ -51,7 +51,7 @@ RSpec.describe ErrorsController do
       expect(response.body).to include("Try again later.")
       expect(response.body).to include("You’ll need to enter it again when the service is available")
       expect(response.body).to match(
-        %r{If you have any questions, please email us at.*apply-for-civil-legal-aid@digital.justice.gov.uk}
+        %r{If you have any questions, please email us at.*apply-for-civil-legal-aid@justice.gov.uk}
       )
     end
   end
