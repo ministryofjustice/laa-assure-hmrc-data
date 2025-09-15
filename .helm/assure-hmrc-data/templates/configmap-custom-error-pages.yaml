@@ -84,12 +84,12 @@ data:
           <main class="govuk-main-wrapper govuk-main-wrapper--l" id="main-content" role="main">
             <div class="govuk-grid-row">
               <div class="govuk-grid-column-two-thirds">
-                <h1 class="govuk-heading-l">System not available</h1>
-                <p class="govuk-body">Note that working hours are between 7am and 10pm on weekdays. This service will not be available outside those times.</p>
-                <p class="govuk-body">If this is unepxected and within working hours then please contact our technical support team:</p>
+                <h1 class="govuk-heading-xl">Sorry, the service is unavailable</h1>
+                <p class="govuk-body">You can use this service from 7am to 10pm, Monday to Friday.</p>
+                <p class="govuk-body">If you are using the service during its available hours, you can contact the technical support team:</p>
                 <ul class="govuk-list govuk-list--bullet">
-                  <li>email: <a href="mailto:apply-for-civil-legal-aid@digital.justice.gov.uk">apply-for-civil-legal-aid@digital.justice.gov.uk</a></li>
-                  <li>9am to 5pm, Monday to Friday (excluding bank holidays)</li>
+                  <li>email <a href="mailto:apply-for-civil-legal-aid@digital.justice.gov.uk">apply-for-civil-legal-aid@digital.justice.gov.uk</a></li>
+                  <li>9am to 5pm, Monday to Friday (closed on bank holidays)</li>
                 </ul>
               </div>
             </div>
