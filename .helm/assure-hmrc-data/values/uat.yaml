@@ -32,8 +32,8 @@ ingress:
         rewrite ^ /out-of-hours break;
       }
 
-      # Block requests between 20:00 and 05:59 UTC (21:00 and 06:59 BST)
-      if ($time_local ~ ":(2[0-3]|0[0-5]):") {
+      # Block requests between 21:00 and 05:59 UTC (22:00 and 06:59 BST)
+      if ($time_local ~ ":(2[1-3]|0[0-5]):") {
         rewrite ^ /out-of-hours break;
       }
     nginx.ingress.kubernetes.io/enable-modsecurity: "true"

@@ -64,7 +64,7 @@ RSpec.describe ErrorsController do
       expect(response).to have_http_status(500)
       expect(response.body)
         .to include("System not available")
-        .and include("Note that working hours are between 7am and 9pm on weekdays.")
+        .and include("Note that working hours are between 7am and 10pm on weekdays.")
         .and include("This service will not be available outside those times.")
         .and include("If this is unexpected and within working hours then please contact our technical support team:")
 

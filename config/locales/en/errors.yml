@@ -20,7 +20,7 @@ en:
           <li>email: <a class="govuk-link" href="mailto:%{email}">%{email}</a></li>
           <li>9am to 5pm, Monday to Friday (excluding bank holidays)</li>
         </ul>
-      page_blurb: Note that working hours are between 7am and 9pm on weekdays. This service will not be available outside those times.
+      page_blurb: Note that working hours are between 7am and 10pm on weekdays. This service will not be available outside those times.
       page_title: System not available
     too_many_requests:
       error_continues_html: 'If you continue to see this error contact the "%{service}" team: <a class="govuk-link" href="mailto:%{email}">%{email}</a>.'
