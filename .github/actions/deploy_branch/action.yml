@@ -77,6 +77,7 @@ runs:
         ingress_name="assure-hmrc-data"
         release_host="$RELEASE_NAME-$KUBE_NAMESPACE.cloud-platform.service.justice.gov.uk"
         identifier="$RELEASE_NAME-$ingress_name-$KUBE_NAMESPACE-green"
+        is_main=$([[ $RELEASE_NAME == "main" ]] && echo true || echo false)
 
         echo "Deploying commit: $GIT_SHA under release name: '$RELEASE_NAME' to '$release_host'..."
 
@@ -89,7 +90,7 @@ runs:
           --set branch_builder.database_name=$RELEASE_NAME \
           --set branch_builder.omniauth_azure_redirect_uri="https://${release_host}/users/auth/azure_ad/callback" \
           --set sidekiq.queue_name="-$RELEASE_NAME" \
-          --set customErrorService.enabled=false \
+          --set customErrorService.enabled=$is_main \
           --values ${VALUES_FILE} \
           --install \
           --wait
