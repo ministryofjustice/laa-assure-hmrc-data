@@ -1,3 +1,4 @@
+{{ if .Values.customErrorService.enabled }}
 # Custom error page configMap
 ---
 apiVersion: v1
@@ -134,3 +135,4 @@ data:
         </footer>
       </body>
     </html>
+{{ end }}
