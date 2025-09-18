@@ -37,8 +37,6 @@ updates:
       day: thursday
       time: "03:15"
       timezone: Europe/London
-    ignore:
-      - dependency-name: "*"
     groups:
       npm:
         patterns:
