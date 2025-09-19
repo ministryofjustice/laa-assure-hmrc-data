@@ -54,7 +54,7 @@ RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") && \
 
 # install npm packages
 COPY package.json yarn.lock ./
-RUN yarn install --frozen-lockfile --check-files --ignore-scripts
+RUN NODE_ENV=production yarn install --prod --frozen-lockfile --check-files --ignore-scripts
 
 # cleanup to save space in the image
 RUN rm -rf log/* tmp/* /tmp && \
