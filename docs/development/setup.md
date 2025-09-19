@@ -28,7 +28,7 @@ bin/setup
 
 - run the application
 ```shell
-yarn install --frozen-lockfile
+yarn install --frozen-lockfile --ignore-scripts
 # THEN
 bin/dev
 # OR
