@@ -7,11 +7,11 @@
     <%= govuk_table do |table|
       table.with_head do |head|
         head.with_row do |row|
-          row.with_cell(text: t(".created_at"), header: true)
-          row.with_cell(text: t(".expires_at"), header: true)
-          row.with_cell(text: t(".filename"), header: true)
-          row.with_cell(text: t(".status"), header: true)
-          row.with_cell(text: t(".action"), header: true, colspan: 2, scope: 'colgroup')
+          row.with_cell(text: t("bulk_submissions.index.created_at"), header: true)
+          row.with_cell(text: t("bulk_submissions.index.expires_at"), header: true)
+          row.with_cell(text: t("bulk_submissions.index.filename"), header: true)
+          row.with_cell(text: t("bulk_submissions.index.status"), header: true)
+          row.with_cell(text: t("bulk_submissions.index.action"), header: true, colspan: 2, scope: 'colgroup')
         end
       end
 
@@ -30,18 +30,18 @@
 
             row.with_cell do
               if bulk_submission.pending?
-                govuk_link_to(t(".cancel_html", filename:),
+                govuk_link_to(t("bulk_submissions.index.cancel_html", filename:),
                               bulk_submission_path(bulk_submission.id, context: :cancel),
                               method: :get)
               elsif bulk_submission.ready?
-                govuk_link_to(t(".download_html",filename:),
+                govuk_link_to(t("bulk_submissions.index.download_html",filename:),
                         download_bulk_submission_path(bulk_submission.id))
               end
             end
 
             row.with_cell do
               if bulk_submission.ready? || bulk_submission.exhausted?
-                govuk_link_to(t(".remove_html", filename:),
+                govuk_link_to(t("bulk_submissions.index.remove_html", filename:),
                                 bulk_submission_path(bulk_submission.id, context: :remove),
                                 method: :get)
               end
@@ -52,7 +52,11 @@
     end %>
 
     <% if Rails.env.development? || Rails.host.uat? %>
-      <%= govuk_button_link_to(t(".process_all"), process_all_bulk_submissions_path, warning: true) %>
+      <%= govuk_button_link_to(
+            t("bulk_submissions.index.process_all"),
+            process_all_bulk_submissions_path,
+            warning: true
+          ) %>
     <% end %>
   </div>
 </div>
