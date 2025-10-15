@@ -7,7 +7,7 @@
 ###############################################################
 # base - dependencies required both at runtime and build time #
 ###############################################################
-FROM ruby:3.4.5-alpine3.22 AS base
+FROM ruby:3.4.7-alpine3.22 AS base
 
 LABEL org.opencontainers.image.vendor="Ministry of Justice" \
       org.opencontainers.image.authors="Apply for civil legal aid team (apply-for-civil-legal-aid@justice.gov.uk)" \
