@@ -9,7 +9,7 @@ class Users::MockAzureController < Devise::SessionsController
       sign_in_and_redirect user, event: :authentication
     else
       flash[:notice] = I18n.t "devise.omniauth_callbacks.unauthorised"
-      redirect_back(fallback_location: unauthenticated_root_path)
+      redirect_back_or_to(unauthenticated_root_path)
     end
   end
 
