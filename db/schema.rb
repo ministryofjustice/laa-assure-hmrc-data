@@ -10,31 +10,31 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema[7.1].define(version: 2023_11_21_093241) do
+ActiveRecord::Schema[8.1].define(version: 2023_11_21_093241) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "citext"
+  enable_extension "pg_catalog.plpgsql"
   enable_extension "pgcrypto"
-  enable_extension "plpgsql"
 
   create_table "active_storage_attachments", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "name", null: false
-    t.string "record_type", null: false
-    t.uuid "record_id", null: false
     t.uuid "blob_id", null: false
     t.datetime "created_at", null: false
+    t.string "name", null: false
+    t.uuid "record_id", null: false
+    t.string "record_type", null: false
     t.index ["blob_id"], name: "index_active_storage_attachments_on_blob_id"
     t.index ["record_type", "record_id", "name", "blob_id"], name: "index_active_storage_attachments_uniqueness", unique: true
   end
 
   create_table "active_storage_blobs", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "key", null: false
-    t.string "filename", null: false
-    t.string "content_type"
-    t.text "metadata"
-    t.string "service_name", null: false
     t.bigint "byte_size", null: false
     t.string "checksum"
+    t.string "content_type"
     t.datetime "created_at", null: false
+    t.string "filename", null: false
+    t.string "key", null: false
+    t.text "metadata"
+    t.string "service_name", null: false
     t.index ["key"], name: "index_active_storage_blobs_on_key", unique: true
   end
 
@@ -45,43 +45,43 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_21_093241) do
   end
 
   create_table "bulk_submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.uuid "user_id"
+    t.datetime "created_at", null: false
+    t.datetime "discarded_at"
     t.datetime "expires_at"
     t.string "status"
-    t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
-    t.datetime "discarded_at"
+    t.uuid "user_id"
     t.index ["discarded_at"], name: "index_bulk_submissions_on_discarded_at"
     t.index ["user_id"], name: "index_bulk_submissions_on_user_id"
   end
 
   create_table "malware_scan_results", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
-    t.string "uploader_type"
-    t.uuid "uploader_id"
-    t.boolean "virus_found", null: false
-    t.text "scan_result"
-    t.json "file_details"
-    t.boolean "scanner_working"
     t.datetime "created_at", null: false
+    t.json "file_details"
+    t.text "scan_result"
+    t.boolean "scanner_working"
     t.datetime "updated_at", null: false
+    t.uuid "uploader_id"
+    t.string "uploader_type"
+    t.boolean "virus_found", null: false
     t.index ["uploader_type", "uploader_id"], name: "index_malware_scan_results_on_uploader"
   end
 
   create_table "submissions", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
     t.uuid "bulk_submission_id"
-    t.datetime "period_start_at"
-    t.datetime "period_end_at"
-    t.string "use_case", null: false
-    t.string "first_name", default: "", null: false
-    t.string "last_name", default: "", null: false
+    t.datetime "created_at", null: false
+    t.datetime "discarded_at"
     t.datetime "dob"
-    t.string "nino", default: "", null: false
-    t.string "status", default: "", null: false
+    t.string "first_name", default: "", null: false
     t.uuid "hmrc_interface_id"
     t.jsonb "hmrc_interface_result", default: "{}", null: false
-    t.datetime "created_at", null: false
+    t.string "last_name", default: "", null: false
+    t.string "nino", default: "", null: false
+    t.datetime "period_end_at"
+    t.datetime "period_start_at"
+    t.string "status", default: "", null: false
     t.datetime "updated_at", null: false
-    t.datetime "discarded_at"
+    t.string "use_case", null: false
     t.index ["bulk_submission_id"], name: "index_submissions_on_bulk_submission_id"
     t.index ["discarded_at"], name: "index_submissions_on_discarded_at"
     t.index ["hmrc_interface_id"], name: "index_submissions_on_hmrc_interface_id", unique: true
@@ -89,19 +89,19 @@ ActiveRecord::Schema[7.1].define(version: 2023_11_21_093241) do
   end
 
   create_table "users", id: :uuid, default: -> { "gen_random_uuid()" }, force: :cascade do |t|
+    t.string "auth_provider", default: "", null: false
+    t.string "auth_subject_uid"
+    t.datetime "created_at", null: false
+    t.datetime "current_sign_in_at", precision: nil
+    t.string "current_sign_in_ip"
+    t.datetime "discarded_at"
     t.citext "email", default: "", null: false
     t.string "first_name", default: "", null: false
     t.string "last_name", default: "", null: false
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
-    t.string "auth_provider", default: "", null: false
-    t.string "auth_subject_uid"
-    t.integer "sign_in_count", default: 0, null: false
-    t.datetime "current_sign_in_at", precision: nil
     t.datetime "last_sign_in_at", precision: nil
-    t.string "current_sign_in_ip"
     t.string "last_sign_in_ip"
-    t.datetime "discarded_at"
+    t.integer "sign_in_count", default: 0, null: false
+    t.datetime "updated_at", null: false
     t.index ["auth_subject_uid", "auth_provider"], name: "index_users_on_auth_subject_uid_and_auth_provider", unique: true
     t.index ["discarded_at"], name: "index_users_on_discarded_at"
     t.index ["email"], name: "index_users_on_email", unique: true
