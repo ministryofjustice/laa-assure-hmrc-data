@@ -9,16 +9,15 @@
 # open http://0.0.0.0:3000/
 # ```
 #
-version: '3.4'
 
 services:
   database:
     container_name: laa-assure-hmrc-data-database
-    image: postgres:17.4
+    image: postgres:18.1
     environment:
       POSTGRES_HOST_AUTH_METHOD: trust
     volumes:
-      - laa-assure-hmrc-data-db:/var/lib/postgresql/data
+      - laa-assure-hmrc-data-db:/var/lib/postgresql
   clamav:
     image: clamav/clamav-debian:stable
     ports:
