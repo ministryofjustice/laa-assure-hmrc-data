@@ -22,7 +22,7 @@ jobs:
 
     services:
       postgres:
-        image: postgres:17.4-alpine
+        image: postgres:18.1-alpine
         env:
           POSTGRES_DB: laa-assure-hmrc-data-test
           POSTGRES_USER: postgres
