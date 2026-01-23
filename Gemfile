@@ -19,7 +19,7 @@ gem 'omniauth_openid_connect'
 gem "omniauth-rails_csrf_protection"
 gem "pg", "~> 1.6"
 gem "propshaft"
-gem "puma", "~> 7.1"
+gem "puma", "~> 7.2"
 gem "rails", "~> 8.1.2"
 gem "sentry-rails"
 gem "sentry-ruby"
