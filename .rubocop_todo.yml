@@ -12,4 +12,5 @@
 Style/BitwisePredicate:
   Enabled: false
 RSpec/Output:
-  Enabled: false
+  Exclude:
+    - "spec/system/support/spec_helper.rb"
