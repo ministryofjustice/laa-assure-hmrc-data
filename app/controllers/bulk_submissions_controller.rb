@@ -36,7 +36,7 @@ class BulkSubmissionsController < ApplicationController
     BulkSubmissionsWorker.perform_async
 
     flash[:notice] = I18n.t("bulk_submissions.flash.process_all")
-    redirect_back(fallback_location: authenticated_root_path)
+    redirect_back_or_to(authenticated_root_path)
   end
 
   def bulk_submission_params
