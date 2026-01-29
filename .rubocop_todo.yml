@@ -11,3 +11,7 @@
 # do not support the allbits? method that is recommended
 Style/BitwisePredicate:
   Enabled: false
+
+RSpec/Output:
+  Exclude:
+    - spec/system/support/spec_helper.rb
