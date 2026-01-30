@@ -9,5 +9,10 @@
 # TODO: Colin 21 Nov 24 Try removing this in the future
 # when implemented, this triggered a false positive as arrays
 # do not support the allbits? method that is recommended
+# Checked Jan 2026: running autocorrect still causes errors, leaving in place
 Style/BitwisePredicate:
   Enabled: false
+
+RSpec/Output:
+  Exclude:
+    - spec/system/support/spec_helper.rb

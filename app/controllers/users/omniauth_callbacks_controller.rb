@@ -8,7 +8,7 @@ class Users::OmniauthCallbacksController < Devise::OmniauthCallbacksController
     else
       flash[:notice] = I18n.t "devise.omniauth_callbacks.unauthorised"
       Rails.logger.error "Couldn't login user"
-      redirect_back(fallback_location: unauthenticated_root_path, allow_other_host: false)
+      redirect_back_or_to(unauthenticated_root_path, allow_other_host: false)
     end
   end
 
