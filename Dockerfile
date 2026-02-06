@@ -13,15 +13,20 @@ LABEL org.opencontainers.image.vendor="Ministry of Justice" \
       org.opencontainers.image.authors="Apply for civil legal aid team (apply-for-civil-legal-aid@justice.gov.uk)" \
       org.opencontainers.image.title="Check client's details using HMRC data (a.k.a Assure HMRC data)" \
       org.opencontainers.image.description="Web service for LAA case workers to check the veracity of Legal Aid Applications against HMRC data" \
-      org.opencontainers.image.url="https://github.com/ministryofjustice/laa-hmrc-interface-service-api"
+      org.opencontainers.image.url="https://github.com/ministryofjustice/laa-assure-hmrc-data"
 
 # postgresql-dev: postgres driver and libraries
 # yarn: node package manager
 RUN apk add --update --no-cache \
   postgresql-dev \
-  yarn \
+  nodejs-current \
+  npm \
   yaml-dev \
   clamav-daemon
+
+# activate yarn
+RUN corepack enable \
+ && corepack prepare yarn@4.12.0 --activate
 
 # tzdata: timezone builder
 # as it's not configured by default in Alpine
@@ -41,6 +46,8 @@ RUN apk add --update \
   build-base \
   git
 
+WORKDIR /app
+
 # install gems and remove gem cache
 COPY Gemfile Gemfile.lock .ruby-version ./
 RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") && \
@@ -52,9 +59,11 @@ RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") && \
     bundle install --jobs 5 --retry 5 && \
     rm -rf /usr/local/bundle/cache
 
-# install npm packages
-COPY package.json yarn.lock ./
-RUN NODE_ENV=production yarn install --prod --frozen-lockfile --check-files --ignore-scripts
+# install javascript/node packages
+COPY package.json yarn.lock .yarnrc.yml ./
+COPY .yarn .yarn
+RUN echo "yarn version: $(yarn -v)"
+RUN yarn install --immutable
 
 # cleanup to save space in the image
 RUN rm -rf log/* tmp/* /tmp && \
@@ -89,7 +98,7 @@ RUN apk add --no-cache libpq
 
 # copy over files generated in the dependencies image
 COPY --from=dependencies /usr/local/bundle/ /usr/local/bundle/
-COPY --from=dependencies /node_modules/ node_modules/
+COPY --from=dependencies /app/node_modules/ node_modules/
 
 # copy remaining files (except what is defined in .dockerignore)
 COPY . .
