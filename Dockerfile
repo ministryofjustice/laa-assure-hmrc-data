@@ -80,7 +80,7 @@ RUN rm -rf log/* tmp/* /tmp && \
 FROM base AS production
 
 # add non-root user and group with alpine first available uid, 1000
-ENV APPUID 1000
+ENV APPUID=1000
 RUN addgroup -g $APPUID -S appgroup && \
     adduser -u $APPUID -S appuser -G appgroup
 
@@ -120,19 +120,19 @@ RUN chown -R appuser:appgroup log tmp db
 
 # add env vars for use by ping endpoints in app
 ARG APP_BUILD_DATE
-ENV APP_BUILD_DATE ${APP_BUILD_DATE}
+ENV APP_BUILD_DATE=${APP_BUILD_DATE}
 ARG APP_BUILD_TAG
-ENV APP_BUILD_TAG ${APP_BUILD_TAG}
+ENV APP_BUILD_TAG=${APP_BUILD_TAG}
 ARG APP_GIT_COMMIT
-ENV APP_GIT_COMMIT ${APP_GIT_COMMIT}
+ENV APP_GIT_COMMIT=${APP_GIT_COMMIT}
 ARG APP_BRANCH
-ENV APP_BRANCH ${APP_BRANCH}
+ENV APP_BRANCH=${APP_BRANCH}
 
 # switch to non-root user
 USER $APPUID
 
 # set port env var used by puma
-ENV PORT 3000
+ENV PORT=3000
 EXPOSE $PORT
 
 ENTRYPOINT ["./docker-entrypoint"]
