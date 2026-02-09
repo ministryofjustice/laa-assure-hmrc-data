@@ -51,3 +51,20 @@ sudo launchctl list | grep clam
 sudo launchctl unload /Library/LaunchDaemons/clamav.clamd.plist
 sudo launchctl load /Library/LaunchDaemons/clamav.clamd.plist
 ```
+
+
+If you continue to find issues you can check if clamd can be run directly. If you see issues related to certificates
+then you should reinstall clamav completely.
+
+```sh
+# test clamav cannot start directly
+sudo clamd -c /opt/homebrew/etc/clamav/clamd.conf
+```
+
+To reinstall/upgrade clamav you should use the snippet below to avoid issues.
+
+```sh
+brew uninstall clamav
+sudo rm -rf /opt/homebrew/etc/clamav
+bin/install_clamav_on_mac
+```
