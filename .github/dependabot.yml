@@ -30,15 +30,15 @@ updates:
           - "govuk-components"
           - "view_component"
     open-pull-requests-limit: 10
-  # - package-ecosystem: "npm"
-  #   directory: "/"
-  #   schedule:
-  #     interval: weekly
-  #     day: thursday
-  #     time: "03:15"
-  #     timezone: Europe/London
-  #   groups:
-  #     npm:
-  #       patterns:
-  #         - "*"
-  #   open-pull-requests-limit: 10
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: weekly
+      day: thursday
+      time: "03:15"
+      timezone: Europe/London
+    groups:
+      npm:
+        patterns:
+          - "*"
+    open-pull-requests-limit: 10
