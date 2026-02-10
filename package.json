@@ -1,11 +1,11 @@
 {
   "name": "app",
-  "private": "true",
   "dependencies": {
     "@ministryofjustice/frontend": "^5.1.5",
     "dropzone": "^6.0.0-beta.2",
     "esbuild": "^0.25.9",
     "govuk-frontend": "5.11.2",
+    "moment": "^2.30.1",
     "sass": "^1.92.1"
   },
   "scripts": {
@@ -23,5 +23,6 @@
     "stylelint": "^16.24.0",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-order": "^7.0.0"
-  }
+  },
+  "packageManager": "yarn@4.12.0"
 }

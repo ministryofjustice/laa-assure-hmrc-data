@@ -6,7 +6,7 @@
 # ```shell
 # docker compose build
 # docker compose up
-# open http://0.0.0.0:3000/
+# open http://0.0.0.0:3000/ OR http://localhost:3000/ in your browser
 # ```
 #
 
