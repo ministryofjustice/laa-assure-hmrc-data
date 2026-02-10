@@ -16,11 +16,12 @@ LABEL org.opencontainers.image.vendor="Ministry of Justice" \
       org.opencontainers.image.url="https://github.com/ministryofjustice/laa-assure-hmrc-data"
 
 # postgresql-dev: postgres driver and libraries
-# yarn: node package manager
+# nodejs-current: latest node which includes npm required for corepack and yarn installation
+# yaml-dev: required to build the psych gem, which is a dependency of rails
+# clamav-daemon: required to run clamav in the container, which is used by
 RUN apk add --update --no-cache \
   postgresql-dev \
   nodejs-current \
-  npm \
   yaml-dev \
   clamav-daemon
 
