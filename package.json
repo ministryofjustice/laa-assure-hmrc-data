@@ -1,10 +1,10 @@
 {
   "name": "app",
   "dependencies": {
-    "@ministryofjustice/frontend": "^5.1.5",
+    "@ministryofjustice/frontend": "^9.0.0",
     "dropzone": "^6.0.0-beta.2",
-    "esbuild": "^0.25.9",
-    "govuk-frontend": "5.11.2",
+    "esbuild": "^0.27.3",
+    "govuk-frontend": "6.0.0",
     "moment": "^2.30.1",
     "sass": "^1.92.1"
   },
@@ -20,7 +20,7 @@
     "postcss": "^8.5.6",
     "prettier": "^3.6.2",
     "standard": "^17.1.2",
-    "stylelint": "^16.24.0",
+    "stylelint": "^17.4.0",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-order": "^7.0.0"
   },
