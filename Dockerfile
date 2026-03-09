@@ -31,7 +31,7 @@ RUN corepack enable \
 
 # tzdata: timezone builder
 # as it's not configured by default in Alpine
-RUN apk add --update --no-cache tzdata && \
+RUN apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone
 
@@ -43,7 +43,7 @@ FROM base AS dependencies
 # system dependencies required to build some gems
 # build-base: dependencies for bundle
 # git: for bundler
-RUN apk add --update \
+RUN apk add --no-cache \
   build-base \
   git
 
