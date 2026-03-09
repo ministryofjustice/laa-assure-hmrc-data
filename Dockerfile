@@ -19,7 +19,7 @@ LABEL org.opencontainers.image.vendor="Ministry of Justice" \
 # nodejs-current: latest node which includes npm required for corepack and yarn installation
 # yaml-dev: required to build the psych gem, which is a dependency of rails
 # clamav-daemon: required to run clamav in the container, which is used by
-RUN apk add --update --no-cache \
+RUN apk add --no-cache \
   postgresql-dev \
   nodejs-current \
   yaml-dev \
@@ -63,7 +63,6 @@ RUN gem install bundler -v $(cat Gemfile.lock | tail -1 | tr -d " ") && \
 # install javascript/node packages
 COPY package.json yarn.lock .yarnrc.yml ./
 COPY .yarn .yarn
-RUN echo "yarn version: $(yarn -v)"
 RUN yarn install --immutable
 
 # cleanup to save space in the image
@@ -110,8 +109,8 @@ RUN RAILS_ENV=production \
     bundle exec rails assets:precompile
 
 # Cleanup to save space in the production image
-RUN rm -rf node_modules
-RUN yarn cache clean
+RUN rm -rf node_modules && \
+    yarn cache clean
 
 # non-root user should own these directories
 # log: for log file writing
