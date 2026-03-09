@@ -17,6 +17,7 @@ docker-compose.yml
 .github
 .idea
 .yarn-integrity
+.simplecov
 
 # secrets supplied via CI/CD if necessary
 config/master.key
@@ -25,6 +26,7 @@ config/master.key
 log/*
 tmp/*
 storage/*
+coverage/*
 
 # dependencies and assets will be pulled and compiled at build time
 /app/assets/builds/*
