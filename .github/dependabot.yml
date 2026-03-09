@@ -38,9 +38,16 @@ updates:
       time: "03:15"
       timezone: Europe/London
     groups:
+      frontend:
+        patterns:
+          - "govuk-frontend"
+          - "@ministryofjustice/frontend"
       npm:
         patterns:
           - "*"
+        exclude-patterns:
+          - "govuk-frontend"
+          - "@ministryofjustice/frontend"
     open-pull-requests-limit: 10
   - package-ecosystem: "github-actions"
     directory: "/"
