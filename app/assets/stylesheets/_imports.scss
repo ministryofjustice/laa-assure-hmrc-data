@@ -1,4 +1,5 @@
-@use "govuk-frontend/dist/govuk" with (
+@use "govuk-frontend/dist/govuk" as * with (
   $govuk-global-styles: true,
   $govuk-assets-path: "/"
 );
+@forward "@ministryofjustice/frontend/moj/all";
