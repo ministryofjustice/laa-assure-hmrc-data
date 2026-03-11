@@ -20,12 +20,13 @@
     "postcss": "^8.5.8",
     "prettier": "^3.6.2",
     "standard": "^17.1.2",
-    "stylelint": "^17.4.0",
+    "stylelint": "^16.8.0",
     "stylelint-config-gds": "^2.0.0",
     "stylelint-order": "^8.0.0"
   },
   "resolutions": {
-    "minimatch": "^10.2.1"
+    "minimatch": ">=10.2.1",
+    "tar": ">=7.5.11"
   },
   "packageManager": "yarn@4.12.0"
 }
