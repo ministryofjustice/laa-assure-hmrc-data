@@ -41,6 +41,9 @@ module LaaAssureHmrcData
     config.assets.paths << Rails.root.join(
       "node_modules/govuk-frontend/dist/govuk/assets"
     )
+    config.assets.paths << Rails.root.join(
+      "node_modules/@ministryofjustice/frontend/moj/assets"
+    )
 
     # https://edgeguides.rubyonrails.org/active_storage_overview.html#authenticated-controllers
     # TODO: can we just expose the routes we need? is there another way to handle this?
