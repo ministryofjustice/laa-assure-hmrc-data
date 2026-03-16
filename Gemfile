@@ -27,6 +27,10 @@ gem "sidekiq"
 gem "sidekiq-scheduler"
 gem "tzinfo-data"
 
+# Temporary explicit gem bump to address security vulnerability in ruby bundled zlib gem.
+# see https://www.ruby-lang.org/en/news/2026/03/05/buffer-overflow-zlib-cve-2026-27820/,
+gem "zlib", ">= 3.2.3"
+
 group :development, :test do
   # See https://guides.rubyonrails.org/debugging_rails_applications.html#debugging-with-the-debug-gem
   gem "debug"
