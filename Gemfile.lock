@@ -561,6 +561,7 @@ GEM
     xpath (3.2.0)
       nokogiri (~> 1.8)
     zeitwerk (2.7.5)
+    zlib (3.2.3)
 
 PLATFORMS
   aarch64-linux-musl
@@ -611,6 +612,7 @@ DEPENDENCIES
   tzinfo-data
   web-console
   webmock
+  zlib (>= 3.2.3)
 
 RUBY VERSION
   ruby 4.0.1

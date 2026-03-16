@@ -35,6 +35,10 @@ RUN apk add --no-cache tzdata && \
     cp /usr/share/zoneinfo/Europe/London /etc/localtime && \
     echo "Europe/London" > /etc/timezone
 
+# # zlib: upgrade zlib system libraries to address security vulnerability in ruby bundled zlib gem
+# # TODO: Can be removed once alpine image contains zlib version 1.3.2-r0
+RUN apk upgrade --no-cache zlib
+
 ######################################################################
 # dependencies - build dependencies using build-time os dependencies #
 ######################################################################
@@ -43,8 +47,11 @@ FROM base AS dependencies
 # system dependencies required to build some gems
 # build-base: dependencies for bundle
 # git: for bundler
+# zlib-dev: required for zlib gem 3.2.3+ separate install.
+# TODO: zlib-dev can be removed once ruby/alpine image is bumped to have built in non-vulnerable zlib version.
 RUN apk add --no-cache \
   build-base \
+  zlib-dev \
   git
 
 WORKDIR /app
