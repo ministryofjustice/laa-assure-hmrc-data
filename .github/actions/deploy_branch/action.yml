@@ -75,7 +75,7 @@ runs:
         RELEASE_NAME: ${{ steps.extract_release_name.outputs.release-name }}
       run: |
         ingress_name="assure-hmrc-data"
-        release_host="$RELEASE_NAME-$KUBE_NAMESPACE.cloud-platform.service.justice.gov.uk"
+        release_host="$RELEASE_NAME-$KUBE_NAMESPACE.beta.cloud-platform.service.justice.gov.uk"
         identifier="$RELEASE_NAME-$ingress_name-$KUBE_NAMESPACE-green"
         is_main=$([[ $RELEASE_NAME == "main" ]] && echo true || echo false)
 
