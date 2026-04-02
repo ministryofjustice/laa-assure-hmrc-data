@@ -7,6 +7,8 @@ version: 2
 updates:
   - package-ecosystem: "bundler"
     directory: "/"
+    cooldown:
+      default-days: 7
     allow:
       - dependency-type: "all"
     schedule:
@@ -32,6 +34,8 @@ updates:
     open-pull-requests-limit: 10
   - package-ecosystem: "npm"
     directory: "/"
+    cooldown:
+      default-days: 7
     schedule:
       interval: weekly
       day: thursday
@@ -51,5 +55,7 @@ updates:
     open-pull-requests-limit: 10
   - package-ecosystem: "github-actions"
     directory: "/"
+    cooldown:
+      default-days: 7
     schedule:
       interval: "weekly"
