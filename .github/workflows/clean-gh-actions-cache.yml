@@ -10,6 +10,9 @@ permissions: {}
 jobs:
   cleanup:
     runs-on: ubuntu-latest
+    permissions:
+      contents: read
+      actions: write
     steps:
       - name: Clear GitHub Actions cache
         run: |
