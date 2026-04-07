@@ -64,3 +64,7 @@ host_env: production
 
 customErrorService:
   enabled: true
+
+business_hours:
+  start: "7:00"
+  end: "21:30"

@@ -135,4 +135,8 @@ env:
     value: {{ .Values.host_env | quote }}
   - name: CLAMD_CONF_FILENAME
     value: {{ .Values.clamav.configFile }}
+  - name: BUSINESS_HOURS_END
+    value: {{ .Values.business_hours.end | quote  }}
+  - name: BUSINESS_HOURS_START
+    value: {{ .Values.business_hours.start | quote  }}
 {{- end }}
