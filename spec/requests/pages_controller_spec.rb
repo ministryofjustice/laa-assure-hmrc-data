@@ -63,37 +63,37 @@ RSpec.describe PagesController do
 
     context "when it's British Summer Time" do
       context "when it's 0659 on a Monday" do
-        let(:new_time) { Time.zone.local(2025, 9, 8, 6, 59, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-09-08 06:59') }
 
         it_behaves_like "out of hours access"
       end
 
       context "when it's 0700 on a Monday" do
-        let(:new_time) { Time.zone.local(2025, 9, 8, 7, 0, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-09-08 07:00') }
 
         it_behaves_like "in hours access"
       end
 
       context "when it's 0900 on a Monday" do
-        let(:new_time) { Time.zone.local(2025, 9, 8, 9, 0, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-09-08 09:00') }
 
         it_behaves_like "in hours access"
       end
 
       context "when it's 2129 on a Monday" do
-        let(:new_time) { Time.zone.local(2025, 9, 8, 21, 29, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-09-08 21:29') }
 
         it_behaves_like "in hours access"
       end
 
       context "when it's 2130 on a Monday" do
-        let(:new_time) { Time.zone.local(2025, 9, 8, 21, 30, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-09-08 21:30') }
 
         it_behaves_like "out of hours access"
       end
 
       context "when it's 1300 on a Sunday" do
-        let(:new_time) { Time.zone.local(2025, 9, 7, 13, 0, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-09-07 13:00') }
 
         it_behaves_like "in hours access"
       end
@@ -101,25 +101,25 @@ RSpec.describe PagesController do
 
     context "when it's GMT" do
       context "when it's 0630 on a Monday" do
-        let(:new_time) { Time.zone.local(2025, 11, 3, 6, 30, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-11-03 06:30') }
 
         it_behaves_like "out of hours access"
       end
 
       context "when it's 0730 on a Monday" do
-        let(:new_time) { Time.zone.local(2025, 11, 3, 7, 30, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-11-03 07:30') }
 
         it_behaves_like "in hours access"
       end
 
       context "when it's 1830 on a Monday" do
-        let(:new_time) { Time.zone.local(2025, 11, 3, 18, 30, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-11-03 18:30') }
 
         it_behaves_like "in hours access"
       end
 
       context "when it's 2200 on a Monday" do
-        let(:new_time) { Time.zone.local(2025, 11, 3, 22, 0, 0) }
+        let(:new_time) { Time.find_zone('London').parse('2025-11-03 22:00') }
 
         it_behaves_like "out of hours access"
       end
