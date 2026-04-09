@@ -75,4 +75,4 @@ customErrorService:
 
 business_hours:
   start: "7:00"
-  end: "21:30"
+  end: "22:00"

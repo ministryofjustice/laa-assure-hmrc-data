@@ -28,7 +28,7 @@ RSpec.describe PagesController do
 
   describe "#service_out_of_hours" do
     before do
-      allow(Rails.configuration.x.business_hours).to receive_messages(start: "7:00", end: "21:30")
+      allow(Rails.configuration.x.business_hours).to receive_messages(start: "7:00", end: "22:00")
     end
 
     around do |example|
@@ -49,7 +49,7 @@ RSpec.describe PagesController do
 
       it "displays expected content" do
         get "/"
-        expect(response.body).to include("This service is available daily from 7am to 9:30pm.")
+        expect(response.body).to include("This service is available daily from 7am to 10pm.")
       end
     end
 
@@ -80,14 +80,14 @@ RSpec.describe PagesController do
         it_behaves_like "in hours access"
       end
 
-      context "when it's 2129 on a Monday" do
-        let(:new_time) { Time.find_zone('London').parse('2025-09-08 21:29') }
+      context "when it's 2159 on a Monday" do
+        let(:new_time) { Time.find_zone('London').parse('2025-09-08 21:59') }
 
         it_behaves_like "in hours access"
       end
 
-      context "when it's 2130 on a Monday" do
-        let(:new_time) { Time.find_zone('London').parse('2025-09-08 21:30') }
+      context "when it's 2200 on a Monday" do
+        let(:new_time) { Time.find_zone('London').parse('2025-09-08 22:00') }
 
         it_behaves_like "out of hours access"
       end
