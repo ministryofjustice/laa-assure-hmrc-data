@@ -1,0 +1,10 @@
+<%= content_for :page_title, t('.page_title') %>
+
+<div class="govuk-grid-row">
+  <div class="govuk-grid-column-two-thirds">
+    <p class="govuk-body">
+      <%= t(".warning", start: gds_human_time(Rails.configuration.x.business_hours.start.to_time),
+                      end: gds_human_time(Rails.configuration.x.business_hours.end.to_time)) %>
+    </p>
+  </div>
+</div>

@@ -69,5 +69,9 @@ module LaaAssureHmrcData
 
     # Configures use of clamav service on hosted/production envs, otherwise use local clamav
     config.x.clamd_conf_filename = ENV.fetch("CLAMD_CONF_FILENAME", "config/clamd.local.conf")
+
+    # Business hours
+    config.x.business_hours.start = ENV.fetch("BUSINESS_HOURS_START", "7:00")
+    config.x.business_hours.end = ENV.fetch("BUSINESS_HOURS_END", "22:00")
   end
 end

@@ -6,3 +6,6 @@ en:
       blurb2: Only members of the Core Assurance and Risk Management (CARM) team who have been authorised can use this service.
       service_user: Who can use this service
       start_button: Start now
+    service_out_of_hours:
+      page_title: Sorry, the service is unavailable
+      warning: This service is available daily from %{start} to %{end}.
