@@ -37,7 +37,6 @@ group :development, :test do
   gem "erb_lint", require: false
   gem 'factory_bot_rails'
   gem 'i18n-tasks'
-  gem "overcommit"
   gem "rspec"
   gem "rspec-rails"
   gem "webmock"
