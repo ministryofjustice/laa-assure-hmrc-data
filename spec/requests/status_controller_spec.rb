@@ -128,6 +128,20 @@ RSpec.describe StatusController do
         expect(response.body).to eq(expected_response)
       end
     end
+
+    context "when out of hours" do
+      before do
+        get "/healthcheck"
+      end
+
+      around do |example|
+        travel_to(Rails.configuration.x.business_hours.end.to_time + 1.minute) { example.run }
+      end
+
+      it "redirects to out of hours page" do
+        expect(response).to render_template("pages/service_out_of_hours")
+      end
+    end
   end
 
   describe "#ping" do
@@ -165,6 +179,27 @@ RSpec.describe StatusController do
 
       it 'returns "Not Available"' do
         expect(response.parsed_body.values).to be_all("Not Available")
+      end
+    end
+
+    context "when out of hours" do
+      before do
+        allow(Rails.configuration.x.status).to receive_messages(build_date: "testing",
+                                                                build_tag: "testing",
+                                                                git_commit: "testing",
+                                                                app_branch: "testing")
+
+        get "/ping"
+      end
+
+      around do |example|
+        travel_to(Rails.configuration.x.business_hours.end.to_time + 1.minute) { example.run }
+      end
+
+      it "still returns HTTP success and expected body" do
+        expect(response).to have_http_status(:ok)
+        expect(response.body).not_to include(/service is available daily/)
+        expect(response.parsed_body.values).to be_all("testing")
       end
     end
   end

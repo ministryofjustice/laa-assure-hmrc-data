@@ -1,6 +1,8 @@
 class StatusController < ApplicationController
   skip_before_action :authenticate_user!, :verify_authenticity_token
 
+  skip_before_action :out_of_hours_redirect, only: [:ping]
+
   def status
     checks = {
       database: database_alive?,
