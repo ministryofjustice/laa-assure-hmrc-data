@@ -10,7 +10,9 @@ jobs:
   scan-docker-image:
     uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/snyk.yml@main
     permissions:
+      actions: read
       contents: read
+      security-events: write
     with:
       tag: "laa-assure-hmrc-data"
     secrets:
