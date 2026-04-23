@@ -68,7 +68,7 @@ RSpec.describe HmrcInterface::Request::Result do
         {
           submission: "fake-hmrc-interface-submission-id",
           status: "processing",
-          _links: [href: "#{fake_host}/api/v1/submission/status/#{submission_id}"]
+          _links: [{href: "#{fake_host}/api/v1/submission/status/#{submission_id}"}]
         }
       end
 
