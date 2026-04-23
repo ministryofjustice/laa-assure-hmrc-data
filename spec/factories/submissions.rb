@@ -77,7 +77,7 @@ FactoryBot.define do
     trait :with_completed_use_case_one_hmrc_interface_result do
       status { :completed }
       use_case { :one }
-      hmrc_interface_result { { data: [ use_case: "use_case_one" ] }.as_json }
+      hmrc_interface_result { { data: [ {use_case: "use_case_one"} ] }.as_json }
     end
 
     trait :with_use_case_one_child_and_working_tax_credit do
@@ -231,7 +231,7 @@ FactoryBot.define do
     trait :with_completed_use_case_two_hmrc_interface_result do
       status { :completed }
       use_case { :two }
-      hmrc_interface_result { { data: [ use_case: "use_case_two" ] }.as_json }
+      hmrc_interface_result { { data: [ {use_case: "use_case_two"} ] }.as_json }
     end
 
     trait :with_failed_use_case_one_hmrc_interface_result do
@@ -271,7 +271,7 @@ FactoryBot.define do
         {
           submission: "uc-one-hmrc-interface-submission-uuid",
           status: "processing",
-          _links: [href: "http://www.example.com/api/v1/submission/result/uc-one-hmrc-interface-submission-uuid"],
+          _links: [{href: "http://www.example.com/api/v1/submission/result/uc-one-hmrc-interface-submission-uuid"}],
         }.as_json
       end
     end
@@ -283,7 +283,7 @@ FactoryBot.define do
         {
           submission: "uc-two-hmrc-interface-submission-uuid",
           status: "processing",
-          _links: [href: "http://www.example.com/api/v1/submission/result/uc-two-hmrc-interface-submission-uuid"],
+          _links: [{href: "http://www.example.com/api/v1/submission/result/uc-two-hmrc-interface-submission-uuid"}],
         }.as_json
       end
     end
