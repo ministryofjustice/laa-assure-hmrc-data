@@ -14,6 +14,7 @@ jobs:
       contents: read
       actions: write
     steps:
+      - uses: GitHubSecurityLab/actions-permissions/monitor@bf82d13b9b10051d224345ab9184f5ede0a94289 #v1 Beta 9
       - name: Clear GitHub Actions cache
         run: |
           gh extension install actions/gh-actions-cache

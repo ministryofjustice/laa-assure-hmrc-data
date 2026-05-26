@@ -16,9 +16,6 @@ permissions: {}
 jobs:
   test:
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
-
     env:
       RACK_ENV: test
       RAILS_ENV: test
@@ -95,7 +92,6 @@ jobs:
     runs-on: ubuntu-latest
     permissions:
       id-token: write
-      contents: read
 
     steps:
       - name: Checkout
@@ -115,7 +111,6 @@ jobs:
     environment: uat
     permissions:
       id-token: write
-      contents: read
 
     steps:
       - name: Checkout
