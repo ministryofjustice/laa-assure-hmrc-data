@@ -11,7 +11,7 @@ permissions: {}
 
 jobs:
   brakeman:
-    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/brakeman.yml@7c81d37978aef9418f7185d9ecf70e3cd1c63c02 # main on 15/04/2026
+    uses: ministryofjustice/laa-reusable-github-actions/.github/workflows/brakeman.yml@0cb7eb8ab4bf643986ab36ecf3ffcdffa9b55214 # main on 01/06/2026
     permissions:
       contents: read # for actions/checkout to fetch code
       security-events: write # for github/codeql-action/upload-sarif to upload SARIF results
