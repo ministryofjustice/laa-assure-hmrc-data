@@ -56,4 +56,5 @@ group :test do
   gem 'rspec-html-matchers'
   gem "selenium-webdriver"
   gem "simplecov", require: false
+  gem "simplecov-cobertura", require: false
 end

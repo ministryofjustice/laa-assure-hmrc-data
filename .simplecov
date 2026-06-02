@@ -1,6 +1,9 @@
 # centralize coverage config
 # https://github.com/simplecov-ruby/simplecov#using-simplecov-for-centralized-config
 #
+
+require "simplecov-cobertura"
+
 unless ENV["NOCOVERAGE"]
   SimpleCov.start "rails" do
     add_filter 'lib/tasks'
@@ -12,6 +15,11 @@ unless ENV["NOCOVERAGE"]
     minimum_coverage 100
     enable_coverage :branch
     refuse_coverage_drop :line, :branch
+
+    SimpleCov.formatters = [
+      SimpleCov::Formatter::CoberturaFormatter,
+      SimpleCov::Formatter::HTMLFormatter
+    ]
 
     SimpleCov.at_exit do
       SimpleCov.result.format!

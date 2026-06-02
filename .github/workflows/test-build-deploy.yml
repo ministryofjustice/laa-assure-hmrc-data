@@ -11,7 +11,8 @@ concurrency:
   group: ${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 
-permissions: {}
+permissions:
+  code-quality: write
 
 jobs:
   test:
@@ -79,12 +80,12 @@ jobs:
       - name: Run tests
         run: bundle exec rspec
 
-      - name: Archive code coverage results
-        uses: actions/upload-artifact@043fb46d1a93c77aae656e7c1c64a875d1fc6a0a # v7.0.1
+      - name: Upload code coverage report
+        uses: actions/upload-code-coverage@abb5995db9e0199b0e2bb9dbd136fce4cb1ec4d3 #v1.3.0
         with:
-          name: coverage-report
-          path: coverage
-          retention-days: 7
+          file: coverage/coverage.xml
+          language: Ruby
+
 
   build:
     if: github.actor != 'dependabot[bot]'
