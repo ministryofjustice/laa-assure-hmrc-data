@@ -11,7 +11,10 @@ if Rails.env.production?
 end
 
 require "rspec/rails"
-require 'sidekiq/testing'
+
+# default sidekiq to fake mode for testing, can be overridden in individual tests
+Sidekiq.testing!(:fake)
+
 # Add additional requires below this line. Rails is not loaded until this point!
 
 Rails.root.glob('spec/support/**/*.rb').each { |file| require file }
