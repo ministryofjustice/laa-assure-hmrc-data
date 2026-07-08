@@ -169,7 +169,7 @@ jobs:
         uses: actions/checkout@9c091bb21b7c1c1d1991bb908d89e4e9dddfe3e0 #--v7.0.0
 
       - name: Deploy production
-        id: deploy_staging
+        id: deploy_production
         uses: ./.github/actions/deploy
         with:
           ecr-region: ${{ vars.ECR_REGION }}
