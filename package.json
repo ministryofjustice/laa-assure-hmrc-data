@@ -28,7 +28,8 @@
     "minimatch": ">=10.2.1",
     "tar": ">=7.5.16",
     "flatted": ">=3.4.0",
-    "picomatch": ">=4.0.4"
+    "picomatch": ">=4.0.4",
+    "brace-expansion": ">=5.0.7"
   },
   "packageManager": "yarn@4.12.0"
 }
