@@ -181,7 +181,7 @@ GEM
       raabro (~> 1.4)
     globalid (1.4.0)
       activesupport (>= 6.1)
-    govuk-components (6.3.1)
+    govuk-components (6.4.0)
       html-attributes-utils (~> 1.0.0, >= 1.0.0)
       pagy (>= 6, < 10)
       view_component (>= 4.9, < 4.13)
@@ -670,7 +670,7 @@ CHECKSUMS
   faraday-net_http (3.4.4) sha256=0e78af151747ed1b00f33e25973b4bc220d7f16c00c39676817c8b12331eb588
   fugit (1.12.3) sha256=826d77739086482a6ac2805bc32693845395da688f637890cb4ca457dede2ec2
   globalid (1.4.0) sha256=037f12fbf1d9d7a014d501c2d5c77356fd4ddd96d7a7991d6700bba96706f427
-  govuk-components (6.3.1) sha256=141715c9e65e65b1dad0a0476c7d81dac14dad220f5435496713c63e80df87f0
+  govuk-components (6.4.0) sha256=3bb3cdc1b48f2124ceadb86b82c90e07eb12caa761d9bd8b022572a9d60c495f
   govuk_design_system_formbuilder (6.3.0) sha256=6389f3d13f4ee5cd59bce3aa4889e279a7c3fb7003096d408cf7dc9b330fbe72
   hashdiff (1.2.1) sha256=9c079dbc513dfc8833ab59c0c2d8f230fa28499cc5efb4b8dd276cf931457cd1
   hashie (5.1.0) sha256=c266471896f323c446ea8207f8ffac985d2718df0a0ba98651a3057096ca3870
