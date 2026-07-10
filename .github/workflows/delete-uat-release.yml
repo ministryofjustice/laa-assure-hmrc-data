@@ -5,7 +5,8 @@ on:
     types:
       - closed
 
-permissions: {}
+permissions:
+  contents: read
 
 jobs:
   delete_uat_job:
