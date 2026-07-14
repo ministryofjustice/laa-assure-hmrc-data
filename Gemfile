@@ -13,6 +13,7 @@ gem 'dotenv'
 gem "govuk-components"
 gem "govuk_design_system_formbuilder"
 gem "jsbundling-rails"
+gem "moj_components"
 gem "nesty"
 gem "oauth2"
 gem 'omniauth_openid_connect'
