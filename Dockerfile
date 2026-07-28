@@ -22,11 +22,17 @@ LABEL org.opencontainers.image.vendor="Ministry of Justice" \
 RUN apk add --no-cache \
   postgresql-dev \
   nodejs-current \
+  npm \
   yaml-dev \
   clamav-daemon
 
 # activate yarn
-RUN corepack enable \
+RUN npm install --global \
+            --ignore-scripts \
+            --no-audit \
+            --no-fund \
+            "corepack@0.35.0" \
+ && corepack enable \
  && corepack prepare yarn@4.12.0 --activate
 
 # tzdata: timezone builder
