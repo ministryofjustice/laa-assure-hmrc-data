@@ -7,7 +7,7 @@
 ###############################################################
 # base - dependencies required both at runtime and build time #
 ###############################################################
-FROM ruby:4.0.5-alpine3.23 AS base
+FROM ruby:4.0.6-alpine3.24 AS base
 
 LABEL org.opencontainers.image.vendor="Ministry of Justice" \
       org.opencontainers.image.authors="Apply for civil legal aid team (apply-for-civil-legal-aid@justice.gov.uk)" \
@@ -22,11 +22,17 @@ LABEL org.opencontainers.image.vendor="Ministry of Justice" \
 RUN apk add --no-cache \
   postgresql-dev \
   nodejs-current \
+  npm \
   yaml-dev \
   clamav-daemon
 
 # activate yarn
-RUN corepack enable \
+RUN npm install --global \
+            --ignore-scripts \
+            --no-audit \
+            --no-fund \
+            "corepack@0.35.0" \
+ && corepack enable \
  && corepack prepare yarn@4.12.0 --activate
 
 # tzdata: timezone builder
