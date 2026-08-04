@@ -1,20 +1,11 @@
 # centralize coverage config
 # https://github.com/simplecov-ruby/simplecov#using-simplecov-for-centralized-config
 #
-unless ENV["NOCOVERAGE"]
-  SimpleCov.start "rails" do
-    add_filter 'lib/tasks'
-    add_group "Forms", "app/forms"
-    add_group "Services", "app/services"
-    add_group "Validators", "app/validators"
-    add_group "Workers", "app/workers"
-
-    minimum_coverage 100
-    enable_coverage :branch
-    refuse_coverage_drop :line, :branch
-
-    SimpleCov.at_exit do
-      SimpleCov.result.format!
-    end
-  end
-end
+SimpleCov.skip 'lib/tasks'
+SimpleCov.group "Forms", "app/forms"
+SimpleCov.group "Services", "app/services"
+SimpleCov.group "Validators", "app/validators"
+SimpleCov.group "Workers", "app/workers"
+SimpleCov.minimum_coverage 100
+SimpleCov.enable_coverage :branch
+SimpleCov.refuse_coverage_drop :line, :branch

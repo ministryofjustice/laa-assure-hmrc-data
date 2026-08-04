@@ -16,6 +16,13 @@
 
 require "simplecov"
 require 'webmock/rspec'
+unless ENV["NOCOVERAGE"]
+  SimpleCov.start "rails" do
+    SimpleCov.at_exit do
+      SimpleCov.result.format!
+    end
+  end
+end
 
 WebMock.disable_net_connect!(allow_localhost: true)
 
