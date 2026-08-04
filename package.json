@@ -1,7 +1,7 @@
 {
   "name": "app",
   "dependencies": {
-    "@ministryofjustice/frontend": "^9.0.0",
+    "@ministryofjustice/frontend": "^10.0.1",
     "dropzone": "^6.0.0-beta.2",
     "esbuild": "^0.28.1",
     "govuk-frontend": "6.1.0",
