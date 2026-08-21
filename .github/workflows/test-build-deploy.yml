@@ -38,7 +38,8 @@ jobs:
           - 3310:3310
 
     steps:
-      - name: Checkout code
+      - &checkout-code
+        name: Checkout code
         uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #--v7.0.1
 
       - name: Setup Ruby and install gems
@@ -91,12 +92,12 @@ jobs:
     if: github.actor != 'dependabot[bot]'
     needs: test
     runs-on: ubuntu-latest
+
     permissions:
       id-token: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #--v7.0.1
+      - *checkout-code
 
       - name: Build and push
         id: build_and_push
@@ -114,8 +115,7 @@ jobs:
       id-token: write
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #--v7.0.1
+      - *checkout-code
 
       - name: Deploy UAT branch
         id: deploy_uat_branch
@@ -140,8 +140,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #--v7.0.1
+      - *checkout-code
 
       - name: Deploy staging
         id: deploy_staging
@@ -166,8 +165,7 @@ jobs:
       contents: read
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 #--v7.0.1
+      - *checkout-code
 
       - name: Deploy production
         id: deploy_production
