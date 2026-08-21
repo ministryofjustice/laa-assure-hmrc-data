@@ -1,0 +1,62 @@
+#!/usr/bin/env bash
+
+set -euo pipefail
+
+deploy_branch() {
+  ingress_name="assure-hmrc-data"
+  release_host="$RELEASE_NAME-$KUBE_NAMESPACE.cloud-platform.service.justice.gov.uk"
+  identifier="$RELEASE_NAME-$ingress_name-$KUBE_NAMESPACE-green"
+  is_main=$([[ $RELEASE_NAME == "main" ]] && echo true || echo false)
+
+  echo "Deploying commit: $GIT_SHA under release name: '$RELEASE_NAME' to '$release_host'..."
+
+ helm upgrade "$RELEASE_NAME" .helm/assure-hmrc-data \
+  --namespace "$KUBE_NAMESPACE" \
+  --set "image.repository=$ECR_REGISTRY/$ECR_REPOSITORY" \
+  --set "image.tag=$GIT_SHA" \
+  --set "ingress.annotations.external-dns\.alpha\.kubernetes\.io/set-identifier=$identifier" \
+  --set "ingress.hosts={$release_host}" \
+  --set "branch_builder.database_name=$RELEASE_NAME" \
+  --set "branch_builder.omniauth_azure_redirect_uri=https://$release_host/users/auth/azure_ad/callback" \
+  --set "sidekiq.queue_name=-$RELEASE_NAME" \
+  --set "customErrorService.enabled=$is_main" \
+  --values ".helm/assure-hmrc-data/values/$ENVIRONMENT.yaml" \
+  --install \
+  --wait
+}
+
+deploy_main() {
+  echo "Deploying GIT_SHA: $GIT_SHA for ENVIRONMENT: '$ENVIRONMENT'..."
+
+  allow_list=$(kubectl --namespace ${KUBE_NAMESPACE} get secrets laa-assure-hmrc-data-secrets -o=jsonpath='{.data.allow_list}' | base64 --decode | sed "s/,/\\\,/g")
+
+  helm upgrade assure-hmrc-data .helm/assure-hmrc-data \
+    --namespace "$KUBE_NAMESPACE" \
+    --set "image.repository=$ECR_REGISTRY/$ECR_REPOSITORY" \
+    --set "image.tag=$GIT_SHA" \
+    --set "ingress.annotations.nginx\.ingress\.kubernetes\.io/whitelist-source-range=$allow_list" \
+    --values ".helm/assure-hmrc-data/values/$ENVIRONMENT.yaml" \
+    --install \
+    --wait
+}
+
+if [[ "$ENVIRONMENT" == "uat" ]]; then
+  if deploy_branch; then
+    echo "Deploy succeeded"
+  else
+    # If a previous `helm upgrade` was cancelled this could have got the release stuck in
+    # a "pending-upgrade" state (c.f. https://stackoverflow.com/a/65135726). If so, this
+    # can generally be fixed with a `helm rollback`, so we try that here.
+    echo "Deploy failed. Attempting rollback"
+
+    if helm rollback "$RELEASE_NAME"; then
+      echo "Rollback succeeded. Retrying deploy"
+      deploy_branch
+    else
+      echo "Rollback failed. Consider manually running 'helm delete $RELEASE_NAME'"
+      exit 1
+    fi
+  fi
+else
+  deploy_main
+fi
