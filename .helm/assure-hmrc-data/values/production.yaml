@@ -38,6 +38,14 @@ ingress:
       - domain: check-clients-details-using-hmrc-data.service.justice.gov.uk
         secretName: check-clients-details-using-hmrc-data-tls-certificate
 
+resources:
+  limits:
+    cpu: 500m
+    memory: 1Gi
+  requests:
+    cpu: 10m
+    memory: 512Mi
+
 branch_builder:
   enabled: false
   database_name: null

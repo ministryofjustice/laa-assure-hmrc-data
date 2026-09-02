@@ -43,10 +43,10 @@ ingress:
 resources:
   limits:
     cpu: 500m
-    memory: 1G
+    memory: 1Gi
   requests:
     cpu: 10m
-    memory: 125Mi
+    memory: 512Mi
 
 branch_builder:
   enabled: false
