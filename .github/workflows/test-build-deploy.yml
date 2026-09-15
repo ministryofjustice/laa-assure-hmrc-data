@@ -165,11 +165,39 @@ jobs:
           script-path: ./bin/deploy
           app-environment: staging
 
-  deploy-production:
+  notify-production-approval:
     if: github.ref == 'refs/heads/main'
     runs-on: ubuntu-latest
     needs: build
+
+    permissions:
+      id-token: write
+
+    steps:
+      - name: Notify Slack waiting on production deployment approval
+        uses: slackapi/slack-github-action@dcb1066f776dd043e64d0e8ba94ca15cc7e1875d # V4.0.0
+        with:
+          method: chat.postMessage
+          token: ${{ secrets.SLACK_ACCESS_TOKEN }}
+          payload: |
+            channel: ${{ secrets.SLACK_CHANNEL_ID }}
+            text: |
+              :github-green: ${{ github.actor }} has a pending production approval for ${{ github.ref_name }}
+
+              *Triggered by:* ${{ github.actor }}
+              *Repository:* `${{ github.repository }}`
+              *Branch:* ${{ github.ref_name }}
+              *Review and approve:* ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+
+  deploy-production:
+    if: github.ref == 'refs/heads/main'
+    runs-on: ubuntu-latest
+    needs:
+      - build
+      - notify-production-approval
+
     environment: production
+
     permissions:
       id-token: write
 
