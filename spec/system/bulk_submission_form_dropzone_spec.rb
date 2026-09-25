@@ -119,12 +119,17 @@ RSpec.describe "sign in", :js do
           .to have_css(".govuk-error-summary__body", text: "one_byte_too_big.csv is more than 1MB")
           .and have_css(".govuk-error-message", text: "one_byte_too_big.csv is more than 1MB")
 
-        find(".dz-clickable").drop(file_fixture("empty.png"))
+        find(".dz-clickable").drop(file_fixture("empty_file_pretending_to_be_a.png"))
         expect(page)
-          .to have_css(".govuk-error-summary__body", text: "empty.png must be a CSV")
-          .and have_css(".govuk-error-summary__body", text: "empty.png is empty")
-          .and have_css(".govuk-error-message", text: "empty.png must be a CSV")
-          .and have_css(".govuk-error-message", text: "empty.png is empty")
+          .to have_css(".govuk-error-summary__body", text: "Upload canceled.")
+          .and have_css(".govuk-error-summary__body", text: "Failed to load the image. The file may be corrupted.")
+          .and have_css(".govuk-error-message", text: "Upload canceled.")
+          .and have_css(".govuk-error-message", text: "Failed to load the image. The file may be corrupted.")
+
+        find(".dz-clickable").drop(file_fixture("image_test.png"))
+        expect(page)
+          .to have_css(".govuk-error-summary__body", text: "image_test.png must be a CSV")
+          .and have_css(".govuk-error-message", text: "image_test.png must be a CSV")
 
         find(".dz-clickable").drop(file_fixture("too_many_rows.csv"))
         expect(page)
@@ -199,12 +204,18 @@ RSpec.describe "sign in", :js do
           .to have_css(".govuk-error-summary__body", text: "one_byte_too_big.csv is more than 1MB")
           .and have_css(".govuk-error-message", text: "one_byte_too_big.csv is more than 1MB")
 
-        find(".dz-clickable").drop(file_fixture("empty.png"))
+
+        find(".dz-clickable").drop(file_fixture("empty_file_pretending_to_be_a.png"))
         expect(page)
-          .to have_css(".govuk-error-summary__body", text: "empty.png must be a CSV")
-          .and have_css(".govuk-error-summary__body", text: "empty.png is empty")
-          .and have_css(".govuk-error-message", text: "empty.png must be a CSV")
-          .and have_css(".govuk-error-message", text: "empty.png is empty")
+          .to have_css(".govuk-error-summary__body", text: "Upload canceled.")
+          .and have_css(".govuk-error-summary__body", text: "Failed to load the image. The file may be corrupted.")
+          .and have_css(".govuk-error-message", text: "Upload canceled.")
+          .and have_css(".govuk-error-message", text: "Failed to load the image. The file may be corrupted.")
+
+        find(".dz-clickable").drop(file_fixture("image_test.png"))
+        expect(page)
+          .to have_css(".govuk-error-summary__body", text: "image_test.png must be a CSV")
+                .and have_css(".govuk-error-message", text: "image_test.png must be a CSV")
 
         find(".dz-clickable").drop(file_fixture("too_many_rows.csv"))
         expect(page)
