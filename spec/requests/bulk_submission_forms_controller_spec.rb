@@ -91,14 +91,34 @@ RSpec.describe BulkSubmissionFormsController do
 
     context "with invalid file type and upload button pressed" do
       let(:bulk_submission_form_params) do
-       { commit: "upload", uploaded_file: fixture_file_upload('empty.png', 'image/png')}
+       { commit: "upload", uploaded_file: fixture_file_upload('image_test.png', 'image/png')}
       end
 
       it "renders new with error" do
         post bulk_submission_forms_path, params: bulk_submission_form_params
         expect(response).to have_http_status(:success)
         expect(response).to render_template(:new)
-        expect(response.body).to include("empty.png must be a CSV")
+        expect(response.body).to include("image_test.png must be a CSV")
+      end
+
+      it "does not create bulk_submission" do
+        expect {
+          post bulk_submission_forms_path, params: bulk_submission_form_params
+        }.not_to change(BulkSubmission, :count)
+      end
+    end
+
+    context "with illegal file and upload button pressed" do
+      let(:bulk_submission_form_params) do
+       { commit: "upload", uploaded_file: fixture_file_upload('empty_file_pretending_to_be_a.png', 'image/png')}
+      end
+
+      it "renders new with error" do
+        post bulk_submission_forms_path, params: bulk_submission_form_params
+        expect(response).to have_http_status(:success)
+        expect(response).to render_template(:new)
+        expect(response.body).to include("empty_file_pretending_to_be_a.png is empty")
+        expect(response.body).to include("empty_file_pretending_to_be_a.png must be a CSV")
       end
 
       it "does not create bulk_submission" do
