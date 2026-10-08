@@ -735,13 +735,13 @@ __metadata:
   dependencies:
     "@ministryofjustice/frontend": "npm:^10.0.1"
     "@prettier/plugin-ruby": "npm:^4.0.4"
-    dropzone: "npm:^6.3.4"
+    dropzone: "npm:^6.3.5"
     esbuild: "npm:^0.28.2"
     govuk-frontend: "npm:6.1.0"
     moment: "npm:^2.31.0"
     postcss: "npm:^8.5.28"
     prettier: "npm:^3.9.7"
-    sass: "npm:^1.104.1"
+    sass: "npm:^1.105.1"
     standard: "npm:^17.1.2"
     stylelint: "npm:^17.15.0"
     stylelint-config-gds: "npm:^3.0.0"
@@ -1209,10 +1209,10 @@ __metadata:
   languageName: node
   linkType: hard
 
-"dropzone@npm:^6.3.4":
-  version: 6.3.4
-  resolution: "dropzone@npm:6.3.4"
-  checksum: 10c0/a59f2fec25ed9bb824aa98318b8560a9e4029fd1c030f200dff4ae8ec8984fe0caff37645ceb2ab1b05ae0c2ce06cce987141bd744be54bceb571a2a9f0187cd
+"dropzone@npm:^6.3.5":
+  version: 6.3.5
+  resolution: "dropzone@npm:6.3.5"
+  checksum: 10c0/a6d0d5eacf20a0ef7498a7097f99f648d5a7ba6d42d6416856c4c41dc7cf4cc848949083f484d227dcbd2ebf227357781fc79e13619de0fe2e0c72ae2e61f583
   languageName: node
   linkType: hard
 
@@ -3765,9 +3765,9 @@ __metadata:
   languageName: node
   linkType: hard
 
-"sass@npm:^1.104.1":
-  version: 1.105.0
-  resolution: "sass@npm:1.105.0"
+"sass@npm:^1.105.1":
+  version: 1.105.1
+  resolution: "sass@npm:1.105.1"
   dependencies:
     "@parcel/watcher": "npm:^2.4.1"
     chokidar: "npm:^5.0.0"
@@ -3778,7 +3778,7 @@ __metadata:
       optional: true
   bin:
     sass: sass.js
-  checksum: 10c0/ddd6a8cc70d325fe7465036de32cb3506b578e131719c8bcfd4c225e051b7e8f5b231c3be450e293043876db58a247b9c354ecc1ca466a8274e2d9a8d4bc1ae1
+  checksum: 10c0/07246d9a9cc3c7974d28e03b394791c65d6a8f701d4ed2f130f5cb72ff3ef5626e5e66afb067348b2ae87011c52e18cd29f294025a6430851ee8617ef8c94f38
   languageName: node
   linkType: hard
 
