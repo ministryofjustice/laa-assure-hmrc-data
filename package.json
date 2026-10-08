@@ -2,11 +2,11 @@
   "name": "app",
   "dependencies": {
     "@ministryofjustice/frontend": "^10.0.1",
-    "dropzone": "^6.3.4",
+    "dropzone": "^6.3.5",
     "esbuild": "^0.28.2",
     "govuk-frontend": "6.1.0",
     "moment": "^2.31.0",
-    "sass": "^1.104.1"
+    "sass": "^1.105.1"
   },
   "scripts": {
     "build": "esbuild app/javascript/*.* --bundle --sourcemap --minify --outdir=app/assets/builds --public-path=assets",
