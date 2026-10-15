@@ -18,7 +18,7 @@ gem "nesty"
 gem "oauth2"
 gem 'omniauth_openid_connect'
 gem "omniauth-rails_csrf_protection"
-gem "pg", "~> 1.6"
+gem "pg", "~> 1.7"
 gem "propshaft"
 gem "puma", "~> 8.0"
 gem "rails", "~> 8.1.4"
