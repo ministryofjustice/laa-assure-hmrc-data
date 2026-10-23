@@ -26,6 +26,10 @@ RUN apk add --no-cache \
   yaml-dev \
   clamav-daemon
 
+RUN apk add --no-cache --upgrade \
+    ca-certificates \
+    ca-certificates-bundle
+
 # activate yarn
 RUN npm install --global \
             --ignore-scripts \
